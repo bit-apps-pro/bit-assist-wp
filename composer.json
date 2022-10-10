@@ -1,0 +1,29 @@
+{
+    "name": "bitapps/flow",
+    "description": "An Integration plugin for wordpress",
+    "license": "gpl-2",
+    "autoload": {
+        "psr-4": {
+            "BitApps\\Assist\\": "./backend/app",
+            "BitApps\\Assist\\Core\\": "./backend/core"
+        }
+    },
+    "scripts": {
+        "lint": "./vendor/bin/php-cs-fixer fix",
+        "compat": "./vendor/bin/phpcs -p ./backend --standard=PHPCompatibilityWP --runtime-set testVersion 5.6-",
+        "test:unit": "./vendor/bin/phpunit"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.10",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "phpunit/phpunit": "^9",
+        "yoast/phpunit-polyfills": "^1.0",
+        "phpcompatibility/phpcompatibility-wp": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

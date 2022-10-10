@@ -1,0 +1,33 @@
+<?php
+
+namespace BitApps\Assist\Model;
+
+use BitApps\Assist\Core\Database\Model;
+
+/**
+ * Undocumented class
+ */
+class WidgetChannel extends Model
+{
+    protected $casts = [
+        'config' => 'object'
+    ];
+
+    protected $fillable = [
+        'widget_id',
+        'channel_id',
+        'config',
+        'sequence',
+        'status',
+    ];
+
+    public function widget()
+    {
+        return $this->belongsTo(Widget::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(Response::class);
+    }
+}
