@@ -8,7 +8,7 @@ export default function Layout() {
     <Box>
       <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       <Navbar />
-      <Container maxW="container.lg" py={[4, 12]}>
+      <Container maxW="container.lg" pb={4}>
         <main>
           <Outlet />
         </main>

@@ -24,7 +24,7 @@ function WidgetDetails() {
         justifyContent="center"
         flexWrap="wrap"
         position="sticky"
-        top="0"
+        top="31px"
         py="2"
         zIndex={2}
         bg={tabColorMode}
