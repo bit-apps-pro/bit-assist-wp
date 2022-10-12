@@ -1,6 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import {
-  Box,
+import { Box,
   Button,
   HStack,
   IconButton,
@@ -11,26 +10,35 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
-  Tooltip,
-  useToast,
-} from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+  Tooltip } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
+import { Widget } from '@globalStates/Interfaces'
 
-const Page = ({ pageDomain, page, index, updateWidget, isWidgetUpdating }) => {
-  const toast = useToast({ isClosable: true })
+interface Props {
+  pageDomain: string
+  page: string
+  index: number
+  updateWidget: (widget: Widget) => Promise<{ status: 'success' | 'error', data: string }>
+  isWidgetUpdating: boolean
+}
+
+function Page({
+  pageDomain, page, index, updateWidget, isWidgetUpdating,
+}: Props) {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
 
-  const handleRemoveDomain = async (domainIndex: number, onClose: Function) => {
+  const handleRemoveDomain = async (domainIndex: number, onClose: () => void) => {
     onClose()
 
     const newPages = [...widget.exclude_pages]
     newPages.splice(domainIndex, 1)
-    const response = await updateWidget({ ...widget, exclude_pages: [...newPages] })
-    ResponseToast({ toast, response, action: 'delete', messageFor: 'Widget page' })
+    const { status, data } = await updateWidget({ ...widget, exclude_pages: [...newPages] })
+    toaster(status, data)
 
     setWidget((prev) => {
       prev.exclude_pages.splice(domainIndex, 1)
@@ -81,7 +89,7 @@ const Page = ({ pageDomain, page, index, updateWidget, isWidgetUpdating }) => {
   const initRef = useRef()
 
   return (
-    <HStack flexWrap="wrap" justifyContent={'space-between'} spacing="0" gap="2" py="2" px="4" borderTopWidth={`${index > 0 && '1px'}`}>
+    <HStack flexWrap="wrap" justifyContent="space-between" spacing="0" gap="2" py="2" px="4" borderTopWidth={`${index > 0 && '1px'}`}>
       <Text>{showPageVisibility(page?.visibility)}</Text>
       <Text>{showPageCondition(page?.condition)}</Text>
       <Text>{makeUrl(page?.url, page?.condition)}</Text>
@@ -93,7 +101,7 @@ const Page = ({ pageDomain, page, index, updateWidget, isWidgetUpdating }) => {
               <Box>
                 <Tooltip label="Remove page" placement="right">
                   <IconButton
-                    isRound={true}
+                    isRound
                     aria-label="Remove Domain"
                     variant="ghost"
                     colorScheme="red"
@@ -108,7 +116,7 @@ const Page = ({ pageDomain, page, index, updateWidget, isWidgetUpdating }) => {
               <PopoverCloseButton />
               <PopoverBody>
                 <Text>Are you sure you want to remove this page?</Text>
-                <Button mt={4} colorScheme={'red'} ref={initRef} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
+                <Button mt={4} colorScheme="red" ref={initRef} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
                   Confirm
                 </Button>
               </PopoverBody>

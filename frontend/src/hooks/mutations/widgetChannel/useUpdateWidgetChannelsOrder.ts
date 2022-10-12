@@ -10,7 +10,7 @@ export default function useUpdateWidgetChannelOrder() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    (widgetChannels: WidgetChannelType[]) => request('/api/widgetChannel/updateOrder', { widgetChannels }),
+    async (widgetChannels: WidgetChannelType[]) => request('widgetChannels/updateOrder', widgetChannels, null, 'PUT'),
     {
       onSuccess: () => {
         // queryClient.invalidateQueries(['widgetChannels', widgetId])
@@ -19,19 +19,21 @@ export default function useUpdateWidgetChannelOrder() {
   )
 
   const setWidgetChannelsOrder = (widgetChannels: WidgetChannelType[]) => {
-    queryClient.setQueryData(['widgetChannels', widgetId], {
+    queryClient.setQueryData(['widget/widgetChannels', widgetId], {
       data: widgetChannels,
     })
   }
 
   const debounceUpdateWidget = useRef(
     debounce(async (widgetChannels, newIndex, oldIndex) => {
-      const newArray = []
+      const newArray: WidgetChannelType[] = []
+
       widgetChannels.filter((widgetChannel: WidgetChannelType, i: number) => {
         if ((i >= oldIndex && i <= newIndex) || (i >= newIndex && i <= oldIndex)) {
           newArray.push({ ...widgetChannel, sequence: i + 1 })
         }
       })
+
       await mutateAsync(newArray)
     }, 3000),
   ).current

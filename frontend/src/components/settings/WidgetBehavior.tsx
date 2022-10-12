@@ -1,28 +1,28 @@
-import { Box, Select, useToast } from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+import { Box, Select } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 
-const WidgetBehavior = () => {
-  const toast = useToast({ isClosable: true })
+function WidgetBehavior() {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = parseInt(e.target.value)
+    const value = parseInt(e.target.value, 2)
     setWidget((prev) => {
       prev.widget_behavior = value
     })
 
-    const response = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         draft.widget_behavior = value
-      })
+      }),
     )
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget behavior' })
+    toaster(status, data)
   }
 
   return (

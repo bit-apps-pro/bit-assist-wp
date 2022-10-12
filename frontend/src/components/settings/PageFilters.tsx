@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip, useToast } from '@chakra-ui/react'
+import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
@@ -7,11 +7,11 @@ import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import Page from '@components/settings/Page'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 
-const PageFilters = () => {
-  const toast = useToast({ isClosable: true })
+function PageFilters() {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const [isAdding, setIsAdding] = useState(false)
@@ -39,7 +39,7 @@ const PageFilters = () => {
 
   const addNewPage = async () => {
     if (pageVisibility === '' || pageCondition === '' || (pageUrl === '' && pageCondition !== 'equal')) {
-      toast({ status: 'warning', position: 'top-right', description: 'All fields are required' })
+      toaster('warning', 'All fields are required')
       return
     }
 
@@ -48,12 +48,12 @@ const PageFilters = () => {
     })
     resetStates()
 
-    const response = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         draft.exclude_pages.push({ url: pageUrl, condition: pageCondition, visibility: pageVisibility })
-      })
+      }),
     )
-    ResponseToast({ toast, response, action: 'create', messageFor: 'Widget page' })
+    toaster(status, data)
   }
 
   const addPageButtonClickHandle = () => {
@@ -74,7 +74,7 @@ const PageFilters = () => {
       <Title>Page Filters</Title>
 
       <Box mt={4}>
-        <Box mb="4" rounded={'md'} borderWidth={`${widget.exclude_pages?.length && '1px'}`}>
+        <Box mb="4" rounded="md" borderWidth={`${widget.exclude_pages?.length && '1px'}`}>
           {widget.exclude_pages?.map((page, index) => (
             <Page key={page?.url} index={index} pageDomain={pageDomain} page={page} updateWidget={updateWidget} isWidgetUpdating={isWidgetUpdating} />
           ))}
@@ -83,7 +83,7 @@ const PageFilters = () => {
 
       {isAdding && (
         <Box>
-          <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow={'auto'}>
+          <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow="auto">
             <Select w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
               <option value="showOn">Show On</option>
               <option value="hideOn">Hide On</option>
@@ -95,7 +95,7 @@ const PageFilters = () => {
               <option value="endWith">Pages ended with</option>
             </Select>
             <InputGroup>
-              <InputLeftAddon children={'your-domain/'} />
+              <InputLeftAddon children="your-domain/" />
               <Input
                 minW="10rem"
                 placeholder="Page slug"
@@ -106,12 +106,12 @@ const PageFilters = () => {
             </InputGroup>
 
             <Tooltip label="Cancel">
-              <IconButton isRound={true} aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
+              <IconButton isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
             </Tooltip>
             <Tooltip label="Save">
               <IconButton
                 mr={2}
-                isRound={true}
+                isRound
                 aria-label="Remove Page"
                 variant="ghost"
                 colorScheme="green"
@@ -122,7 +122,15 @@ const PageFilters = () => {
             </Tooltip>
           </HStack>
           <span>
-            Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
+            Press
+            {' '}
+            <Kbd>enter</Kbd>
+            {' '}
+            to add, &nbsp;
+            {' '}
+            <Kbd>esc</Kbd>
+            {' '}
+            to cancel
           </span>
         </Box>
       )}

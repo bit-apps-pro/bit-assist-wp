@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
-import { HStack, Input, InputGroup, InputRightAddon, Text, useToast } from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+import { HStack, Input, InputGroup, InputRightAddon, Text } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { produce } from 'immer'
@@ -8,34 +8,32 @@ import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef } from 'react'
 
-const InitialDelay = () => {
-  const toast = useToast({ isClosable: true })
+function InitialDelay() {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value) : 0
+    const val = e.target.value ? parseInt(e.target.value, 2) : 0
     setWidget((draft) => {
       draft.initial_delay = val
     })
     debounceUpdateWidget(
       produce(widget, (draft) => {
         draft.initial_delay = val
-      })
+      }),
     )
   }
 
   const debounceUpdateWidget = useRef(
-    debounce(async (widget) => {
-      const response: any = await updateWidget(widget)
-      ResponseToast({ toast, response, action: 'update', messageFor: 'Widget initial delay' })
-    }, 1000)
+    debounce(async (newWidget) => {
+      const { status, data } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000),
   ).current
 
-  useEffect(() => {
-    return () => {
-      debounceUpdateWidget.cancel()
-    }
+  useEffect(() => () => {
+    debounceUpdateWidget.cancel()
   }, [debounceUpdateWidget])
 
   return (

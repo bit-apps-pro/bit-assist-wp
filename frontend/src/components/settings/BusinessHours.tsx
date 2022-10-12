@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, useToast, VStack } from '@chakra-ui/react'
+import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
@@ -7,14 +7,14 @@ import { useAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
 import SelectSearch from 'react-select-search'
 import { Timezones } from '@components/settings/Timezones'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { debounce } from 'lodash'
 import { SelectedOptionValue } from '@globalStates/Interfaces'
 import 'react-select-search/style.css'
 
-const BusinessHours = () => {
-  const toast = useToast({ isClosable: true })
+function BusinessHours() {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
   const [isChanged, setIsChanged] = useState(false)
@@ -90,12 +90,12 @@ const BusinessHours = () => {
       prev.timezone = selectedOption.toString()
     })
 
-    const response = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         draft.timezone = selectedOption.toString()
       }),
     )
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget business hours' })
+    toaster(status, data)
   }
 
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,16 +114,14 @@ const BusinessHours = () => {
   }
 
   const debounceUpdateWidget = useRef(
-    debounce(async (widget) => {
-      const response: any = await updateWidget(widget)
-      ResponseToast({ toast, response, action: 'update', messageFor: 'Widget business hours' })
+    debounce(async (newWidget) => {
+      const { status, data } = await updateWidget(newWidget)
+      toaster(status, data)
     }, 1000),
   ).current
 
-  useEffect(() => {
-    return () => {
-      debounceUpdateWidget.cancel()
-    }
+  useEffect(() => () => {
+    debounceUpdateWidget.cancel()
   }, [debounceUpdateWidget])
 
   return (
@@ -134,7 +132,7 @@ const BusinessHours = () => {
         <FormLabel htmlFor="businessHours" mb="0">
           Enable Business Hours
         </FormLabel>
-        <Switch isChecked={!!isEnabled} colorScheme={'purple'} onChange={handleSwitchEnable} id="businessHours" />
+        <Switch isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} id="businessHours" />
       </FormControl>
 
       {isEnabled && (
@@ -162,7 +160,7 @@ const BusinessHours = () => {
                   isChecked={!!item?.start}
                   onChange={(e) => handleCheckboxChange(e, index)}
                 >
-                  <Text w="24" fontSize={'md'}>
+                  <Text w="24" fontSize="md">
                     {item?.day && item.day.charAt(0).toUpperCase() + item.day.slice(1)}
                   </Text>
                 </Checkbox>

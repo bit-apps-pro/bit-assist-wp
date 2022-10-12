@@ -1,17 +1,17 @@
-import { Box, HStack, Image, useRadioGroup, useToast } from '@chakra-ui/react'
+import { Box, HStack, Image, useRadioGroup } from '@chakra-ui/react'
 import RadioCard from '@components/global/RadioCard'
 import Title from '@components/global/Title'
 import { useAtom } from 'jotai'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { widgetAtom } from '@globalStates/atoms'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useEffect } from 'react'
 
 function WidgetIcons() {
-  const toast = useToast({ isClosable: true })
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
+  const toaster = useToaster()
 
   const handleChange = async (icon: string) => {
     setWidget((prev) => {
@@ -22,7 +22,7 @@ function WidgetIcons() {
       prev.styles.iconUrl = iconOptions[icon]
     })
 
-    const response: any = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         if (draft.styles === null) {
           draft.styles = {}
@@ -31,7 +31,7 @@ function WidgetIcons() {
         draft.styles.iconUrl = iconOptions[icon]
       }),
     )
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget icon' })
+    toaster(status, data)
   }
 
   const iconOptions = {
@@ -49,7 +49,7 @@ function WidgetIcons() {
   const group = getRootProps()
 
   useEffect(() => {
-    setValue(widget.styles?.icon)
+    setValue(widget.styles?.icon || '')
   }, [widget.styles?.icon])
 
   return (

@@ -4,22 +4,22 @@ import { TColor } from '@atomik-color/core/dist/types'
 import { useAtom } from 'jotai'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 import { useRef } from 'react'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 
-const WidgetColor = () => {
-  const toast = useToast({ isClosable: true })
+function WidgetColor() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
   const colorChangedRef = useRef<boolean>(false)
+  const toaster = useToaster()
 
   const handleClose = async () => {
     if (!colorChangedRef.current) return
     colorChangedRef.current = false
 
-    const response: any = await updateWidget(widget)
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget color' })
+    const { status, data } = await updateWidget(widget)
+    toaster(status, data)
   }
 
   const handleColorChange = (color: TColor) => {

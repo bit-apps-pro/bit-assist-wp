@@ -1,5 +1,5 @@
-import { Box, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, Tooltip, useColorModeValue, useToast, VStack } from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+import { Box, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, Tooltip, useColorModeValue, VStack } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
@@ -8,9 +8,9 @@ import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 
-const CallToAction = () => {
+function CallToAction() {
   const [showTooltip, setShowTooltip] = useState(false)
-  const toast = useToast({ isClosable: true })
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
@@ -38,21 +38,19 @@ const CallToAction = () => {
           draft.call_to_action = {}
         }
         draft.call_to_action[key] = val
-      })
+      }),
     )
   }
 
   const debounceUpdateWidget = useRef(
-    debounce(async (widget) => {
-      const response: any = await updateWidget(widget)
-      ResponseToast({ toast, response, action: 'update', messageFor: 'Widget call to action' })
-    }, 1000)
+    debounce(async (newWidget) => {
+      const { status, data } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000),
   ).current
 
-  useEffect(() => {
-    return () => {
-      debounceUpdateWidget.cancel()
-    }
+  useEffect(() => () => {
+    debounceUpdateWidget.cancel()
   }, [debounceUpdateWidget])
 
   return (
@@ -60,7 +58,12 @@ const CallToAction = () => {
       <Title>Call To Action</Title>
 
       <VStack spacing="4" alignItems="flex-start" w="lg" maxW="full">
-        <Text>Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0} seconds.</Text>
+        <Text>
+          Display a call to action message next to widget after
+          {widget.call_to_action?.delay ?? 0}
+          {' '}
+          seconds.
+        </Text>
         <Slider
           defaultValue={0}
           value={widget.call_to_action?.delay}

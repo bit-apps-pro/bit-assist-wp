@@ -1,6 +1,6 @@
-import { Box, HStack, useRadioGroup, useToast, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, useRadioGroup, useColorModeValue } from '@chakra-ui/react'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 import RadioCard from '@components/global/RadioCard'
 import { widgetAtom } from '@globalStates/atoms'
 import Title from '@components/global/Title'
@@ -8,10 +8,10 @@ import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { produce } from 'immer'
 
-const WidgetShape = () => {
-  const toast = useToast({ isClosable: true })
+function WidgetShape() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
+  const toaster = useToaster()
   const formBackground = useColorModeValue('purple.500', 'purple.200')
 
   const handleChange = async (shape: string) => {
@@ -22,15 +22,15 @@ const WidgetShape = () => {
       prev.styles.shape = shape
     })
 
-    const response: any = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         if (draft.styles === null) {
           draft.styles = {}
         }
         draft.styles.shape = shape
-      })
+      }),
     )
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget shape' })
+    toaster(status, data)
   }
 
   const shapeOptions = ['semiRounded', 'rounded', 'circle', 'square']
@@ -43,7 +43,7 @@ const WidgetShape = () => {
   const group = getRootProps()
 
   useEffect(() => {
-    setValue(widget.styles?.shape)
+    setValue(widget.styles?.shape || '')
   }, [widget.styles?.shape])
 
   return (

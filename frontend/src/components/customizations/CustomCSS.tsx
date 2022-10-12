@@ -1,5 +1,4 @@
-import {
-  Box,
+import { Box,
   Button,
   Modal,
   ModalBody,
@@ -10,20 +9,19 @@ import {
   ModalOverlay,
   Textarea,
   useDisclosure,
-  useToast,
-} from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+  useToast } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import Editor from '@monaco-editor/react'
 import { useAtom } from 'jotai'
 
-const CustomCSS = () => {
-  const toast = useToast({ isClosable: true })
+function CustomCSS() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toaster = useToaster()
 
   const handleChangeCustomCSS = (value: string) => {
     setWidget((prev) => {
@@ -32,8 +30,8 @@ const CustomCSS = () => {
   }
 
   const handleSaveCustomCSS = async () => {
-    const response = await updateWidget(widget)
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget custom css' })
+    const { status, data } = await updateWidget(widget)
+    toaster(status, data)
     onClose()
   }
 
@@ -60,7 +58,7 @@ const CustomCSS = () => {
           <ModalHeader>Custom CSS</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Box boxShadow={'md'}>
+            <Box boxShadow="md">
               <Editor
                 height="40vh"
                 width="100%"
@@ -81,7 +79,7 @@ const CustomCSS = () => {
               isLoading={isWidgetUpdating}
               loadingText="Updating..."
               colorScheme="purple"
-              shadow={'md'}
+              shadow="md"
             >
               update
             </Button>

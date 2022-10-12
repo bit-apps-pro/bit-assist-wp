@@ -44,6 +44,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'jsx-a11y', 'import', 'promise'],
   rules: {
+    'no-param-reassign': 0,
     'template-curly-spacing': 'off',
     indent: [
       'error',

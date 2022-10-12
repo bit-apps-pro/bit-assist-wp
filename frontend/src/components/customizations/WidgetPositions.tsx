@@ -1,18 +1,17 @@
-import { Box, SimpleGrid, Tooltip, useColorModeValue, useToast } from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+import { Box, SimpleGrid, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 
-const WidgetPositions = () => {
+function WidgetPositions() {
+  const [widget, setWidget] = useAtom(widgetAtom)
+  const { updateWidget } = useUpdateWidget()
+  const toaster = useToaster()
   const grayColorToggle = useColorModeValue('gray.200', 'gray.700')
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
-
-  const toast = useToast({ isClosable: true })
-  const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
 
   const handleChange = async (e) => {
     const position = e.target.getAttribute('data-position')
@@ -24,15 +23,15 @@ const WidgetPositions = () => {
       prev.styles.position = position
     })
 
-    const response: any = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         if (draft.styles === null) {
           draft.styles = {}
         }
         draft.styles.position = position
-      })
+      }),
     )
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget position' })
+    toaster(status, data)
   }
 
   return (

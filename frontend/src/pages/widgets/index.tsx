@@ -24,8 +24,7 @@ import { Button,
   Thead,
   Tr,
   useColorModeValue,
-  useDisclosure,
-  useToast } from '@chakra-ui/react'
+  useDisclosure } from '@chakra-ui/react'
 import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
@@ -33,18 +32,18 @@ import { useRef } from 'react'
 import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
 import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
 import { Widget } from '@globalStates/Interfaces'
-import ResponseToast from '@components/global/ResponseToast'
 import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus'
 import AddWidget from '@components/widget/AddWidget'
+import useToaster from '@hooks/useToaster'
 
 function Widgets() {
-  const toast = useToast({ isClosable: true })
   const { widgets, isWidgetFetching } = useFetchWidgets()
   const { deleteWidget, isWidgetDeleting } = useDeleteWidget()
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const { updateWidgetStatus, isWidgetStatusUpdating } = useUpdateWidgetStatus()
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const tempWidgetId = useRef('')
+  const toaster = useToaster()
 
   const openDeleteModal = (widgetId: string) => () => {
     tempWidgetId.current = widgetId
@@ -57,10 +56,8 @@ function Widgets() {
   }
 
   const handleStatusChange = async (isChecked: boolean, widgetId: string) => {
-    const response: any = await updateWidgetStatus(widgetId, isChecked)
-    console.log(response)
-    
-    ResponseToast({ toast, response, action: 'update', messageFor: 'Widget status updated.' })
+    const { status, data } = await updateWidgetStatus(widgetId, isChecked)
+    toaster(status, data)
   }
 
   return (

@@ -1,5 +1,5 @@
-import { Box, FormControl, FormLabel, Switch, useToast } from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+import { Box, FormControl, FormLabel, Switch } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { produce } from 'immer'
@@ -7,10 +7,10 @@ import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef } from 'react'
 
-const StoreResponses = () => {
-  const toast = useToast({ isClosable: true })
+function StoreResponses() {
+  const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget } = useUpdateWidget()
 
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setWidget((prev) => {
@@ -20,21 +20,19 @@ const StoreResponses = () => {
     debounceUpdateWidget(
       produce(widget, (draft) => {
         draft.store_responses = e.target.checked
-      })
+      }),
     )
   }
 
   const debounceUpdateWidget = useRef(
-    debounce(async (widget) => {
-      const response: any = await updateWidget(widget)
-      ResponseToast({ toast, response, action: 'update', messageFor: 'Widget store responses' })
-    }, 1000)
+    debounce(async (newWidget) => {
+      const { status, data } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000),
   ).current
 
-  useEffect(() => {
-    return () => {
-      debounceUpdateWidget.cancel()
-    }
+  useEffect(() => () => {
+    debounceUpdateWidget.cancel()
   }, [debounceUpdateWidget])
 
   return (
@@ -43,7 +41,7 @@ const StoreResponses = () => {
         <FormLabel htmlFor="storeResponses" mb="0">
           Store Responses
         </FormLabel>
-        <Switch isChecked={!!widget.store_responses} colorScheme={'purple'} onChange={handleSwitchEnable} id="storeResponses" />
+        <Switch isChecked={!!widget.store_responses} colorScheme="purple" onChange={handleSwitchEnable} id="storeResponses" />
       </FormControl>
     </Box>
   )

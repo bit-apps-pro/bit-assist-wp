@@ -1,46 +1,50 @@
-import {
-  Box,
+import { Box,
   Button,
   HStack,
   IconButton,
   Text,
-  useToast,
   Tooltip,
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverBody,
-} from '@chakra-ui/react'
-import ResponseToast from '@components/global/ResponseToast'
+  PopoverBody } from '@chakra-ui/react'
+import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
+import { Widget } from '@globalStates/Interfaces'
 
-const Domain = ({ domain, index, updateWidget, isWidgetUpdating }) => {
-  const toast = useToast({ isClosable: true })
-  const initRef = useRef()
+interface Props {
+  domain: string
+  index: number
+  updateWidget: (widget: Widget) => Promise<{ status: 'success' | 'error', data: string }>
+  isWidgetUpdating: boolean
+}
+
+function Domain({ domain, index, updateWidget, isWidgetUpdating }: Props) {
   const [widget, setWidget] = useAtom(widgetAtom)
+  const initRef = useRef()
+  const toaster = useToaster()
 
-  const handleRemoveDomain = async (domainIndex: number, onClose: Function) => {
+  const handleRemoveDomain = async (domainIndex: number, onClose: () => void) => {
     onClose()
 
-    const response = await updateWidget(
+    const { status, data } = await updateWidget(
       produce(widget, (draft) => {
         draft.domains.splice(domainIndex, 1)
-      })
+      }),
     )
 
     setWidget((prev) => {
       prev.domains.splice(domainIndex, 1)
     })
-    
-    ResponseToast({ toast, response, action: 'delete', messageFor: 'Widget domain' })
-  }
 
+    toaster(status, data)
+  }
 
   return (
     <HStack justifyContent="space-between" gap="4" py="2" px="4" borderTopWidth={`${index > 0 && '1px'}`}>
@@ -52,7 +56,7 @@ const Domain = ({ domain, index, updateWidget, isWidgetUpdating }) => {
               <Box>
                 <Tooltip label="Remove domain" placement="right">
                   <IconButton
-                    isRound={true}
+                    isRound
                     aria-label="Remove Domain"
                     variant="ghost"
                     colorScheme="red"

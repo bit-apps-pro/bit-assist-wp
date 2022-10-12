@@ -7,6 +7,7 @@ use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
 use BitApps\Assist\Model\Widget;
+use WP_Error;
 
 final class WidgetController
 {
@@ -54,8 +55,11 @@ final class WidgetController
 
     public function changeStatus(Request $request, Widget $widget)
     {
-        $widget->update(['status' => (int)$request->status]);
+        $widget->update(['status' => $request->status]);
 
-        return $widget->save();
+        if ($widget->save()) {
+            return Response::success('Widget status changed');
+        }
+        return  Response::error('Widget status not changed');
     }
 }

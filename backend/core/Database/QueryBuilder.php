@@ -876,7 +876,8 @@ class QueryBuilder
 
             $this->update = $columns;
 
-            return $this->exec();
+            $this->exec();
+            return Connection::prop('rows_affected') ? true : false;
         }
 
         $this->insert = $columns;

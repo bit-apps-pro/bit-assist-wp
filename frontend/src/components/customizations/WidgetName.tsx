@@ -1,34 +1,26 @@
 import { Box, Input } from '@chakra-ui/react'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import Title from '@components/global/Title'
-import { useToast } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { widgetAtom } from '@globalStates/atoms'
 import { debounce } from 'lodash'
 import { useEffect, useRef } from 'react'
-import ResponseToast from '@components/global/ResponseToast'
+import useToaster from '@hooks/useToaster'
 
-const WidgetName = () => {
-  const toast = useToast({ isClosable: true })
+function WidgetName() {
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget } = useUpdateWidget()
+  const toaster = useToaster()
 
   const debounceUpdateWidget = useRef(
     debounce(async (newWidget) => {
-      const response: any = await updateWidget(newWidget)
-      ResponseToast({
-        toast,
-        response,
-        action: 'update',
-        messageFor: 'Widget name',
-      })
+      const { status, data } = await updateWidget(newWidget)
+      toaster(status, data)
     }, 1000),
   ).current
 
-  useEffect(() => {
-    return () => {
-      debounceUpdateWidget.cancel()
-    }
+  useEffect(() => () => {
+    debounceUpdateWidget.cancel()
   }, [debounceUpdateWidget])
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +33,7 @@ const WidgetName = () => {
   return (
     <Box>
       <Title>Widget Name</Title>
-      <Input maxW="lg" placeholder="Widget Name" value={widget.name || ''} onChange={handleChange} isRequired={true} />
+      <Input maxW="lg" placeholder="Widget Name" value={widget.name || ''} onChange={handleChange} isRequired />
     </Box>
   )
 }
