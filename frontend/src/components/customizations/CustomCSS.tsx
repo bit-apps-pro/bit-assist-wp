@@ -8,8 +8,7 @@ import { Box,
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
-  useToast } from '@chakra-ui/react'
+  useDisclosure } from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'

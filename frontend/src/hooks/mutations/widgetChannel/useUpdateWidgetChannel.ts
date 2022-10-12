@@ -1,5 +1,5 @@
-import { useToast } from '@chakra-ui/react'
 import { Flow } from '@globalStates/Interfaces'
+import useToaster from '@hooks/useToaster'
 import request from '@utils/request'
 import { useMutation, useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -12,13 +12,13 @@ interface ReqProps {
 export default function useUpdateWidgetChannel() {
   const { widgetId } = useParams()
   const queryClient = useQueryClient()
-  const toast = useToast({ isClosable: true })
+  const toaster = useToaster()
 
   const { mutateAsync, isLoading } = useMutation(
     async (requestData: ReqProps) => request(`widgetChannels/${requestData.widgetChannelId}`, requestData.flow, null, 'PUT'),
     {
       onSuccess: () => {
-        toast({ status: 'success', position: 'top-right', title: 'Widget channel updated.' })
+        toaster('success', 'Widget channel updated')
         queryClient.invalidateQueries(['widget/widgetChannels', widgetId])
       },
     },

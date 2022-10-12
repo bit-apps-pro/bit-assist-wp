@@ -26,15 +26,15 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
-        // return $request->all() + ['styles' => [
-        //     'size'    => 60,
-        //     'shape'   => 'semiRounded',
-        //     'color'   => '#00ffa3',
-        //     'icon'    => 'widget-icon-1',
-        //     'iconUrl' => 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
-        //     'position'=> 'bottom-right',
-        // ]];
-        Widget::insert($request->all());
+        $newWidget = $request->all() + ['styles' => [
+            'size'    => 60,
+            'shape'   => 'semiRounded',
+            'color'   => '#00ffa3',
+            'icon'    => 'widget-icon-1',
+            'iconUrl' => 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
+            'position'=> 'bottom-right',
+        ]];
+        Widget::insert($newWidget);
 
         return Response::success('WidgetChannel created successfully');
     }
@@ -43,7 +43,10 @@ final class WidgetController
     {
         $widget->update($request->all());
 
-        return $widget->save();
+        if ($widget->save()) {
+            return Response::success('Widget updated');
+        }
+        return  Response::error('Widget update failed');
     }
 
     public function destroy(Widget $widget)

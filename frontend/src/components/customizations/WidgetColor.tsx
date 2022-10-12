@@ -1,4 +1,4 @@
-import { Box, useToast } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { TColor } from '@atomik-color/core/dist/types'
 import { useAtom } from 'jotai'

@@ -14,10 +14,12 @@ function PageScroll() {
   const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value ? parseInt(e.target.value, 2) : 0
-    if (val > 100) {
-      val = 100
+    const val = e.target.value ? parseInt(e.target.value, 10) : 0
+    if (val < 0 || val > 100) {
+      toaster('warning', 'Page scroll must be between 0 and 100')
+      return
     }
+
     setWidget((draft) => {
       draft.page_scroll = val
     })

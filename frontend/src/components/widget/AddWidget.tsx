@@ -1,5 +1,4 @@
-import {
-  Button,
+import { Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -11,24 +10,23 @@ import {
   FormControl,
   FormLabel,
   Input,
-  ModalFooter,
-  useToast,
-} from '@chakra-ui/react'
+  ModalFooter } from '@chakra-ui/react'
 import { defaultCreateWidgetInfo } from '@globalStates/DefaultStates'
 import { CreateWidgetInfo } from '@globalStates/Interfaces'
 import useCreateWidget from '@hooks/mutations/widget/useCreateWidget'
+import useToaster from '@hooks/useToaster'
 import { useState } from 'react'
 import { HiPlus } from 'react-icons/hi'
 
-const AddWidget = () => {
-  const toast = useToast({ isClosable: true })
+function AddWidget() {
+  const toaster = useToaster()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [createWidgetInfo, setCreateWidgetInfo] = useState<CreateWidgetInfo>(defaultCreateWidgetInfo)
   const { createWidget, isWidgetCreating } = useCreateWidget(onClose, setCreateWidgetInfo)
 
   const addNewWidget = async () => {
     if (createWidgetInfo?.name === '') {
-      return toast({ title: 'Widget name is required', position: 'top-right', status: 'error' })
+      return toaster('error', 'Widget name is required')
     }
     createWidget(createWidgetInfo)
   }

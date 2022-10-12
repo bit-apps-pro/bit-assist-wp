@@ -1,24 +1,25 @@
-import { Box, Button, useToast } from '@chakra-ui/react'
+import { Box, Button } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
+import useToaster from '@hooks/useToaster'
 import { widgetChannelValidate } from '@utils/validation'
 import { useAtom } from 'jotai'
 
-const SaveButton = () => {
+function SaveButton() {
   const [flow] = useAtom(flowAtom)
-  const toast = useToast({ isClosable: true })
+  const toaster = useToaster()
   const { createWidgetChannel, isWidgetChannelCreating } = useCreateWidgetChannel()
 
   const addNewWidgetChannel = () => {
     const validated = widgetChannelValidate(flow.config)
     if (validated.hasError) {
-      toast({ status: 'error', position: 'top-right', description: validated.error })
+      toaster('error', validated.error || 'Error')
       return
     }
 
     const newFlow = { ...flow }
-    delete newFlow['step']
-    delete newFlow['channel_name']
+    delete newFlow.step
+    delete newFlow.channel_name
     createWidgetChannel(newFlow)
   }
 

@@ -15,7 +15,12 @@ function WidgetSize() {
   const toaster = useToaster()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value, 2) : undefined
+    const val = e.target.value ? parseInt(e.target.value, 10) : 0
+    if (val < 0 || val > 200) {
+      toaster('warning', 'Widget size must be between 0 and 200')
+      return
+    }
+
     setWidget((prev) => {
       if (prev.styles === null) {
         prev.styles = {}

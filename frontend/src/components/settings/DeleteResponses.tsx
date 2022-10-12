@@ -16,7 +16,7 @@ function DeleteResponses() {
     updateData(e.target.checked, 'is_enabled')
   }
   const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value, 2) : 0
+    const value = e.target.value ? parseInt(e.target.value, 10) : 0
     updateData(value, 'delete_after')
   }
 

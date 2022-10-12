@@ -14,7 +14,13 @@ function InitialDelay() {
   const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value, 2) : 0
+    const val = e.target.value ? parseInt(e.target.value, 10) : 0
+
+    if (val < 0 || val > 60) {
+      toaster('warning', 'Initial delay must be between 0 and 60')
+      return
+    }
+
     setWidget((draft) => {
       draft.initial_delay = val
     })

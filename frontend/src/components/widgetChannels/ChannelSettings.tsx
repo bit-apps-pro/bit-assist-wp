@@ -1,5 +1,4 @@
-import {
-  VStack,
+import { VStack,
   Input,
   FormControl,
   FormLabel,
@@ -7,8 +6,7 @@ import {
   FormHelperText,
   CheckboxGroup,
   Checkbox,
-  HStack,
-} from '@chakra-ui/react'
+  HStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
@@ -37,7 +35,7 @@ import UpdateButton from '@components/widgetChannels/UpdateButton'
 import KnowledgeBase from '@components/widgetChannels/channels/KnowledgeBase'
 import Tawk from '@components/widgetChannels/channels/Tawk'
 
-const ChannelSettings = ({ edit = false, ...props }) => {
+function ChannelSettings({ edit = false, ...props }) {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string | number | boolean | (string | number)[], key: string) => {
@@ -79,7 +77,7 @@ const ChannelSettings = ({ edit = false, ...props }) => {
         {flow.channel_name?.toLowerCase() === 'telegram' && <Telegram />}
 
         <FormControl>
-          <FormLabel htmlFor="hide_after_office_hours" display={'flex'} alignItems="center">
+          <FormLabel htmlFor="hide_after_office_hours" display="flex" alignItems="center">
             Hide after office hours
             <Switch
               ml="2"

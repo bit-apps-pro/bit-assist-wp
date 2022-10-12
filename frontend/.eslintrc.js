@@ -40,7 +40,6 @@ module.exports = {
     'react-app',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    // 'plugin:storybook/recommended',
   ],
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'jsx-a11y', 'import', 'promise'],
   rules: {
