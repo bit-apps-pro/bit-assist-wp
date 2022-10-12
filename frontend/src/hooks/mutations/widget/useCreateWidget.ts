@@ -16,6 +16,7 @@ export default function useCreateWidget(closeCreateWidgetModal: () => void, setC
       },
     },
   )
+
   return {
     createWidget: (widgetInfo: CreateWidgetInfo) => mutate(widgetInfo),
     isWidgetCreating: isLoading,

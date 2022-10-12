@@ -10,8 +10,11 @@ export default function useFetchWidgetChannels() {
     async () => request(`widgets/${widgetId}/widgetChannels`, null, null, 'GET'),
     {
       enabled: !!widgetId,
-    }
+    },
   )
 
-  return { widgetChannels: data?.data, isWidgetChannelsFetching: isLoading }
+  return {
+    widgetChannels: data?.data,
+    isWidgetChannelsFetching: isLoading,
+  }
 }

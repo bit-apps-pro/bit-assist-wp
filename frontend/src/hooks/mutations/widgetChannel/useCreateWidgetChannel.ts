@@ -13,14 +13,14 @@ export default function useCreateWidgetChannel() {
   const toast = useToast({ isClosable: true })
 
   const { mutate, isLoading } = useMutation(
-    async (flow: Flow) => request('widgetChannels', flow), 
+    async (flow: Flow) => request('widgetChannels', flow),
     {
       onSuccess: () => {
         resetFlow()
         toast({ status: 'success', position: 'top-right', title: 'Widget channel created' })
         queryClient.invalidateQueries(['widget/widgetChannels', widgetId])
       },
-    }
+    },
   )
 
   return {

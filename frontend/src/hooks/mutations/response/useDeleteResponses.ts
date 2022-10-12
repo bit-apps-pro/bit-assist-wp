@@ -6,12 +6,16 @@ export default function useDeleteResponses(pageLimit: number, pageNumber: number
   const queryClient = useQueryClient()
   const { widgetChannelId } = useParams()
 
-  const { mutateAsync, isLoading } = useMutation((responseIds: string[]) => request('/api/response/delete', { responseIds }), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['/api/response/fetch', [widgetChannelId?.toString(), pageNumber, pageLimit]])
-      queryClient.invalidateQueries(['/api/response/othersData', widgetChannelId?.toString()])
+  const { mutateAsync, isLoading } = useMutation(
+    async (responseIds: string[]) => request(`responses/${responseIds}`, null, null, 'DELETE'),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['responses', [widgetChannelId, pageNumber, pageLimit]])
+        queryClient.invalidateQueries(['responses/othersData', widgetChannelId])
+      },
     },
-  })
+  )
+
   return {
     deleteResponses: (responseIds: string[]) => mutateAsync(responseIds),
     isResponsesDeleting: isLoading,

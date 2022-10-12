@@ -12,6 +12,9 @@ export default function useFetchWidget() {
       enabled: !!widgetId,
     },
   )
-  
-  return { widget: data?.data, isWidgetFetching: isLoading }
+
+  return {
+    widget: data?.data,
+    isWidgetFetching: isLoading,
+  }
 }

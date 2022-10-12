@@ -3,7 +3,9 @@ import request from '@utils/request'
 import { useMutation } from 'react-query'
 
 export default function useUpdateWidget() {
-  const { mutateAsync, isLoading } = useMutation((widget: Widget) => request('/api/widget/update', { widget }))
+  const { mutateAsync, isLoading } = useMutation(
+    async (widget: Widget) => request(`widgets/${widget.id}`, widget, null, 'PUT'),
+  )
 
   return {
     updateWidget: (widget: Widget) => mutateAsync(widget),

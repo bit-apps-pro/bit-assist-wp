@@ -7,5 +7,8 @@ export default function useFetchWidgets() {
     async () => request('widgets', null, null, 'GET'),
   )
 
-  return { widgets: data?.data, isWidgetFetching: isLoading }
+  return {
+    widgets: data?.data,
+    isWidgetFetching: isLoading,
+  }
 }
