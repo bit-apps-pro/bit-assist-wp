@@ -10,7 +10,8 @@ use BitApps\Assist\Core\Database\Model;
 class Channel extends Model
 {
     protected $casts = [
-        'default' => 'object'
+        'default' => 'object',
+        'status'  => 'int',
     ];
 
     protected $fillable = [

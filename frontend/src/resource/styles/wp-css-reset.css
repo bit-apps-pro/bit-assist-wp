@@ -46,6 +46,24 @@
   overflow: hidden;
 }
 
+.wp-core-ui select {
+  background-image: none;
+  height: var(--chakra-sizes-10);
+  border-radius: var(--chakra-radii-md);
+  border-color: inherit;
+  max-width: 100%;
+  background: inherit;
+  color: inherit;
+}
+
+.wp-core-ui select:hover {
+  color: inherit;
+}
+
+.wp-core-ui select:focus {
+  color: inherit;
+}
+
 .media-toolbar .button-primary {
   background: var(--accent-color) !important;
   color: white !important;
@@ -122,4 +140,12 @@ input[type="checkbox"].disabled:checked:before {
 .wp-core-ui .attachment.details,
 .attachment:focus {
   box-shadow: 0 0 0 2px var(--accent-color) !important;
+}
+
+li {
+  margin-bottom: 0;
+}
+
+textarea.readonly, textarea[readonly] {
+  background-color: var(--chakra-colors-gray-800);
 }

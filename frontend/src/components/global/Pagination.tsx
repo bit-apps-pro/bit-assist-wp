@@ -15,7 +15,7 @@ const Pagination = ({ children, pageNumber, pageLimit, totalPages, setPageNumber
   const validTotalPages = totalPages > 0 ? totalPages : 1
 
   const handlePageLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newPageLimit = parseInt(e.target.value)
+    const newPageLimit = Number(e.target.value)
     const newPageNumber = Math.ceil(pageNumber / newPageLimit) * newPageLimit
 
     setPageLimit(newPageLimit)

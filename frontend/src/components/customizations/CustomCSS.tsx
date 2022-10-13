@@ -22,7 +22,7 @@ function CustomCSS() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toaster = useToaster()
 
-  const handleChangeCustomCSS = (value: string) => {
+  const handleChangeCustomCSS = (value: string | undefined) => {
     setWidget((prev) => {
       prev.custom_css = value
     })

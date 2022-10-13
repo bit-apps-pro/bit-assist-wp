@@ -1,7 +1,11 @@
 import { useToast } from '@chakra-ui/react'
 
 export default function useToaster() {
-  const toast = useToast({ isClosable: true })
+  const toast = useToast({ 
+    isClosable: true,
+    containerStyle: {
+    }
+  })
 
   const toaster = (status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined, message: string) => {
     let title = message

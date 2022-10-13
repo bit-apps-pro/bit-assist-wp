@@ -7,6 +7,12 @@ import Title from '@components/global/Title'
 import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { produce } from 'immer'
+import widgetDefaultMask from '../../resource/img/widget-button-mask.svg'
+
+const maskStyle = {
+  mask: `url(${widgetDefaultMask})`,
+  webkitMask: `url(${widgetDefaultMask})`,
+}
 
 function WidgetShape() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -54,7 +60,7 @@ function WidgetShape() {
           const radio = getRadioProps({ value })
           return (
             <RadioCard design="border" key={value} {...radio}>
-              {value === shapeOptions[0] && <Box h="44px" w="44px" bg={formBackground} className="semiRoundedShape" />}
+              {value === shapeOptions[0] && <Box h="44px" w="44px" bg={formBackground} className="semiRoundedShape" style={maskStyle} />}
               {value === shapeOptions[1] && <Box h="44px" w="44px" bg={formBackground} rounded="10px" />}
               {value === shapeOptions[2] && <Box h="44px" w="44px" bg={formBackground} rounded="full" />}
               {value === shapeOptions[3] && <Box h="44px" w="44px" bg={formBackground} rounded="none" />}

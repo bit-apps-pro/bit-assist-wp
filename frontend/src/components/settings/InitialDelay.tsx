@@ -14,9 +14,8 @@ function InitialDelay() {
   const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value, 10) : 0
-
-    if (val < 0 || val > 60) {
+    const val = e.target.value ? Number(e.target.value) : 0
+    if (isNaN(val) || val < 0 || val > 60) {
       toaster('warning', 'Initial delay must be between 0 and 60')
       return
     }
@@ -45,8 +44,8 @@ function InitialDelay() {
   return (
     <HStack>
       <Text w="28">Delay</Text>
-      <InputGroup>
-        <Input w="28" min="0" type="number" placeholder="Initial Delay in Second" value={widget.initial_delay ?? ''} onChange={handleChange} />
+      <InputGroup className='input-group'>
+        <Input w="28" min="0" placeholder="Initial Delay in Second" value={widget.initial_delay ?? ''} onChange={handleChange} />
         <InputRightAddon children="Sec" />
       </InputGroup>
     </HStack>

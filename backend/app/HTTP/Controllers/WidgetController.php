@@ -26,14 +26,17 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
-        $newWidget = $request->all() + ['styles' => [
-            'size'    => 60,
-            'shape'   => 'semiRounded',
-            'color'   => '#00ffa3',
-            'icon'    => 'widget-icon-1',
-            'iconUrl' => 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
-            'position'=> 'bottom-right',
-        ]];
+        $newWidget = [
+            'name'   => trim($request->name),
+            'styles' => [
+                'size'    => 60,
+                'shape'   => 'semiRounded',
+                'color'   => $request->color,
+                'icon'    => 'widget-icon-1',
+                'iconUrl' => 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
+                'position'=> 'bottom-right',
+            ]
+        ];
         Widget::insert($newWidget);
 
         return Response::success('WidgetChannel created successfully');

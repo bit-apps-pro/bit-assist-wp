@@ -35,8 +35,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
-  /* height: 100%;
-  overflow: auto; */
   isolation: isolate;
 }
 
@@ -124,10 +122,6 @@ svg {
   color: var(--txt-1) !important;
 } */
 
-.semiRoundedShape {
-  mask: url(/widget-button-mask.svg);
-  -webkit-mask: url(/widget-button-mask.svg);
-}
 .radio-card.dark .widget-icon,
 .radio-card[data-checked].light .widget-icon {
   filter: invert(98%) sepia(98%) saturate(0%) hue-rotate(315deg) brightness(104%) contrast(102%); /* black icon */

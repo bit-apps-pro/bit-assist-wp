@@ -15,8 +15,8 @@ function WidgetSize() {
   const toaster = useToaster()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value, 10) : 0
-    if (val < 0 || val > 200) {
+    const val = e.target.value ? Number(e.target.value) : 0
+    if (isNaN(val) || val < 0 || val > 200) {
       toaster('warning', 'Widget size must be between 0 and 200')
       return
     }
@@ -52,7 +52,7 @@ function WidgetSize() {
     <Box>
       <Title>Widget Size</Title>
       <InputGroup>
-        <Input min="0" w="28" type="number" placeholder="60" value={widget.styles?.size ?? ''} onChange={handleChange} />
+        <Input min="0" w="28" placeholder="60" value={widget.styles?.size ?? ''} onChange={handleChange} />
         <InputRightAddon children="px" />
       </InputGroup>
     </Box>

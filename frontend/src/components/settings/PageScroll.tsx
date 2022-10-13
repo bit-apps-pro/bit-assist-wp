@@ -14,8 +14,8 @@ function PageScroll() {
   const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value ? parseInt(e.target.value, 10) : 0
-    if (val < 0 || val > 100) {
+    const val = e.target.value ? Number(e.target.value) : 0
+    if (isNaN(val) || val < 0 || val > 100) {
       toaster('warning', 'Page scroll must be between 0 and 100')
       return
     }
@@ -45,7 +45,7 @@ function PageScroll() {
     <HStack>
       <Text w="28">Page scroll</Text>
       <InputGroup>
-        <Input w="28" min="0" type="number" placeholder="Page Scroll in %" value={widget.page_scroll ?? ''} onChange={handleChange} />
+        <Input w="28" min="0" placeholder="Page Scroll in %" value={widget.page_scroll ?? ''} onChange={handleChange} />
         <InputRightAddon children="%" />
       </InputGroup>
     </HStack>

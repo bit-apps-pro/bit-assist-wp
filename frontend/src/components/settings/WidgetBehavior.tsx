@@ -12,7 +12,7 @@ function WidgetBehavior() {
   const { updateWidget } = useUpdateWidget()
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = parseInt(e.target.value, 10)
+    const value = Number(e.target.value)
     setWidget((prev) => {
       prev.widget_behavior = value
     })

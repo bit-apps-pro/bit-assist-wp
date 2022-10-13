@@ -16,8 +16,13 @@ function DeleteResponses() {
     updateData(e.target.checked, 'is_enabled')
   }
   const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value, 10) : 0
-    updateData(value, 'delete_after')
+    const val = e.target.value ? Number(e.target.value) : 0
+    if (isNaN(val)) {
+      toaster('warning', 'Delete responses must be a number')
+      return
+    }
+
+    updateData(val, 'delete_after')
   }
 
   const updateData = async (val: number | boolean, key: string) => {
@@ -59,7 +64,7 @@ function DeleteResponses() {
       </FormControl>
       <HStack>
         <Text>After</Text>
-        <Input disabled={!widget.delete_responses?.is_enabled} min="0" value={widget.delete_responses?.delete_after ?? 0} onChange={handleInput} type="number" w="28" />
+        <Input disabled={!widget.delete_responses?.is_enabled} min="0" value={widget.delete_responses?.delete_after ?? 0} onChange={handleInput} w="28" />
         <Text>Days</Text>
       </HStack>
     </Stack>

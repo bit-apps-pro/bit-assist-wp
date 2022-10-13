@@ -13,7 +13,7 @@ final class WidgetChannelController
 {
     public function index(Request $request)
     {
-        return WidgetChannel::where('widget_id', $request->widgetId)->get();
+        return WidgetChannel::where('widget_id', $request->widgetId)->orderBy('sequence')->get();
     }
 
     public function show(WidgetChannel $widgetChannel)
@@ -43,5 +43,16 @@ final class WidgetChannelController
         $widgetChannel->delete();
 
         return Response::success('WidgetChannel deleted');
+    }
+
+    public function updateSequence(Request $request)
+    {
+        foreach ($request->widgetChannels as $widgetChannel) {
+            WidgetChannel::take(1)->find($widgetChannel['id'])
+            ->update(['sequence' => $widgetChannel['sequence']])
+            ->save();
+        }
+
+        return Response::success('Sequence ordered');
     }
 }

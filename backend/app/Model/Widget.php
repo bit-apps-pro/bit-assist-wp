@@ -15,6 +15,9 @@ class Widget extends Model
         'exclude_pages'    => 'array',
         'integrations'     => 'array',
         'status'           => 'int',
+        'widget_behavior'  => 'int',
+        'initial_delay'    => 'int',
+        'page_scroll'      => 'int',
     ];
 
     protected $fillable = [

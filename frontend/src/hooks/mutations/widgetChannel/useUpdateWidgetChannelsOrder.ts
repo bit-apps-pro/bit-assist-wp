@@ -10,7 +10,7 @@ export default function useUpdateWidgetChannelOrder() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (widgetChannels: WidgetChannelType[]) => request('widgetChannels/updateOrder', widgetChannels, null, 'PUT'),
+    async (widgetChannels: WidgetChannelType[]) => request('widgetChannels/updateSequence', { widgetChannels: widgetChannels.map((item) => ({ id: item.id, sequence: item.sequence })) }, null, 'PUT'),
     {
       onSuccess: () => {
         // queryClient.invalidateQueries(['widgetChannels', widgetId])

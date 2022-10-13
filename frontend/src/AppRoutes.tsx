@@ -1,13 +1,19 @@
 import { Route, Routes } from 'react-router-dom'
 import loadable from '@loadable/component'
 import Layout from '@pages/Layout'
+import { useEffect } from 'react'
+import Loading from '@components/global/Loading'
 
-const Widgets = loadable(() => import('@pages/widgets'), { fallback: <div>Loading...</div> })
-const WidgetDetails = loadable(() => import('@pages/widgetDetails'), { fallback: <div>Loading...</div> })
-const Responses = loadable(() => import('@pages/responses'), { fallback: <div>Loading...</div> })
-const Error404 = loadable(() => import('@pages/Error404'), { fallback: <div>Loading...</div> })
+const Widgets = loadable(() => import('@pages/Widgets'), { fallback: <Loading /> })
+const WidgetDetails = loadable(() => import('@pages/WidgetDetails'), { fallback: <Loading /> })
+const Responses = loadable(() => import('@pages/Responses'), { fallback: <Loading /> })
+const Error404 = loadable(() => import('@pages/Error404'), { fallback: <Loading /> })
 
 export default function AppRoutes() {
+  useEffect(() => {
+    removeUnwantedCSS()
+  }, [])
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -18,4 +24,18 @@ export default function AppRoutes() {
       </Route>
     </Routes>
   )
+}
+
+function removeUnwantedCSS() {
+  const conflictStyles = ['bootstrap']
+  const styles: any = document.styleSheets
+
+  for (let i = 0; i < styles.length; i += 1) {
+    if (styles[i].href !== null) {
+      const regex = new RegExp(conflictStyles.join('.*css|'), 'gi')
+      if (styles[i]?.href.match(regex)) {
+        styles[i].disabled = true
+      }
+    }
+  }
 }

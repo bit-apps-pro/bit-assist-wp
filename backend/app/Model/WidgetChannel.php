@@ -10,7 +10,9 @@ use BitApps\Assist\Core\Database\Model;
 class WidgetChannel extends Model
 {
     protected $casts = [
-        'config' => 'object'
+        'config'   => 'object',
+        'sequence' => 'int',
+        'status'   => 'int',
     ];
 
     protected $fillable = [

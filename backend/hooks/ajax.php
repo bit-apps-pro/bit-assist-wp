@@ -36,6 +36,7 @@ Route::noAuth()->group(function () {
     Route::get('widgets/{widgetId}/widgetChannels', [WidgetChannelController::class, 'index']);
     Route::get('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'show']);
     Route::post('widgetChannels', [WidgetChannelController::class, 'store']);
+    Route::put('widgetChannels/updateSequence', [WidgetChannelController::class, 'updateSequence']);
     Route::put('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'update']);
     Route::destroy('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'destroy']);
 
