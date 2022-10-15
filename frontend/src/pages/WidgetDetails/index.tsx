@@ -1,3 +1,3 @@
-import WidgetDetails from "./WidgetDetails";
+import WidgetDetails from './WidgetDetails'
 
-export default WidgetDetails;
+export default WidgetDetails

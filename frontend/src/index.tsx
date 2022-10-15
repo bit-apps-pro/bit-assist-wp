@@ -7,7 +7,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import AppRoutes from './AppRoutes'
 import '@resource/styles/variables.css'
 import '@resource/styles/wp-css-reset.css'
-import '@resource/styles/utilities.sass'
 import '@resource/styles/global.css'
 import theme from './theme'
 

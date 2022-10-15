@@ -7,6 +7,7 @@ import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
 import Domain from '@components/publish/Domain'
+import Title from '@components/global/Title'
 
 function Domains() {
   const toaster = useToaster()
@@ -38,6 +39,11 @@ function Domains() {
         return
       }
 
+      if (window.location.host.replace('www.', '') === new URL(domainName).host.replace('www.', '')) {
+        toaster('warning', 'You cannot add your own domain')
+        return
+      }
+
       const domainExists = widget.domains.find((domain: string) => domain === origin)
       if (domainExists) {
         toaster('warning', 'Domain already exists')
@@ -62,63 +68,66 @@ function Domains() {
   }
 
   return (
-    <Box w="sm" maxW="full">
-      <Box mb="4" rounded="md" borderWidth={`${widget.domains?.length && '1px'}`}>
-        {widget.domains?.map((domain, index) => (
-          <Domain key={domain} index={index} domain={domain} updateWidget={updateWidget} isWidgetUpdating={isWidgetUpdating} />
-        ))}
-      </Box>
-
-      {isAdding && (
-        <Box mb={4}>
-          <HStack mb={2}>
-            <Input
-              placeholder="ex: https://your-domain.com"
-              value={domainName ?? ''}
-              onChange={(e) => setDomainName(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <Tooltip label="Cancel">
-              <IconButton
-                isRound
-                aria-label="Remove Domain"
-                variant="ghost"
-                colorScheme="red"
-                icon={<HiOutlineTrash />}
-                onClick={resetStates}
-              />
-            </Tooltip>
-            <Tooltip label="Save">
-              <IconButton
-                isRound
-                aria-label="Remove Domain"
-                variant="ghost"
-                colorScheme="green"
-                icon={<HiCheck />}
-                onClick={() => addNewDomain()}
-                disabled={isWidgetUpdating}
-              />
-            </Tooltip>
-          </HStack>
-          <span>
-            Press
-            {' '}
-            <Kbd>enter</Kbd>
-            {' '}
-            to add, &nbsp;
-            {' '}
-            <Kbd>esc</Kbd>
-            {' '}
-            to cancel
-          </span>
+    <Box>
+      <Title badge="1">Add Bit Assist to your website</Title>
+      <Box w="sm" maxW="full">
+        <Box mb="4" rounded="md" borderWidth={`${widget.domains?.length && '1px'}`}>
+          {widget.domains?.map((domain, index) => (
+            <Domain key={domain} index={index} domain={domain} updateWidget={updateWidget} isWidgetUpdating={isWidgetUpdating} />
+          ))}
         </Box>
-      )}
 
-      {!isAdding && (
-        <Button leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={() => setIsAdding(true)} isLoading={isWidgetUpdating}>
-          Add Domain
-        </Button>
-      )}
+        {isAdding && (
+          <Box mb={4}>
+            <HStack mb={2}>
+              <Input
+                placeholder="ex: https://your-domain.com"
+                value={domainName ?? ''}
+                onChange={(e) => setDomainName(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <Tooltip label="Cancel">
+                <IconButton
+                  isRound
+                  aria-label="Remove Domain"
+                  variant="ghost"
+                  colorScheme="red"
+                  icon={<HiOutlineTrash />}
+                  onClick={resetStates}
+                />
+              </Tooltip>
+              <Tooltip label="Save">
+                <IconButton
+                  isRound
+                  aria-label="Remove Domain"
+                  variant="ghost"
+                  colorScheme="green"
+                  icon={<HiCheck />}
+                  onClick={() => addNewDomain()}
+                  disabled={isWidgetUpdating}
+                />
+              </Tooltip>
+            </HStack>
+            <span>
+              Press
+              {' '}
+              <Kbd>enter</Kbd>
+              {' '}
+              to add, &nbsp;
+              {' '}
+              <Kbd>esc</Kbd>
+              {' '}
+              to cancel
+            </span>
+          </Box>
+        )}
+
+        {!isAdding && (
+          <Button leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={() => setIsAdding(true)} isLoading={isWidgetUpdating}>
+            Add Domain
+          </Button>
+        )}
+      </Box>
     </Box>
   )
 }

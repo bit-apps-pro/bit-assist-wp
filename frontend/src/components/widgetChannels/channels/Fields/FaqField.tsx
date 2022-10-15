@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, IconButton, Input, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
@@ -8,13 +9,15 @@ import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { Editor } from '@tinymce/tinymce-react'
 
-const FaqField = ({ id, field, ...props }) => {
+function FaqField({ id, field, ...props }) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()
   const bgColorToggle = useColorModeValue('white', 'gray.700')
 
-  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
+  const {
+    attributes, listeners, setNodeRef, transition, transform, isDragging,
+  } = useSortable({
     id: field.id,
   })
 
@@ -46,8 +49,8 @@ const FaqField = ({ id, field, ...props }) => {
           rounded="sm"
           bg={props.bg}
           cursor={props.cursor || 'grab'}
-          justifyContent={'center'}
-          alignItems={'center'}
+          justifyContent="center"
+          alignItems="center"
           w={6}
           h={8}
         >
@@ -65,7 +68,7 @@ const FaqField = ({ id, field, ...props }) => {
           </HStack>
           {isEditing && (
             <Editor
-              tinymceScriptSrc={'http://localhost:3000/tinymce/tinymce.min.js'}
+              tinymceScriptSrc="http://localhost:3000/tinymce/tinymce.min.js"
               value={`${field.description}`}
               onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{

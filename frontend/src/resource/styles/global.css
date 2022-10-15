@@ -1,7 +1,6 @@
 ::-webkit-datetime-edit {
   line-height: 1;
 }
-
 * {
   box-sizing: border-box;
   line-height: 1;
@@ -10,7 +9,6 @@
   text-rendering: optimizeLegibility;
   text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
 }
-
 html,
 body {
   margin: 0;
@@ -18,17 +16,6 @@ body {
   height: 100%;
   color: var(--accent-color);
 }
-
-/* // a {
-//   transition: none !important;
-// }
-
-// a:active,
-// a:hover {
-//   color: #005ca7;
-//   box-shadow: none;
-// } */
-
 #bit-apps-root {
   direction: ltr !important;
   font-family: var(--font-family);
@@ -37,42 +24,14 @@ body {
   font-size: 16px;
   isolation: isolate;
 }
-
 .link {
   text-decoration: none;
   cursor: pointer;
 }
-
 svg {
   pointer-events: none;
   display: inline-block;
 }
-
-/* 
-//scroll bar style start
-// ::-webkit-scrollbar {
-//   width: 10px;
-//   height: 10px;
-// }
-
-// ::-webkit-scrollbar-track {
-//   background: transparent;
-// }
-
-// ::-webkit-scrollbar-track:hover {
-//   background: #f1f1f1;
-//   border-radius: 10px;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   background: #dcdcdc;
-//   border-radius: 10px;
-// }
-
-// ::-webkit-scrollbar-thumb:hover {
-//   background: var(--dark);
-// } */
-
 /* skelaton loader */
 .loader {
   background: var(--bg);
@@ -80,48 +39,27 @@ svg {
   background-size: 200%;
   animation: skeleton 1s infinite ease-out;
 }
-
 @keyframes skeleton {
   0% {
     background-position: calc(100%);
   }
-
   60%,
   100% {
     background-position: -100%;
   }
 }
-
-
 @keyframes dashanim {
   0% {
     stroke-dashoffset: 0;
   }
-
   100% {
     stroke-dashoffset: -150px;
   }
 }
-
-
-/* .tippy-box {
-  background-color: var(--accent-color) !important;
-}
-[color-scheme="dark"] .tippy-box {
-  background-color: var(--bg-80) !important;
-  color: var(--txt-1) !important;
-} */
-
 .dropDownTippy {
   background-color: var(--bg) !important;
   border: 1px solid var(--bg-10) !important;
 }
-
-/* [color-scheme="dark"] .tippy {
-  background-color: var(--bg-80);
-  color: var(--txt-1) !important;
-} */
-
 .radio-card.dark .widget-icon,
 .radio-card[data-checked].light .widget-icon {
   filter: invert(98%) sepia(98%) saturate(0%) hue-rotate(315deg) brightness(104%) contrast(102%); /* black icon */
@@ -132,7 +70,6 @@ svg {
 .tox-tinymce-aux {
   z-index: 2000 !important;
 }
-
 .select-search-container {
   --select-search-background: var(--chakra-colors-chakra-body-bg) !important;
   --select-search-border: var(--chakra-colors-gray-100) !important;
@@ -140,7 +77,6 @@ svg {
   --select-search-highlight: var(--chakra-colors-blue-400) !important;
   width: 100% !important;
 }
-
 .select-search-input {
   --select-search-background: var(--chakra-colors-chakra-body-bg);
   --select-search-selected: #89b4fa;
@@ -150,17 +86,22 @@ svg {
   height: var(--chakra-sizes-10) !important;
   border-radius: var(--chakra-radii-md) !important;
 }
-
 [data-theme='light'] .select-search-input {
   --select-search-border: var(--chakra-colors-gray-100);
 }
 [data-theme='light'] .select-search-input:not(:focus):hover {
   border-color: var(--chakra-colors-gray-100) !important;
 }
-
 [data-theme='dark'] .select-search-input {
   --select-search-border: var(--chakra-colors-whiteAlpha-400);
 }
 [data-theme='dark'] .select-search-input:not(:focus):hover {
   border-color: var(--chakra-colors-whiteAlpha-400) !important;
 }
+#chakra-toast-manager-top-right {
+  top: 2rem !important;
+}
+/* .semiRoundedShape {
+  mask: url(http://bit-assist-wp.test/wp-content/plugins/bit-assist/frontend/src/resource/img/widget-button-mask.svg);
+  -webkit-mask: url(http://bit-assist-wp.test/wp-content/plugins/bit-assist/frontend/src/resource/img/widget-button-mask.svg);
+} */

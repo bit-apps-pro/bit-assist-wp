@@ -7,7 +7,7 @@ function Navbar() {
     <Container maxW="container.lg">
       <Stack py="4" direction={['column', 'row']} alignItems={['center', 'initial']} justifyContent={['initial', 'space-between']}>
         <Box py="2">
-          <Heading size="md" >
+          <Heading size="md">
             <Link to="/">Bit Assist</Link>
           </Heading>
         </Box>

@@ -1,3 +1,3 @@
-import Responses from "./Responses";
+import Responses from './Responses'
 
-export default Responses;
+export default Responses

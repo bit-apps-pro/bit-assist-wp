@@ -31,6 +31,7 @@ export const WidgetDefault = {
     delete_after: undefined,
   },
   status: true,
+  active: false,
   createdAt: new Date(),
   integrations: [],
 }

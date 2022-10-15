@@ -57,6 +57,7 @@ export interface Widget {
   store_responses: boolean
   delete_responses: DeleteResponses
   status: boolean
+  active: boolean
   createdAt: Date
   integrations: Integrations[]
 }

@@ -15,6 +15,7 @@ class Widget extends Model
         'exclude_pages'    => 'array',
         'integrations'     => 'array',
         'status'           => 'int',
+        'active'           => 'int',
         'widget_behavior'  => 'int',
         'initial_delay'    => 'int',
         'page_scroll'      => 'int',
@@ -36,6 +37,7 @@ class Widget extends Model
         'delete_responses',
         'integrations',
         'status',
+        'active',
     ];
 
     public function widgetChannels()

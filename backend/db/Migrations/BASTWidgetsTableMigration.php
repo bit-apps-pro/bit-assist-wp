@@ -29,6 +29,7 @@ final class BASTWidgetsTableMigration extends Migration
             $table->json('delete_responses')->nullable();
             $table->json('integrations')->nullable();
             $table->boolean('status')->defaultValue(1);
+            $table->boolean('active')->defaultValue(0);
             $table->timestamps();
         });
     }

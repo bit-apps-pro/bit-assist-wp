@@ -149,3 +149,7 @@ li {
 textarea.readonly, textarea[readonly] {
   background-color: var(--chakra-colors-gray-800);
 }
+
+h2, h3 {
+  color: inherit;
+}

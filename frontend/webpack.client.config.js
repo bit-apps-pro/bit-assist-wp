@@ -38,7 +38,7 @@ module.exports = (env, argv) => {
           frontend: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors-frontend',
-            chunks: chunk => chunk.name === 'btcfiFrontend',
+            chunks: chunk => chunk.name === 'btcassistFrontend',
           },
         },
       }, */

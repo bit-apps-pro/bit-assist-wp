@@ -7,11 +7,10 @@ import Title from '@components/global/Title'
 import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { produce } from 'immer'
-import widgetDefaultMask from '../../resource/img/widget-button-mask.svg'
 
 const maskStyle = {
-  mask: `url(${widgetDefaultMask})`,
-  webkitMask: `url(${widgetDefaultMask})`,
+  mask: "url('http://localhost:3000/resource/img/widget-button-mask.svg')",
+  WebkitMask: "url('http://localhost:3000/resource/img/widget-button-mask.svg')",
 }
 
 function WidgetShape() {

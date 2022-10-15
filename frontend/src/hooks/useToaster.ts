@@ -1,10 +1,12 @@
 import { useToast } from '@chakra-ui/react'
 
 export default function useToaster() {
-  const toast = useToast({ 
+  const toast = useToast({
+    position: 'top-right',
     isClosable: true,
     containerStyle: {
-    }
+      margin: '0.35rem',
+    },
   })
 
   const toaster = (status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined, message: string) => {
@@ -16,7 +18,6 @@ export default function useToaster() {
     toast({
       status: status ?? 'warning',
       title,
-      position: 'top-right',
     })
   }
 
