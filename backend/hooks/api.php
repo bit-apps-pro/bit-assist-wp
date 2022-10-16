@@ -8,5 +8,5 @@ if (!\defined('ABSPATH')) {
 }
 
 Route::noAuth()->group(function () {
-    Route::get('channels', [ChannelController::class, 'store']);
+    Route::post('responses', [ResponseController::class, 'store']);
 });

@@ -8,11 +8,11 @@ import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifi
 import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 import { flowAtom, widgetChannelOrderAtom } from '@globalStates/atoms'
-import useUpdateWidgetChannelsOrder from '@hooks/mutations/widgetChannel/useUpdateWidgetChannelsOrder'
+import useUpdateWidgetChannelsSequence from '@hooks/mutations/widgetChannel/useUpdateWidgetChannelsSequence'
 
-const ChannelsList = () => {
+function ChannelsList() {
   const { widgetChannels, isWidgetChannelsFetching } = useFetchWidgetChannels()
-  const { updateWidgetChannelsOrder } = useUpdateWidgetChannelsOrder()
+  const { updateWidgetChannelsOrder } = useUpdateWidgetChannelsSequence()
   const [activeId, setActiveId] = useState<string | null>(null)
   const [, setChannelOrder] = useAtom(widgetChannelOrderAtom)
   const [, setFlow] = useAtom(flowAtom)
@@ -36,7 +36,7 @@ const ChannelsList = () => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   )
 
   const handleDragStart = ({ active }) => {
@@ -58,34 +58,32 @@ const ChannelsList = () => {
       {isWidgetChannelsFetching && <Spinner />}
       {widgetChannels?.length < 1 && <Text>Create new channel from here.</Text>}
       {!!widgetChannels?.length && (
-        <>
-          <DndContext
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
-          >
-            <SortableContext items={widgetChannels.map((item: WidgetChannelType) => item.id)} strategy={verticalListSortingStrategy}>
-              <VStack>
-                {widgetChannels?.map((widgetChannel: WidgetChannelType) => (
-                  <WidgetChanel key={widgetChannel.id} widgetChannel={widgetChannel} />
-                ))}
+        <DndContext
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          onDragStart={handleDragStart}
+        >
+          <SortableContext items={widgetChannels.map((item: WidgetChannelType) => item.id)} strategy={verticalListSortingStrategy}>
+            <VStack>
+              {widgetChannels?.map((widgetChannel: WidgetChannelType) => (
+                <WidgetChanel key={widgetChannel.id} widgetChannel={widgetChannel} />
+              ))}
 
-                <DragOverlay style={{ marginTop: 0 }}>
-                  {activeId && (
-                    <WidgetChanel
-                      shadow="lg"
-                      cursor="grabbing"
-                      bg={bgColorToggle}
-                      widgetChannel={widgetChannels.find((item: WidgetChannelType) => item.id === activeId)}
-                    />
-                  )}
-                </DragOverlay>
-              </VStack>
-            </SortableContext>
-          </DndContext>
-        </>
+              <DragOverlay style={{ marginTop: 0 }}>
+                {activeId && (
+                  <WidgetChanel
+                    shadow="lg"
+                    cursor="grabbing"
+                    bg={bgColorToggle}
+                    widgetChannel={widgetChannels.find((item: WidgetChannelType) => item.id === activeId)}
+                  />
+                )}
+              </DragOverlay>
+            </VStack>
+          </SortableContext>
+        </DndContext>
       )}
     </>
   )

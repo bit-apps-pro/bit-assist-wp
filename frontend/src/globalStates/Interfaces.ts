@@ -120,7 +120,7 @@ export interface WidgetChannelType {
   widget_id: string
   channel_id: string
   config: WidgetChannelConfig
-  sequence?: number
+  sequence: number
   status?: boolean
 }
 export interface WidgetResponse {

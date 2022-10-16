@@ -68,4 +68,22 @@ final class WidgetController
         }
         return  Response::error('Widget status not changed');
     }
+
+    public function changeActive(Request $request, Widget $widget)
+    {
+        $activeWidget = Widget::where('active', 1)->where('id', '!=', $widget->id)->take(1)->get();
+        if (!is_array($activeWidget)) {
+            return Response::error('You have another active widget in your website');
+        }
+
+        $widget->update(['active' => $request->active]);
+
+        if ($widget->save()) {
+            if ($request->active) {
+                return Response::success('Widget activated');
+            }
+            return Response::success('Widget deactivated');
+        }
+        return Response::error('Something went wrong');
+    }
 }

@@ -7,7 +7,7 @@ import { useAtom } from 'jotai'
 import { useResetAtom } from 'jotai/utils'
 import { useEffect } from 'react'
 
-const EditChannel = ({ isOpen, onClose }) => {
+function EditChannel({ isOpen, onClose }) {
   const [, setFlow] = useAtom(flowAtom)
   const [, resetFlow] = useAtom(resetFlowAtom)
   const resetEditWidgetChannelId = useResetAtom(editWidgetChannelIdAtom)
@@ -34,23 +34,21 @@ const EditChannel = ({ isOpen, onClose }) => {
   }, [widgetChannel, channel])
 
   return (
-    <>
-      <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose} trapFocus={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edit Channel</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb="4">
-            {(isWidgetChannelFetching || isChannelFetching) && (
-              <Center>
-                <Spinner />
-              </Center>
-            )}
-            {!isWidgetChannelFetching && !isChannelFetching && <ChannelSettings edit={true} closeModal={onModalClose} />}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose} trapFocus={false}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Edit Channel</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb="4">
+          {(isWidgetChannelFetching || isChannelFetching) && (
+            <Center>
+              <Spinner />
+            </Center>
+          )}
+          {!isWidgetChannelFetching && !isChannelFetching && <ChannelSettings edit closeModal={onModalClose} />}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   )
 }
 

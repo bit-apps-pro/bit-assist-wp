@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { GridItem, Image, Text, VStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
@@ -40,7 +41,7 @@ function SingleChannel({ channel }) {
       }}
     >
       {channel.icon ? (
-        <Image src={channel.icon} alt={channel.name} w="10" h="10" mx='auto' />
+        <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
       ) : (
         <VStack bg="gray.200" rounded="full" w="40px" h="40px" />
       )}
