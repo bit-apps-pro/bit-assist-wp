@@ -1,0 +1,15 @@
+{
+  "name": "bit-assist-client",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "serve": "serve build"
+  },
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-xo": "^0.42.0",
+    "serve": "^14.0.1"
+  }
+}

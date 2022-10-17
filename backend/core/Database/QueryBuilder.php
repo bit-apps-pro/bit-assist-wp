@@ -1211,12 +1211,12 @@ class QueryBuilder
     protected function prepareOn($table, $firstColumn, $operator, $secondColumn, $bool = 'AND')
     {
         if (\is_null($operator) && \is_null($secondColumn)) {
-            $column = $this->_model->getTable() . '.' . $firstColumn;
+            $firstColumn = $this->_model->getTable() . '.' . $firstColumn;
             $secondColumn = $table . '.' . $firstColumn;
             $operator = '=';
         }
 
-        return compact('column', 'operator', 'secondColumn', 'bool');
+        return compact('firstColumn', 'operator', 'secondColumn', 'bool');
     }
 
     /**

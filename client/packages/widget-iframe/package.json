@@ -1,0 +1,14 @@
+{
+  "name": "widget-iframe",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "sass": "^1.54.4",
+    "vite": "^3.0.4"
+  }
+}

@@ -42,6 +42,6 @@ class Widget extends Model
 
     public function widgetChannels()
     {
-        return $this->hasMany(WidgetChannel::class);
+        return $this->hasMany(WidgetChannel::class, 'widget_id', 'id');
     }
 }

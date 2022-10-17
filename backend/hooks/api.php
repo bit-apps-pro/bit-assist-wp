@@ -2,11 +2,13 @@
 
 use BitApps\Assist\Core\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\ChannelController;
+use BitApps\Assist\HTTP\Controllers\WidgetController;
 
 if (!\defined('ABSPATH')) {
     exit;
 }
 
 Route::noAuth()->group(function () {
+    Route::post('bitAssistWidget', [WidgetController::class, 'widget']);
     Route::post('responses', [ResponseController::class, 'store']);
 });

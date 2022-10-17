@@ -2,11 +2,14 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Core\Database\Connection;
 use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
+use BitApps\Assist\Model\Channel;
 use BitApps\Assist\Model\Widget;
+use BitApps\Assist\Model\WidgetChannel;
 use WP_Error;
 
 final class WidgetController
@@ -85,5 +88,23 @@ final class WidgetController
             return Response::success('Widget deactivated');
         }
         return Response::error('Something went wrong');
+    }
+
+    public function widget(Request $request)
+    {
+        $widget = Widget::where('status', 1)->where('active', 1)
+        ->select(['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status'])->first();
+
+        $widget->widget_channels = WidgetChannel::where('widget_id', $widget->id)->orderBy('sequence')->get();
+        $channels = Channel::whereIn('id', array_column($widget->widget_channels, 'channel_id'))->get();
+
+        foreach ($widget->widget_channels as $key => $value) {
+            $channel = array_filter($channels, function ($channel) use ($value) {
+                return $channel->id == $value->channel_id;
+            });
+            $widget->widget_channels[$key]->channel = [...$channel][0];
+        }
+
+        return $widget;
     }
 }

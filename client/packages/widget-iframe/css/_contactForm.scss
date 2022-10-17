@@ -1,0 +1,53 @@
+#formBody {
+  &.hide {
+    display: none;
+  }
+}
+
+.formControl {
+  width: 100%;
+  color: #a0a0a0;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #e7e7e7;
+  &::placeholder {
+    color: #b1b1b1;
+  }
+}
+
+button[type='submit'] {
+  border-radius: 10px;
+  padding: 8px 12px;
+  width: 100%;
+  margin-top: 8px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--card-text-color);
+  background-color: var(--card-theme-color);
+  text-shadow: 0 1px 1px rgba(#000, 0.25);
+  &:hover {
+    color: var(--card-text-color);
+    background-color: var(--card-theme-color);
+  }
+  &.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.gdprContainer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #a1a1a1;
+  margin-bottom: 8px;
+  a {
+    color: #a1a1a1;
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,96 @@
+#widgetBubbleRow {
+  max-width: 100%;
+  display: flex;
+  gap: 30px;
+}
+
+#widgetBubbleWrapper {
+  position: relative;
+  width: var(--widget-size);
+  min-width: var(--widget-size);
+  height: var(--widget-size);
+  min-height: var(--widget-size);
+  filter: drop-shadow(0 1px 4px #00000018) drop-shadow(0 2px 12px #00000016);
+}
+
+#widgetBubble {
+  color: #fff;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--widget-color);
+  &:focus-visible {
+    outline: 2px solid #000;
+  }
+  &.semiRounded {
+    border-radius: 10px;
+    mask: url(../../images/widget-button-mask.svg);
+    -webkit-mask: url(../../images/widget-button-mask.svg);
+  }
+  &.rounded {
+    border-radius: 10px;
+  }
+  &.circle {
+    border-radius: 50%;
+  }
+  &.square {
+    border-radius: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url(https://ik.imagekit.io/shuvo/widget_icons/close-icon_v7EhpuzMa.png?ik-sdk-version=javascript-1.4.3&updatedAt=1659862519968);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%;
+    filter: brightness(0) var(--widget-bubble-icon-color);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity var(--transition-duration) ease-in-out, transform var(--transition-duration) ease-in-out;
+  }
+  &.open {
+    #widget-img {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    & ~ #credit {
+      opacity: 1;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+#widget-img {
+  transition: opacity var(--transition-duration) ease-in-out, transform var(--transition-duration) ease-in-out;
+  &.icon {
+    width: 55%;
+    height: 55%;
+    object-fit: contain;
+    filter: var(--widget-bubble-icon-color);
+  }
+  &.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  &::selection {
+    background: transparent;
+  }
+}

@@ -1,0 +1,44 @@
+:root {
+  --widget-color: #00ffa3;
+  --widget-black: #141844;
+  --widget-size: 60px;
+  --transition-duration: 300ms;
+  --card-theme-color: #23c88c;
+  --card-text-color: #fff;
+  --widget-bubble-icon-color: invert(0);
+  --modal-title-height: 0px;
+  --modal-padding: 30px;
+  --client-win-width: 0;
+  --widget-padding: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+//skeleton loader
+.loader{
+  background: rgb(255, 255, 255);
+  width:200px;
+  height: 70px;
+  background-image: linear-gradient(90deg, #e9e9e9 0px, #f7f7f7 30px, #ebebeb 60px);
+  background-size: 200%;
+  animation: skeleton 1s infinite ease-out;
+}
+
+@import './widget';
+@import './widgetBubble';
+@import './callToAction';
+@import './card';
+@import './channels';
+@import './contactForm';
+@import './listItem';
+@import './toast';
+@import './keyframes';

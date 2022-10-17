@@ -9,15 +9,13 @@ use BitApps\Assist\Core\Database\Model;
  */
 class Channel extends Model
 {
-    protected $casts = [
-        'default' => 'object',
-        'status'  => 'int',
-    ];
-
     protected $fillable = [
         'name',
         'icon',
-        'status',
-        'created_at',
     ];
+
+    public function widgetChannels()
+    {
+        return $this->hasMany(WidgetChannel::class, 'channel_id', 'id');
+    }
 }

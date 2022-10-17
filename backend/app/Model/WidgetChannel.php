@@ -25,11 +25,16 @@ class WidgetChannel extends Model
 
     public function widget()
     {
-        return $this->belongsTo(Widget::class);
+        return $this->belongsTo(Widget::class, 'id', 'widget_id');
+    }
+
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class, 'id', 'channel_id');
     }
 
     public function responses()
     {
-        return $this->hasMany(Response::class);
+        return $this->hasMany(Response::class, 'widget_channel_id', 'id');
     }
 }
