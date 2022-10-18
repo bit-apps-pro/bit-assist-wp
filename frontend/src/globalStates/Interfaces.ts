@@ -58,7 +58,6 @@ export interface Widget {
   delete_responses: DeleteResponses
   status: boolean
   active: boolean
-  createdAt: Date
   integrations: Integrations[]
 }
 
@@ -127,7 +126,7 @@ export interface WidgetResponse {
   id: string
   widget_channel_id: string
   response: JSON
-  createdAt: string
+  created_at: string
 }
 export interface Flow {
   step: number

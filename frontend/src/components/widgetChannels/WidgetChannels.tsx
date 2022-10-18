@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 import AddChannel from '@components/widgetChannels/AddChannel'
 import WidgetChannelsList from '@components/widgetChannels/WidgetChannelsList'
 
-const Channels = () => {
+function Channels() {
   return (
     <Box>
       <AddChannel />

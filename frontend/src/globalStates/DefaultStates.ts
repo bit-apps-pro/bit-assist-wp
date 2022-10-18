@@ -32,6 +32,5 @@ export const WidgetDefault = {
   },
   status: true,
   active: false,
-  createdAt: new Date(),
   integrations: [],
 }

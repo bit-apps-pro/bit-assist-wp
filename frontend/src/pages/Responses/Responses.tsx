@@ -174,7 +174,7 @@ function Responses() {
                         : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
                     </Td>
                   ))}
-                  <Td>{convertDate(widgetResponse.createdAt)}</Td>
+                  <Td>{convertDate(widgetResponse.created_at)}</Td>
                 </Tr>
               ))}
             {widgetResponses?.length < 1 && (
@@ -190,7 +190,7 @@ function Responses() {
         <Pagination
           pageNumber={pageNumber}
           pageLimit={pageLimit}
-          totalPages={Math.floor(othersData?.totalResponses || 0 / pageLimit)}
+          totalPages={Math.floor((othersData?.totalResponses || 0) / pageLimit)}
           setPageNumber={setPageNumber}
           setPageLimit={setPageLimit}
         >

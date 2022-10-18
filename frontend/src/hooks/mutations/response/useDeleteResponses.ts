@@ -7,7 +7,7 @@ export default function useDeleteResponses(pageLimit: number, pageNumber: number
   const { widgetChannelId } = useParams()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (responseIds: string[]) => request(`responses/${responseIds}`, null, null, 'DELETE'),
+    async (responseIds: string[]) => request('responsesDelete', { responseIds }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['responses', [widgetChannelId, pageNumber, pageLimit]])

@@ -1,5 +1,4 @@
-import {
-  Button,
+import { Button,
   FormControl,
   FormLabel,
   Input,
@@ -11,8 +10,7 @@ import {
   SimpleGrid,
   Stack,
   useColorModeValue,
-  VStack,
-} from '@chakra-ui/react'
+  VStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
@@ -20,21 +18,19 @@ import { TColor } from '@atomik-color/core/dist/types'
 import { str2Color } from '@atomik-color/core'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import CustomFormField from '@components/widgetChannels/channels/Fields/CustomFormField'
-import {
-  closestCenter,
+import { closestCenter,
   DndContext,
   DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-} from '@dnd-kit/core'
+  useSensors } from '@dnd-kit/core'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
 import StoreResponses from '@components/widgetChannels/StoreResponses'
 
-const CustomForm = () => {
+function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [activeId, setActiveId] = useState<number | null>(null)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
@@ -107,7 +103,7 @@ const CustomForm = () => {
 
   return (
     <>
-      <VStack alignSelf={'center'} shadow="base" w="full" maxW="full" borderWidth={1} p={[2, 4]} rounded={'sm'}>
+      <VStack alignSelf="center" shadow="base" w="full" maxW="full" borderWidth={1} p={[2, 4]} rounded="sm">
         {flow.config?.card_config?.form_fields && (
           <DndContext
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -121,9 +117,7 @@ const CustomForm = () => {
               strategy={verticalListSortingStrategy}
             >
               <VStack w="full">
-                {flow.config.card_config.form_fields.map((field, index) => {
-                  return <CustomFormField key={field.id} id={index} field={field} />
-                })}
+                {flow.config.card_config.form_fields.map((field, index) => <CustomFormField key={field.id} id={index} field={field} />)}
 
                 <DragOverlay style={{ marginTop: 0 }}>
                   {activeId && (
@@ -155,7 +149,7 @@ const CustomForm = () => {
                 <Button onClick={() => handleAddField('date')}>Date</Button>
                 <Button onClick={() => handleAddField('textarea')}>Textarea</Button>
                 <Button onClick={() => handleAddField('GDPR')}>GDPR</Button>
-                {/* <Button onClick={() => handleAddField('file')}>File</Button> 
+                {/* <Button onClick={() => handleAddField('file')}>File</Button>
                 <Button onClick={() => handleAddField('select')}>Select</Button>
                 <Button onClick={() => handleAddField('rating')}>Rating</Button>
                 <Button onClick={() => handleAddField('emoji')}>Emoji</Button>
@@ -185,7 +179,7 @@ const CustomForm = () => {
         />
       </FormControl>
 
-      <Stack w={'full'} spacing="0" gap="2" flexDirection={['column', 'row']}>
+      <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
         <FormControl>
           <FormLabel>Form Theme Color</FormLabel>
           <ColorPickerWrap

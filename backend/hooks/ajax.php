@@ -2,6 +2,7 @@
 
 use BitApps\Assist\Core\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\ChannelController;
+use BitApps\Assist\HTTP\Controllers\ResponseController;
 use BitApps\Assist\HTTP\Controllers\WidgetChannelController;
 use BitApps\Assist\HTTP\Controllers\WidgetController;
 
@@ -41,9 +42,8 @@ Route::noAuth()->group(function () {
     Route::put('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'update']);
     Route::destroy('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'destroy']);
 
-    Route::get('widgetChannels/{widgetChannelId}/responses', [ResponseController::class, 'index']);
-    Route::get('responses/{response}', [ResponseController::class, 'show']);
+    Route::get('responses/{widgetChannelId}', [ResponseController::class, 'index']);
+    Route::get('responses/{widgetChannelId}/othersData', [ResponseController::class, 'othersData']);
     Route::post('responses', [ResponseController::class, 'store']);
-    Route::put('responses/{response}', [ResponseController::class, 'update']);
-    Route::destroy('responses/{response}', [ResponseController::class, 'destroy']);
+    Route::post('responsesDelete', [ResponseController::class, 'destroy']);
 })->middleware('nonce:admin');

@@ -11,7 +11,9 @@ interface PaginationProps {
   setPageLimit: (pageNumber: number | ((pageNumber: number) => number)) => void
 }
 
-const Pagination = ({ children, pageNumber, pageLimit, totalPages, setPageNumber, setPageLimit }: PaginationProps) => {
+function Pagination({
+  children, pageNumber, pageLimit, totalPages, setPageNumber, setPageLimit,
+}: PaginationProps) {
   const validTotalPages = totalPages > 0 ? totalPages : 1
 
   const handlePageLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +29,7 @@ const Pagination = ({ children, pageNumber, pageLimit, totalPages, setPageNumber
   }
 
   return (
-    <Stack alignItems="center" gap="3" justifyContent={['center', 'space-between']} direction={'row'} flexWrap="wrap" mt="4" w="full">
+    <Stack alignItems="center" gap="3" justifyContent={['center', 'space-between']} direction="row" flexWrap="wrap" mt="4" w="full">
       <HStack>
         <Select id="page_limit" maxW="20" value={pageLimit} onChange={handlePageLimitChange}>
           <option value={10}>10</option>
@@ -63,7 +65,12 @@ const Pagination = ({ children, pageNumber, pageLimit, totalPages, setPageNumber
         </Button>
 
         <Text whiteSpace="nowrap">
-          {pageNumber} / {validTotalPages} page
+          {pageNumber}
+          {' '}
+          /
+          {validTotalPages}
+          {' '}
+          page
         </Text>
       </HStack>
     </Stack>

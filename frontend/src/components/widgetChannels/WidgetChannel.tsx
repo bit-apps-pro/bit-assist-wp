@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Box,
   Button,
   Flex,
@@ -111,7 +112,7 @@ function WidgetChannelType({ widgetChannel, ...props }) {
                 Edit
               </MenuItem>
               {widgetChannel.config?.card_config?.form_fields && (
-                <Link href={`/responses/${widgetChannel.id}`}>
+                <Link to={`/responses/${widgetChannel.id}`}>
                   <MenuItem icon={<FiList />}>Responses</MenuItem>
                 </Link>
               )}

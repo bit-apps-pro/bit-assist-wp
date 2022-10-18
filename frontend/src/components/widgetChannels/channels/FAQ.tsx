@@ -5,21 +5,19 @@ import React, { useEffect, useState } from 'react'
 import { TColor } from '@atomik-color/core/dist/types'
 import { str2Color } from '@atomik-color/core'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
-import {
-  closestCenter,
+import { closestCenter,
   DndContext,
   DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-} from '@dnd-kit/core'
+  useSensors } from '@dnd-kit/core'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
 import FaqField from '@components/widgetChannels/channels/Fields/FaqField'
 
-const CustomForm = () => {
+function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [activeId, setActiveId] = useState<number | null>(null)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
@@ -79,7 +77,7 @@ const CustomForm = () => {
 
   return (
     <>
-      <VStack alignSelf={'center'} w="full">
+      <VStack alignSelf="center" w="full">
         {flow.config?.card_config?.faqs && (
           <DndContext
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -93,9 +91,7 @@ const CustomForm = () => {
               strategy={verticalListSortingStrategy}
             >
               <VStack w="full">
-                {flow.config.card_config.faqs.map((field, index) => {
-                  return <FaqField key={field.id} id={index} field={field} />
-                })}
+                {flow.config.card_config.faqs.map((field, index) => <FaqField key={field.id} id={index} field={field} />)}
 
                 <DragOverlay style={{ marginTop: 0 }}>
                   {activeId && (
@@ -118,7 +114,7 @@ const CustomForm = () => {
         </Button>
       </VStack>
 
-      <Stack w={'full'} spacing="0" gap="2" flexDirection={['column', 'row']}>
+      <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
         <FormControl>
           <FormLabel>Form Theme Color</FormLabel>
           <ColorPickerWrap

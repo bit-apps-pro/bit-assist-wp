@@ -3,7 +3,7 @@ import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
-const Tawk = () => {
+function Tawk() {
   const [, setFlow] = useAtom(flowAtom)
 
   useEffect(() => {
@@ -17,7 +17,8 @@ const Tawk = () => {
 
   return (
     <Text>
-      Make Sure to add the Tawk.to script to your website.{' '}
+      Make Sure to add the Tawk.to script to your website.
+      {' '}
       <Link href="https://www.tawk.to/" isExternal textDecoration="underline">
         Learn more
       </Link>

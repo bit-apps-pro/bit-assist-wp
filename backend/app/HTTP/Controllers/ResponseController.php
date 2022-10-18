@@ -2,45 +2,65 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Core\Http\Client\HttpClient;
 use BitApps\Assist\Core\Http\Response as Res;
 use BitApps\Assist\Core\Http\Request\Request;
-use BitApps\Assist\HTTP\Requests\ResponseStoreRequest;
-use BitApps\Assist\HTTP\Requests\ResponseUpdateRequest;
 use BitApps\Assist\Model\Response;
+use BitApps\Assist\Model\WidgetChannel;
 
 final class ResponseController
 {
-    public function index()
+    public function index($widgetChannelId)
     {
-        return Response::get(['id', 'name', 'status']);
+        return Response::where('widget_channel_id', $widgetChannelId)->get();
     }
 
-    public function show(Response $response)
+    public function othersData($widgetChannelId)
     {
-        if ($response->exists()) {
-            return $response;
+        if (is_null($widgetChannelId)) {
+            return Res::error('WidgetChannel id is required');
         }
-        return Response::error($response);
+
+        $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
+        $totalResponses = Response::where('widget_channel_id', $widgetChannelId)->count();
+
+        return [
+            'channelName'    => $config->title ?? 'Untitled',
+            'formFields'     => $config->card_config->form_fields ?? [],
+            'totalResponses' => $totalResponses,
+        ];
     }
 
     public function store(Request $request)
     {
-        Response::insert($request->validated());
+        $formData = $request->formData;
+        $widgetChannelId = $formData['widget_channel_id'] ?? null;
+        if (is_null($widgetChannelId)) {
+            return Res::error('WidgetChannel id is required');
+        }
 
-        return Response::success('ResponseChannel created successfully');
+        $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
+
+        if (isset($config->store_responses) && !empty($config->card_config->webhook_url)) {
+            $webhook = new HttpClient();
+            $webhook->request($config->card_config->webhook_url, 'POST', json_encode($formData));
+        }
+
+        unset($formData['widget_channel_id']);
+        if (isset($config->store_responses) && !empty($config->store_responses)) {
+            Response::insert([
+                'widget_channel_id' => $widgetChannelId,
+                'response'          => $formData
+            ]);
+        }
+
+        return Res::success('Form Submitted');
     }
 
-    public function update(Request $request, Response $response)
+    public function destroy(Request $request)
     {
-        $response->update($request->validated());
+        Response::whereIn('id', $request->responseIds)->delete();
 
-        return $response->save();
-    }
-
-    public function destroy(Response $response)
-    {
-        $response->delete();
-
-        return Response::success('Response deleted');
+        return Res::success('Selected response deleted');
     }
 }

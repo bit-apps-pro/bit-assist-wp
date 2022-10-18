@@ -645,7 +645,7 @@ export default class Widget {
 				body: JSON.stringify({ formData: data }),
 			}).then(res => res.json())
 
-			if (responseData?.success) {
+			if (responseData?.status === 'success') {
 				await this.#showToast('success')
 			} else {
 				await this.#showToast('error')

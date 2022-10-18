@@ -92,18 +92,20 @@ final class WidgetController
 
     public function widget(Request $request)
     {
-        $widget = Widget::where('status', 1)->where('active', 1)
-        ->select(['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status'])->first();
+        $widget = Widget::where('status', 1)->where('active', 1)->select(
+            ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']
+        )->first();
+        $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_id', 'config']);
+        $channels = Channel::whereIn('id', array_column($widgetChannels, 'channel_id'))->get(['id', 'name', 'icon']);
 
-        $widget->widget_channels = WidgetChannel::where('widget_id', $widget->id)->orderBy('sequence')->get();
-        $channels = Channel::whereIn('id', array_column($widget->widget_channels, 'channel_id'))->get();
-
-        foreach ($widget->widget_channels as $key => $value) {
+        foreach ($widgetChannels as $key => $value) {
             $channel = array_filter($channels, function ($channel) use ($value) {
                 return $channel->id == $value->channel_id;
             });
-            $widget->widget_channels[$key]->channel = [...$channel][0];
+            $widgetChannels[$key]->channel = [...$channel][0];
         }
+
+        $widget->widget_channels = $widgetChannels;
 
         return $widget;
     }
