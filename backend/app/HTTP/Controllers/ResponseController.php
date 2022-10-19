@@ -10,11 +10,11 @@ use BitApps\Assist\Model\WidgetChannel;
 
 final class ResponseController
 {
-    public function index(Request $request, $widgetChannelId)
+    public function index($widgetChannelId, $page, $limit)
     {
         return Response::where('widget_channel_id', $widgetChannelId)
-        ->skip(($request->page ?? 1) * $request->limit - $request->limit)
-        ->take($request->limit)
+        ->skip(($page * $limit) - $limit)
+        ->take($limit)
         ->desc()
         ->get();
     }
@@ -58,7 +58,7 @@ final class ResponseController
             ]);
         }
 
-        return Res::success('Form Submitted');
+        return Res::success(!empty($config->success_message) ? $config->success_message : 'Submitted successfully');
     }
 
     public function destroy(Request $request)

@@ -91,6 +91,7 @@ export interface CardConfig {
   card_bg_color?: TColor
   card_text_color?: TColor
   submit_button_text?: string
+  success_message?: string
   isChatWidget?: boolean
   webhook_url?: string
   form_fields?: DynamicFormField[]

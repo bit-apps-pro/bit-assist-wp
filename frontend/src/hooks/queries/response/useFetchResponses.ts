@@ -7,7 +7,7 @@ export default function useFetchResponses(pageLimit: number, pageNumber: number)
 
   const { data, isLoading, isFetching, isFetched } = useQuery(
     ['responses', [widgetChannelId, pageNumber, pageLimit]],
-    async () => request(`responses/${widgetChannelId}`, { page: pageNumber, limit: pageLimit }),
+    async () => request(`responses/${widgetChannelId}/${pageNumber}/${pageLimit}`, null, null, 'GET'),
     {
       enabled: (!!widgetChannelId && !!pageLimit && !!pageNumber),
       keepPreviousData: true,

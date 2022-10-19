@@ -6,26 +6,26 @@ interface PaginationProps {
   children: React.ReactNode
   pageNumber: number
   pageLimit: number
-  totalPages: number
+  totalResponses: number
   setPageNumber: (pageNumber: number | ((pageNumber: number) => number)) => void
   setPageLimit: (pageNumber: number | ((pageNumber: number) => number)) => void
 }
 
 function Pagination({
-  children, pageNumber, pageLimit, totalPages, setPageNumber, setPageLimit,
+  children, pageNumber, pageLimit, totalResponses, setPageNumber, setPageLimit,
 }: PaginationProps) {
-  const validTotalPages = totalPages > 0 ? totalPages : 1
+  const totalPages = Math.ceil(totalResponses / pageLimit)
 
   const handlePageLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newPageLimit = Number(e.target.value)
-    const newPageNumber = Math.ceil(pageNumber / newPageLimit) * newPageLimit
+    const newTotalPages = Math.ceil(totalResponses / newPageLimit)
 
     setPageLimit(newPageLimit)
-    if (newPageNumber <= validTotalPages) {
-      setPageNumber(newPageNumber)
+    if (pageNumber > newTotalPages) {
+      setPageNumber(newTotalPages)
       return
     }
-    setPageNumber(validTotalPages)
+    setPageNumber(pageNumber)
   }
 
   return (
@@ -58,7 +58,7 @@ function Pagination({
           size="sm"
           rounded="full"
           rightIcon={<FiArrowRight />}
-          disabled={pageNumber === validTotalPages}
+          disabled={pageNumber === totalPages}
           onClick={() => setPageNumber((prev: number) => prev + 1)}
         >
           Next
@@ -68,7 +68,7 @@ function Pagination({
           {pageNumber}
           {' '}
           /
-          {validTotalPages}
+          {totalPages}
           {' '}
           page
         </Text>

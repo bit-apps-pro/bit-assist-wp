@@ -108,7 +108,11 @@ function KnowledgeBase() {
       <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
         <FormControl>
           <FormLabel>Form Theme Color</FormLabel>
-          <ColorPickerWrap color={flow.config?.card_config?.card_bg_color} handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')} />
+          <ColorPickerWrap
+            color={flow.config?.card_config?.card_bg_color}
+            handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
+            handleClose={() => {}}
+          />
         </FormControl>
 
         <FormControl>
@@ -116,6 +120,7 @@ function KnowledgeBase() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_text_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
+            handleClose={() => {}}
           />
         </FormControl>
       </Stack>

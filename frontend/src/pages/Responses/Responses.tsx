@@ -190,7 +190,8 @@ function Responses() {
         <Pagination
           pageNumber={pageNumber}
           pageLimit={pageLimit}
-          totalPages={Math.ceil((othersData?.totalResponses || 0) / pageLimit)}
+          totalResponses={othersData?.totalResponses || 0}
+          // totalPages={Math.ceil((othersData?.totalResponses || 0) / pageLimit)}
           setPageNumber={setPageNumber}
           setPageLimit={setPageLimit}
         >

@@ -149,13 +149,13 @@ final class RouteRegistrar
 
     public function hasRegex()
     {
-        if (!isset($this->_path) || (isset($this->_regexMatched) && empty($this->_regexMatched))) {
+        if (!isset($this->_path) || (isset($this->_regexMatched) && empty($this->_regexMatched[0]))) {
             return false;
         }
 
         return !(
-            preg_match('/\{\w+\}\??/', $this->_path, $this->_regexMatched) === false
-            || empty($this->_regexMatched)
+            preg_match_all('/\{\w+\??\}\??/', $this->_path, $this->_regexMatched) === false
+            || empty($this->_regexMatched[0])
         );
     }
 
@@ -358,8 +358,8 @@ final class RouteRegistrar
 
     private function makeRegex()
     {
-        $path = str_replace('/', '\\/', $this->_path);
-        foreach ($this->_regexMatched as $param) {
+        $path = str_replace('/', '\\/?', $this->_path);
+        foreach ($this->_regexMatched[0] as $param) {
             $name = trim($param, '{}?');
             $required = true;
             if (strpos($param, '?')) {
@@ -367,9 +367,8 @@ final class RouteRegistrar
             }
 
             $this->setRouteParam($name, ['required' => $required]);
-            $replaceStr = '{' . $name . '}' . ($required ? '' : '?');
             $regexToSet = "(?P<{$name}>[^\\/]+)" . ($required ? '' : '?');
-            $path = str_replace($replaceStr, $regexToSet, $path);
+            $path = str_replace($param, $regexToSet, $path);
         }
 
         return $path;

@@ -42,8 +42,8 @@ Route::noAuth()->group(function () {
     Route::put('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'update']);
     Route::destroy('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'destroy']);
 
-    Route::post('responses/{widgetChannelId}', [ResponseController::class, 'index']);
     Route::get('responses/{widgetChannelId}/othersData', [ResponseController::class, 'othersData']);
+    Route::get('responses/{widgetChannelId}/{page}/{limit}', [ResponseController::class, 'index']);
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('responsesDelete', [ResponseController::class, 'destroy']);
 })->middleware('nonce:admin');

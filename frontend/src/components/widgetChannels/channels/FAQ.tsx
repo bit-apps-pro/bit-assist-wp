@@ -120,6 +120,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_bg_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
+            handleClose={() => {}}
           />
         </FormControl>
 
@@ -128,6 +129,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_text_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
+            handleClose={() => {}}
           />
         </FormControl>
       </Stack>
