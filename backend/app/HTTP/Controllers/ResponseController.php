@@ -42,15 +42,15 @@ final class ResponseController
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
+        unset($formData['widget_channel_id']);
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
-        if (isset($config->store_responses) && !empty($config->card_config->webhook_url)) {
+        if (isset($config->card_config->webhook_url) && !empty($config->card_config->webhook_url)) {
             $webhook = new HttpClient();
             $webhook->request($config->card_config->webhook_url, 'POST', json_encode($formData));
         }
 
-        unset($formData['widget_channel_id']);
         if (isset($config->store_responses) && !empty($config->store_responses)) {
             Response::insert([
                 'widget_channel_id' => $widgetChannelId,
