@@ -167,6 +167,16 @@ function CustomForm() {
             onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
           />
         </FormControl>
+
+        <FormControl>
+          <FormLabel htmlFor="successMessage">Success Message</FormLabel>
+          <Input
+            id="successMessage"
+            value={flow.config?.card_config?.success_message}
+            placeholder="Submitted successfully"
+            onChange={(e) => handleFormChange(e.target.value, 'success_message')}
+          />
+        </FormControl>
       </VStack>
 
       <FormControl>
@@ -185,6 +195,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_bg_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
+            handleClose={() => {}}
           />
         </FormControl>
 
@@ -193,6 +204,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_text_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
+            handleClose={() => {}}
           />
         </FormControl>
       </Stack>

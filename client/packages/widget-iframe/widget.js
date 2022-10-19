@@ -646,9 +646,9 @@ export default class Widget {
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
-				await this.#showToast('success')
+				await this.#showToast('success', responseData?.data)
 			} else {
-				await this.#showToast('error')
+				await this.#showToast('error', responseData?.data)
 			}
 
 			e.target.reset()
@@ -663,7 +663,7 @@ export default class Widget {
 		}
 	}
 
-	#showToast = async type => {
+	#showToast = async (type, message) => {
 		if (!this.#cardBody.contains(this.#formBody)) {
 			return
 		}
@@ -676,7 +676,7 @@ export default class Widget {
         <div class="toast-text">
           <div class="toast-text-title">${type === 'success' ? 'Success' : 'Error'}</div>
           <div class="toast-text-body">${
-						type === 'success' ? 'Form submitted successfully' : 'Something went wrong'
+						type === 'success' ? message : 'Something went wrong'
 					}</div>
         </div>
       </div>
