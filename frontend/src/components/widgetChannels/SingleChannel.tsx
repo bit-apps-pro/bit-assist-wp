@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import { GridItem, Image, Text, VStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { Channel } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
 import { useParams } from 'react-router-dom'
 
-function SingleChannel({ channel }) {
+function SingleChannel({ channel }: { channel: Channel }) {
   const { widgetId } = useParams()
   const [, setFlow] = useAtom(flowAtom)
 

@@ -90,7 +90,7 @@ final class WidgetController
         return Response::error('Something went wrong');
     }
 
-    public function widget(Request $request)
+    public function bitAssistWidget(Request $request)
     {
         $widget = Widget::where('status', 1)->where('active', 1)->select(
             ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']

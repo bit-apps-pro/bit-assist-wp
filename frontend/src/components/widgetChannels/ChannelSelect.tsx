@@ -4,7 +4,7 @@ import SingleChannel from '@components/widgetChannels/SingleChannel'
 import { Channel } from '@globalStates/Interfaces'
 import { useState } from 'react'
 
-const ChannelSelect = () => {
+function ChannelSelect() {
   const [filter, setFilter] = useState('')
   const { channels, isChannelsFetching } = useFetchChannels()
   const [filteredChannels, setFilteredChannels] = useState<Channel[]>([])

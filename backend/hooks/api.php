@@ -10,6 +10,6 @@ if (!\defined('ABSPATH')) {
 }
 
 Route::noAuth()->group(function () {
-    Route::post('bitAssistWidget', [WidgetController::class, 'widget']);
+    Route::post('bitAssistWidget', [WidgetController::class, 'bitAssistWidget']);
     Route::post('responses', [ResponseController::class, 'store']);
 });
