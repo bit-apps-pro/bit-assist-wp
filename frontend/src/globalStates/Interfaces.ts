@@ -125,7 +125,7 @@ export interface WidgetChannelType {
 export interface WidgetResponse {
   id: string
   widget_channel_id: string
-  response: JSON
+  response: any
   created_at: string
 }
 export interface Flow {

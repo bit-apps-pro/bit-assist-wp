@@ -10,9 +10,13 @@ use BitApps\Assist\Model\WidgetChannel;
 
 final class ResponseController
 {
-    public function index($widgetChannelId)
+    public function index(Request $request, $widgetChannelId)
     {
-        return Response::where('widget_channel_id', $widgetChannelId)->get();
+        return Response::where('widget_channel_id', $widgetChannelId)
+        ->skip(($request->page ?? 1) * $request->limit - $request->limit)
+        ->take($request->limit)
+        ->desc()
+        ->get();
     }
 
     public function othersData($widgetChannelId)

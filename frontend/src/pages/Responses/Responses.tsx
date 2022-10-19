@@ -48,7 +48,7 @@ function Responses() {
   const [checkedItems, setCheckedItems] = useState<string[]>([])
   const navigate = useNavigate()
   const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure()
-  const btnRef = useRef()
+  const btnRef = useRef<HTMLTableCellElement | null>(null)
   const drawerResponse = useRef< object | null>()
 
   const handleDeleteWidget = async () => {
@@ -139,7 +139,7 @@ function Responses() {
                 <Checkbox
                   colorScheme="purple"
                   isChecked={widgetResponses?.length && widgetResponses.length === checkedItems?.length}
-                  isIndeterminate={checkedItems?.length && checkedItems.length < widgetResponses?.length}
+                  isIndeterminate={!!(checkedItems?.length && checkedItems.length < widgetResponses?.length)}
                   onChange={handleCheckAllBox}
                   aria-label="select all"
                 />
@@ -190,7 +190,7 @@ function Responses() {
         <Pagination
           pageNumber={pageNumber}
           pageLimit={pageLimit}
-          totalPages={Math.floor((othersData?.totalResponses || 0) / pageLimit)}
+          totalPages={Math.ceil((othersData?.totalResponses || 0) / pageLimit)}
           setPageNumber={setPageNumber}
           setPageLimit={setPageLimit}
         >
@@ -200,7 +200,7 @@ function Responses() {
 
       <Drawer isOpen={isDrawerOpen} placement="right" onClose={handleDrawerClose} finalFocusRef={btnRef}>
         <DrawerOverlay bg="blackAlpha.400" />
-        <DrawerContent>
+        <DrawerContent marginTop="32px">
           <DrawerCloseButton />
           <DrawerHeader>Response Details</DrawerHeader>
 
