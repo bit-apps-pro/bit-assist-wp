@@ -17,7 +17,7 @@ class WidgetChannel extends Model
 
     protected $fillable = [
         'widget_id',
-        'channel_id',
+        'channel_name',
         'config',
         'sequence',
         'status',
@@ -26,11 +26,6 @@ class WidgetChannel extends Model
     public function widget()
     {
         return $this->belongsTo(Widget::class, 'id', 'widget_id');
-    }
-
-    public function channel()
-    {
-        return $this->belongsTo(Channel::class, 'id', 'channel_id');
     }
 
     public function responses()

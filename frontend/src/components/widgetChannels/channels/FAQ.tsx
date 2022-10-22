@@ -52,8 +52,8 @@ function CustomForm() {
   const handleDragEnd = ({ active, over }) => {
     setActiveId(null)
     if (active?.id !== over?.id) {
-      const oldIndex = flow.config?.card_config?.faqs.findIndex((item) => item?.id === active?.id)
-      const newIndex = flow.config?.card_config?.faqs.findIndex((item) => item?.id === over?.id)
+      const oldIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === active?.id)
+      const newIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === over?.id)
       const newWidgetChannels = arrayMove(flow.config?.card_config?.faqs, oldIndex, newIndex)
       setFlow((prev) => {
         prev.config.card_config.faqs = newWidgetChannels
@@ -96,7 +96,6 @@ function CustomForm() {
                 <DragOverlay style={{ marginTop: 0 }}>
                   {activeId && (
                     <FaqField
-                      shadow="lg"
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}

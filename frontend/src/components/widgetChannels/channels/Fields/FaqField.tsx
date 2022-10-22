@@ -8,8 +8,21 @@ import { useState } from 'react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { Editor } from '@tinymce/tinymce-react'
+import { Faqs } from '@globalStates/Interfaces'
 
-function FaqField({ id, field, ...props }) {
+interface FaqFieldProps {
+  id: number
+  field: Faqs
+  cursor?: string
+  bg?: string
+}
+
+FaqField.defaultProps = {
+  cursor: 'grab',
+  bg: 'none',
+}
+
+function FaqField({ id, field, cursor, bg }: FaqFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()
@@ -30,7 +43,7 @@ function FaqField({ id, field, ...props }) {
 
   const handleDelete = (index: number) => {
     setFlow((prev) => {
-      prev.config.card_config.faqs.splice(index, 1)
+      prev.config?.card_config?.faqs?.splice(index, 1)
     })
   }
 
@@ -47,8 +60,8 @@ function FaqField({ id, field, ...props }) {
           {...listeners}
           {...attributes}
           rounded="sm"
-          bg={props.bg}
-          cursor={props.cursor || 'grab'}
+          bg={bg}
+          cursor={cursor}
           justifyContent="center"
           alignItems="center"
           w={6}

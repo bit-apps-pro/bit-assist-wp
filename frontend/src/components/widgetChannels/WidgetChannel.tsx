@@ -29,8 +29,22 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
+import { WidgetChannelType } from '@globalStates/Interfaces'
 
-function WidgetChannelType({ widgetChannel, ...props }) {
+interface WidgetChannelProps {
+  widgetChannel: WidgetChannelType
+  shadow?: string
+  cursor?: string
+  bg?: string
+}
+
+WidgetChannel.defaultProps = {
+  shadow: 'none',
+  cursor: 'grab',
+  bg: 'none',
+}
+
+function WidgetChannel({ widgetChannel, shadow, cursor, bg }: WidgetChannelProps) {
   const tempWidgetChannelId = useRef('')
   const [, setEditWidgetChannelId] = useAtom(editWidgetChannelIdAtom)
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
@@ -77,7 +91,7 @@ function WidgetChannelType({ widgetChannel, ...props }) {
         ref={setNodeRef}
         borderWidth={1}
         bg={channelColorToggle}
-        shadow={props.shadow || 'none'}
+        shadow={shadow}
         justifyContent="space-between"
       >
         <HStack>
@@ -85,8 +99,8 @@ function WidgetChannelType({ widgetChannel, ...props }) {
             {...listeners}
             {...attributes}
             rounded="sm"
-            bg={props.bg}
-            cursor={props.cursor || 'grab'}
+            bg={bg}
+            cursor={cursor}
             justifyContent="center"
             alignItems="center"
             w={6}
@@ -153,4 +167,4 @@ function WidgetChannelType({ widgetChannel, ...props }) {
   )
 }
 
-export default WidgetChannelType
+export default WidgetChannel

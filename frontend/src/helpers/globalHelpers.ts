@@ -89,8 +89,10 @@ export const deepCopy = (target:object, map = new WeakMap()) => {
 }
 
 export const sortArrOfObj = (data, sortLabel) => data.sort((a, b) => {
-  if (a?.[sortLabel]?.toLowerCase() < b?.[sortLabel]?.toLowerCase()) return -1
-  if (a?.[sortLabel]?.toLowerCase() > b?.[sortLabel]?.toLowerCase()) return 1
+  const nameA = a?.[sortLabel]?.toLowerCase()
+  const nameB = b?.[sortLabel]?.toLowerCase()
+  if (nameA < nameB) return -1
+  if (nameA > nameB) return 1
   return 0
 })
 

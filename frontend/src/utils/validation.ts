@@ -6,3 +6,5 @@ export const widgetChannelValidate = (flowConfig: WidgetChannelConfig) => {
   }
   return { hasError: false }
 }
+
+export const otherValidate = (flowConfig: WidgetChannelConfig) => ({ hasError: false })

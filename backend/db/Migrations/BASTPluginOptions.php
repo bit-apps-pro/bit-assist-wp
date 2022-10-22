@@ -13,7 +13,6 @@ final class BASTPluginOptions extends Migration
     public function up()
     {
         Config::addOption('db_version', Config::DB_VERSION, true);
-        Config::addOption('channel_list_version', Config::CHANNEL_LIST_VERSION, true);
         Config::addOption('installed', time(), true);
         Config::addOption('version', Config::VERSION, true);
     }
@@ -22,7 +21,6 @@ final class BASTPluginOptions extends Migration
     {
         $pluginOptions = [
             Config::withPrefix('db_version'),
-            Config::withPrefix('channel_list_version'),
             Config::withPrefix('installed'),
             Config::withPrefix('version'),
         ];

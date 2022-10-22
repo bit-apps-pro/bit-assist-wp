@@ -25,8 +25,6 @@ class Config
 
     const DB_VERSION = '1.0';
 
-    const CHANNEL_LIST_VERSION = '1.0';
-
     const REQUIRED_PHP_VERSION = '5.6.4';
 
     const REQUIRED_WP_VERSION = '5.0';

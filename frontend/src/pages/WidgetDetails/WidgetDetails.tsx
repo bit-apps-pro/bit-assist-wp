@@ -35,7 +35,7 @@ function WidgetDetails() {
         <Tab rounded="md">Settings</Tab>
         <Tab rounded="md">Publish</Tab>
       </TabList>
-      <TabPanels mx="auto" borderWidth="1.5px" rounded="lg" shadow="lg" mt="2" p={[0, 4]}>
+      <TabPanels mx="auto" borderWidth="1px" rounded="lg" shadow="md" mt="2" p={[0, 4]}>
         <TabPanel>
           <WidgetChannels />
         </TabPanel>

@@ -9,10 +9,10 @@ class WidgetChannelStoreRequest extends Request
     public function rules()
     {
         return [
-            'widget_id'  => ['required'],
-            'channel_id' => ['required'],
-            'config'     => ['required'],
-            'sequence'   => ['nullable'],
+            'widget_id'    => ['required'],
+            'channel_name' => ['required'],
+            'config'       => ['required'],
+            'sequence'     => ['nullable'],
         ];
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, IconButton, Input, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
@@ -5,12 +6,27 @@ import { FiX } from 'react-icons/fi'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
+import { DynamicFormField } from '@globalStates/Interfaces'
 
-const CustomFormField = ({ id, field, ...props }) => {
+interface CustomFormFieldProps {
+  id: number
+  field: DynamicFormField
+  cursor?: string
+  bg?: string
+}
+
+CustomFormField.defaultProps = {
+  cursor: 'grab',
+  bg: 'none',
+}
+
+function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
 
-  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
+  const {
+    attributes, listeners, setNodeRef, transition, transform, isDragging,
+  } = useSortable({
     id: field.id,
   })
 
@@ -23,7 +39,7 @@ const CustomFormField = ({ id, field, ...props }) => {
 
   const handleDelete = (index: number) => {
     setFlow((prev) => {
-      prev.config.card_config.form_fields.splice(index, 1)
+      prev.config?.card_config?.form_fields?.splice(index, 1)
     })
   }
 
@@ -40,29 +56,31 @@ const CustomFormField = ({ id, field, ...props }) => {
           {...listeners}
           {...attributes}
           rounded="sm"
-          bg={props.bg}
-          cursor={props.cursor || 'grab'}
-          justifyContent={'center'}
-          alignItems={'center'}
+          bg={bg}
+          cursor={cursor}
+          justifyContent="center"
+          alignItems="center"
           w={6}
           h={8}
         >
           <DragHandleIcon aria-label="draggable button" />
         </Flex>
         <Box w="full">
-          <HStack alignItems={'flex-start'} justifyContent="space-between">
+          <HStack alignItems="flex-start" justifyContent="space-between">
             <Text fontWeight={500} mb="2">
-              {field.field_type.charAt(0).toUpperCase() + field.field_type.slice(1)} Field
+              {field?.field_type && `${field.field_type.charAt(0).toUpperCase()}${field.field_type.slice(1)}`}
+              {' '}
+              Field
               {!field.required && (
-                <Text display={'inline'} color="gray.400">
+                <Text display="inline" color="gray.400">
                   &nbsp;&nbsp;(Optional)
                 </Text>
               )}
             </Text>
-            <HStack alignItems={'center'}>
+            <HStack alignItems="center">
               <Text>Required</Text>
               <Switch
-                colorScheme={'purple'}
+                colorScheme="purple"
                 isChecked={field.required || false}
                 onChange={(e) => handleChange(e.target.checked, 'required', id)}
               />

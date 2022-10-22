@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Config;
 use BitApps\Assist\Core\Database\Connection;
 use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
@@ -95,16 +96,12 @@ final class WidgetController
         $widget = Widget::where('status', 1)->where('active', 1)->select(
             ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']
         )->first();
-        $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_id', 'config']);
-        $channels = Channel::whereIn('id', array_column($widgetChannels, 'channel_id'))->get(['id', 'name', 'icon']);
+        $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
 
+        $rootURL = (new Config())::get('ROOT_URI');
         foreach ($widgetChannels as $key => $value) {
-            $channel = array_filter($channels, function ($channel) use ($value) {
-                return $channel->id == $value->channel_id;
-            });
-            $widgetChannels[$key]->channel = [...$channel][0];
+            $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.png';
         }
-
         $widget->widget_channels = $widgetChannels;
 
         return $widget;

@@ -122,7 +122,6 @@ function CustomForm() {
                 <DragOverlay style={{ marginTop: 0 }}>
                   {activeId && (
                     <CustomFormField
-                      shadow="lg"
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}

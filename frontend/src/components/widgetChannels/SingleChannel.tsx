@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { GridItem, Image, Text, VStack } from '@chakra-ui/react'
+import { GridItem, Image, Text } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { Channel } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
@@ -9,12 +9,11 @@ function SingleChannel({ channel }: { channel: Channel }) {
   const { widgetId } = useParams()
   const [, setFlow] = useAtom(flowAtom)
 
-  const onSelectChannel = (channel_id: string, channel_name: string) => {
+  const onSelectChannel = (channel_name: string) => {
     setFlow((prev) => ({
       ...prev,
       step: 2,
       widget_id: widgetId,
-      channel_id,
       channel_name,
       config: {
         title: channel_name.replace(/-/g, ' '),
@@ -36,17 +35,13 @@ function SingleChannel({ channel }: { channel: Channel }) {
       textAlign="center"
       _hover={{ shadow: 'lg' }}
       _focusVisible={{ boxShadow: 'outline' }}
-      onClick={() => onSelectChannel(channel.id, channel.name)}
+      onClick={() => onSelectChannel(channel.name)}
       onKeyDown={(e) => {
-        if (e.key === 'Enter') onSelectChannel(channel.id, channel.name)
+        if (e.key === 'Enter') onSelectChannel(channel.name)
       }}
     >
-      {channel.icon ? (
-        <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
-      ) : (
-        <VStack bg="gray.200" rounded="full" w="40px" h="40px" />
-      )}
-      <Text>{channel.name.replace(/-/g, ' ')}</Text>
+      <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
+      <Text marginTop="1">{channel.name.replace(/-/g, ' ')}</Text>
     </GridItem>
   )
 }

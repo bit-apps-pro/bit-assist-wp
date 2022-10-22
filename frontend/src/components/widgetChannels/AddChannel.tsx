@@ -1,5 +1,4 @@
-import {
-  Button,
+import { Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -8,23 +7,41 @@ import {
   ModalCloseButton,
   useDisclosure,
   Text,
-  HStack,
-} from '@chakra-ui/react'
+  HStack } from '@chakra-ui/react'
 import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { useAtom } from 'jotai'
 import { flowAtom, resetFlowAtom } from '@globalStates/atoms'
 import { HiPlus } from 'react-icons/hi'
 import { MdArrowBackIosNew } from 'react-icons/md'
+import useToaster from '@hooks/useToaster'
+import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
+import { widgetChannelValidate } from '@utils/validation'
+import SaveButton from './SaveButton'
 
-const AddChannel = () => {
+function AddChannel() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [flow] = useAtom(flowAtom)
   const [, resetFlow] = useAtom(resetFlowAtom)
+  const toaster = useToaster()
+  const { createWidgetChannel, isWidgetChannelCreating } = useCreateWidgetChannel()
 
   const onModalClose = () => {
     onClose()
     resetFlow()
+  }
+
+  const saveFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const validated = widgetChannelValidate(flow.config)
+    if (validated.hasError) {
+      toaster('error', validated.error || 'Error')
+      return
+    }
+
+    const { status, data } = await createWidgetChannel(flow)
+    toaster(status, data)
+    if (status === 'success') onModalClose()
   }
 
   return (
@@ -56,7 +73,12 @@ const AddChannel = () => {
           <ModalCloseButton />
           <ModalBody pb="4">
             {flow.step === 1 && <ChannelSelect />}
-            {flow.step === 2 && <ChannelSettings />}
+            {flow.step === 2 && (
+              <form onSubmit={saveFormSubmit}>
+                <ChannelSettings />
+                <SaveButton isSaving={isWidgetChannelCreating} />
+              </form>
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>

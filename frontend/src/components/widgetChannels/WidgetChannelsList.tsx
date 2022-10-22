@@ -74,7 +74,7 @@ function ChannelsList() {
               <DragOverlay style={{ marginTop: 0 }}>
                 {activeId && (
                   <WidgetChanel
-                    shadow="lg"
+                    shadow="md"
                     cursor="grabbing"
                     bg={bgColorToggle}
                     widgetChannel={widgetChannels.find((item: WidgetChannelType) => item.id === activeId)}

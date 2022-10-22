@@ -5,7 +5,6 @@ namespace BitApps\Assist\Providers;
 use BitApps\Assist\Config;
 use BitApps\Assist\Core\Hooks\Hooks;
 use BitApps\Assist\Core\Installer;
-use BitApps\Assist\Model\Channel;
 
 class InstallerProvider
 {
@@ -77,7 +76,6 @@ class InstallerProvider
     {
         $migrations = [
             'BASTWidgetsTableMigration',
-            'BASTChannelsTableMigration',
             'BASTWidgetChannelsTableMigration',
             'BASTResponsesTableMigration',
             'BASTPluginOptions',
@@ -98,7 +96,6 @@ class InstallerProvider
     {
         $migrations = [
             'BASTWidgetsTableMigration',
-            'BASTChannelsTableMigration',
             'BASTWidgetChannelsTableMigration',
             'BASTResponsesTableMigration',
             'BASTPluginOptions',

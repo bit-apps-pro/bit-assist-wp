@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, IconButton, Input, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
@@ -7,14 +8,29 @@ import { useState } from 'react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { Editor } from '@tinymce/tinymce-react'
+import { KnowledgeBase } from '@globalStates/Interfaces'
 
-const KnowledgeBaseField = ({ id, field, ...props }) => {
+interface KnowledgeBaseFieldProps {
+  id: number
+  field: KnowledgeBase
+  cursor?: string
+  bg?: string
+}
+
+KnowledgeBaseField.defaultProps = {
+  cursor: 'grab',
+  bg: 'none',
+}
+
+function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()
   const bgColorToggle = useColorModeValue('white', 'gray.700')
 
-  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
+  const {
+    attributes, listeners, setNodeRef, transition, transform, isDragging,
+  } = useSortable({
     id: field.id,
   })
 
@@ -27,7 +43,7 @@ const KnowledgeBaseField = ({ id, field, ...props }) => {
 
   const handleDelete = (index: number) => {
     setFlow((prev) => {
-      prev.config.card_config.knowledge_bases.splice(index, 1)
+      prev.config?.card_config?.knowledge_bases?.splice(index, 1)
     })
   }
 
@@ -44,17 +60,17 @@ const KnowledgeBaseField = ({ id, field, ...props }) => {
           {...listeners}
           {...attributes}
           rounded="sm"
-          bg={props.bg}
-          cursor={props.cursor || 'grab'}
-          justifyContent={'center'}
-          alignItems={'center'}
+          bg={bg}
+          cursor={cursor}
+          justifyContent="center"
+          alignItems="center"
           w={6}
           h={8}
         >
           <DragHandleIcon aria-label="draggable button" />
         </Flex>
         <Box w="full">
-          <HStack w="full" mb={'2'}>
+          <HStack w="full" mb="2">
             <Input value={field.title || ''} onChange={(e) => handleChange(e.target.value, 'title', id)} />
             <IconButton
               aria-label="Show Desc"
@@ -65,7 +81,7 @@ const KnowledgeBaseField = ({ id, field, ...props }) => {
           </HStack>
           {isEditing && (
             <Editor
-              tinymceScriptSrc={'http://localhost:3000/tinymce/tinymce.min.js'}
+              tinymceScriptSrc="http://localhost:3000/tinymce/tinymce.min.js"
               value={`${field.description}`}
               onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{
@@ -73,10 +89,10 @@ const KnowledgeBaseField = ({ id, field, ...props }) => {
                 menubar: false,
                 plugins: ['autolink', 'lists', 'link', 'image', 'code', 'table'],
                 toolbar:
-                  'undo redo | blocks | ' +
-                  'bold italic link image forecolor | alignleft aligncenter ' +
-                  'alignright alignjustify | bullist numlist outdent indent | ' +
-                  'removeformat',
+                  'undo redo | blocks | '
+                  + 'bold italic link image forecolor | alignleft aligncenter '
+                  + 'alignright alignjustify | bullist numlist outdent indent | '
+                  + 'removeformat',
                 link_default_target: '_blank',
                 link_target_list: false,
                 skin: colorMode === 'dark' ? 'oxide-dark' : 'oxide',

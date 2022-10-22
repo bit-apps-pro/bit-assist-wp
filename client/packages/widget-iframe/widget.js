@@ -120,7 +120,7 @@ export default class Widget {
 			} else if (widgetChannel.config?.card_config?.knowledge_bases) {
 				this.#renderKnowledgeBase(widgetChannel)
 			} else if (widgetChannel.config?.card_config?.isChatWidget) {
-				this.#chatWidgetClick(widgetChannel.channel?.name.toLowerCase())
+				this.#chatWidgetClick(widgetChannel.channel_name.toLowerCase())
 			}
 		} else if (channel.dataset.target === 'new_window') {
 			window.open(channel.dataset.url, '_blank', 'popup')
@@ -573,7 +573,7 @@ export default class Widget {
 				}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
             <div class="channel-icon">
-              <img src="${widgetChannel.channel?.icon}" alt="${widgetChannel.config.title}">
+              <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
             </div>
           </div>`,
 			)

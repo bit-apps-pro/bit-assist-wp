@@ -10,7 +10,7 @@ export default function useToaster() {
   })
 
   const toaster = (status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined, message: string) => {
-    let title = message
+    let title = typeof message === 'string' ? message : 'Something went wrong'
     if (typeof status === 'undefined') {
       title = 'Something went wrong'
     }

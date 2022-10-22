@@ -29,7 +29,7 @@ function Active() {
         {' '}
         )
       </Text>
-      <Switch isChecked={widget.active} onChange={handleChange} disabled={isWidgetActiveUpdating} />
+      <Switch colorScheme="purple" isChecked={widget.active} onChange={handleChange} disabled={isWidgetActiveUpdating} />
     </Box>
   )
 }

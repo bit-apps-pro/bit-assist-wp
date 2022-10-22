@@ -10,6 +10,7 @@ const config = {
     || 'http://bit-assist-wp.test/wp-admin/admin-ajax.php',
   NONCE: serverVariables.nonce || '',
   ROUTE_PREFIX: serverVariables.routePrefix || 'bit_assist_',
+  ROOT_URL: serverVariables.rootURL,
 }
 
 export default config

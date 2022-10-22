@@ -206,6 +206,7 @@ class Layout
             [
                 'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
                 'assetsURL'   => Config::get('ASSET_URI'),
+                'rootURL'     => Config::get('ROOT_URI'),
                 'baseURL'     => Config::get('ADMIN_URL') . 'admin.php?page=' . Config::SLUG . '#',
                 'ajaxURL'     => admin_url('admin-ajax.php'),
                 'api'         => Config::get('API_URL'),

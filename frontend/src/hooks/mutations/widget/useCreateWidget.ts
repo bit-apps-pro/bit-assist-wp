@@ -8,7 +8,7 @@ export default function useCreateWidget(closeCreateWidgetModal: () => void, setC
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation(
-    async (widgetInfo: CreateWidgetInfo) => request('widgets', {...widgetInfo, color: str2Color('#00ffa3')}),
+    async (widgetInfo: CreateWidgetInfo) => request('widgets', { ...widgetInfo, color: str2Color('#00ffa3') }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('widgets')

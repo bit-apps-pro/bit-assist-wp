@@ -1,18 +1,28 @@
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Spinner, Center } from '@chakra-ui/react'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { editWidgetChannelIdAtom, flowAtom, resetFlowAtom } from '@globalStates/atoms'
-import useFetchChannel from '@hooks/queries/channel/useFetchChannel'
+import useUpdateWidgetChannel from '@hooks/mutations/widgetChannel/useUpdateWidgetChannel'
 import useFetchWidgetChannel from '@hooks/queries/widgetChannel/useFetchWidgetChannel'
+import useToaster from '@hooks/useToaster'
+import { widgetChannelValidate } from '@utils/validation'
 import { useAtom } from 'jotai'
 import { useResetAtom } from 'jotai/utils'
 import { useEffect } from 'react'
+import UpdateButton from './UpdateButton'
 
-function EditChannel({ isOpen, onClose }) {
-  const [, setFlow] = useAtom(flowAtom)
+interface EditChannelProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+function EditChannel({ isOpen, onClose }: EditChannelProps) {
+  const [flow, setFlow] = useAtom(flowAtom)
   const [, resetFlow] = useAtom(resetFlowAtom)
+  const [editWidgetChannelId] = useAtom(editWidgetChannelIdAtom)
   const resetEditWidgetChannelId = useResetAtom(editWidgetChannelIdAtom)
   const { widgetChannel, isWidgetChannelFetching } = useFetchWidgetChannel()
-  const { channel, isChannelFetching } = useFetchChannel(widgetChannel?.channel_id)
+  const { updateWidgetChannel, isWidgetChannelUpdating } = useUpdateWidgetChannel()
+  const toaster = useToaster()
 
   const onModalClose = () => {
     onClose()
@@ -21,17 +31,28 @@ function EditChannel({ isOpen, onClose }) {
   }
 
   useEffect(() => {
-    if (!widgetChannel || !channel) return
-
+    if (!widgetChannel) return
     setFlow({
       step: 1,
       widget_id: widgetChannel.widget_id,
-      channel_id: widgetChannel.channel_id,
-      channel_name: channel?.name,
+      channel_name: widgetChannel.channel_name,
       config: widgetChannel.config,
       sequence: widgetChannel?.sequence,
     })
-  }, [widgetChannel, channel])
+  }, [widgetChannel])
+
+  const editFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const validated = widgetChannelValidate(flow.config)
+    if (validated.hasError) {
+      toaster('error', validated.error || 'Error')
+      return
+    }
+
+    const { status, data } = await updateWidgetChannel(flow, editWidgetChannelId)
+    toaster(status, data)
+    if (status === 'success') onModalClose()
+  }
 
   return (
     <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose} trapFocus={false}>
@@ -40,12 +61,17 @@ function EditChannel({ isOpen, onClose }) {
         <ModalHeader>Edit Channel</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb="4">
-          {(isWidgetChannelFetching || isChannelFetching) && (
+          {(isWidgetChannelFetching) && (
             <Center>
               <Spinner />
             </Center>
           )}
-          {!isWidgetChannelFetching && !isChannelFetching && <ChannelSettings edit closeModal={onModalClose} />}
+          {!isWidgetChannelFetching && (
+            <form onSubmit={editFormSubmit}>
+              <ChannelSettings />
+              <UpdateButton isUpdating={isWidgetChannelUpdating} />
+            </form>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

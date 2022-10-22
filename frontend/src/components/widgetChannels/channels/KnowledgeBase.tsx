@@ -46,8 +46,8 @@ function KnowledgeBase() {
   const handleDragEnd = ({ active, over }) => {
     setActiveId(null)
     if (active?.id !== over?.id) {
-      const oldIndex = flow.config?.card_config?.knowledge_bases.findIndex((item) => item?.id === active?.id)
-      const newIndex = flow.config?.card_config?.knowledge_bases.findIndex((item) => item?.id === over?.id)
+      const oldIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === active?.id)
+      const newIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === over?.id)
       const newWidgetChannels = arrayMove(flow.config?.card_config?.knowledge_bases, oldIndex, newIndex)
       setFlow((prev) => {
         prev.config.card_config.knowledge_bases = newWidgetChannels
@@ -87,7 +87,6 @@ function KnowledgeBase() {
                 <DragOverlay style={{ marginTop: 0 }}>
                   {activeId && (
                     <KnowledgeBaseField
-                      shadow="lg"
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}

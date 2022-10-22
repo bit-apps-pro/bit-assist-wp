@@ -67,7 +67,6 @@ export interface CreateWidgetInfo {
 
 // channel interfaces
 export interface Channel {
-  id: string
   name: string
   icon: string
 }
@@ -98,19 +97,19 @@ export interface CardConfig {
   faqs?: Faqs[]
   knowledge_bases?: KnowledgeBase[]
 }
-interface DynamicFormField {
+export interface DynamicFormField {
   id: number
   label?: string
   field_type?: string
   url?: string
   required?: boolean
 }
-interface Faqs {
+export interface Faqs {
   id: number
   title: string
   description?: string
 }
-interface KnowledgeBase {
+export interface KnowledgeBase {
   id: number
   title: string
   description?: string
@@ -133,7 +132,6 @@ export interface Flow {
   step: number
   sequence?: number
   widget_id: string
-  channel_id: string
   channel_name: string
   config: WidgetChannelConfig
 }

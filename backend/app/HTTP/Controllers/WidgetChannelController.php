@@ -26,23 +26,29 @@ final class WidgetChannelController
 
     public function store(WidgetChannelStoreRequest $request)
     {
-        WidgetChannel::insert($request->all());
+        $result = WidgetChannel::insert($request->all());
 
-        return Response::success('WidgetChannel created successfully');
+        if ($result) {
+            return Response::success('Channel created successfully');
+        }
+        return Response::error('Something went wrong');
     }
 
     public function update(WidgetChannelUpdateRequest $request, WidgetChannel $widgetChannel)
     {
         $widgetChannel->update($request->all());
 
-        return $widgetChannel->save();
+        if ($widgetChannel->save()) {
+            return Response::success('Channel updated successfully');
+        }
+        return Response::error('Something went wrong');
     }
 
     public function destroy(WidgetChannel $widgetChannel)
     {
         $widgetChannel->delete();
 
-        return Response::success('WidgetChannel deleted');
+        return Response::success('Channel deleted');
     }
 
     public function updateSequence(Request $request)
