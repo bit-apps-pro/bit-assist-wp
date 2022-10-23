@@ -84,7 +84,8 @@ function WidgetChannel({ widgetChannel, shadow, cursor, bg }: WidgetChannelProps
   return (
     <>
       <HStack
-        p={3}
+        px="3"
+        py="2"
         w="full"
         rounded="md"
         style={style}

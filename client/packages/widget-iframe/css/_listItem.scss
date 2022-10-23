@@ -7,17 +7,8 @@
   }
 }
 
-#listWrapper {
-  &.hide {
-    display: none;
-  }
-}
-
 .listItem {
   margin-bottom: 4px;
-  &.hide {
-    display: none;
-  }
   svg,
   img {
     height: 24px;

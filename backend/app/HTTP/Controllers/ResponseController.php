@@ -58,7 +58,7 @@ final class ResponseController
             ]);
         }
 
-        return Res::success(!empty($config->success_message) ? $config->success_message : 'Submitted successfully');
+        return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
     }
 
     public function destroy(Request $request)

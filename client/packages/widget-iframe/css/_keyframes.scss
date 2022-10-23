@@ -1,13 +1,3 @@
-@keyframes skeleton {
-  0% {
-    background-position: calc(100%);
-  }
-  60%,
-  100% {
-    background-position: -100%;
-  }
-}
-
 @keyframes fadeInFromBottom {
   from {
     opacity: 0;
