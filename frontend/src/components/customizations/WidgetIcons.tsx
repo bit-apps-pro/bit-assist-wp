@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Box, HStack, Image, useRadioGroup } from '@chakra-ui/react'
 import RadioCard from '@components/global/RadioCard'
 import Title from '@components/global/Title'
@@ -7,6 +8,7 @@ import { widgetAtom } from '@globalStates/atoms'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useEffect } from 'react'
+import config from '@config/config'
 
 function WidgetIcons() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -35,9 +37,9 @@ function WidgetIcons() {
   }
 
   const iconOptions = {
-    'widget-icon-1': 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
-    'widget-icon-2': 'https://ik.imagekit.io/shuvo/widget_icons/comment_pkWd0-hi6.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306468414',
-    'widget-icon-3': 'https://ik.imagekit.io/shuvo/widget_icons/chat_kiw1xpsa4.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306468674',
+    'widget-icon-1': `${config.ROOT_URL}/img/widget/widgetIcon1.webp`,
+    'widget-icon-2': `${config.ROOT_URL}/img/widget/widgetIcon2.webp`,
+    'widget-icon-3': `${config.ROOT_URL}/img/widget/widgetIcon3.webp`,
   }
 
   const { getRootProps, getRadioProps, setValue } = useRadioGroup({

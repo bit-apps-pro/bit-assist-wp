@@ -37,7 +37,7 @@ final class WidgetController
                 'shape'   => 'semiRounded',
                 'color'   => $request->color,
                 'icon'    => 'widget-icon-1',
-                'iconUrl' => 'https://ik.imagekit.io/shuvo/widget_icons/eye_j4gQF6dk-.png?ik-sdk-version=javascript-1.4.3&updatedAt=1656306394910',
+                'iconUrl' => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.webp',
                 'position'=> 'bottom-right',
             ]
         ];
@@ -98,7 +98,7 @@ final class WidgetController
         )->first();
         $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
 
-        $rootURL = (new Config())::get('ROOT_URI');
+        $rootURL = Config::get('ROOT_URI');
         foreach ($widgetChannels as $key => $value) {
             $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.png';
         }

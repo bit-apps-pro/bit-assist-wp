@@ -16,6 +16,7 @@ use BitApps\Assist\HTTP\Middleware\NonceCheckerMiddleware;
 use BitApps\Assist\Providers\HookProvider;
 use BitApps\Assist\Providers\InstallerProvider;
 use BitApps\Assist\Views\Layout;
+use BitApps\Assist\Views\WebsiteLayout;
 
 final class Plugin
 {
@@ -86,6 +87,9 @@ final class Plugin
     {
         if (RequestType::is('admin')) {
             new Layout();
+        }
+        if (RequestType::is('frontend')) {
+            new WebsiteLayout();
         }
 
         new HookProvider();
