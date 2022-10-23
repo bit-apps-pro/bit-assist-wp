@@ -91,6 +91,21 @@ button.check {
   background: var(--accent-color) !important;
 }
 
+a:hover {
+  color: inherit;
+}
+
+a:focus {
+  color: inherit;
+  outline: none;
+  box-shadow: none;
+}
+
+p {
+  font-size: inherit;
+  line-height: var(--chakra-lineHeights-base);
+}
+
 .media-modal * {
   font-family: "Montserrat", sans-serif !important;
 }
