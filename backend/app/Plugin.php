@@ -88,7 +88,8 @@ final class Plugin
         if (RequestType::is('admin')) {
             new Layout();
         }
-        if (RequestType::is('frontend')) {
+
+        if (RequestType::is('frontend') && !empty(Config::getOption('widget_active'))) {
             new WebsiteLayout();
         }
 

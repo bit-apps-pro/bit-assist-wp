@@ -59,6 +59,7 @@ export interface Widget {
   status: boolean
   active: boolean
   integrations: Integrations[]
+  created_at: string
 }
 
 export interface CreateWidgetInfo {

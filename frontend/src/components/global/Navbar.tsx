@@ -5,7 +5,7 @@ import { DarkModeSwitch } from './DarkModeSwitch'
 function Navbar() {
   return (
     <Container maxW="container.lg">
-      <Stack py="2" direction={['column', 'row']} alignItems={['center', 'initial']} justifyContent={['initial', 'space-between']}>
+      <Stack py="3" direction={['column', 'row']} alignItems={['center', 'initial']} justifyContent={['initial', 'space-between']}>
         <Flex alignItems="center">
           <Link to="/">
             <Heading size="sm">

@@ -3,12 +3,10 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Database\Connection;
 use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
-use BitApps\Assist\Model\Channel;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 use WP_Error;
@@ -17,7 +15,7 @@ final class WidgetController
 {
     public function index()
     {
-        return Widget::get(['id', 'name', 'status']);
+        return Widget::get(['id', 'name', 'status', 'created_at']);
     }
 
     public function show(Widget $widget)
@@ -60,6 +58,10 @@ final class WidgetController
     {
         $widget->delete();
 
+        if (Config::getOption('widget_active') == $widget->id) {
+            Config::updateOption('widget_active', null);
+        }
+
         return Response::success('Widget deleted');
     }
 
@@ -68,21 +70,27 @@ final class WidgetController
         $widget->update(['status' => $request->status]);
 
         if ($widget->save()) {
+            if ($widget->active) {
+                Config::updateOption('widget_active', ($request->status ? $widget->id : null));
+            }
+
             return Response::success('Widget status changed');
         }
         return  Response::error('Widget status not changed');
     }
 
-    public function changeActive(Request $request, Widget $widget)
+    public function changeActive(Request $request, $widgetId)
     {
-        $activeWidget = Widget::where('active', 1)->where('id', '!=', $widget->id)->take(1)->get();
-        if (!is_array($activeWidget)) {
+        $activeWidget = Widget::where('active', 1)->where('id', '!=', $widgetId)->first();
+        if (isset($activeWidget->id)) {
             return Response::error('You have another active widget in your website');
         }
 
+        $widget = Widget::where('id', $widgetId)->first();
         $widget->update(['active' => $request->active]);
 
         if ($widget->save()) {
+            Config::updateOption('widget_active', (($request->active && $widget->status) ? $widget->id : null));
             if ($request->active) {
                 return Response::success('Widget activated');
             }
@@ -97,6 +105,10 @@ final class WidgetController
             ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']
         )->first();
         $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
+
+        if (count($widgetChannels) < 1) {
+            return 'Widget channel not found';
+        }
 
         $rootURL = Config::get('ROOT_URI');
         foreach ($widgetChannels as $key => $value) {

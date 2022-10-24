@@ -6,7 +6,6 @@ use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetChannelUpdateRequest;
-use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 
 final class WidgetChannelController

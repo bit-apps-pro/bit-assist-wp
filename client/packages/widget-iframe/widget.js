@@ -449,7 +449,7 @@ export default class Widget {
 
 			this.#widgetData = data
 
-			if (!this.#widgetData) {
+			if (typeof this.#widgetData.id === 'undefined') {
 				this.#removeClientWidget()
 				return
 			}

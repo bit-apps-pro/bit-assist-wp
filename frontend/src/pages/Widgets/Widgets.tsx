@@ -63,10 +63,10 @@ function Widgets() {
   return (
     <>
       <TableContainer borderWidth="1px" rounded="lg" shadow="md">
-        <Table variant="simple">
-          <Thead>
+        <Table variant="simple" size="sm">
+          <Thead bg="gray.50">
             <Tr>
-              <Th colSpan={2}>
+              <Th colSpan={3} py="3">
                 <HStack justifyContent="space-between">
                   <HStack>
                     <Heading as="h2" size="sm" textTransform="none" my="2">
@@ -83,19 +83,21 @@ function Widgets() {
             {widgets?.map((widget: Widget) => (
               <Tr key={widget.id}>
                 <Td>
+                  <Switch
+                    mr="4"
+                    colorScheme="purple"
+                    aria-label="Switch widget status"
+                    disabled={isWidgetStatusUpdating}
+                    isChecked={widget.status}
+                    onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
+                    title={widget.status ? 'Widget disable' : 'Widget enable'}
+                  />
                   <Text display="inline-block" _hover={{ color: brandColorToggle }}>
                     <Link to={`/widgets/${widget.id}`}>{widget.name}</Link>
                   </Text>
                 </Td>
+                <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
                 <Td textAlign="right">
-                  <Switch
-                    aria-label="Switch widget status"
-                    disabled={isWidgetStatusUpdating}
-                    isChecked={widget.status}
-                    colorScheme="purple"
-                    mr="2"
-                    onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
-                  />
                   <Menu>
                     <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
                     <MenuList shadow="lg">

@@ -23,7 +23,6 @@ class WebsiteLayout
         $slug = Config::SLUG;
         $version = Config::VERSION;
         $rootURL = Config::get('ROOT_URI');
-        $jsURI = Config::get('ASSET_JS_URI');
 
         wp_enqueue_script($slug . '-widget-script-DEFER-MODULE', $rootURL . '/client/build/bit-assist.js', [], $version, true);
     }
