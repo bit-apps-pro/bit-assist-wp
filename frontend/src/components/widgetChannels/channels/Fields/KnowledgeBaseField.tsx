@@ -55,7 +55,7 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
 
   return (
     <HStack w="full" style={style} ref={setNodeRef}>
-      <HStack w="full" borderWidth={1} p="2" rounded="sm" bg={bgColorToggle}>
+      <HStack w="full" borderWidth={1} p="2" shadow="base" rounded="md" bg={bgColorToggle}>
         <Flex
           {...listeners}
           {...attributes}

@@ -46,19 +46,40 @@ final class ResponseController
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
-        if (isset($config->card_config->webhook_url) && !empty($config->card_config->webhook_url)) {
+        if (!empty($config->card_config->webhook_url)) {
             $webhook = new HttpClient();
             $webhook->request($config->card_config->webhook_url, 'POST', json_encode($formData));
         }
 
-        if (isset($config->store_responses) && !empty($config->store_responses)) {
+        if (!empty($config->store_responses)) {
             Response::insert([
                 'widget_channel_id' => $widgetChannelId,
                 'response'          => $formData
             ]);
         }
 
+        if (!empty($config->card_config->send_mail_to)) {
+            $this->sendMail($config->card_config->send_mail_to, $config->title, $formData);
+        }
+
         return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
+    }
+
+    public function sendMail($email, $formTitle, $data)
+    {
+        $subject = $formTitle . ' Submitted';
+        add_filter('wp_mail_content_type', [$this, 'content_type']);
+        $emailTemplate = '<h2>' . $subject . '</h2>';
+        foreach ($data as $key => $value) {
+            $emailTemplate .= '<p><strong>' . $key . '</strong>: ' . $value . '</p>';
+        }
+        wp_mail($email, $subject, $emailTemplate);
+        remove_filter('wp_mail_content_type', [$this, 'content_type']);
+    }
+
+    public function content_type()
+    {
+        return 'text/html';
     }
 
     public function destroy(Request $request)

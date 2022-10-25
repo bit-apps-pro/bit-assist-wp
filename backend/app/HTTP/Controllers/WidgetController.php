@@ -15,7 +15,7 @@ final class WidgetController
 {
     public function index()
     {
-        return Widget::get(['id', 'name', 'status', 'created_at']);
+        return Widget::get(['id', 'name', 'status', 'active', 'created_at']);
     }
 
     public function show(Widget $widget)

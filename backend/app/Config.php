@@ -62,6 +62,10 @@ class Config
 
                 return $siteUrl;
 
+            case 'SITE_DOMAIN':
+                $parsedUrl = parse_url(get_admin_url());
+                return $parsedUrl['host'];
+
             case 'ADMIN_URL':
                 return str_replace(self::get('SITE_URL'), '', get_admin_url());
 

@@ -2,6 +2,8 @@ import './css/style.scss'
 import leftArrow from './images/left-circle-arrow.svg'
 import closeIcon from './images/close-icon.svg'
 
+const $ = (s) => document.querySelector(s)
+
 export default class Widget {
 	#apiEndPoint = 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
 	#root
@@ -26,12 +28,14 @@ export default class Widget {
 		this.#isMobileDevice = false
 		this.#root = document.documentElement
 		this.#clientDomain = config.clientDomain
-		this.#contentWrapper = document.querySelector('#contentWrapper')
-		this.#widgetWrapper = document.querySelector('#widgetWrapper')
-		this.#widgetBubble = document.querySelector(config.widgetBubble)
+		this.#contentWrapper = $('#contentWrapper')
+		this.#widgetWrapper = $('#widgetWrapper')
+		this.#widgetBubble = $(config.widgetBubble)
 		this.#fetchWidgetData()
 		this.#addEvents()
 	}
+	
+
 
 	// ====================
 	// Events
@@ -132,7 +136,7 @@ export default class Widget {
 	#setCardStyle = config => {
 		this.#selectedFormBg = config?.card_config?.card_bg_color?.str
 
-		document.querySelector('#cardHeader>h4').innerHTML = config?.title
+		$('#cardHeader>h4').innerHTML = config?.title
 		this.#root.style.setProperty('--card-theme-color', this.#selectedFormBg)
 		this.#root.style.setProperty('--card-text-color', config?.card_config?.card_text_color?.str)
 	}
@@ -157,7 +161,7 @@ export default class Widget {
 		this.#formBody.addEventListener('submit', this.#formSubmitted)
 
 		// Render fields
-		const dynamicFields = document.querySelector('#dynamicFields')
+		const dynamicFields = $('#dynamicFields')
 		cardConfig?.form_fields?.forEach(field => {
 			let fieldInput = document.createElement('input')
 			if (field.field_type === 'textarea') {
@@ -216,9 +220,9 @@ export default class Widget {
         </div>
       </div>`
 
-		document.querySelector('#listSearch').addEventListener('input', this.#searchList)
-		document.querySelector('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
-		document.querySelector('.closeDescBtn').addEventListener('keydown', e => {
+		$('#listSearch').addEventListener('input', this.#searchList)
+		$('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
+		$('.closeDescBtn').addEventListener('keydown', e => {
 			if (e.key === 'Enter') {
 				this.#faqDescToggle()
 			}
@@ -244,14 +248,14 @@ export default class Widget {
 			const faq = faqs.find(
 				item => parseInt(item.id, 10) === parseInt(e.target.closest('.listItemTitleWrapper').dataset.item_id, 10),
 			)
-			document.querySelector('.descriptionTitle p').innerHTML = faq?.title || ''
-			document.querySelector('.content').innerHTML = faq?.description || ''
+			$('.descriptionTitle p').innerHTML = faq?.title || ''
+			$('.content').innerHTML = faq?.description || ''
 		}
 
-		const faqBody = document.querySelector('#faqBody')
+		const faqBody = $('#faqBody')
 		const isOpen = faqBody?.classList.toggle('openDesc')
 		if (isOpen) {
-			const descHeight = document.querySelector('#faqDescription').scrollHeight
+			const descHeight = $('#faqDescription').scrollHeight
 			Object.assign(faqBody.style, {
 				height: descHeight > 400 ? '400px' : `${descHeight}px`,
 				overflow: descHeight > 400 ? 'auto' : 'initial',
@@ -260,7 +264,7 @@ export default class Widget {
 			faqBody.removeAttribute('style')
 		}
 
-		document.querySelector('#listWrapper')?.classList.toggle('hide')
+		$('#listWrapper')?.classList.toggle('hide')
 	}
 
 	// Knowledge base
@@ -288,9 +292,9 @@ export default class Widget {
         </div>
       </div>`
 
-		document.querySelector('#listSearch').addEventListener('input', this.#searchList)
-		document.querySelector('.closeDescBtn').addEventListener('click', this.#knowledgeBaseDescToggle)
-		document.querySelector('.closeDescBtn').addEventListener('keydown', e => {
+		$('#listSearch').addEventListener('input', this.#searchList)
+		$('.closeDescBtn').addEventListener('click', this.#knowledgeBaseDescToggle)
+		$('.closeDescBtn').addEventListener('keydown', e => {
 			if (e.key === 'Enter') {
 				this.#knowledgeBaseDescToggle()
 			}
@@ -312,7 +316,7 @@ export default class Widget {
 	}
 
 	#knowledgeBaseDescToggle = (e, knowledgeBases) => {
-		const knowledgeBaseBody = document.querySelector('#knowledgeBaseBody')
+		const knowledgeBaseBody = $('#knowledgeBaseBody')
 
 		if (!knowledgeBases) {
 			knowledgeBaseBody?.classList.remove('openDesc')
@@ -327,12 +331,12 @@ export default class Widget {
 		}
 
 		knowledgeBaseBody?.classList.add('openDesc')
-		document.querySelector('.descriptionTitle p').innerHTML = knowledgeBase?.title || ''
-		document.querySelector('.content').innerHTML = knowledgeBase?.description || ''
+		$('.descriptionTitle p').innerHTML = knowledgeBase?.title || ''
+		$('.content').innerHTML = knowledgeBase?.description || ''
 
 		this.#root.style.setProperty(
 			'--modal-title-height',
-			document.querySelector('.descriptionTitle').offsetHeight + 'px',
+			$('.descriptionTitle').offsetHeight + 'px',
 		)
 	}
 
@@ -357,7 +361,7 @@ export default class Widget {
           </div>
         </div>`
 		})
-		document.querySelector('#lists').innerHTML = itemsHtml
+		$('#lists').innerHTML = itemsHtml
 	}
 
 	#searchList = e => {
@@ -591,7 +595,7 @@ export default class Widget {
 	}
 
 	#renderCard = () => {
-		if (document.querySelector('#card')) {
+		if ($('#card')) {
 			this.#card?.classList.add('show')
 			return
 		}
@@ -614,9 +618,9 @@ export default class Widget {
         <div id="cardBody"></div>
     `
 		this.#contentWrapper.appendChild(this.#card)
-		this.#cardBody = document.querySelector('#cardBody')
+		this.#cardBody = $('#cardBody')
 
-		const closeBtn = document.querySelector('.closeCardBtn')
+		const closeBtn = $('.closeCardBtn')
 		closeBtn.addEventListener('click', this.#closeWidget)
 		closeBtn.addEventListener('keydown', e => {
 			if (e.key === 'Enter') {
@@ -627,7 +631,7 @@ export default class Widget {
 
 	#formSubmitted = async e => {
 		e.preventDefault()
-		const submitButton = document.querySelector('button[type="submit"]')
+		const submitButton = $('button[type="submit"]')
 
 		const formData = new FormData(e.target)
 		const data = {}
@@ -685,7 +689,7 @@ export default class Widget {
 		this.#formBody?.classList.add('hide')
 
 		if (toast.classList.contains('success')) {
-			document.querySelector('.toast-text-title').style.color = this.#selectedFormBg
+			$('.toast-text-title').style.color = this.#selectedFormBg
 		}
 
 		await this.#delay(2)
@@ -712,8 +716,8 @@ export default class Widget {
 		this.#widgetBubble?.classList.add(this.#widgetData?.styles?.shape)
 		this.#widgetWrapper?.classList.add(this.#widgetData?.styles?.position)
 
-		document.querySelector('#widget-img').src = this.#widgetData?.styles?.iconUrl
-		document.querySelector('#widget-img')?.classList.add('icon')
+		$('#widget-img').src = this.#widgetData?.styles?.iconUrl
+		$('#widget-img')?.classList.add('icon')
 
 		// Change image color depend on background
 		const brightness = Math.round(
@@ -753,7 +757,7 @@ export default class Widget {
 		this.#callToAction = document.createElement('div')
 		this.#callToAction.id = 'callToActionMsg'
 		this.#callToAction.innerHTML = this.#widgetData.call_to_action.text
-		document.querySelector('#widgetBubbleRow').appendChild(this.#callToAction)
+		$('#widgetBubbleRow').appendChild(this.#callToAction)
 
 		if (this.#channels?.classList.contains('show')) {
 			this.#callToAction?.classList.add('hide')

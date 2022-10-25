@@ -13,6 +13,7 @@ import { Button,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Spinner,
   Switch,
   Table,
@@ -35,12 +36,15 @@ import { Widget } from '@globalStates/Interfaces'
 import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus'
 import AddWidget from '@components/widget/AddWidget'
 import useToaster from '@hooks/useToaster'
+import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
 
 function Widgets() {
   const { widgets, isWidgetFetching } = useFetchWidgets()
   const { deleteWidget, isWidgetDeleting } = useDeleteWidget()
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
+  const ThColorToggle = useColorModeValue('gray.50', 'gray.700')
   const { updateWidgetStatus, isWidgetStatusUpdating } = useUpdateWidgetStatus()
+  const { updateWidgetActive, isWidgetActiveUpdating } = useWidgetActive()
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const tempWidgetId = useRef('')
   const toaster = useToaster()
@@ -60,11 +64,16 @@ function Widgets() {
     toaster(status, data)
   }
 
+  const handleChange = async (value: string, widgetId: string) => {
+    const { status, data } = await updateWidgetActive(widgetId, Number(value))
+    toaster(status, data)
+  }
+
   return (
     <>
       <TableContainer borderWidth="1px" rounded="lg" shadow="md">
         <Table variant="simple" size="sm">
-          <Thead bg="gray.50">
+          <Thead bgColor={ThColorToggle}>
             <Tr>
               <Th colSpan={3} py="3">
                 <HStack justifyContent="space-between">
@@ -98,6 +107,20 @@ function Widgets() {
                 </Td>
                 <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
                 <Td textAlign="right">
+                  {widget.status ? (
+                    <Select
+                      w="32"
+                      mr="4"
+                      display="inline-block"
+                      value={(widget.active ? 1 : 0)}
+                      disabled={isWidgetActiveUpdating}
+                      onChange={(e) => handleChange(e.target.value, widget.id)}
+                      className={`chipSelect ${widget.active ? 'active' : ''}`}
+                    >
+                      <option value="1">This Website</option>
+                      <option value="0">External Use</option>
+                    </Select>
+                  ) : null}
                   <Menu>
                     <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
                     <MenuList shadow="lg">

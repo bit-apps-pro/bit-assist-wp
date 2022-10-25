@@ -103,7 +103,7 @@ function CustomForm() {
 
   return (
     <>
-      <VStack alignSelf="center" shadow="base" w="full" maxW="full" borderWidth={1} p={[2, 4]} rounded="sm">
+      <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
         {flow.config?.card_config?.form_fields && (
           <DndContext
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -116,7 +116,7 @@ function CustomForm() {
               items={flow.config.card_config.form_fields.map((item) => item.id)}
               strategy={verticalListSortingStrategy}
             >
-              <VStack w="full">
+              <VStack w="full" spacing="3">
                 {flow.config.card_config.form_fields.map((field, index) => <CustomFormField key={field.id} id={index} field={field} />)}
 
                 <DragOverlay style={{ marginTop: 0 }}>
@@ -157,33 +157,43 @@ function CustomForm() {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-
-        <FormControl>
-          <FormLabel htmlFor="submitButtonText">Button Text</FormLabel>
-          <Input
-            id="submitButtonText"
-            value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
-            onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
-          />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel htmlFor="successMessage">Success Message</FormLabel>
-          <Input
-            id="successMessage"
-            value={flow.config?.card_config?.success_message}
-            placeholder="Submitted successfully"
-            onChange={(e) => handleFormChange(e.target.value, 'success_message')}
-          />
-        </FormControl>
       </VStack>
+
+      <FormControl>
+        <FormLabel htmlFor="submitButtonText">Button Text</FormLabel>
+        <Input
+          id="submitButtonText"
+          value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
+          onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="successMessage">Success Message</FormLabel>
+        <Input
+          id="successMessage"
+          value={flow.config?.card_config?.success_message}
+          placeholder="Submitted successfully"
+          onChange={(e) => handleFormChange(e.target.value, 'success_message')}
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="send_mail_to">Send Mail To</FormLabel>
+        <Input
+          id="send_mail_to"
+          placeholder="Your email"
+          value={flow.config?.card_config?.send_mail_to || ''}
+          onChange={(e) => handleFormChange(e.target.value, 'send_mail_to')}
+        />
+      </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
         <Input
           id="webhook_url"
           placeholder="https://"
-          value={flow.config?.card_config?.webhook_url ?? ''}
+          value={flow.config?.card_config?.webhook_url || ''}
           onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}
         />
       </FormControl>

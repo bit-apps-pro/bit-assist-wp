@@ -51,7 +51,7 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
 
   return (
     <HStack w="full" style={style} ref={setNodeRef}>
-      <HStack w="full" borderWidth={1} p="2" rounded="sm" bg={channelColorToggle}>
+      <HStack w="full" borderWidth={1} shadow="base" p="2" rounded="md" bg={channelColorToggle}>
         <Flex
           {...listeners}
           {...attributes}

@@ -43,7 +43,7 @@ function ChannelSettings() {
   }
 
   return (
-    <VStack alignItems="flex-start" spacing="4">
+    <VStack alignItems="flex-start" spacing="6">
       <FormControl isRequired>
         <FormLabel htmlFor="title">Title</FormLabel>
         <Input id="title" value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />

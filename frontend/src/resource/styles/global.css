@@ -101,7 +101,14 @@ svg {
 #chakra-toast-manager-top-right {
   top: 2rem !important;
 }
-/* .semiRoundedShape {
-  mask: url(http://bit-assist-wp.test/wp-content/plugins/bit-assist/frontend/src/resource/img/widget-button-mask.svg);
-  -webkit-mask: url(http://bit-assist-wp.test/wp-content/plugins/bit-assist/frontend/src/resource/img/widget-button-mask.svg);
-} */
+.chipSelect {
+  border-radius: 30px !important;
+  height: 30px !important;
+}
+.chipSelect.active {
+  background-color: #86bebe;
+}
+.chipSelect:focus {
+  box-shadow: none !important;
+  border-color: inherit !important;
+}

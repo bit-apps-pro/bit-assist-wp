@@ -71,7 +71,7 @@ function KnowledgeBase() {
 
   return (
     <>
-      <VStack alignSelf="center" w="full">
+      <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
         {flow.config?.card_config?.knowledge_bases && (
           <DndContext
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -81,7 +81,7 @@ function KnowledgeBase() {
             onDragStart={handleDragStart}
           >
             <SortableContext items={flow.config.card_config.knowledge_bases.map((item) => item.id)} strategy={verticalListSortingStrategy}>
-              <VStack w="full">
+              <VStack spacing={3} w="full">
                 {flow.config.card_config.knowledge_bases.map((field, index) => <KnowledgeBaseField key={field.id} id={index} field={field} />)}
 
                 <DragOverlay style={{ marginTop: 0 }}>

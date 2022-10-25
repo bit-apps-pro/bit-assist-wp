@@ -93,6 +93,7 @@ export interface CardConfig {
   submit_button_text?: string
   success_message?: string
   isChatWidget?: boolean
+  send_mail_to?: string
   webhook_url?: string
   form_fields?: DynamicFormField[]
   faqs?: Faqs[]

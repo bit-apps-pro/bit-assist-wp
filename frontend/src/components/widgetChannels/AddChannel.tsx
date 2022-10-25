@@ -56,10 +56,9 @@ function AddChannel() {
         closeOnOverlayClick={false}
         isOpen={isOpen}
         onClose={onModalClose}
-        trapFocus={false}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent pb="4">
           <ModalHeader>
             <HStack>
               {flow.step > 1 && (
@@ -71,7 +70,7 @@ function AddChannel() {
             </HStack>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb="4">
+          <ModalBody>
             {flow.step === 1 && <ChannelSelect />}
             {flow.step === 2 && (
               <form onSubmit={saveFormSubmit}>

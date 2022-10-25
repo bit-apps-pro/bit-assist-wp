@@ -77,7 +77,7 @@ function CustomForm() {
 
   return (
     <>
-      <VStack alignSelf="center" w="full">
+      <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
         {flow.config?.card_config?.faqs && (
           <DndContext
             modifiers={[restrictToVerticalAxis, restrictToParentElement]}
@@ -90,7 +90,7 @@ function CustomForm() {
               items={flow.config.card_config.faqs.map((item) => item.id)}
               strategy={verticalListSortingStrategy}
             >
-              <VStack w="full">
+              <VStack spacing={3} w="full">
                 {flow.config.card_config.faqs.map((field, index) => <FaqField key={field.id} id={index} field={field} />)}
 
                 <DragOverlay style={{ marginTop: 0 }}>

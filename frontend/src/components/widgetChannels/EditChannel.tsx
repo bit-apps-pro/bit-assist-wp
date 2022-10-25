@@ -57,10 +57,10 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
   return (
     <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose} trapFocus={false}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent pb="4">
         <ModalHeader>Edit Channel</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb="4">
+        <ModalBody>
           {(isWidgetChannelFetching) && (
             <Center>
               <Spinner />

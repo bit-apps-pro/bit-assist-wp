@@ -53,7 +53,7 @@ function AddWidget() {
             <Text>Create New Widget</Text>
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb="4">
+          <ModalBody>
             <FormControl isRequired>
               <FormLabel htmlFor="name">Widget Name</FormLabel>
               <Input id="name" value={createWidgetInfo?.name ?? ''} onChange={(e) => handleChanges(e.target.value, 'name')} />
