@@ -33,7 +33,7 @@ function WidgetDetails() {
         <Tab rounded="md">Channels</Tab>
         <Tab rounded="md">Customizations</Tab>
         <Tab rounded="md">Settings</Tab>
-        <Tab rounded="md">Publish</Tab>
+        <Tab rounded="md">External publish</Tab>
       </TabList>
       <TabPanels mx="auto" borderWidth="1px" rounded="lg" shadow="md" mt="2" p={[0, 4]}>
         <TabPanel>

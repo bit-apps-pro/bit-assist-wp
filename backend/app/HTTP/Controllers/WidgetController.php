@@ -83,7 +83,7 @@ final class WidgetController
     {
         $activeWidget = Widget::where('active', 1)->where('id', '!=', $widgetId)->first();
         if (isset($activeWidget->id)) {
-            return Response::error('You have another active widget in your website');
+            $activeWidget->update(['active' => 0])->save();
         }
 
         $widget = Widget::where('id', $widgetId)->first();

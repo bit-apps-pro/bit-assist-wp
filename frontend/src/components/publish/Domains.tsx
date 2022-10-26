@@ -4,7 +4,7 @@ import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
 import Domain from '@components/publish/Domain'
 import Title from '@components/global/Title'
@@ -15,6 +15,7 @@ function Domains() {
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const [isAdding, setIsAdding] = useState(false)
   const [domainName, setDomainName] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.repeat) {
@@ -67,9 +68,15 @@ function Domains() {
     setIsAdding(false)
   }
 
+  useEffect(() => {
+    if (isAdding) {
+      inputRef.current?.focus()
+    }
+  }, [isAdding])
+
   return (
     <Box>
-      <Title badge="1">Add Bit Assist to your website</Title>
+      <Title badge="1">Add Bit Assist to your other website</Title>
       <Box w="sm" maxW="full">
         <Box mb="4" rounded="md" borderWidth={`${widget.domains?.length && '1px'}`}>
           {widget.domains?.map((domain, index) => (
@@ -81,6 +88,7 @@ function Domains() {
           <Box mb={4}>
             <HStack mb={2}>
               <Input
+                ref={inputRef}
                 placeholder="ex: https://your-domain.com"
                 value={domainName ?? ''}
                 onChange={(e) => setDomainName(e.target.value)}

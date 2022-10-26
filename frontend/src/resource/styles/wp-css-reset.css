@@ -46,6 +46,8 @@
   overflow: hidden;
 }
 
+.wp-core-ui select:disabled,
+.wp-core-ui select.disabled,
 .wp-core-ui select {
   background-image: none;
   height: var(--chakra-sizes-10);

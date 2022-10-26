@@ -105,8 +105,10 @@ svg {
   border-radius: 30px !important;
   height: 30px !important;
 }
+.chipSelect.active.disabled, 
+.chipSelect.active:disabled, 
 .chipSelect.active {
-  background-color: #86bebe;
+  background: #92cfcf;
 }
 .chipSelect:focus {
   box-shadow: none !important;

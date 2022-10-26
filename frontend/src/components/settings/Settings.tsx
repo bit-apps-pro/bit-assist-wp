@@ -9,7 +9,7 @@ import Responses from '@components/settings/Responses'
 
 const Settings = () => {
   return (
-    <Stack gap={[5, 10]}>
+    <Stack gap={[5, 6]}>
       <BusinessHours />
       <PageFilters />
       <Trigger />

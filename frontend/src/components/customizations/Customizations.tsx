@@ -9,7 +9,7 @@ import WidgetPositions from './WidgetPositions'
 
 function Customizations() {
   return (
-    <Stack gap={[5, 10]}>
+    <Stack gap={[5, 6]}>
       <WidgetName />
       <WidgetColor />
       <WidgetIcons />

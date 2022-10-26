@@ -75,7 +75,7 @@ function Widgets() {
         <Table variant="simple" size="sm">
           <Thead bgColor={ThColorToggle}>
             <Tr>
-              <Th colSpan={3} py="3">
+              <Th colSpan={4} py="3">
                 <HStack justifyContent="space-between">
                   <HStack>
                     <Heading as="h2" size="sm" textTransform="none" my="2">
@@ -87,13 +87,18 @@ function Widgets() {
                 </HStack>
               </Th>
             </Tr>
+            <Tr>
+              <Th>status</Th>
+              <Th>widget name</Th>
+              <Th>created at</Th>
+              <Th>use widget in</Th>
+            </Tr>
           </Thead>
           <Tbody>
             {widgets?.map((widget: Widget) => (
               <Tr key={widget.id}>
-                <Td>
+                <Td w="10">
                   <Switch
-                    mr="4"
                     colorScheme="purple"
                     aria-label="Switch widget status"
                     disabled={isWidgetStatusUpdating}
@@ -101,26 +106,29 @@ function Widgets() {
                     onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
                     title={widget.status ? 'Widget disable' : 'Widget enable'}
                   />
+                </Td>
+                <Td>
                   <Text display="inline-block" _hover={{ color: brandColorToggle }}>
                     <Link to={`/widgets/${widget.id}`}>{widget.name}</Link>
                   </Text>
                 </Td>
                 <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
-                <Td textAlign="right">
-                  {widget.status ? (
-                    <Select
-                      w="32"
-                      mr="4"
-                      display="inline-block"
-                      value={(widget.active ? 1 : 0)}
-                      disabled={isWidgetActiveUpdating}
-                      onChange={(e) => handleChange(e.target.value, widget.id)}
-                      className={`chipSelect ${widget.active ? 'active' : ''}`}
-                    >
-                      <option value="1">This Website</option>
-                      <option value="0">External Use</option>
-                    </Select>
-                  ) : null}
+
+                <Td textAlign="right" w="10">
+                  <Select
+                    w="28"
+                    mr="4"
+                    display="inline-block"
+                    value={(widget.active ? 1 : 0)}
+                    disabled={!widget.status}
+                    onChange={(e) => handleChange(e.target.value, widget.id)}
+                    className={`chipSelect ${widget.active ? 'active' : ''}`}
+                    size="sm"
+                  >
+                    <option value="1">This site</option>
+                    <option value="0">External site</option>
+                  </Select>
+
                   <Menu>
                     <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
                     <MenuList shadow="lg">
