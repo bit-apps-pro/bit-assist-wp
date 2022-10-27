@@ -6,7 +6,7 @@ import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
 import SelectSearch from 'react-select-search'
-import { Timezones } from '@components/settings/Timezones'
+import Timezones from '@components/settings/Timezones'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { debounce } from 'lodash'
@@ -39,9 +39,10 @@ function BusinessHours() {
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setIsChanged(true)
-
     setWidget((prev) => {
-      prev.business_hours[index][e.target.name] = e.target.value
+      const newFields = [...(prev.business_hours || [])]
+      newFields[index] = { ...newFields[index], [e.target.name]: e.target.value }
+      prev.business_hours = newFields
     })
   }
 
@@ -51,7 +52,9 @@ function BusinessHours() {
     }
     debounceUpdateWidget(
       produce(widget, (draft) => {
-        draft.business_hours[index][e.target.name] = e.target.value
+        const newFields = [...(draft.business_hours || [])]
+        newFields[index] = { ...newFields[index], [e.target.name]: e.target.value }
+        draft.business_hours = newFields
       }),
     )
     setIsChanged(false)
@@ -85,7 +88,7 @@ function BusinessHours() {
     }
   }
 
-  const handleTimezoneChange = async (selectedOption: SelectedOptionValue) => {
+  const handleTimezoneChange = async (selectedOption: SelectedOptionValue | SelectedOptionValue[]) => {
     setWidget((prev) => {
       prev.timezone = selectedOption.toString()
     })
@@ -153,7 +156,7 @@ function BusinessHours() {
             </VStack>
 
             {widget.business_hours?.map((item, index) => (
-              <HStack key={index} minH="10" maxW="full">
+              <HStack key={item.day} minH="10" maxW="full">
                 <Checkbox
                   size="lg"
                   colorScheme="purple"

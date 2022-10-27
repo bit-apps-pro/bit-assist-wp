@@ -44,7 +44,7 @@ function InitialDelay() {
   return (
     <HStack>
       <Text w="28">Delay</Text>
-      <InputGroup className='input-group'>
+      <InputGroup className="input-group">
         <Input w="28" min="0" placeholder="Initial Delay in Second" value={widget.initial_delay ?? ''} onChange={handleChange} />
         <InputRightAddon children="Sec" />
       </InputGroup>

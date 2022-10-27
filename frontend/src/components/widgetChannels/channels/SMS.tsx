@@ -2,7 +2,7 @@ import { FormControl, FormHelperText, FormLabel, Input, Textarea } from '@chakra
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
-const SMS = () => {
+function SMS() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string | number | boolean, key: string) => {
@@ -16,12 +16,10 @@ const SMS = () => {
   }
 
   return (
-    <>
-      <FormControl>
-        <FormLabel htmlFor="unique_id">Phone number</FormLabel>
-        <Input id="unique_id" type="tel" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
-      </FormControl>
-    </>
+    <FormControl>
+      <FormLabel htmlFor="unique_id">Phone number</FormLabel>
+      <Input id="unique_id" type="tel" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+    </FormControl>
   )
 }
 

@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 
-const OpenWindowAction = ({ value, handleChanges }) => {
+function OpenWindowAction({ value, handleChanges }) {
   return (
     <FormControl>
       <FormLabel htmlFor="open_window_action">On click open channel on</FormLabel>

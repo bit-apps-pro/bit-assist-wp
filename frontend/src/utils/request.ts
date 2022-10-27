@@ -1,16 +1,3 @@
-// const request = async (url: string, data = {}, method = 'POST') => fetch(url, {
-//   method,
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   body: JSON.stringify(data),
-// })
-//   .then((res) => res.json())
-//   .then((res) => res)
-//   .catch((err) => console.log(JSON.stringify(err)))
-
-// export default request
-
 import config from '@config/config'
 
 export const webhook = (url: string, data = {}) => {

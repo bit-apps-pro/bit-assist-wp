@@ -10,7 +10,7 @@ import { DynamicFormField } from '@globalStates/Interfaces'
 
 interface CustomFormFieldProps {
   id: number
-  field: DynamicFormField
+  field: DynamicFormField | undefined
   cursor?: string
   bg?: string
 }
@@ -27,7 +27,7 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
   const {
     attributes, listeners, setNodeRef, transition, transform, isDragging,
   } = useSortable({
-    id: field.id,
+    id: field?.id || 0,
   })
 
   const style = {
@@ -45,7 +45,9 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
 
   const handleChange = (value: string | boolean | number, key: string, index: number) => {
     setFlow((prev) => {
-      prev.config.card_config.form_fields[index][key] = value
+      const newFields = [...(prev.config?.card_config?.form_fields || [])]
+      newFields[index] = { ...newFields[index], [key]: value }
+      prev.config.card_config = { ...prev.config.card_config, form_fields: newFields }
     })
   }
 
@@ -68,10 +70,10 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
         <Box w="full">
           <HStack alignItems="flex-start" justifyContent="space-between">
             <Text fontWeight={500} mb="2">
-              {field?.field_type && `${field.field_type.charAt(0).toUpperCase()}${field.field_type.slice(1)}`}
+              {field?.field_type && `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}
               {' '}
               Field
-              {!field.required && (
+              {!field?.required && (
                 <Text display="inline" color="gray.400">
                   &nbsp;&nbsp;(Optional)
                 </Text>
@@ -81,19 +83,19 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
               <Text>Required</Text>
               <Switch
                 colorScheme="purple"
-                isChecked={field.required || false}
+                isChecked={field?.required || false}
                 onChange={(e) => handleChange(e.target.checked, 'required', id)}
               />
             </HStack>
           </HStack>
           <VStack>
             <Input
-              value={field.label}
+              value={field?.label}
               onChange={(e) => handleChange(e.target.value, 'label', id)}
               placeholder="label"
             />
-            {field.field_type === 'GDPR' && (
-              <Input value={field.url} onChange={(e) => handleChange(e.target.value, 'url', id)} placeholder="url" />
+            {field?.field_type === 'GDPR' && (
+              <Input value={field?.url} onChange={(e) => handleChange(e.target.value, 'url', id)} placeholder="url" />
             )}
           </VStack>
         </Box>

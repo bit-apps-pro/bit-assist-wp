@@ -7,7 +7,7 @@ import CallToAction from '@components/settings/CallToAction'
 import FontFamily from '@components/settings/FontFamily'
 import Responses from '@components/settings/Responses'
 
-const Settings = () => {
+function Settings() {
   return (
     <Stack gap={[5, 6]}>
       <BusinessHours />

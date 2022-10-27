@@ -8,10 +8,22 @@ export default function CDN() {
   const toaster = useToaster()
   const cdnUrl = `<script defer src='${config.ROOT_URL}/client/build/bit-assist.js'></script>`
 
-  const canCopy = window.isSecureContext && navigator.clipboard
+  const unsecuredCopyToClipboard = (text: string) => {
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+    try { document.execCommand('copy') } catch (err) { console.error('Unable to copy to clipboard', err) }
+    document.body.removeChild(textArea)
+  }
 
   const copy = () => {
-    navigator.clipboard.writeText(cdnUrl)
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(cdnUrl)
+    } else {
+      unsecuredCopyToClipboard(cdnUrl)
+    }
     toaster('success', 'Copied')
   }
 
@@ -25,13 +37,11 @@ export default function CDN() {
         {' '}
         tag.
       </Text>
-      <HStack spacing={0} gap="2" flexWrap="wrap">
+      <HStack spacing={0} gap="2">
         <Code maxW="full">{cdnUrl}</Code>
-        {canCopy ? (
-          <Tooltip label="Copy">
-            <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} />
-          </Tooltip>
-        ) : null}
+        <Tooltip label="Copy">
+          <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} />
+        </Tooltip>
       </HStack>
     </Box>
   )

@@ -3,7 +3,7 @@ import Title from '@components/global/Title'
 import DeleteResponses from '@components/settings/DeleteResponses'
 import StoreResponses from '@components/settings/StoreResponses'
 
-const Responses = () => {
+function Responses() {
   return (
     <Box>
       <Title>Responses</Title>

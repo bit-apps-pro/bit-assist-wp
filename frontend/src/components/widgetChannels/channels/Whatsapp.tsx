@@ -4,7 +4,7 @@ import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { useEffect } from 'react'
 
-const Whatsapp = () => {
+function Whatsapp() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string | number | boolean, key: string) => {

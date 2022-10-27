@@ -33,4 +33,5 @@ export const WidgetDefault = {
   status: true,
   active: false,
   integrations: [],
+  created_at: '',
 }

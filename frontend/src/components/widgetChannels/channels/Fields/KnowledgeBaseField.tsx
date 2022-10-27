@@ -12,7 +12,7 @@ import { KnowledgeBase } from '@globalStates/Interfaces'
 
 interface KnowledgeBaseFieldProps {
   id: number
-  field: KnowledgeBase
+  field: KnowledgeBase | undefined
   cursor?: string
   bg?: string
 }
@@ -31,7 +31,7 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
   const {
     attributes, listeners, setNodeRef, transition, transform, isDragging,
   } = useSortable({
-    id: field.id,
+    id: field?.id || 0,
   })
 
   const style = {
@@ -49,7 +49,9 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
 
   const handleChange = (value: string | boolean | number, key: string, index: number) => {
     setFlow((prev) => {
-      prev.config.card_config.knowledge_bases[index][key] = value
+      const newFields = [...(prev.config?.card_config?.knowledge_bases || [])]
+      newFields[index] = { ...newFields[index], [key]: value }
+      prev.config.card_config = { ...prev.config.card_config, knowledge_bases: newFields }
     })
   }
 
@@ -71,7 +73,7 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
         </Flex>
         <Box w="full">
           <HStack w="full" mb="2">
-            <Input value={field.title || ''} onChange={(e) => handleChange(e.target.value, 'title', id)} />
+            <Input value={field?.title || ''} onChange={(e) => handleChange(e.target.value, 'title', id)} />
             <IconButton
               aria-label="Show Desc"
               onClick={() => setIsEditing((prev) => !prev)}
@@ -82,7 +84,7 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
           {isEditing && (
             <Editor
               tinymceScriptSrc="http://localhost:3000/tinymce/tinymce.min.js"
-              value={`${field.description}`}
+              value={`${field?.description}`}
               onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{
                 height: 300,

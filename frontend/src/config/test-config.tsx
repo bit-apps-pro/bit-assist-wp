@@ -1,17 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { render, queries } from '@testing-library/react'
 import React from 'react'
-import { QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter } from 'react-router-dom'
-import { RecoilRoot } from 'recoil'
 
+const queryClient = new QueryClient()
 const customRender = (ui: React.ReactNode, options: any) => render(
-  /* @ts-ignore */
   <QueryClientProvider client={queryClient}>
-    {/* @ts-ignore */}
-    <RecoilRoot>
-      {ui}
-    </RecoilRoot>
+    {ui}
   </QueryClientProvider>,
   { ...options },
 )

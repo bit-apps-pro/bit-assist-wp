@@ -117,7 +117,7 @@ export interface KnowledgeBase {
   description?: string
 }
 export interface WidgetChannelType {
-  id: string
+  id: number
   widget_id: string
   channel_id: string
   config: WidgetChannelConfig

@@ -1,6 +1,6 @@
 import { SelectSearchOption } from '@globalStates/Interfaces'
 
-export const Timezones: SelectSearchOption[] = [
+const Timezones: SelectSearchOption[] = [
   {
     name: 'Africa/Abidjan',
     value: 'Africa/Abidjan',
@@ -1546,3 +1546,5 @@ export const Timezones: SelectSearchOption[] = [
     value: 'WET',
   },
 ]
+
+export default Timezones

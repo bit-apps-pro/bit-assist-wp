@@ -2,7 +2,7 @@ import { Spinner, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { WidgetChannelType } from '@globalStates/Interfaces'
 import useFetchWidgetChannels from '@hooks/queries/widgetChannel/useFetchWidgetChannels'
 import WidgetChanel from '@components/widgetChannels/WidgetChannel'
-import { closestCenter, DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { closestCenter, DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,7 @@ import useUpdateWidgetChannelsSequence from '@hooks/mutations/widgetChannel/useU
 function ChannelsList() {
   const { widgetChannels, isWidgetChannelsFetching } = useFetchWidgetChannels()
   const { updateWidgetChannelsOrder } = useUpdateWidgetChannelsSequence()
-  const [activeId, setActiveId] = useState<string | null>(null)
+  const [activeId, setActiveId] = useState<number>(0)
   const [, setChannelOrder] = useAtom(widgetChannelOrderAtom)
   const [, setFlow] = useAtom(flowAtom)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.600')
@@ -39,15 +39,16 @@ function ChannelsList() {
     }),
   )
 
-  const handleDragStart = ({ active }) => {
-    setActiveId(active?.id)
+  const handleDragStart = (e: DragStartEvent) => {
+    const { id } = e.active
+    setActiveId(+id)
   }
 
-  const handleDragEnd = ({ active, over }) => {
-    setActiveId(null)
-    if (active?.id !== over?.id) {
-      const oldIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === active?.id)
-      const newIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === over?.id)
+  const handleDragEnd = (e: DragEndEvent) => {
+    setActiveId(0)
+    if (e.active.id !== e.over?.id) {
+      const oldIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === e.active.id)
+      const newIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === e.over?.id)
       const newWidgetChannels: WidgetChannelType[] = arrayMove(widgetChannels, oldIndex, newIndex)
       updateWidgetChannelsOrder(newWidgetChannels, newIndex, oldIndex)
     }
@@ -71,16 +72,16 @@ function ChannelsList() {
                 <WidgetChanel key={widgetChannel.id} widgetChannel={widgetChannel} />
               ))}
 
-              <DragOverlay style={{ marginTop: 0 }}>
-                {activeId && (
+              {activeId ? (
+                <DragOverlay style={{ marginTop: 0 }}>
                   <WidgetChanel
                     shadow="md"
                     cursor="grabbing"
                     bg={bgColorToggle}
                     widgetChannel={widgetChannels.find((item: WidgetChannelType) => item.id === activeId)}
                   />
-                )}
-              </DragOverlay>
+                </DragOverlay>
+              ) : null}
             </VStack>
           </SortableContext>
         </DndContext>

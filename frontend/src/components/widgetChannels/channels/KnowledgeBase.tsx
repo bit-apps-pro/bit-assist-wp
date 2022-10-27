@@ -1,11 +1,11 @@
 import { Button, FormControl, FormLabel, Stack, useColorModeValue, VStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TColor } from '@atomik-color/core/dist/types'
 import { str2Color } from '@atomik-color/core'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
-import { closestCenter, DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { closestCenter, DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
@@ -13,7 +13,7 @@ import KnowledgeBaseField from '@components/widgetChannels/channels/Fields/Knowl
 
 function KnowledgeBase() {
   const [flow, setFlow] = useAtom(flowAtom)
-  const [activeId, setActiveId] = useState<number | null>(null)
+  const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function KnowledgeBase() {
 
   const handleColorChange = (color: TColor, key: string) => {
     setFlow((prev) => {
-      prev.config.card_config[key] = color
+      prev.config.card_config = { ...prev.config.card_config, [key]: color }
     })
   }
 
@@ -39,18 +39,19 @@ function KnowledgeBase() {
     }),
   )
 
-  const handleDragStart = ({ active }) => {
-    setActiveId(active?.id)
+  const handleDragStart = (e: DragStartEvent) => {
+    const { id } = e.active
+    setActiveId(+id)
   }
 
-  const handleDragEnd = ({ active, over }) => {
-    setActiveId(null)
-    if (active?.id !== over?.id) {
-      const oldIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === active?.id)
-      const newIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === over?.id)
-      const newWidgetChannels = arrayMove(flow.config?.card_config?.knowledge_bases, oldIndex, newIndex)
+  const handleDragEnd = (e: DragEndEvent) => {
+    setActiveId(0)
+    if (e.active.id !== e.over?.id) {
+      const oldIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === e.active.id) || 0
+      const newIndex = flow.config?.card_config?.knowledge_bases?.findIndex((item) => item?.id === e.over?.id) || 0
+      const newWidgetChannels = arrayMove(flow.config?.card_config?.knowledge_bases || [], oldIndex, newIndex)
       setFlow((prev) => {
-        prev.config.card_config.knowledge_bases = newWidgetChannels
+        prev.config.card_config = { ...prev.config.card_config, knowledge_bases: newWidgetChannels }
       })
     }
   }
@@ -58,11 +59,11 @@ function KnowledgeBase() {
   const handleAddField = () => {
     setFlow((prev) => {
       if (typeof prev.config?.card_config?.knowledge_bases === 'undefined') {
-        prev.config.card_config.knowledge_bases = []
+        prev.config.card_config = { ...prev.config.card_config, knowledge_bases: [] }
       }
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
-      prev.config.card_config.knowledge_bases.push({
-        id: prev.config.card_config.maxId,
+      prev.config.card_config?.knowledge_bases?.push({
+        id: prev.config.card_config.maxId || 0,
         title: 'Knowledge Base Title',
         description: 'Knowledge Base Description',
       })
@@ -84,16 +85,16 @@ function KnowledgeBase() {
               <VStack spacing={3} w="full">
                 {flow.config.card_config.knowledge_bases.map((field, index) => <KnowledgeBaseField key={field.id} id={index} field={field} />)}
 
-                <DragOverlay style={{ marginTop: 0 }}>
-                  {activeId && (
+                {activeId ? (
+                  <DragOverlay style={{ marginTop: 0 }}>
                     <KnowledgeBaseField
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}
-                      field={flow.config.card_config.knowledge_bases.find((item) => item.id == activeId)}
+                      field={flow.config.card_config.knowledge_bases.find((item) => item.id === activeId)}
                     />
-                  )}
-                </DragOverlay>
+                  </DragOverlay>
+                ) : null}
               </VStack>
             </SortableContext>
           </DndContext>

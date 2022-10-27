@@ -1,6 +1,6 @@
 import { ButtonGroup, Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import { DarkModeSwitch } from './DarkModeSwitch'
+import DarkModeSwitch from './DarkModeSwitch'
 
 function Navbar() {
   return (

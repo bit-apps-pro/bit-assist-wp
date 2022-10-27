@@ -1,13 +1,15 @@
 import { Button, FormControl, FormLabel, Stack, useColorModeValue, VStack } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TColor } from '@atomik-color/core/dist/types'
 import { str2Color } from '@atomik-color/core'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import { closestCenter,
   DndContext,
+  DragEndEvent,
   DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -19,7 +21,7 @@ import FaqField from '@components/widgetChannels/channels/Fields/FaqField'
 
 function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
-  const [activeId, setActiveId] = useState<number | null>(null)
+  const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
 
   useEffect(() => {
@@ -34,7 +36,7 @@ function CustomForm() {
 
   const handleColorChange = (color: TColor, key: string) => {
     setFlow((prev) => {
-      prev.config.card_config[key] = color
+      prev.config.card_config = { ...prev.config.card_config, [key]: color }
     })
   }
 
@@ -45,18 +47,19 @@ function CustomForm() {
     }),
   )
 
-  const handleDragStart = ({ active }) => {
-    setActiveId(active?.id)
+  const handleDragStart = (e: DragStartEvent) => {
+    const { id } = e.active
+    setActiveId(+id)
   }
 
-  const handleDragEnd = ({ active, over }) => {
-    setActiveId(null)
-    if (active?.id !== over?.id) {
-      const oldIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === active?.id)
-      const newIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === over?.id)
-      const newWidgetChannels = arrayMove(flow.config?.card_config?.faqs, oldIndex, newIndex)
+  const handleDragEnd = (e: DragEndEvent) => {
+    setActiveId(0)
+    if (e.active.id !== e.over?.id) {
+      const oldIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === e.active.id) || 0
+      const newIndex = flow.config?.card_config?.faqs?.findIndex((item) => item?.id === e.over?.id) || 0
+      const newWidgetChannels = arrayMove(flow.config?.card_config?.faqs || [], oldIndex, newIndex)
       setFlow((prev) => {
-        prev.config.card_config.faqs = newWidgetChannels
+        prev.config.card_config = { ...prev.config.card_config, faqs: newWidgetChannels }
       })
     }
   }
@@ -64,10 +67,10 @@ function CustomForm() {
   const handleAddField = () => {
     setFlow((prev) => {
       if (typeof prev.config?.card_config?.faqs === 'undefined') {
-        prev.config.card_config.faqs = []
+        prev.config.card_config = { ...prev.config.card_config, faqs: [] }
       }
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
-      prev.config.card_config.faqs.push({
+      prev.config.card_config?.faqs?.push({
         id: prev.config.card_config.maxId,
         title: 'FAQ Title',
         description: 'FAQ Description',
@@ -93,16 +96,16 @@ function CustomForm() {
               <VStack spacing={3} w="full">
                 {flow.config.card_config.faqs.map((field, index) => <FaqField key={field.id} id={index} field={field} />)}
 
-                <DragOverlay style={{ marginTop: 0 }}>
-                  {activeId && (
+                {activeId ? (
+                  <DragOverlay style={{ marginTop: 0 }}>
                     <FaqField
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}
-                      field={flow.config.card_config.faqs.find((item) => item.id == activeId)}
+                      field={flow.config.card_config.faqs.find((item) => item.id === activeId)}
                     />
-                  )}
-                </DragOverlay>
+                  </DragOverlay>
+                ) : null}
               </VStack>
             </SortableContext>
           </DndContext>

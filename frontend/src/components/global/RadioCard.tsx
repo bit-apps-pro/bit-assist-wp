@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { Box, useRadio, useColorModeValue, Center, useColorMode } from '@chakra-ui/react'
 
-const RadioCard = (props) => {
+function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props)
   const formBackground = useColorModeValue('purple.500', 'purple.200')
   const iconColor = useColorModeValue('white', 'gray.800')
@@ -22,7 +23,7 @@ const RadioCard = (props) => {
         fontSize="xl"
         className={`radio-card ${colorMode}`}
         _checked={{
-          bg: props?.design != 'border' && formBackground,
+          bg: props?.design !== 'border' && formBackground,
           color: iconColor,
           borderColor: formBackground,
           borderWidth: '2px',

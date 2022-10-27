@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 
 interface UpdateSequenceProps {
-  id: string
+  id: number
   sequence: number
 }
 
