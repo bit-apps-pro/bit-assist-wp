@@ -21,26 +21,6 @@
   display: none;
 }
 
-.media-modal-backdrop {
-  background: #25283b !important;
-}
-
-.media-modal-content {
-  border-radius: 20px !important;
-}
-
-.media-menu-item.active {
-  border-radius: 8px 8px 0 0 !important;
-}
-
-.attachment-filters {
-  border-radius: 8px !important;
-}
-
-.media-modal-content .attachments-browser .search {
-  border-radius: 8px !important;
-}
-
 .wp-core-ui .attachment-preview {
   border-radius: 8px !important;
   overflow: hidden;
@@ -66,33 +46,6 @@
   color: inherit;
 }
 
-.media-toolbar .button-primary {
-  background: var(--accent-color) !important;
-  color: white !important;
-  border-radius: 20px !important;
-}
-
-.media-toolbar .button-primary:hover {
-  color: white !important;
-}
-
-.media-sidebar {
-  background: #f3f4ff;
-}
-
-.media-modal-content {
-  background: white;
-}
-
-.thumbnail {
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-button.check {
-  background: var(--accent-color) !important;
-}
-
 a:hover {
   color: inherit;
 }
@@ -106,47 +59,6 @@ a:focus {
 p {
   font-size: inherit;
   line-height: var(--chakra-lineHeights-base);
-}
-
-.media-modal * {
-  font-family: "Montserrat", sans-serif !important;
-}
-
-.media-modal a {
-  color: var(--accent-color) !important;
-}
-
-.media-modal button {
-  box-shadow: none !important;
-}
-
-.media-modal button:hover {
-  color: var(--accent-color) !important;
-}
-
-.media-modal button:focus {
-  box-shadow: none !important;
-}
-
-.media-modal input,
-.media-modal textarea,
-.media-modal select {
-  height: auto I !important;
-  border-radius: 8px !important;
-  border-color: lightgray !important;
-}
-
-.media-modal input:hover,
-.media-modal textarea:hover,
-.media-modal select:hover {
-  border-color: gray !important;
-}
-
-.media-modal input:focus,
-.media-modal textarea:focus,
-.media-modal select:focus {
-  border-color: var(--accent-color) !important;
-  box-shadow: 0 0 0 0px var(--accent-color), 0 0 0 4px rgba(0, 131, 243, 0.1) !important;
 }
 
 input[type="checkbox"]:disabled:checked:before,

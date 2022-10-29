@@ -26,7 +26,7 @@ import { Button,
   Tr,
   useColorModeValue,
   useDisclosure } from '@chakra-ui/react'
-import { HiDotsVertical } from 'react-icons/hi'
+import { HiDotsVertical, HiPlus } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { useRef } from 'react'
@@ -37,6 +37,7 @@ import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus
 import AddWidget from '@components/widget/AddWidget'
 import useToaster from '@hooks/useToaster'
 import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
+import ProModal from '@components/global/ProModal'
 
 function Widgets() {
   const { widgets, isWidgetFetching } = useFetchWidgets()
@@ -44,7 +45,7 @@ function Widgets() {
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const ThColorToggle = useColorModeValue('gray.50', 'gray.700')
   const { updateWidgetStatus, isWidgetStatusUpdating } = useUpdateWidgetStatus()
-  const { updateWidgetActive, isWidgetActiveUpdating } = useWidgetActive()
+  const { updateWidgetActive } = useWidgetActive()
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const tempWidgetId = useRef('')
   const toaster = useToaster()
@@ -83,7 +84,7 @@ function Widgets() {
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
-                  <AddWidget />
+                  {widgets && widgets.length < 1 ? <AddWidget /> : <ProModal type="widget" number="1" text="Add Widget" icon={<HiPlus />} />}
                 </HStack>
               </Th>
             </Tr>
@@ -108,7 +109,7 @@ function Widgets() {
                   />
                 </Td>
                 <Td>
-                  <Text display="inline-block" _hover={{ color: brandColorToggle }}>
+                  <Text display="inline-block" fontSize="md" _hover={{ color: brandColorToggle }}>
                     <Link to={`/widgets/${widget.id}`}>{widget.name}</Link>
                   </Text>
                 </Td>
@@ -119,8 +120,8 @@ function Widgets() {
                     w="28"
                     mr="4"
                     display="inline-block"
-                    value={(widget.active ? 1 : 0)}
-                    disabled={!widget.status}
+                    value={widget.active ? 1 : 0}
+                    disabled
                     onChange={(e) => handleChange(e.target.value, widget.id)}
                     className={`chipSelect ${widget.active ? 'active' : ''}`}
                     size="sm"
@@ -164,7 +165,13 @@ function Widgets() {
             <Button disabled={isWidgetDeleting} mr={3} onClick={closeDelModal}>
               Cancel
             </Button>
-            <Button onClick={handleDeleteWidget} isLoading={isWidgetDeleting} loadingText="Deleting..." colorScheme="red" shadow="md">
+            <Button
+              onClick={handleDeleteWidget}
+              isLoading={isWidgetDeleting}
+              loadingText="Deleting..."
+              colorScheme="red"
+              shadow="md"
+            >
               Delete
             </Button>
           </ModalFooter>

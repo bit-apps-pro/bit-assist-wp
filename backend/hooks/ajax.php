@@ -10,7 +10,7 @@ if (!\defined('ABSPATH')) {
     exit;
 }
 
-Route::noAuth()->group(function () {
+Route::group(function () {
     Route::get('widgets', [WidgetController::class, 'index']);
     Route::get('widgets/{widget}', [WidgetController::class, 'show']);
     Route::post('widgets', [WidgetController::class, 'store']);

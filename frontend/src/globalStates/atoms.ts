@@ -12,3 +12,4 @@ export const resetFlowAtom = atom(null, (get, set, _update) => {
   set(flowAtom, { ...FlowDefault, sequence: get(widgetChannelOrderAtom) })
 })
 export const widgetAtom = atomWithImmer<Widget>(WidgetDefault)
+export const widgetChannelCountAtom = atom<number>(0)

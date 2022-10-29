@@ -1,4 +1,4 @@
-import { Button,
+import { Box, Button,
   FormControl,
   FormLabel,
   Input,
@@ -191,15 +191,19 @@ function CustomForm() {
         />
       </FormControl>
 
-      <FormControl>
-        <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
-        <Input
-          id="webhook_url"
-          placeholder="https://"
-          value={flow.config?.card_config?.webhook_url || ''}
-          onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}
-        />
-      </FormControl>
+      <Box position="relative" w="full">
+        <Box filter="blur(1px)" h="full" w="full" top="0" left="0" position="absolute" zIndex={1} />
+        <Button position="absolute" zIndex="2" left={50} colorScheme="purple">Buy Pro</Button>
+        <FormControl>
+          <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
+          <Input
+            id="webhook_url"
+            placeholder="https://"
+            value={flow.config?.card_config?.webhook_url || ''}
+            disabled
+          />
+        </FormControl>
+      </Box>
 
       <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
         <FormControl>
