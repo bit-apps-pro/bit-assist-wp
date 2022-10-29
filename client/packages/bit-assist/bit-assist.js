@@ -1,4 +1,6 @@
-const iframeHost = 'http://localhost:5000'
+const iframeHost = window?.bit_assist_?.host ? bit_assist_.host + '/iframe/' : 'http://localhost:5000'
+const apiEndPoint = window?.bit_assist_?.api?.base ? bit_assist_.api.base : ''
+
 const domain = window.location.origin
 const url = window.location.href
 const winWidth = window.innerWidth
@@ -35,7 +37,7 @@ document.body.append(styleElement, widgetContainer)
 // Pass window width to iframe
 window.addEventListener('load', () => {
 	const scrollPercent = windowScrollPercentage()
-	iframeElement.contentWindow.postMessage({ action: 'windowLoaded', url, winWidth, scrollPercent }, iframeHost)
+	iframeElement.contentWindow.postMessage({ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint }, iframeHost)
 })
 
 // Pass scroll percent to iframe
@@ -63,7 +65,7 @@ function sendScrollPercent(scrollPercent) {
 
 // Listen for messages from iframe
 window.addEventListener('message', e => {
-	if (e.origin !== iframeHost) {
+	if (e.origin !== new URL(iframeHost).origin) {
 		return
 	}
 

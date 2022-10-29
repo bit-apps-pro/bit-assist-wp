@@ -91,7 +91,7 @@ function KnowledgeBase() {
                       cursor="grabbing"
                       bg={bgColorToggle}
                       id={activeId}
-                      field={flow.config.card_config.knowledge_bases.find((item) => item.id === activeId)}
+                      field={flow.config.card_config.knowledge_bases.find((item) => +item.id === activeId)}
                     />
                   </DragOverlay>
                 ) : null}

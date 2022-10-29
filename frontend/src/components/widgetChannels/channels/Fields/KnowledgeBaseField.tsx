@@ -9,6 +9,7 @@ import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { Editor } from '@tinymce/tinymce-react'
 import { KnowledgeBase } from '@globalStates/Interfaces'
+import config from '@config/config'
 
 interface KnowledgeBaseFieldProps {
   id: number
@@ -83,7 +84,7 @@ function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) 
           </HStack>
           {isEditing && (
             <Editor
-              tinymceScriptSrc="http://localhost:3000/tinymce/tinymce.min.js"
+              tinymceScriptSrc={`${config.ASSETS_URL}/tinymce/tinymce.min.js`}
               value={`${field?.description}`}
               onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{

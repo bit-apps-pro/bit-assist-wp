@@ -10,7 +10,7 @@ export default {
 		'document',
 	],
 	output: {
-		file: '../../build/bit-assist.js',
+		file: '../../../iframe/bit-assist.js',
 		format: 'iife',
 		globals: {
 			document: 'document',

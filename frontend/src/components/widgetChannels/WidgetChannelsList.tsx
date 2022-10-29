@@ -78,7 +78,7 @@ function ChannelsList() {
                     shadow="md"
                     cursor="grabbing"
                     bg={bgColorToggle}
-                    widgetChannel={widgetChannels.find((item: WidgetChannelType) => item.id === activeId)}
+                    widgetChannel={widgetChannels.find((item: WidgetChannelType) => +item.id === activeId)}
                   />
                 </DragOverlay>
               ) : null}

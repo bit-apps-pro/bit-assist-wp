@@ -1,7 +1,6 @@
 <?php
 
 use BitApps\Assist\Core\Http\Router\Route;
-use BitApps\Assist\HTTP\Controllers\ChannelController;
 use BitApps\Assist\HTTP\Controllers\ResponseController;
 use BitApps\Assist\HTTP\Controllers\WidgetController;
 

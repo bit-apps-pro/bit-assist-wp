@@ -1,11 +1,11 @@
 import './css/style.scss'
-import leftArrow from './images/left-circle-arrow.svg'
-import closeIcon from './images/close-icon.svg'
+import leftArrow from './public/images/left-circle-arrow.svg'
+import closeIcon from './public/images/close-icon.svg'
 
 const $ = (s) => document.querySelector(s)
 
 export default class Widget {
-	#apiEndPoint = 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
+	#apiEndPoint
 	#root
 	#widgetData
 	#clientDomain
@@ -31,10 +31,9 @@ export default class Widget {
 		this.#contentWrapper = $('#contentWrapper')
 		this.#widgetWrapper = $('#widgetWrapper')
 		this.#widgetBubble = $(config.widgetBubble)
-		this.#fetchWidgetData()
 		this.#addEvents()
 	}
-	
+
 
 
 	// ====================
@@ -417,8 +416,11 @@ export default class Widget {
 	#onMessageReceived = e => {
 		const { action } = e.data
 		if (action === 'windowLoaded') {
-			const { url, winWidth, scrollPercent } = e.data
+			const { url, winWidth, scrollPercent, apiEndPoint } = e.data
 			this.#root.style.setProperty('--client-win-width', winWidth + 'px')
+
+			this.#apiEndPoint = apiEndPoint
+			this.#fetchWidgetData()
 
 			this.#handleWindowLoaded(url, winWidth)
 			this.#handleScrollPercent(scrollPercent)
@@ -572,9 +574,8 @@ export default class Widget {
 			)
 			.map(
 				widgetChannel => `
-          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${
-					widgetChannel.config?.url || '#'
-				}" data-target="${widgetChannel.config.open_window_action}">
+          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${widgetChannel.config?.url || '#'
+					}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
             <div class="channel-icon">
               <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
@@ -679,9 +680,8 @@ export default class Widget {
       <div class="toast-content">
         <div class="toast-text">
           <div class="toast-text-title">${type === 'success' ? 'Success' : 'Error'}</div>
-          <div class="toast-text-body">${
-						type === 'success' ? message : 'Something went wrong'
-					}</div>
+          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'
+			}</div>
         </div>
       </div>
     `
@@ -724,7 +724,7 @@ export default class Widget {
 			(parseInt(this.#widgetData?.styles?.color?.r, 10) * 299 +
 				parseInt(this.#widgetData?.styles?.color?.g, 10) * 587 +
 				parseInt(this.#widgetData?.styles?.color?.b, 10) * 114) /
-				1000,
+			1000,
 		)
 		this.#root.style.setProperty('--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}
