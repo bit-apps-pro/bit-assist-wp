@@ -5,9 +5,12 @@ const serverVariables = typeof bit_assist_ === 'undefined' ? {} : bit_assist_ //
 const config = {
   PRODUCT_NAME: 'Bit Assist',
   IS_DEV: true,
-  API_URL:
+  AJAX_URL:
     serverVariables.ajaxURL
     || 'http://bit-assist-wp.test/wp-admin/admin-ajax.php',
+  API_URL:
+    serverVariables.api
+    || 'http://bit-assist-wp.test/wp-json/bit-assist/v1',
   NONCE: serverVariables.nonce || '',
   ROUTE_PREFIX: serverVariables.routePrefix || 'bit_assist_',
   ROOT_URL: serverVariables.rootURL,

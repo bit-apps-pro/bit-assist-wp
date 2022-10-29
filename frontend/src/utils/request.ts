@@ -21,8 +21,8 @@ interface OptionsType {
 }
 
 export default async function request(action: string, data: any = null, queryParam: any = null, method = 'POST') {
-  const { API_URL, NONCE, ROUTE_PREFIX } = config
-  const uri = new URL(API_URL)
+  const { AJAX_URL, NONCE, ROUTE_PREFIX } = config
+  const uri = new URL(AJAX_URL)
   uri.searchParams.append('action', `${ROUTE_PREFIX}${action}`)
   uri.searchParams.append('_ajax_nonce', NONCE)
 

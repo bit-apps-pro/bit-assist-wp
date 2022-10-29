@@ -1,5 +1,5 @@
 const iframeHost = window?.bit_assist_?.host ? bit_assist_.host + '/iframe/' : 'http://localhost:5000'
-const apiEndPoint = window?.bit_assist_?.api?.base ? bit_assist_.api.base : ''
+const apiEndPoint = window?.bit_assist_?.api?.base ? bit_assist_.api.base : 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
 
 const domain = window.location.origin
 const url = window.location.href

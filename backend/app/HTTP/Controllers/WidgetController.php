@@ -100,9 +100,17 @@ final class WidgetController
 
     public function bitAssistWidget(Request $request)
     {
-        $widget = Widget::where('status', 1)->where('active', 1)->select(
+        $widget = new Widget();
+        $widget->where('status', 1);
+        if (Config::get('SITE_URL') === $request->domain) {
+            $widget->where('active', 1);
+        } else {
+            $widget->whereRaw('JSON_CONTAINS(domains, \'["' . $request->domain . '"]\')');
+        }
+        $widget->select(
             ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']
         )->first();
+
         $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
 
         if (count($widgetChannels) < 1) {

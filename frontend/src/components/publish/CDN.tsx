@@ -6,7 +6,12 @@ import config from '@config/config'
 
 export default function CDN() {
   const toaster = useToaster()
-  const cdnUrl = `<script defer src='${config.ROOT_URL}/client/build/bit-assist.js'></script>`
+  const cdnUrl = `
+    <script>
+      var bit_assist_={host: ${JSON.stringify(config.ROOT_URL)},api: ${JSON.stringify(config.API_URL)}}
+      var d=document;s=d.createElement('script');s.type='text/javascript';s.defer=true;s.src='${config.ROOT_URL}/iframe/bit-assist.js';t=d.getElementsByTagName('script')[0];t.parentNode.insertBefore(s, t)
+    </script>
+  `
 
   const unsecuredCopyToClipboard = (text: string) => {
     const textArea = document.createElement('textarea')
