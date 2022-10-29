@@ -38,6 +38,12 @@ final class WidgetController
                 'position'=> 'bottom-right',
             ]
         ];
+
+        $hasActiveWidget = Widget::where('active', 1)->first();
+        if (!isset($hasActiveWidget->id)) {
+            $newWidget['active'] = 1;
+        }
+
         Widget::insert($newWidget);
 
         return Response::success('WidgetChannel created successfully');
