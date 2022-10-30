@@ -25,7 +25,7 @@ interface BusinessHours {
   start?: string
   end?: string
 }
-interface ExcludePages {
+export interface ExcludePages {
   url: string
   visibility: string
   condition: string

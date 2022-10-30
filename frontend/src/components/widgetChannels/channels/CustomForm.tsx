@@ -1,4 +1,4 @@
-import { Box, Button,
+import { Button,
   FormControl,
   FormLabel,
   Input,
@@ -31,6 +31,7 @@ import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifi
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
 import StoreResponses from '@components/widgetChannels/StoreResponses'
+import ProWrapper from '@components/global/ProWrapper'
 
 function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -59,9 +60,7 @@ function CustomForm() {
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   )
 
   const handleDragStart = (e: DragStartEvent) => {
@@ -191,19 +190,17 @@ function CustomForm() {
         />
       </FormControl>
 
-      <Box position="relative" w="full">
-        <Box filter="blur(1px)" h="full" w="full" top="0" left="0" position="absolute" zIndex={1} />
-        <Button position="absolute" zIndex="2" left={50} colorScheme="purple">Buy Pro</Button>
+      <ProWrapper>
         <FormControl>
           <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
           <Input
             id="webhook_url"
             placeholder="https://"
             value={flow.config?.card_config?.webhook_url || ''}
-            disabled
+            onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}
           />
         </FormControl>
-      </Box>
+      </ProWrapper>
 
       <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
         <FormControl>
@@ -211,7 +208,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_bg_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
-            handleClose={() => {}}
+            handleClose={() => { }}
           />
         </FormControl>
 
@@ -220,7 +217,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_text_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
-            handleClose={() => {}}
+            handleClose={() => { }}
           />
         </FormControl>
       </Stack>

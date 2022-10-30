@@ -1,9 +1,11 @@
 import { atom } from 'jotai'
 import { atomWithImmer } from 'jotai/immer'
-import { FlowDefault, WidgetDefault } from '@globalStates/DefaultStates'
+import { FlowDefault, WidgetDefault, FreeLimitsDefault } from '@globalStates/DefaultStates'
 import { Widget, Flow, UserStateType } from '@globalStates/Interfaces'
 import { atomWithReset } from 'jotai/utils'
 
+export const isProAtom = atom<boolean>(false)
+export const freeLimitsAtom = atom<typeof FreeLimitsDefault>(FreeLimitsDefault)
 export const widgetChannelOrderAtom = atom<number>(0)
 export const userState = atom<UserStateType>({})
 export const editWidgetChannelIdAtom = atomWithReset<string>('')

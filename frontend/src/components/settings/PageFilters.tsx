@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
-import { widgetAtom } from '@globalStates/atoms'
+import { isProAtom, widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -9,12 +9,14 @@ import Page from '@components/settings/Page'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
+import ProWrapper from '@components/global/ProWrapper'
 
 function PageFilters() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const [isAdding, setIsAdding] = useState(false)
+  const [isPro] = useAtom(isProAtom)
 
   const [pageDomain, setPageDomain] = useState('')
   const [pageUrl, setPageName] = useState('')
@@ -82,64 +84,70 @@ function PageFilters() {
       </Box>
 
       {isAdding && (
-        <Box>
-          <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow="auto">
-            <Select w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
-              <option value="showOn">Show On</option>
-              <option value="hideOn">Hide On</option>
-            </Select>
-            <Select w="25rem" minW="10rem" maxW="full" onChange={(e) => setPageCondition(e.target.value)}>
-              <option value="contains">Pages that contain</option>
-              <option value="equal">Specific page</option>
-              <option value="startWith">Pages stars with</option>
-              <option value="endWith">Pages ended with</option>
-            </Select>
-            <InputGroup>
-              <InputLeftAddon children="your-domain/" />
-              <Input
-                minW="10rem"
-                placeholder="Page slug"
-                value={pageUrl ?? ''}
-                onChange={(e) => setPageName(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-            </InputGroup>
+        <ProWrapper>
+          <Box>
+            <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow="auto">
+              <Select w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
+                <option value="showOn">Show On</option>
+                <option value="hideOn">Hide On</option>
+              </Select>
+              <Select w="25rem" minW="10rem" maxW="full" onChange={(e) => setPageCondition(e.target.value)}>
+                <option value="contains">Pages that contain</option>
+                <option value="equal">Specific page</option>
+                <option value="startWith">Pages stars with</option>
+                <option value="endWith">Pages ended with</option>
+              </Select>
+              <InputGroup>
+                <InputLeftAddon children="your-domain/" />
+                <Input
+                  minW="10rem"
+                  placeholder="Page slug"
+                  value={pageUrl ?? ''}
+                  onChange={(e) => setPageName(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+              </InputGroup>
 
-            <Tooltip label="Cancel">
-              <IconButton isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
-            </Tooltip>
-            <Tooltip label="Save">
-              <IconButton
-                mr={2}
-                isRound
-                aria-label="Remove Page"
-                variant="ghost"
-                colorScheme="green"
-                icon={<HiCheck />}
-                onClick={() => addNewPage()}
-                disabled={isWidgetUpdating}
-              />
-            </Tooltip>
-          </HStack>
-          <span>
-            Press
-            {' '}
-            <Kbd>enter</Kbd>
-            {' '}
-            to add, &nbsp;
-            {' '}
-            <Kbd>esc</Kbd>
-            {' '}
-            to cancel
-          </span>
-        </Box>
+              <Tooltip label="Cancel">
+                <IconButton isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
+              </Tooltip>
+              <Tooltip label="Save">
+                <IconButton
+                  mr={2}
+                  isRound
+                  aria-label="Remove Page"
+                  variant="ghost"
+                  colorScheme="green"
+                  icon={<HiCheck />}
+                  onClick={() => addNewPage()}
+                  disabled={isWidgetUpdating}
+                />
+              </Tooltip>
+            </HStack>
+            <span>
+              Press
+              {' '}
+              <Kbd>enter</Kbd>
+              {' '}
+              to add, &nbsp;
+              {' '}
+              <Kbd>esc</Kbd>
+              {' '}
+              to cancel
+            </span>
+          </Box>
+        </ProWrapper>
       )}
 
-      {!isAdding && (
+      {!isAdding ? (
         <Button leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={addPageButtonClickHandle} isLoading={isWidgetUpdating}>
           Add Page
         </Button>
-      )}
+      ) : null}
+
+      {(!isPro && isAdding) ? (
+        <Button colorScheme="red" mt="4" variant="outline" onClick={resetStates}>Remove Filter</Button>
+      ) : null}
     </Box>
   )
 }

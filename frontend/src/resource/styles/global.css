@@ -28,6 +28,16 @@ svg {
   pointer-events: none;
   display: inline-block;
 }
+.radio-card.dark .widget-icon,
+.radio-card[data-checked].light .widget-icon {
+  filter: invert(98%) sepia(98%) saturate(0%) hue-rotate(315deg) brightness(104%) contrast(102%); /* black icon */
+}
+.radio-card[data-checked].dark .widget-icon {
+  filter: invert(7%) sepia(5%) saturate(5605%) hue-rotate(182deg) brightness(98%) contrast(88%); /* white icon */
+}
+.tox-tinymce-aux {
+  z-index: 2000 !important;
+}
 .select-search-container {
   --select-search-background: var(--chakra-colors-chakra-body-bg) !important;
   --select-search-border: var(--chakra-colors-gray-100) !important;
@@ -62,6 +72,8 @@ svg {
 .chipSelect {
   border-radius: 30px !important;
   height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 10px !important;
 }
 .chipSelect.active.disabled, 
 .chipSelect.active:disabled, 

@@ -16,11 +16,11 @@ import { widgetAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
-import { Widget } from '@globalStates/Interfaces'
+import { ExcludePages, Widget } from '@globalStates/Interfaces'
 
 interface Props {
   pageDomain: string
-  page: string
+  page: ExcludePages
   index: number
   updateWidget: (widget: Widget) => Promise<{ status: 'success' | 'error', data: string }>
   isWidgetUpdating: boolean

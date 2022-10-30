@@ -7,9 +7,18 @@ import { Button,
   ModalCloseButton,
   useDisclosure,
   Text,
-  Link } from '@chakra-ui/react'
+  Link,
+  Box,
+  Flex } from '@chakra-ui/react'
 
-export default function ProModal({ type, number, text, icon }: { type: string, number: string, text: string, icon: any }) {
+interface ProModalProps {
+  type: string
+  number: number
+  text: string
+  icon: React.ReactElement
+}
+
+export default function ProModal({ type, number, text, icon }: ProModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -26,20 +35,25 @@ export default function ProModal({ type, number, text, icon }: { type: string, n
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text fontSize="md">
-              You can use
-              {' '}
-              <strong>{`${number} ${type}`}</strong>
-              {' '}
-              in free version.
-            </Text>
-            <Text fontSize="md" mb="6">
-              {`Get premium version to use unlimited ${type}s.`}
-            </Text>
-
-            <Link href="https://www.bitapps.pro/bit-assist" target="_blank" _hover={{ underline: 'none' }}>
-              <Button colorScheme="purple">Buy Pro</Button>
-            </Link>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Box>
+                <Text fontSize="md">
+                  You can use
+                  {' '}
+                  <strong>{`${number} ${type}`}</strong>
+                  {' '}
+                  in free version.
+                </Text>
+                <Text fontSize="md">
+                  {`Get premium version to use unlimited ${type}s.`}
+                </Text>
+              </Box>
+              <Box textAlign="right">
+                <Link href="https://www.bitapps.pro/bit-assist" target="_blank" _hover={{ underline: 'none' }}>
+                  <Button colorScheme="purple">Buy Pro</Button>
+                </Link>
+              </Box>
+            </Flex>
           </ModalBody>
         </ModalContent>
       </Modal>

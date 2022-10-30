@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
-import { widgetAtom } from '@globalStates/atoms'
+import { isProAtom, widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
@@ -12,6 +12,7 @@ import { produce } from 'immer'
 import { debounce } from 'lodash'
 import { SelectedOptionValue } from '@globalStates/Interfaces'
 import 'react-select-search/style.css'
+import ProWrapper from '@components/global/ProWrapper'
 
 function BusinessHours() {
   const toaster = useToaster()
@@ -19,6 +20,8 @@ function BusinessHours() {
   const { updateWidget } = useUpdateWidget()
   const [isChanged, setIsChanged] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
+  const [isPro] = useAtom(isProAtom)
+
   const [defaultBusinessHours] = useState([
     { day: 'sunday', start: '09:00', end: '18:00' },
     { day: 'monday', start: '09:00', end: '18:00' },
@@ -109,11 +112,13 @@ function BusinessHours() {
       prev.business_hours = val
     })
 
-    debounceUpdateWidget(
-      produce(widget, (draft) => {
-        draft.business_hours = val
-      }),
-    )
+    if (isPro) {
+      debounceUpdateWidget(
+        produce(widget, (draft) => {
+          draft.business_hours = val
+        }),
+      )
+    }
   }
 
   const debounceUpdateWidget = useRef(
@@ -139,59 +144,61 @@ function BusinessHours() {
       </FormControl>
 
       {isEnabled && (
-        <Box mt={4}>
-          <VStack alignItems="flex-start">
-            <VStack alignItems="flex-start" mb="2" maxW="full">
-              <Text>TimeZone</Text>
-              <Box id="timezoneSelect" w="lg" maxW="full">
-                <SelectSearch
-                  search
-                  options={Timezones}
-                  onChange={handleTimezoneChange}
-                  defaultValue={widget.timezone ?? ''}
-                  placeholder="Choose your timezone"
-                  className="select-search"
-                />
-              </Box>
-            </VStack>
+        <ProWrapper>
+          <Box mt={4}>
+            <VStack alignItems="flex-start">
+              <VStack alignItems="flex-start" mb="2" maxW="full">
+                <Text>TimeZone</Text>
+                <Box id="timezoneSelect" w="lg" maxW="full">
+                  <SelectSearch
+                    search
+                    options={Timezones}
+                    onChange={handleTimezoneChange}
+                    defaultValue={widget.timezone ?? ''}
+                    placeholder="Choose your timezone"
+                    className="select-search"
+                  />
+                </Box>
+              </VStack>
 
-            {widget.business_hours?.map((item, index) => (
-              <HStack key={item.day} minH="10" maxW="full">
-                <Checkbox
-                  size="lg"
-                  colorScheme="purple"
-                  isChecked={!!item?.start}
-                  onChange={(e) => handleCheckboxChange(e, index)}
-                >
-                  <Text w="24" fontSize="md">
-                    {item?.day && item.day.charAt(0).toUpperCase() + item.day.slice(1)}
-                  </Text>
-                </Checkbox>
-                {!!item?.start && (
-                  <>
-                    <Input
-                      w="24"
-                      name="start"
-                      placeholder="09:00"
-                      value={item?.start ?? ''}
-                      onChange={(e) => handleInputChange(e, index)}
-                      onBlur={(e) => updateChange(e, index)}
-                    />
-                    <Text>-</Text>
-                    <Input
-                      w="24"
-                      name="end"
-                      placeholder="18:00"
-                      value={item?.end ?? ''}
-                      onChange={(e) => handleInputChange(e, index)}
-                      onBlur={(e) => updateChange(e, index)}
-                    />
-                  </>
-                )}
-              </HStack>
-            ))}
-          </VStack>
-        </Box>
+              {widget.business_hours?.map((item, index) => (
+                <HStack key={item.day} minH="10" maxW="full">
+                  <Checkbox
+                    size="lg"
+                    colorScheme="purple"
+                    isChecked={!!item?.start}
+                    onChange={(e) => handleCheckboxChange(e, index)}
+                  >
+                    <Text w="24" fontSize="md">
+                      {item?.day && item.day.charAt(0).toUpperCase() + item.day.slice(1)}
+                    </Text>
+                  </Checkbox>
+                  {!!item?.start && (
+                    <>
+                      <Input
+                        w="24"
+                        name="start"
+                        placeholder="09:00"
+                        value={item?.start ?? ''}
+                        onChange={(e) => handleInputChange(e, index)}
+                        onBlur={(e) => updateChange(e, index)}
+                      />
+                      <Text>-</Text>
+                      <Input
+                        w="24"
+                        name="end"
+                        placeholder="18:00"
+                        value={item?.end ?? ''}
+                        onChange={(e) => handleInputChange(e, index)}
+                        onBlur={(e) => updateChange(e, index)}
+                      />
+                    </>
+                  )}
+                </HStack>
+              ))}
+            </VStack>
+          </Box>
+        </ProWrapper>
       )}
     </Box>
   )
