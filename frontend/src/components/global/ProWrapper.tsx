@@ -14,7 +14,7 @@ export default function ProWrapper({ children }: { children: React.ReactNode }) 
           Buy Pro
         </Button>
       </Link>
-      <Box filter="blur(2px)" bg="blackAlpha.200" pointerEvents="none" py="2" px="4" rounded="md">
+      <Box filter="blur(1.5px)" bg="blackAlpha.200" pointerEvents="none" py="2" px="4" rounded="md">
         {children}
       </Box>
     </Box>
