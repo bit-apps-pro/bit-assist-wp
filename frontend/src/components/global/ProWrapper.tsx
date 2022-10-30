@@ -1,11 +1,8 @@
 import { Box, Button, Link } from '@chakra-ui/react'
-import { isProAtom } from '@globalStates/atoms'
-import { useAtom } from 'jotai'
+import config from '@config/config'
 
 export default function ProWrapper({ children }: { children: React.ReactNode }) {
-  const [isPro] = useAtom(isProAtom)
-
-  if (isPro) return <>{children}</> // eslint-disable-line react/jsx-no-useless-fragment
+  if (config.IS_PRO) return <>{children}</> // eslint-disable-line react/jsx-no-useless-fragment
 
   return (
     <Box w="full" position="relative">

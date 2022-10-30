@@ -39,7 +39,8 @@ import useToaster from '@hooks/useToaster'
 import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
 import ProModal from '@components/global/ProModal'
 import { useAtom } from 'jotai'
-import { freeLimitsAtom, isProAtom } from '@globalStates/atoms'
+import { freeLimitsAtom } from '@globalStates/atoms'
+import config from '@config/config'
 
 function Widgets() {
   const { widgets, isWidgetFetching } = useFetchWidgets()
@@ -51,7 +52,6 @@ function Widgets() {
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const tempWidgetId = useRef('')
   const toaster = useToaster()
-  const [isPro] = useAtom(isProAtom)
   const [freeLimit] = useAtom(freeLimitsAtom)
 
   const openDeleteModal = (widgetId: string) => () => {
@@ -88,7 +88,7 @@ function Widgets() {
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
-                  {!isPro && widgets?.length >= freeLimit.widget
+                  {!config.IS_PRO && widgets?.length >= freeLimit.widget
                     ? <ProModal type="widget" number={freeLimit.widget} text="Add Widget" icon={<HiPlus />} />
                     : <AddWidget />}
                 </HStack>
@@ -127,7 +127,7 @@ function Widgets() {
                     mr="4"
                     display="inline-block"
                     value={widget.active ? 1 : 0}
-                    disabled={isPro ? !widget.status : true}
+                    disabled={config.IS_PRO ? !widget.status : true}
                     onChange={(e) => handleChange(e.target.value, widget.id)}
                     className={`chipSelect ${widget.active ? 'active' : ''}`}
                     size="sm"

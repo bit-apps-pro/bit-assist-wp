@@ -15,6 +15,7 @@ const config = {
   ROUTE_PREFIX: serverVariables.routePrefix || 'bit_assist_',
   ROOT_URL: serverVariables.rootURL,
   ASSETS_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : serverVariables.assetsURL,
+  IS_PRO: serverVariables.isPro || false,
 }
 
 export default config

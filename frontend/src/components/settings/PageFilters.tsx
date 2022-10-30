@@ -1,7 +1,7 @@
 /* eslint-disable react/no-children-prop */
 import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
-import { isProAtom, widgetAtom } from '@globalStates/atoms'
+import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -10,13 +10,13 @@ import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import ProWrapper from '@components/global/ProWrapper'
+import config from '@config/config'
 
 function PageFilters() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const [isAdding, setIsAdding] = useState(false)
-  const [isPro] = useAtom(isProAtom)
 
   const [pageDomain, setPageDomain] = useState('')
   const [pageUrl, setPageName] = useState('')
@@ -145,7 +145,7 @@ function PageFilters() {
         </Button>
       ) : null}
 
-      {(!isPro && isAdding) ? (
+      {(!config.IS_PRO && isAdding) ? (
         <Button colorScheme="red" mt="4" variant="outline" onClick={resetStates}>Remove Filter</Button>
       ) : null}
     </Box>

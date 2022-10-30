@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
-import { isProAtom, widgetAtom } from '@globalStates/atoms'
+import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { useAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
@@ -13,6 +13,7 @@ import { debounce } from 'lodash'
 import { SelectedOptionValue } from '@globalStates/Interfaces'
 import 'react-select-search/style.css'
 import ProWrapper from '@components/global/ProWrapper'
+import config from '@config/config'
 
 function BusinessHours() {
   const toaster = useToaster()
@@ -20,7 +21,6 @@ function BusinessHours() {
   const { updateWidget } = useUpdateWidget()
   const [isChanged, setIsChanged] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
-  const [isPro] = useAtom(isProAtom)
 
   const [defaultBusinessHours] = useState([
     { day: 'sunday', start: '09:00', end: '18:00' },
@@ -112,7 +112,7 @@ function BusinessHours() {
       prev.business_hours = val
     })
 
-    if (isPro) {
+    if (config.IS_PRO) {
       debounceUpdateWidget(
         produce(widget, (draft) => {
           draft.business_hours = val

@@ -4,7 +4,6 @@ import { FlowDefault, WidgetDefault, FreeLimitsDefault } from '@globalStates/Def
 import { Widget, Flow, UserStateType } from '@globalStates/Interfaces'
 import { atomWithReset } from 'jotai/utils'
 
-export const isProAtom = atom<boolean>(false)
 export const freeLimitsAtom = atom<typeof FreeLimitsDefault>(FreeLimitsDefault)
 export const widgetChannelOrderAtom = atom<number>(0)
 export const userState = atom<UserStateType>({})
