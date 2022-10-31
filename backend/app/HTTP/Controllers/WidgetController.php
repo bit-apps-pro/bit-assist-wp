@@ -27,6 +27,10 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
+        if (Widget::count() >= 1) {
+            return Response::error('Limited 1 widgets in free version');
+        }
+
         $newWidget = [
             'name'   => trim($request->name),
             'styles' => [
@@ -39,14 +43,17 @@ final class WidgetController
             ]
         ];
 
-        $hasActiveWidget = Widget::where('active', 1)->first();
-        if (!isset($hasActiveWidget->id)) {
+        $activeWidget = Config::getOption('widget_active');
+        if (empty($activeWidget)) {
             $newWidget['active'] = 1;
         }
 
-        Widget::insert($newWidget);
+        $widget = Widget::insert($newWidget);
+        if (isset($widget->id) && empty($activeWidget)) {
+            Config::updateOption('widget_active', $widget->id);
+        }
 
-        return Response::success('WidgetChannel created successfully');
+        return Response::success('Widget created successfully');
     }
 
     public function update(WidgetUpdateRequest $request, Widget $widget)
@@ -82,26 +89,6 @@ final class WidgetController
             return Response::success('Widget status changed');
         }
         return  Response::error('Widget status not changed');
-    }
-
-    public function changeActive(Request $request, $widgetId)
-    {
-        $activeWidget = Widget::where('active', 1)->where('id', '!=', $widgetId)->first();
-        if (isset($activeWidget->id)) {
-            $activeWidget->update(['active' => 0])->save();
-        }
-
-        $widget = Widget::where('id', $widgetId)->first();
-        $widget->update(['active' => $request->active]);
-
-        if ($widget->save()) {
-            Config::updateOption('widget_active', (($request->active && $widget->status) ? $widget->id : null));
-            if ($request->active) {
-                return Response::success('Widget activated');
-            }
-            return Response::success('Widget deactivated');
-        }
-        return Response::error('Something went wrong');
     }
 
     public function bitAssistWidget(Request $request)

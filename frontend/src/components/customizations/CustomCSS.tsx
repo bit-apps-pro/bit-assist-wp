@@ -12,7 +12,7 @@ import { Box,
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import Editor from '@monaco-editor/react'
 import { useAtom } from 'jotai'
 import config from '@config/config'
@@ -20,7 +20,7 @@ import ProWrapper from '@components/global/ProWrapper'
 
 function CustomCSS() {
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget, isWidgetUpdating } = useUpdateWidgetPro()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const toaster = useToaster()
   const tabIndex = config.IS_PRO ? 0 : -1

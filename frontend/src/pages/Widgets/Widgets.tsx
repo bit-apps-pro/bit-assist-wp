@@ -60,7 +60,8 @@ function Widgets() {
   }
 
   const handleDeleteWidget = async () => {
-    await deleteWidget(tempWidgetId.current)
+    const { status, data } = await deleteWidget(tempWidgetId.current)
+    toaster(status, data)
     closeDelModal()
   }
 
@@ -70,7 +71,7 @@ function Widgets() {
   }
 
   const handleChange = async (value: string, widgetId: string) => {
-    const { status, data } = await updateWidgetActive(widgetId, Number(value))
+    const { status, data } = await updateWidgetActive(widgetId, +value)
     toaster(status, data)
   }
 

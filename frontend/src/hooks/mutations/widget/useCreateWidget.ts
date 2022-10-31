@@ -7,7 +7,7 @@ import { str2Color } from '@atomik-color/core'
 export default function useCreateWidget(closeCreateWidgetModal: () => void, setCreateWidgetInfo: (info: CreateWidgetInfo) => void) {
   const queryClient = useQueryClient()
 
-  const { mutate, isLoading } = useMutation(
+  const { mutateAsync, isLoading } = useMutation(
     async (widgetInfo: CreateWidgetInfo) => request('widgets', { ...widgetInfo, color: str2Color('#00ffa3') }),
     {
       onSuccess: () => {
@@ -19,7 +19,7 @@ export default function useCreateWidget(closeCreateWidgetModal: () => void, setC
   )
 
   return {
-    createWidget: (widgetInfo: CreateWidgetInfo) => mutate(widgetInfo),
+    createWidget: (widgetInfo: CreateWidgetInfo) => mutateAsync(widgetInfo),
     isWidgetCreating: isLoading,
   }
 }

@@ -28,7 +28,8 @@ function AddWidget() {
     if (createWidgetInfo?.name === '') {
       return toaster('error', 'Widget name is required')
     }
-    createWidget(createWidgetInfo)
+    const { status, data } = await createWidget(createWidgetInfo)
+    toaster(status, data)
   }
 
   const onModalClose = () => {

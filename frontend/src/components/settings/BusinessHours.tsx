@@ -2,7 +2,7 @@
 import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import { useAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
 import SelectSearch from 'react-select-search'
@@ -18,7 +18,7 @@ import config from '@config/config'
 function BusinessHours() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget } = useUpdateWidget()
+  const { updateWidget } = useUpdateWidgetPro()
   const [isChanged, setIsChanged] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
   const tabIndex = config.IS_PRO ? 0 : -1

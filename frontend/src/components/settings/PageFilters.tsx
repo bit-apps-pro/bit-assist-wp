@@ -2,7 +2,7 @@
 import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import Page from '@components/settings/Page'
@@ -15,7 +15,7 @@ import config from '@config/config'
 function PageFilters() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget, isWidgetUpdating } = useUpdateWidgetPro()
   const [isAdding, setIsAdding] = useState(false)
   const [pageDomain, setPageDomain] = useState('')
   const [pageUrl, setPageName] = useState('')

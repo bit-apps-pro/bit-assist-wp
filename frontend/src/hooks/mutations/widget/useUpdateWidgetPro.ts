@@ -4,7 +4,7 @@ import { useMutation } from 'react-query'
 
 export default function useUpdateWidgetPro() {
   const { mutateAsync, isLoading } = useMutation(
-    async (widget: Widget) => request(`widgetsPro/${widget.id}`, widget, null, 'PUT'),
+    async (widget: Widget) => request(`pro/widgets/${widget.id}`, widget, null, 'PUT'),
   )
 
   return {

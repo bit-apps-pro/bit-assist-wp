@@ -25,6 +25,13 @@ final class WidgetChannelController
 
     public function store(WidgetChannelStoreRequest $request)
     {
+        if (WidgetChannel::where('widget_id', $request->widget_id)->count() >= 2) {
+            return Response::error('Limited 2 channels in free version');
+        }
+
+        if ($request->channel_name === 'Custom-Form') {
+            unset($request->config->card_config->webhook_url);
+        }
         $result = WidgetChannel::insert($request->all());
 
         if ($result) {

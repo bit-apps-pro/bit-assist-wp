@@ -10,7 +10,7 @@ export default function useWidgetActive() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (requestData: ReqProps) => request(`widgets/${requestData.widgetId}/changeActive`, { active: requestData.active }, null, 'PUT'),
+    async (requestData: ReqProps) => request(`pro/widgets/${requestData.widgetId}/changeActive`, { active: requestData.active }, null, 'PUT'),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('widgets')
