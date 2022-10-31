@@ -77,7 +77,7 @@ function Widgets() {
 
   return (
     <>
-      <TableContainer borderWidth="1px" rounded="lg" shadow="md">
+      <TableContainer borderWidth="1px" rounded="lg" shadow="md" mt="2">
         <Table variant="simple" size="sm">
           <Thead bgColor={ThColorToggle}>
             <Tr>
@@ -96,10 +96,10 @@ function Widgets() {
               </Th>
             </Tr>
             <Tr>
-              <Th>status</Th>
-              <Th>widget name</Th>
-              <Th>created at</Th>
-              <Th>use widget in</Th>
+              <Th py="2">status</Th>
+              <Th py="2">widget name</Th>
+              <Th py="2">created at</Th>
+              <Th py="2">use widget in</Th>
             </Tr>
           </Thead>
           <Tbody>

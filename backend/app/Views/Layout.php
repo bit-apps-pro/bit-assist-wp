@@ -120,7 +120,7 @@ class Layout
 
     public function body()
     {
-        $assetURI = Config::get('ASSET_URI');
+        $rootURL = Config::get('ROOT_URI');
 
         // phpcs:disable Generic.PHP.ForbiddenFunctions.Found
 
@@ -130,8 +130,8 @@ class Layout
         <div
             style="display: flex;flex-direction: column;justify-content: center;
             align-items: center;height: 90vh;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <img alt="bit-assist-logo" class="bit-logo" width="70" src="{$assetURI}/img/logo.svg">
-            <h1>Welcome to Bit Assist.</h1>
+            <img alt="bit-assist-logo" class="bit-logo" width="70" src="{$rootURL}/img/logo.svg">
+            <h1>Welcome to Bit Assist</h1>
             <p></p>
         </div>
         </div>
