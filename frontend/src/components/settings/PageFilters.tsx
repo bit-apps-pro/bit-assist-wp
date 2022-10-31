@@ -17,11 +17,11 @@ function PageFilters() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget, isWidgetUpdating } = useUpdateWidget()
   const [isAdding, setIsAdding] = useState(false)
-
   const [pageDomain, setPageDomain] = useState('')
   const [pageUrl, setPageName] = useState('')
   const [pageVisibility, setPageVisibility] = useState('')
   const [pageCondition, setPageCondition] = useState('')
+  const tabIndex = config.IS_PRO ? 0 : -1
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.repeat) {
@@ -87,11 +87,11 @@ function PageFilters() {
         <ProWrapper>
           <Box>
             <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow="auto">
-              <Select w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
+              <Select tabIndex={tabIndex} w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
                 <option value="showOn">Show On</option>
                 <option value="hideOn">Hide On</option>
               </Select>
-              <Select w="25rem" minW="10rem" maxW="full" onChange={(e) => setPageCondition(e.target.value)}>
+              <Select tabIndex={tabIndex} w="25rem" minW="10rem" maxW="full" onChange={(e) => setPageCondition(e.target.value)}>
                 <option value="contains">Pages that contain</option>
                 <option value="equal">Specific page</option>
                 <option value="startWith">Pages stars with</option>
@@ -105,11 +105,12 @@ function PageFilters() {
                   value={pageUrl ?? ''}
                   onChange={(e) => setPageName(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  tabIndex={tabIndex}
                 />
               </InputGroup>
 
               <Tooltip label="Cancel">
-                <IconButton isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
+                <IconButton tabIndex={tabIndex} isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
               </Tooltip>
               <Tooltip label="Save">
                 <IconButton
@@ -121,6 +122,7 @@ function PageFilters() {
                   icon={<HiCheck />}
                   onClick={() => addNewPage()}
                   disabled={isWidgetUpdating}
+                  tabIndex={tabIndex}
                 />
               </Tooltip>
             </HStack>

@@ -32,6 +32,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { FiPlus } from 'react-icons/fi'
 import StoreResponses from '@components/widgetChannels/StoreResponses'
 import ProWrapper from '@components/global/ProWrapper'
+import config from '@config/config'
 
 function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -198,6 +199,7 @@ function CustomForm() {
             placeholder="https://"
             value={flow.config?.card_config?.webhook_url || ''}
             onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}
+            tabIndex={config.IS_PRO ? 0 : -1}
           />
         </FormControl>
       </ProWrapper>

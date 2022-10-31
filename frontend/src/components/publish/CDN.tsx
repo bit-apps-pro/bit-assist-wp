@@ -6,6 +6,8 @@ import config from '@config/config'
 
 export default function CDN() {
   const toaster = useToaster()
+  const tabIndex = config.IS_PRO ? 0 : -1
+
   const cdnUrl = `
     <script>
       var bit_assist_={host: ${JSON.stringify(config.ROOT_URL)},api: ${JSON.stringify(config.API_URL)}}
@@ -45,7 +47,7 @@ export default function CDN() {
       <HStack spacing={0} gap="2">
         <Code maxW="full">{cdnUrl}</Code>
         <Tooltip label="Copy">
-          <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} />
+          <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} tabIndex={tabIndex} />
         </Tooltip>
       </HStack>
     </Box>

@@ -17,6 +17,7 @@ import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
 import { Widget } from '@globalStates/Interfaces'
+import config from '@config/config'
 
 interface Props {
   domain: string
@@ -29,6 +30,7 @@ function Domain({ domain, index, updateWidget, isWidgetUpdating }: Props) {
   const [widget, setWidget] = useAtom(widgetAtom)
   const initRef = useRef()
   const toaster = useToaster()
+  const tabIndex = config.IS_PRO ? 0 : -1
 
   const handleRemoveDomain = async (domainIndex: number, onClose: () => void) => {
     onClose()
@@ -62,6 +64,7 @@ function Domain({ domain, index, updateWidget, isWidgetUpdating }: Props) {
                     colorScheme="red"
                     icon={<HiOutlineTrash />}
                     disabled={isWidgetUpdating}
+                    tabIndex={tabIndex}
                   />
                 </Tooltip>
               </Box>

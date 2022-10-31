@@ -49,7 +49,7 @@ export default function ProModal({ type, number, text, icon }: ProModalProps) {
                 </Text>
               </Box>
               <Box textAlign="right">
-                <Link href="https://www.bitapps.pro/bit-assist" target="_blank" _hover={{ underline: 'none' }}>
+                <Link href="https://www.bitapps.pro/bit-assist" target="_blank" _hover={{ underline: 'none' }} tabIndex={-1}>
                   <Button colorScheme="purple">Buy Pro</Button>
                 </Link>
               </Box>

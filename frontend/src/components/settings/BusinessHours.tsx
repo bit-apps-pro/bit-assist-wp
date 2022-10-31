@@ -21,6 +21,7 @@ function BusinessHours() {
   const { updateWidget } = useUpdateWidget()
   const [isChanged, setIsChanged] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
+  const tabIndex = config.IS_PRO ? 0 : -1
 
   const [defaultBusinessHours] = useState([
     { day: 'sunday', start: '09:00', end: '18:00' },
@@ -157,6 +158,7 @@ function BusinessHours() {
                     defaultValue={widget.timezone ?? ''}
                     placeholder="Choose your timezone"
                     className="select-search"
+                    disabled={!config.IS_PRO}
                   />
                 </Box>
               </VStack>
@@ -168,6 +170,7 @@ function BusinessHours() {
                     colorScheme="purple"
                     isChecked={!!item?.start}
                     onChange={(e) => handleCheckboxChange(e, index)}
+                    tabIndex={tabIndex}
                   >
                     <Text w="24" fontSize="md">
                       {item?.day && item.day.charAt(0).toUpperCase() + item.day.slice(1)}
@@ -182,6 +185,7 @@ function BusinessHours() {
                         value={item?.start ?? ''}
                         onChange={(e) => handleInputChange(e, index)}
                         onBlur={(e) => updateChange(e, index)}
+                        tabIndex={tabIndex}
                       />
                       <Text>-</Text>
                       <Input
@@ -191,6 +195,7 @@ function BusinessHours() {
                         value={item?.end ?? ''}
                         onChange={(e) => handleInputChange(e, index)}
                         onBlur={(e) => updateChange(e, index)}
+                        tabIndex={tabIndex}
                       />
                     </>
                   )}

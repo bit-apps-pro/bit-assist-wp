@@ -2,20 +2,22 @@
 import { Box, Button, HStack, IconButton, Input, Tooltip, Kbd } from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
-import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import { useAtom } from 'jotai'
 import React, { useEffect, useRef, useState } from 'react'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
 import Domain from '@components/publish/Domain'
 import Title from '@components/global/Title'
+import config from '@config/config'
 
 function Domains() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidget()
+  const { updateWidget, isWidgetUpdating } = useUpdateWidgetPro()
   const [isAdding, setIsAdding] = useState(false)
   const [domainName, setDomainName] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const tabIndex = config.IS_PRO ? 0 : -1
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.repeat) {
@@ -51,12 +53,15 @@ function Domains() {
         return
       }
 
-      setWidget((prev) => {
-        prev.domains.push(origin)
-      })
-      resetStates()
-
       const { status, data } = await updateWidget({ ...widget, domains: [...widget.domains, origin] })
+
+      if (status === 'success') {
+        setWidget((prev) => {
+          prev.domains.push(origin)
+        })
+        resetStates()
+      }
+
       toaster(status, data)
     } catch (error) {
       toaster('error', 'Please enter a valid domain name')
@@ -93,6 +98,7 @@ function Domains() {
                 value={domainName ?? ''}
                 onChange={(e) => setDomainName(e.target.value)}
                 onKeyDown={handleKeyDown}
+                tabIndex={tabIndex}
               />
               <Tooltip label="Cancel">
                 <IconButton
@@ -102,6 +108,7 @@ function Domains() {
                   colorScheme="red"
                   icon={<HiOutlineTrash />}
                   onClick={resetStates}
+                  tabIndex={tabIndex}
                 />
               </Tooltip>
               <Tooltip label="Save">
@@ -113,6 +120,7 @@ function Domains() {
                   icon={<HiCheck />}
                   onClick={() => addNewDomain()}
                   disabled={isWidgetUpdating}
+                  tabIndex={tabIndex}
                 />
               </Tooltip>
             </HStack>
@@ -131,7 +139,7 @@ function Domains() {
         )}
 
         {!isAdding && (
-          <Button leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={() => setIsAdding(true)} isLoading={isWidgetUpdating}>
+          <Button tabIndex={tabIndex} leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={() => setIsAdding(true)} isLoading={isWidgetUpdating}>
             Add Domain
           </Button>
         )}
