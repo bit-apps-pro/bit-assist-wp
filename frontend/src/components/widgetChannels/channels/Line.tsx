@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon, Textarea } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
@@ -9,7 +9,7 @@ function Line() {
 
   const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
         prev.config.url = `http://line.me/ti/p/${value}`

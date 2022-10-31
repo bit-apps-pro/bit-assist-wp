@@ -30,7 +30,7 @@ function DeleteResponses() {
       if (prev.delete_responses === null) {
         prev.delete_responses = {}
       }
-      prev.delete_responses[key] = val
+      prev.delete_responses = { ...prev.delete_responses, [key]: val }
     })
 
     debounceUpdateWidget(
@@ -38,7 +38,7 @@ function DeleteResponses() {
         if (draft.delete_responses === null) {
           draft.delete_responses = {}
         }
-        draft.delete_responses[key] = val
+        draft.delete_responses = { ...draft.delete_responses, [key]: val }
       }),
     )
   }

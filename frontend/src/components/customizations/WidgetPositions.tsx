@@ -13,9 +13,7 @@ function WidgetPositions() {
   const grayColorToggle = useColorModeValue('gray.200', 'gray.700')
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
 
-  const handleChange = async (e) => {
-    const position = e.target.getAttribute('data-position')
-
+  const handleChange = async (position: string) => {
     setWidget((prev) => {
       if (prev.styles === null) {
         prev.styles = {}
@@ -23,14 +21,12 @@ function WidgetPositions() {
       prev.styles.position = position
     })
 
-    const { status, data } = await updateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
-          draft.styles = {}
-        }
-        draft.styles.position = position
-      }),
-    )
+    const { status, data } = await updateWidget(produce(widget, (draft) => {
+      if (draft.styles === null) {
+        draft.styles = {}
+      }
+      draft.styles.position = position
+    }))
     toaster(status, data)
   }
 
@@ -43,8 +39,7 @@ function WidgetPositions() {
             height="6"
             cursor="pointer"
             borderWidth="2px"
-            data-position="top-left"
-            onClick={handleChange}
+            onClick={() => handleChange('top-left')}
             bg={`${widget.styles?.position === 'top-left' && brandColorToggle}`}
             borderColor={`${widget.styles?.position === 'top-left' && brandColorToggle}`}
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
@@ -56,8 +51,7 @@ function WidgetPositions() {
             height="6"
             cursor="pointer"
             borderWidth="2px"
-            data-position="top-right"
-            onClick={handleChange}
+            onClick={() => handleChange('top-right')}
             bg={`${widget.styles?.position === 'top-right' && brandColorToggle}`}
             borderColor={`${widget.styles?.position === 'top-right' && brandColorToggle}`}
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
@@ -71,8 +65,7 @@ function WidgetPositions() {
             height="6"
             cursor="pointer"
             borderWidth="2px"
-            data-position="bottom-left"
-            onClick={handleChange}
+            onClick={() => handleChange('bottom-left')}
             bg={`${widget.styles?.position === 'bottom-left' && brandColorToggle}`}
             borderColor={`${widget.styles?.position === 'bottom-left' && brandColorToggle}`}
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
@@ -84,8 +77,7 @@ function WidgetPositions() {
             height="6"
             cursor="pointer"
             borderWidth="2px"
-            data-position="bottom-right"
-            onClick={handleChange}
+            onClick={() => handleChange('bottom-right')}
             bg={`${widget.styles?.position === 'bottom-right' && brandColorToggle}`}
             borderColor={`${widget.styles?.position === 'bottom-right' && brandColorToggle}`}
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}

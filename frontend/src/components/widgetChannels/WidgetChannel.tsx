@@ -45,7 +45,7 @@ WidgetChannel.defaultProps = {
 }
 
 function WidgetChannel({ widgetChannel, shadow, cursor, bg }: WidgetChannelProps) {
-  const tempWidgetChannelId = useRef('')
+  const tempWidgetChannelId = useRef<number>(0)
   const [, setEditWidgetChannelId] = useAtom(editWidgetChannelIdAtom)
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const channelColorToggle = useColorModeValue('white', 'gray.800')
@@ -53,12 +53,12 @@ function WidgetChannel({ widgetChannel, shadow, cursor, bg }: WidgetChannelProps
   const { isOpen: isOpenEditModal, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const onOpenEditModal = (widgetChannelId: string) => () => {
+  const onOpenEditModal = (widgetChannelId: number) => () => {
     setEditWidgetChannelId(widgetChannelId)
     openEditModal()
   }
 
-  const openDeleteModal = (widgetChannelId: string) => () => {
+  const openDeleteModal = (widgetChannelId: number) => () => {
     tempWidgetChannelId.current = widgetChannelId
     onOpen()
   }

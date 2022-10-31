@@ -29,7 +29,7 @@ function CallToAction() {
       if (prev.call_to_action === null) {
         prev.call_to_action = {}
       }
-      prev.call_to_action[key] = val
+      prev.call_to_action = { ...prev.call_to_action, [key]: val }
     })
 
     debounceUpdateWidget(
@@ -37,7 +37,7 @@ function CallToAction() {
         if (draft.call_to_action === null) {
           draft.call_to_action = {}
         }
-        draft.call_to_action[key] = val
+        draft.call_to_action = { ...draft.call_to_action, [key]: val }
       }),
     )
   }

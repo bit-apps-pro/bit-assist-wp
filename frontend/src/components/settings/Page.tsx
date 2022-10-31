@@ -94,7 +94,7 @@ function Page({
       <Text>{showPageCondition(page?.condition)}</Text>
       <Text>{makeUrl(page?.url, page?.condition)}</Text>
 
-      <Popover closeOnBlur={false} initialFocusRef={initRef}>
+      <Popover closeOnBlur={false} initialFocusRef={initRef.current}>
         {({ isOpen, onClose }) => (
           <>
             <PopoverTrigger>
@@ -116,7 +116,7 @@ function Page({
               <PopoverCloseButton />
               <PopoverBody>
                 <Text>Are you sure you want to remove this page?</Text>
-                <Button mt={4} colorScheme="red" ref={initRef} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
+                <Button mt={4} colorScheme="red" ref={initRef.current} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
                   Confirm
                 </Button>
               </PopoverBody>

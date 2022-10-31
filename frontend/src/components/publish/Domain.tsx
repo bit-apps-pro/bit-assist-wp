@@ -49,7 +49,7 @@ function Domain({ domain, index, updateWidget, isWidgetUpdating }: Props) {
   return (
     <HStack justifyContent="space-between" gap="4" py="2" px="4" borderTopWidth={`${index > 0 && '1px'}`}>
       <Text>{domain}</Text>
-      <Popover closeOnBlur={false} initialFocusRef={initRef}>
+      <Popover closeOnBlur={false} initialFocusRef={initRef.current}>
         {({ isOpen, onClose }) => (
           <>
             <PopoverTrigger>
@@ -71,7 +71,7 @@ function Domain({ domain, index, updateWidget, isWidgetUpdating }: Props) {
               <PopoverCloseButton />
               <PopoverBody>
                 <Text>Are you sure you want to remove this domain?</Text>
-                <Button mt="4" colorScheme="red" ref={initRef} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
+                <Button mt="4" colorScheme="red" ref={initRef.current} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
                   Confirm
                 </Button>
               </PopoverBody>

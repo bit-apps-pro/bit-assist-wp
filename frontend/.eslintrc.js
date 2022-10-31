@@ -41,6 +41,7 @@ module.exports = {
     'plugin:import/typescript',
   ],
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'jsx-a11y', 'import', 'promise'],
+  ignorePatterns: ['**/tinymce/**/*'],
   rules: {
     'no-param-reassign': 0,
     'template-curly-spacing': 'off',

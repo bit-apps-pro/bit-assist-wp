@@ -9,7 +9,7 @@ function Whatsapp() {
 
   const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
     })
   }
 

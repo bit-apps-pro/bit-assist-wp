@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 
 interface ReqProps {
   flow: Flow
-  widgetChannelId: string
+  widgetChannelId: number
 }
 
 export default function useUpdateWidgetChannel() {
@@ -22,7 +22,7 @@ export default function useUpdateWidgetChannel() {
   )
 
   return {
-    updateWidgetChannel: (flow: Flow, widgetChannelId: string) => mutateAsync({ flow, widgetChannelId }),
+    updateWidgetChannel: (flow: Flow, widgetChannelId: number) => mutateAsync({ flow, widgetChannelId }),
     isWidgetChannelUpdating: isLoading,
   }
 }

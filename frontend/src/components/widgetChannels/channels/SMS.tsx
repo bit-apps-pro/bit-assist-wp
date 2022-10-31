@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel, Input, Textarea } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
@@ -7,7 +7,7 @@ function SMS() {
 
   const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
         prev.config.url = `sms:${value}`

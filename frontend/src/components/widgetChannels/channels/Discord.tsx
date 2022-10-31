@@ -7,9 +7,9 @@ import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowActi
 function Discord() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean | (string | number)[], key: string) => {
+  const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
         prev.config.url = `https://discord.gg/${value}`

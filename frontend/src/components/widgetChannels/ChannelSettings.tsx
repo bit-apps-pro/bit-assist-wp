@@ -38,7 +38,7 @@ function ChannelSettings() {
 
   const handleChanges = (value: string | number | boolean | (string | number)[], key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
     })
   }
 

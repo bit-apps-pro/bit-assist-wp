@@ -8,7 +8,7 @@ function Skype() {
 
   const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id' || key === 'phone_number') {
         prev.config.url = `skype:${value || (key === 'unique_id' ? prev.config?.phone_number : prev.config?.unique_id)}?chat`

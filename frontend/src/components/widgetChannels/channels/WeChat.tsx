@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
@@ -8,7 +8,7 @@ function WeChat() {
 
   const handleChanges = (value: string | number | boolean, key: string) => {
     setFlow((prev) => {
-      prev.config[key] = value
+      prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
         prev.config.url = `weixin://dl/chat?${value}`

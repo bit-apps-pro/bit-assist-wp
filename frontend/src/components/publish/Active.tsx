@@ -12,7 +12,7 @@ function Active() {
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target
-    const { status, data } = await updateWidgetActive(widget.id, checked)
+    const { status, data } = await updateWidgetActive(widget.id, +checked)
     if (status === 'success') {
       setWidget((draft) => { draft.active = checked })
     }

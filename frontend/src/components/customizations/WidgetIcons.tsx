@@ -15,7 +15,13 @@ function WidgetIcons() {
   const { updateWidget } = useUpdateWidget()
   const toaster = useToaster()
 
-  const handleChange = async (icon: string) => {
+  const iconOptions = {
+    'widget-icon-1': `${config.ROOT_URL}/img/widget/widgetIcon1.webp`,
+    'widget-icon-2': `${config.ROOT_URL}/img/widget/widgetIcon2.webp`,
+    'widget-icon-3': `${config.ROOT_URL}/img/widget/widgetIcon3.webp`,
+  }
+
+  const handleChange = async (icon: 'widget-icon-1' | 'widget-icon-2' | 'widget-icon-3') => {
     setWidget((prev) => {
       if (prev.styles === null) {
         prev.styles = {}
@@ -34,12 +40,6 @@ function WidgetIcons() {
       }),
     )
     toaster(status, data)
-  }
-
-  const iconOptions = {
-    'widget-icon-1': `${config.ROOT_URL}/img/widget/widgetIcon1.webp`,
-    'widget-icon-2': `${config.ROOT_URL}/img/widget/widgetIcon2.webp`,
-    'widget-icon-3': `${config.ROOT_URL}/img/widget/widgetIcon3.webp`,
   }
 
   const { getRootProps, getRadioProps, setValue } = useRadioGroup({
