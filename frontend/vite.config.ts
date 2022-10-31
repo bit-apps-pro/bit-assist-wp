@@ -21,6 +21,16 @@ export default defineConfig({
     //   }
     // }
   ],
+  build: {
+    emptyOutDir: true,
+    target: 'chrome51',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        dir: path.resolve(__dirname, '../assets/'),
+      },
+    },
+  },
   resolve: { alias: readAliasFromTsConfig() },
 })
 

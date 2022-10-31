@@ -1,5 +1,5 @@
 vendor/
-./assets
+assets/
 languages/
 node_modules
 dist
