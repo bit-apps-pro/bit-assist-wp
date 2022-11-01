@@ -1,28 +1,42 @@
-import { Route, Routes } from 'react-router-dom'
-import loadable from '@loadable/component'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import Layout from '@pages/Layout'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import Loading from '@components/global/Loading'
+import Widgets from '@pages/Widgets'
 
-const Widgets = loadable(() => import('@pages/Widgets'), { fallback: <Loading /> })
-const WidgetDetails = loadable(() => import('@pages/WidgetDetails'), { fallback: <Loading /> })
-const Responses = loadable(() => import('@pages/Responses'), { fallback: <Loading /> })
-const Error404 = loadable(() => import('@pages/Error404'), { fallback: <Loading /> })
+const WidgetDetails = lazy(() => import('@pages/WidgetDetails'))
+const Responses = lazy(() => import('@pages/Responses'))
+const Error404 = lazy(() => import('@pages/Error404'))
 
 export default function AppRoutes() {
-  useEffect(() => {
-    removeUnwantedCSS()
-  }, [])
+  useEffect(removeUnwantedCSS, [])
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Widgets />} />
-        <Route path="/widgets/:widgetId" element={<WidgetDetails />} />
-        <Route path="/responses/:widgetChannelId" element={<Responses />} />
-        <Route path="*" element={<Error404 />} />
-      </Route>
-    </Routes>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Widgets />} />
+
+          <Route path="/widgets/:widgetId" element={(
+            <Suspense fallback={<Loading />}>
+              <WidgetDetails />
+            </Suspense>
+          )} />
+
+          <Route path="/responses/:widgetChannelId" element={(
+            <Suspense fallback={<Loading />}>
+              <Responses />
+            </Suspense>
+          )} />
+
+          <Route path="*" element={(
+            <Suspense fallback={<Loading />}>
+              <Error404 />
+            </Suspense>
+          )} />
+        </Route>
+      </Routes>
+    </HashRouter>
   )
 }
 

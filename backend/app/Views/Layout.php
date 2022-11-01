@@ -63,7 +63,7 @@ class Layout
         }
 
         $version = Config::VERSION;
-        $jsURI = Config::get('ASSET_JS_URI');
+        $assetUri = Config::get('ASSET_URI');
         $slug = Config::SLUG;
 
         // loading google fonts
@@ -71,10 +71,15 @@ class Layout
         wp_enqueue_style('gstatic-PRECONNECT-CROSSORIGIN', 'https://fonts.gstatic.com');
         wp_enqueue_style('font', self::FONT_URL, [], $version);
 
+        // wp_dequeue_script('wp-element');
+
         if (Config::isDev()) {
             wp_enqueue_script($slug . '-vite-client-helper-MODULE', Config::DEV_URL . '/config/devHotModule.js', [], null);
             wp_enqueue_script($slug . '-vite-client-MODULE', Config::DEV_URL . '/@vite/client', [], null);
             wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', [], null);
+        } else {
+            wp_enqueue_script($slug . '-index-MODULE-CROSSORIGIN', $assetUri . '/index.js', [], $version);
+            wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
 
         // wp_enqueue_script(

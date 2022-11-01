@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Heading,
   HStack,
   IconButton,
@@ -25,7 +26,8 @@ import { Button,
   Thead,
   Tr,
   useColorModeValue,
-  useDisclosure } from '@chakra-ui/react'
+  useDisclosure
+} from '@chakra-ui/react'
 import { HiDotsVertical, HiPlus } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'

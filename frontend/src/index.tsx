@@ -1,6 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ChakraProvider } from '@chakra-ui/react'
 import AppRoutes from './AppRoutes'
@@ -18,9 +17,7 @@ if (elm) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <HashRouter>
-            <AppRoutes />
-          </HashRouter>
+          <AppRoutes />
         </ChakraProvider>
       </QueryClientProvider>
     </StrictMode>,

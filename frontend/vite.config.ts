@@ -1,38 +1,95 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import path from 'path'
-import { Alias, defineConfig } from 'vite'
+/* eslint-disable no-plusplus */
+import { esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
+import path from 'path'
+import { Alias, defineConfig, normalizePath } from 'vite'
 import * as tsconfig from './tsconfig.json'
+import babel from 'vite-plugin-babel';
+let chunkCount = 0
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+
   plugins: [
     react(),
-    // TODO: PWA not working
-    // for PWA resources genarate icon from this link https://realfavicongenerator.net/ and FULL DOCS https://vite-plugin-pwa.netlify.app/
-    VitePWA({
-      ...PwaConfig(),
-    }),
-    // css: {
-    //   preprocessorOptions: {
-    //     modules:{
-
-    //     }
-    //   }
-    // }
+    // babel(),
   ],
-  build: {
-    emptyOutDir: true,
-    target: 'chrome51',
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        dir: path.resolve(__dirname, '../assets/'),
-      },
+
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [
+        esbuildCommonjs([
+          'react-calendar',
+          'react-date-picker',
+          'react-clock',
+          'react-time-picker',
+          'fela',
+        ]),
+      ],
     },
   },
-  resolve: { alias: readAliasFromTsConfig() },
-})
+
+  // root: 'src',
+  base: mode === 'development' ? '/' : '/wp-content/plugins/bitassist/assets/',
+  resolve: {
+    alias: readAliasFromTsConfig()
+  },
+
+  // build: {
+  //   // outDir: '../../assets',
+  //   emptyOutDir: true,
+
+  //   // emit manifest so PHP can find the hashed files
+  //   manifest: true,
+
+  //   target: 'es2015',
+  //   minify: false,
+
+  //   sourcemap: true,
+  //   rollupOptions: {
+  //     input: path.resolve(__dirname, 'src/index.tsx'),
+  //     output: {
+  //       entryFileNames: '[name].js',
+  //       compact: true,
+  //       validate: true,
+  //       generatedCode: {
+  //         arrowFunctions: true,
+  //         // objectShorthand: true
+  //       },
+  //       chunkFileNames: () => `bf-${hash()}-${chunkCount++}.js`,
+  //       assetFileNames: (fInfo) => {
+  //         const pathArr = fInfo?.name?.split('/')
+  //         const fileName = pathArr?.[pathArr.length - 1]
+
+  //         if (fileName === 'index.css' && fInfo.source.length > 5000) {
+  //           return 'index.css'
+  //         }
+  //         if (fileName === 'logo.svg') {
+  //           return 'logo.svg'
+  //         }
+
+  //         return `bf-${hash()}-${chunkCount++}.[ext]`
+  //       },
+  //     },
+  //   },
+  //   commonjsOptions: { transformMixedEsModules: true },
+  // },
+
+  server: {
+    origin: 'http://localhost:3000',
+    // required to load scripts from custom host
+    cors: true,
+    // we need a strict port to match on PHP side
+    strictPort: true,
+    port: 3000,
+    hmr: { host: 'localhost' },
+    commonjsOptions: { transformMixedEsModules: true },
+  },
+}))
+
+function hash() {
+  return Math.round(Math.random() * (999 - 1) + 1)
+}
+
 
 function readAliasFromTsConfig(): Alias[] {
   // eslint-disable-next-line prefer-regex-literals
@@ -49,33 +106,3 @@ function readAliasFromTsConfig(): Alias[] {
   )
 }
 
-function PwaConfig() {
-  return ({
-    manifest: {
-      name: 'App Name',
-      short_name: 'App Name',
-      description: 'Description of your app',
-      theme_color: '#ffffff',
-      display: 'standalone',
-      start_url: '/',
-      scope: '.',
-      icons: [
-        {
-          src: 'pwa-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: 'pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-        {
-          src: 'pwa-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
-  })
-}

@@ -59,7 +59,7 @@ const channelList = [
   },
   {
     name: 'Tawk',
-    icon: `${config.ROOT_URL }/img/channel/tawk.png`,
+    icon: `${config.ROOT_URL}/img/channel/tawk.png`,
   },
   {
     name: 'Telegram',

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "module": "ESNext",
     "importHelpers": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -9,17 +10,13 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "rootDir": "src",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
@@ -32,42 +29,17 @@
       "@hooks/*": ["./src/hooks/*"],
       "@mutations/*": ["./src/mutations/*"],
       "@globalStates/*": ["./src/globalStates/*"],
-      "@common/*": [
-        "./src/common/*"
-      ],
-      "@utilities/*": [
-        "./src/components/utilities/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@icons/*": [
-        "./src/icons/*"
-      ],
-      "@queries/*": [
-        "./src/api/queries/*"
-      ],
-      "@resource/*": [
-        "./src/resource/*"
-      ],
-      "@static/*": [
-        "./src/static/*"
-      ]
+      "@public/*": ["./public/*"],
+      "@common/*": ["./src/common/*"],
+      "@utilities/*": ["./src/components/utilities/*"],
+      "@config/*": ["./src/config/*"],
+      "@icons/*": ["./src/icons/*"],
+      "@queries/*": ["./src/api/queries/*"],
+      "@resource/*": ["./src/resource/*"],
+      "@static/*": ["./src/static/*"]
     }
   },
-  "include": [
-    "./src",
-    "./.eslintrc.js",
-    "./vite.config.ts",
-    "./webpack.config.js",
-    "./webpack.client.config.js",
-    "jest.config.js",
-    "babel.config.js",
-    "src/static/ToolsListData.ts",
-    "src/static/AppsListData.ts"
-  ],
-  "types": [
-    "cypress",
-    "@4tw/cypress-drag-drop"
-  ]
+  "include": ["./src"],
+  "exclude": ["node_modules", "dist"],
+  "types": ["cypress", "@4tw/cypress-drag-drop"]
 }
