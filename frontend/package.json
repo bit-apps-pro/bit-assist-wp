@@ -60,7 +60,6 @@
     "devv": "vite --config vite.config.wp.ts",
     "postinstall": "node ./postinstall.js"
   },
-  "type": "module",
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"
@@ -143,7 +142,6 @@
     "typings": "^2.1.1",
     "url-loader": "^4.1.1",
     "vite": "^3.2.2",
-    "vite-plugin-babel": "^1.1.2",
     "vite-plugin-pwa": "^0.13.1",
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.7.0",

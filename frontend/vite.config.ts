@@ -4,14 +4,12 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { Alias, defineConfig, normalizePath } from 'vite'
 import * as tsconfig from './tsconfig.json'
-import babel from 'vite-plugin-babel';
 let chunkCount = 0
 
 export default defineConfig(({ mode }) => ({
 
   plugins: [
     react(),
-    // babel(),
   ],
 
   optimizeDeps: {
@@ -29,7 +27,7 @@ export default defineConfig(({ mode }) => ({
   },
 
   // root: 'src',
-  base: mode === 'development' ? '/' : '/wp-content/plugins/bitassist/assets/',
+  base: mode === 'development' ? '/' : '/wp-content/plugins/bit-assist/assets/',
   resolve: {
     alias: readAliasFromTsConfig()
   },
