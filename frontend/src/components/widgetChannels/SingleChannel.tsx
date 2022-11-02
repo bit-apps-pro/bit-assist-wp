@@ -40,6 +40,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
         if (e.key === 'Enter') onSelectChannel(channel.name)
       }}
     >
+      {console.log(new URL('@resource/img/channel/call.svg', import.meta.url).href)}
       <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
       <Text marginTop="1">{channel.name.replace(/-/g, ' ')}</Text>
     </GridItem>

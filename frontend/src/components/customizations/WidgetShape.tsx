@@ -9,9 +9,16 @@ import { useEffect } from 'react'
 import { useAtom } from 'jotai'
 import { produce } from 'immer'
 
+import mask from '@resource/img/widget-button-mask.svg'
+import config from '@config/config'
+
+function widgetMask() {
+  return import.meta.env.MODE === 'development' ? `${config.ROOT_URL}/frontend/src/resource/img/widget-button-mask.svg` : mask
+}
+
 const maskStyle = {
-  mask: "url('http://localhost:3000/resource/img/widget-button-mask.svg')",
-  WebkitMask: "url('http://localhost:3000/resource/img/widget-button-mask.svg')",
+  mask: `url(${widgetMask()})`,
+  WebkitMask: `url(${widgetMask()})`,
 }
 
 function WidgetShape() {

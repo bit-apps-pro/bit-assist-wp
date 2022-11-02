@@ -1,7 +1,8 @@
-import { ButtonGroup, Container, Flex, Heading, Image, Stack } from '@chakra-ui/react'
-import config from '@config/config'
+import { ButtonGroup, Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import DarkModeSwitch from './DarkModeSwitch'
+
+import Logo from '@icons/Logo'
 
 function Navbar() {
   return (
@@ -9,7 +10,7 @@ function Navbar() {
       <Stack py="5" direction={['column', 'row']} alignItems={['center', 'initial']} justifyContent={['initial', 'space-between']}>
         <Flex alignItems="center" gap={2}>
           <Link to="/">
-            <Image src={`${config.ROOT_URL}/img/logo.svg`} w="10" />
+            <Logo />
           </Link>
           <Link to="/">
             <Heading size="md">

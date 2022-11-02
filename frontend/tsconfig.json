@@ -29,7 +29,6 @@
       "@hooks/*": ["./src/hooks/*"],
       "@mutations/*": ["./src/mutations/*"],
       "@globalStates/*": ["./src/globalStates/*"],
-      "@public/*": ["./public/*"],
       "@common/*": ["./src/common/*"],
       "@utilities/*": ["./src/components/utilities/*"],
       "@config/*": ["./src/config/*"],

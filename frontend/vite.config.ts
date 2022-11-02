@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
 
   plugins: [
     react(),
+    // copyStatics(mode),
   ],
 
   optimizeDeps: {
@@ -27,9 +28,21 @@ export default defineConfig(({ mode }) => ({
   },
 
   // root: 'src',
-  base: mode === 'development' ? '/' : '/wp-content/plugins/bit-assist/assets/',
+  base: mode === 'development' ? '/src/' : '',
   resolve: {
     alias: readAliasFromTsConfig()
+  },
+
+  build: {
+    outDir: '../assets',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+        inlineDynamicImports: true,
+        entryFileNames: '[name].js',   // currently does not work for the legacy bundle
+        assetFileNames: '[name].[ext]', // currently does not work for images
+      }
+    }
   },
 
   // build: {

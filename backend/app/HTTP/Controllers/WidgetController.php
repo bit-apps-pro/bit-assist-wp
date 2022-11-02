@@ -38,7 +38,7 @@ final class WidgetController
                 'shape'   => 'semiRounded',
                 'color'   => $request->color,
                 'icon'    => 'widget-icon-1',
-                'iconUrl' => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.webp',
+                'iconUrl' => Config::get('ROOT_URI') . '/assets/widgetIcon1.svg',
                 'position'=> 'bottom-right',
             ]
         ];
@@ -112,7 +112,7 @@ final class WidgetController
 
         $rootURL = Config::get('ROOT_URI');
         foreach ($widgetChannels as $key => $value) {
-            $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.png';
+            $widgetChannels[$key]->channel_icon = $rootURL . '/assets/' . strtolower($value->channel_name) . '.svg';
         }
         $widget->widget_channels = $widgetChannels;
 
