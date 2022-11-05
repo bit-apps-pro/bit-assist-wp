@@ -38,7 +38,7 @@ final class WidgetController
                 'shape'   => 'semiRounded',
                 'color'   => $request->color,
                 'icon'    => 'widget-icon-1',
-                'iconUrl' => Config::get('ROOT_URI') . '/assets/widgetIcon1.svg',
+                'iconUrl' => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.svg',
                 'position'=> 'bottom-right',
             ]
         ];
