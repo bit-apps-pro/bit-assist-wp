@@ -84,7 +84,7 @@ function FaqField({ id, field, cursor, bg }: FaqFieldProps) {
           </HStack>
           {isEditing && (
             <Editor
-              tinymceScriptSrc={`${config.ASSETS_URL}/tinymce/tinymce.min.js`}
+              tinymceScriptSrc={`${config.ROOT_URL}/assets/tinymce/tinymce.min.js`}
               value={`${field?.description}`}
               onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{

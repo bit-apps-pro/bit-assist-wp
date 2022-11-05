@@ -10,23 +10,15 @@ import { produce } from 'immer'
 import { useEffect } from 'react'
 import config from '@config/config'
 
-import widgetIcon1 from '@resource/img/widget/widgetIcon1.svg'
-import widgetIcon2 from '@resource/img/widget/widgetIcon2.svg'
-import widgetIcon3 from '@resource/img/widget/widgetIcon3.svg'
-
 function WidgetIcons() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
   const toaster = useToaster()
 
-  const getWidgetIcon = (urlIcon: string, importIcon: string) => {
-    return import.meta.env.MODE === 'development' ? `${config.ROOT_URL}/frontend/src/resource/img/widget/${urlIcon}` : importIcon
-  }
-
   const iconOptions = {
-    'widget-icon-1': getWidgetIcon('widgetIcon1.svg', widgetIcon1),
-    'widget-icon-2': getWidgetIcon('widgetIcon2.svg', widgetIcon2),
-    'widget-icon-3': getWidgetIcon('widgetIcon3.svg', widgetIcon3),
+    'widget-icon-1': `${config.ROOT_URL}/img/widget/widgetIcon1.svg`,
+    'widget-icon-2': `${config.ROOT_URL}/img/widget/widgetIcon2.svg`,
+    'widget-icon-3': `${config.ROOT_URL}/img/widget/widgetIcon3.svg`,
   }
 
   const handleChange = async (icon: 'widget-icon-1' | 'widget-icon-2' | 'widget-icon-3') => {

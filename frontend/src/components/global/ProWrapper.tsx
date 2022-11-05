@@ -1,7 +1,9 @@
-import { Box, Button, Link } from '@chakra-ui/react'
+import { Box, Button, Link, useColorModeValue } from '@chakra-ui/react'
 import config from '@config/config'
 
 export default function ProWrapper({ children }: { children: React.ReactNode }) {
+  const blurBg = useColorModeValue('blackAlpha.200', 'whiteAlpha.200')
+
   if (config.IS_PRO) return <>{children}</> // eslint-disable-line react/jsx-no-useless-fragment
 
   return (
@@ -11,7 +13,7 @@ export default function ProWrapper({ children }: { children: React.ReactNode }) 
           Buy Pro
         </Button>
       </Link>
-      <Box filter="blur(1.5px)" bg="blackAlpha.200" pointerEvents="none" py="2" px="4" rounded="md" userSelect="none">
+      <Box filter="blur(1.5px)" bg={blurBg} pointerEvents="none" py="2" px="4" rounded="md" userSelect="none">
         {children}
       </Box>
     </Box>

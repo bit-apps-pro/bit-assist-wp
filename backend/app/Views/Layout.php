@@ -78,7 +78,7 @@ class Layout
             wp_enqueue_script($slug . '-vite-client-MODULE', Config::DEV_URL . '/@vite/client', [], null);
             wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', [], null);
         } else {
-            wp_enqueue_script($slug . '-index-MODULE-CROSSORIGIN', $assetUri . '/index.js', [], $version);
+            wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', [], $version);
             wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
 
@@ -135,7 +135,7 @@ class Layout
         <div
             style="display: flex;flex-direction: column;justify-content: center;
             align-items: center;height: 90vh;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <img alt="bit-assist-logo" class="bit-logo" width="70" src="{$rootURL}/assets/logo.svg">
+            <img alt="bit-assist-logo" class="bit-logo" width="70" src="{$rootURL}/img/logo.svg">
             <h1>Welcome to Bit Assist</h1>
             <p></p>
         </div>

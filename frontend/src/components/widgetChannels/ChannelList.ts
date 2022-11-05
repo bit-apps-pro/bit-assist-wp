@@ -1,121 +1,93 @@
 import config from '@config/config'
-const imagePath = `${config.ROOT_URL}/img/channel`
-
-import call from '@resource/img/channel/call.svg'
-import customForm from '@resource/img/channel/custom-form.svg'
-import discord from '@resource/img/channel/discord.svg'
-import faq from '@resource/img/channel/faq.svg'
-import googleMap from '@resource/img/channel/google-map.svg'
-import instagram from '@resource/img/channel/instagram.svg'
-import knowledgeBase from '@resource/img/channel/knowledge-base.svg'
-import line from '@resource/img/channel/line.svg'
-import linkedin from '@resource/img/channel/linkedin.svg'
-import messenger from '@resource/img/channel/messenger.svg'
-import skype from '@resource/img/channel/skype.svg'
-import slack from '@resource/img/channel/slack.svg'
-import sms from '@resource/img/channel/sms.svg'
-import snapchat from '@resource/img/channel/snapchat.svg'
-import tawk from '@resource/img/channel/tawk.svg'
-import telegram from '@resource/img/channel/telegram.svg'
-import tiktok from '@resource/img/channel/tiktok.svg'
-import twitter from '@resource/img/channel/twitter.svg'
-import viber from '@resource/img/channel/viber.svg'
-import wechat from '@resource/img/channel/wechat.svg'
-import whatsapp from '@resource/img/channel/whatsapp.svg'
-import youtube from '@resource/img/channel/youtube.svg'
-
-function getChannelIcon(urlImage: string, importImage: string) {
-  return import.meta.env.MODE === 'development' ? `${imagePath}/frontend/src/resource/img/channel/${urlImage}` : importImage
-}
 
 const channelList = [
   {
     name: 'Call',
-    icon: getChannelIcon('call.svg', call),
+    icon: `${config.ROOT_URL}/img/channel/call.svg`,
   },
   {
     name: 'Custom-Form',
-    icon: getChannelIcon('custom-form.svg', customForm),
+    icon: `${config.ROOT_URL}/img/channel/custom-form.svg`,
   },
   {
     name: 'Discord',
-    icon: getChannelIcon('discord.svg', discord),
+    icon: `${config.ROOT_URL}/img/channel/discord.svg`,
   },
   {
     name: 'FAQ',
-    icon: getChannelIcon('faq.svg', faq),
+    icon: `${config.ROOT_URL}/img/channel/faq.svg`,
   },
   {
     name: 'Google-Map',
-    icon: getChannelIcon('google-map.svg', googleMap),
+    icon: `${config.ROOT_URL}/img/channel/google-map.svg`,
   },
   {
     name: 'Instagram',
-    icon: getChannelIcon('instagram.svg', instagram),
+    icon: `${config.ROOT_URL}/img/channel/instagram.svg`,
   },
   {
     name: 'Knowledge-Base',
-    icon: getChannelIcon('knowledge-base.svg', knowledgeBase),
+    icon: `${config.ROOT_URL}/img/channel/knowledge-base.svg`,
   },
   {
     name: 'Line',
-    icon: getChannelIcon('line.svg', line),
+    icon: `${config.ROOT_URL}/img/channel/line.svg`,
   },
   {
     name: 'Linkedin',
-    icon: getChannelIcon('linkedin.svg', linkedin),
+    icon: `${config.ROOT_URL}/img/channel/linkedin.svg`,
   },
   {
     name: 'Messenger',
-    icon: getChannelIcon('messenger.svg', messenger),
+    icon: `${config.ROOT_URL}/img/channel/messenger.svg`,
   },
   {
     name: 'Skype',
-    icon: getChannelIcon('skype.svg', skype),
+    icon: `${config.ROOT_URL}/img/channel/skype.svg`,
   },
   {
     name: 'Slack',
-    icon: getChannelIcon('slack.svg', slack),
+    icon: `${config.ROOT_URL}/img/channel/slack.svg`,
   },
   {
     name: 'SMS',
-    icon: getChannelIcon('sms.svg', sms),
+    icon: `${config.ROOT_URL}/img/channel/sms.svg`,
   },
   {
     name: 'Snapchat',
-    icon: getChannelIcon('snapchat.svg', snapchat),
+    icon: `${config.ROOT_URL}/img/channel/snapchat.svg`,
   },
   {
     name: 'Tawk',
-    icon: getChannelIcon('tawk.svg', tawk),
+    icon: `${config.ROOT_URL}/img/channel/tawk.svg`,
   },
   {
     name: 'Telegram',
-    icon: getChannelIcon('telegram.svg', telegram),
+    icon: `${config.ROOT_URL}/img/channel/telegram.svg`,
   },
   {
     name: 'TikTok',
-    icon: getChannelIcon('tiktok.svg', tiktok),
+    icon: `${config.ROOT_URL}/img/channel/tiktok.svg`,
   },
   {
     name: 'Twitter',
-    icon: getChannelIcon('twitter.svg', twitter),
+    icon: `${config.ROOT_URL}/img/channel/twitter.svg`,
   },
   {
     name: 'Viber',
-    icon: getChannelIcon('viber.svg', viber),
+    icon: `${config.ROOT_URL}/img/channel/viber.svg`,
   },
   {
     name: 'WeChat',
-    icon: getChannelIcon('wechat.svg', wechat),
+    icon: `${config.ROOT_URL}/img/channel/wechat.svg`,
   },
   {
     name: 'Whatsapp',
-    icon: getChannelIcon('whatsapp.svg', whatsapp),
+    icon: `${config.ROOT_URL}/img/channel/whatsapp.svg`,
   },
   {
     name: 'Youtube',
-    icon: getChannelIcon('youtube.svg', youtube),
+    icon: `${config.ROOT_URL}/img/channel/youtube.svg`,
   },
 ]
 
