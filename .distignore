@@ -1,0 +1,17 @@
+client
+frontend
+
+bin
+tests
+phpcs.xml
+phpunit.xml.dist
+tests.config.sample.php
+
+composer.json
+composer.lock
+
+.vscode
+.phpunit.result.cache
+.php-cs-fixer.php
+.gitignore
+.gitattributes
