@@ -171,16 +171,7 @@ class Config
      */
     private static function pluginPageLinks()
     {
-        return [
-            'settings' => [
-                'title' => __('Settings', 'bit-assist'),
-                'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#settings',
-            ],
-            'help'     => [
-                'title' => __('Help', 'bit-assist'),
-                'url'   => self::get('ADMIN_URL') . 'admin.php?page=' . self::SLUG . '#help',
-            ],
-        ];
+        return [];
     }
 
     /**
@@ -209,7 +200,7 @@ class Config
         return [
             'Home'      => [
                 'type'       => 'menu',
-                'title'      => __("Bit Assist - Your flow of automation's", 'bit-assist'),
+                'title'      => __("Bit Assist", 'bit-assist'),
                 'name'       => __('Bit Assist', 'bit-assist'),
                 'capability' => 'manage_options',
                 'slug'       => self::SLUG,

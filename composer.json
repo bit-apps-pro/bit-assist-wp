@@ -16,7 +16,6 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.10",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "phpcompatibility/phpcompatibility-wp": "*",
         "phpunit/phpunit": "^9",
         "yoast/phpunit-polyfills": "^1.0",
         "phpcompatibility/phpcompatibility-wp": "*"
