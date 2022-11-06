@@ -35,7 +35,7 @@ export default async function request(action: string, data: any = null, queryPar
     }
   }
 
-  const options:OptionsType = {
+  const options: OptionsType = {
     method,
     headers: {
       'Content-Type': 'application/json',

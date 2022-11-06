@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Config;
 use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
@@ -27,7 +28,7 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
-        if (Widget::count() >= 1) {
+        if (!(class_exists(ProConfig::class) && ProConfig::isPro()) && Widget::count() >= 1) {
             return Response::error('Limited 1 widgets in free version');
         }
 

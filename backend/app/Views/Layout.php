@@ -216,7 +216,7 @@ class Layout
                 'baseURL'     => Config::get('ADMIN_URL') . 'admin.php?page=' . Config::SLUG . '#',
                 'ajaxURL'     => admin_url('admin-ajax.php'),
                 'api'         => Config::get('API_URL'),
-                'routePrefix' => Config::get('VAR_PREFIX'),
+                'routePrefix' => Config::VAR_PREFIX,
                 'settings'    => Config::getOption('settings'),
                 'dateFormat'  => Config::getOption('date_format', true),
                 'timeFormat'  => Config::getOption('time_format', true),

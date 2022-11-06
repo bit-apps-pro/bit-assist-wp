@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
@@ -25,7 +26,7 @@ final class WidgetChannelController
 
     public function store(WidgetChannelStoreRequest $request)
     {
-        if (WidgetChannel::where('widget_id', $request->widget_id)->count() >= 2) {
+        if (!(class_exists(ProConfig::class) && ProConfig::isPro()) && WidgetChannel::where('widget_id', $request->widget_id)->count() >= 2) {
             return Response::error('Limited 2 channels in free version');
         }
 
