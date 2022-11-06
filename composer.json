@@ -1,6 +1,6 @@
 {
-    "name": "bitapps/flow",
-    "description": "An Integration plugin for wordpress",
+    "name": "bitapps/assist",
+    "description": "A Communication plugin for wordpress",
     "license": "gpl-2",
     "autoload": {
         "psr-4": {
