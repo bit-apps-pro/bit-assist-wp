@@ -1,6 +1,6 @@
 === Bit Assist ===
 Contributors: bitpressadmin
-Tags: facebook messenger, twak.to, twitter, instagram, contact form, knowledge base, Frequently asked questions, FAQ, telegram.
+Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google, slack, youtube, call, skype, twitter, instagram, telegram.
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6
@@ -41,5 +41,5 @@ A powerful tool to connect with your customers.
 
 
 == Changelog ==
-= 1.0.0 =
+= v1.0.0 (Nov 7, 2022) =
 * Initial release
