@@ -9,7 +9,6 @@ use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
 use BitApps\Assist\Model\Widget;
-use BitApps\Assist\Model\WidgetChannel;
 
 final class WidgetController
 {
@@ -90,33 +89,5 @@ final class WidgetController
             return Response::success('Widget status changed');
         }
         return  Response::error('Widget status not changed');
-    }
-
-    public function bitAssistWidget(Request $request)
-    {
-        $widget = new Widget();
-        $widget->where('status', 1);
-        if (Config::get('SITE_URL') === $request->domain) {
-            $widget->where('active', 1);
-        } else {
-            $widget->whereRaw('JSON_CONTAINS(domains, \'["' . $request->domain . '"]\')');
-        }
-        $widget->select(
-            ['id', 'name', 'styles', 'business_hours', 'timezone', 'exclude_pages', 'initial_delay', 'page_scroll', 'widget_behavior', 'custom_css', 'call_to_action', 'store_responses', 'delete_responses', 'status']
-        )->first();
-
-        $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widget->id)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
-
-        if (count($widgetChannels) < 1) {
-            return 'Widget channel not found';
-        }
-
-        $rootURL = Config::get('ROOT_URI');
-        foreach ($widgetChannels as $key => $value) {
-            $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.svg';
-        }
-        $widget->widget_channels = $widgetChannels;
-
-        return $widget;
     }
 }
