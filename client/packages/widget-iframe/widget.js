@@ -473,7 +473,7 @@ export default class Widget {
 		}
 
 		this.#renderWidgetConf()
-		if (this.#widgetData?.business_hours.length && !this.#checkBusinessHours()) {
+		if (this.#widgetData?.business_hours?.length && !this.#checkBusinessHours()) {
 			return
 		}
 
@@ -557,9 +557,11 @@ export default class Widget {
 	}
 
 	#addCustomStyles = () => {
-		const styleElement = document.createElement('style')
-		styleElement.appendChild(document.createTextNode(this.#widgetData?.custom_css))
-		document.head.appendChild(styleElement)
+		if (this.#widgetData.custom_css?.length > 0) {
+			const styleElement = document.createElement('style')
+			styleElement.appendChild(document.createTextNode(this.#widgetData.custom_css))
+			document.head.appendChild(styleElement)
+		};
 	}
 
 	#renderChannels = () => {
