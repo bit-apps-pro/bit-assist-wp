@@ -1,5 +1,6 @@
 #faqBody {
   position: relative;
+
   &.openDesc {
     #faqDescription {
       display: block;
@@ -7,8 +8,14 @@
   }
 }
 
+#lists {
+  max-height: calc(100vh - (var(--widget-size) + 40px + 210px));
+  overflow-y: auto;
+}
+
 .listItem {
   margin-bottom: 4px;
+
   svg,
   img {
     height: 24px;
@@ -26,6 +33,7 @@
   font-size: 1rem;
   cursor: pointer;
   color: var(--widget-black);
+
   svg,
   img {
     color: var(--card-theme-color);
@@ -53,6 +61,7 @@
     #knowledgeBaseDescription {
       display: block;
     }
+
     .overlay {
       display: block;
     }
@@ -89,6 +98,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
+
     svg,
     img {
       height: 52%;
@@ -97,7 +107,7 @@
   }
 
   .content {
-    max-height: calc(100vh - (var(--modal-title-height) + calc(var(--modal-padding) * 2) + 75px ));
+    max-height: calc(100vh - (var(--modal-title-height) + calc(var(--modal-padding) * 2) + 75px));
     overflow-y: auto;
   }
 }
@@ -125,6 +135,7 @@
   align-items: center;
   gap: 5px;
   margin-bottom: 10px;
+
   p {
     color: var(--widget-black);
     font-weight: 500;
@@ -133,6 +144,7 @@
 
 .content {
   color: #414141;
+
   h1,
   h2,
   h3,
@@ -141,9 +153,11 @@
   h6 {
     margin: 0.625em 0;
   }
+
   p {
     margin-bottom: 0.625em;
   }
+
   ul,
   ol {
     margin: 0.625em 0;
@@ -161,11 +175,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   svg,
   img {
     height: 100%;
     width: 100%;
   }
+
   &:focus-visible {
     outline: 2px solid #000;
   }
