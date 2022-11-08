@@ -1,6 +1,6 @@
 === Bit Assist ===
 Contributors: bitpressadmin
-Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google, slack, youtube, call, skype, twitter, instagram, telegram.
+Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google map, slack, youtube, call, skype, twitter, instagram, telegram.
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6

@@ -78,7 +78,7 @@ svg {
 .chipSelect.active.disabled, 
 .chipSelect.active:disabled, 
 .chipSelect.active {
-  background: #92cfcf;
+  background: var(--chakra-colors-purple-200);
 }
 .chipSelect:focus {
   box-shadow: none !important;
