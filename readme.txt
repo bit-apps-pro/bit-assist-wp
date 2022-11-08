@@ -26,37 +26,58 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  
  You can also use this plugin in other platform like Shopify, Webflow, Wix, BigCommerce, Squarespace etc. The plugin will be hosted on your WordPress but you can use it on multiple platform.
  
+ Free version features:
+ 1. 21+ Channels
+ 2. 1 Active Widget
+ 3. 2 Active Channels
+ 4. Knowledge Base
+ 5. FAQ (Frequently Asked Questions)
+ 6. Custom Form
+ 7. Form Submit Response
+ 8. Widget Behavior (Click to Open, Open by Default)
+ 9. Call To Action (Display a call to action message next to widget after  certain seconds)
+ 10. Trigger Widget (Delay, Page Scroll)
+ 11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
+ 12. Dark Mode
+
 [Pro version features](https://www.bitapps.pro/bit-assist):
-*
+1. Everything Included in Free
+2. Unlimited Widgets
+3. Unlimited Channels
+4. Webhook
+5. Publish Widget in External Website
+6. Set Business Hours
+7. Add Page Filter
+8. Custom CSS
  
 ### ✔ Available Channels:
 
 1. Messenger
- 2. Whatsapp
- 3. Linkedin
- 4. Slack
- 5. Twitter
- 6. Instagram
- 7. Telegram
- 8. Youtube
- 9. Tiktok
- 10. Discord
- 11. Skype
- 12. Line
- 13. Snapchat
- 14. Viber
- 15. WeChat
- 16. Google Map
- 17. SMS
- 18. Call
- 19. Tawk
- 20. Custom Form
- 21. Knowledge Base
- 22. FAQ
+2. Whatsapp
+3. Linkedin
+4. Slack
+5. Twitter
+6. Instagram
+7. Telegram
+8. Youtube
+9. Tiktok
+10. Discord
+11. Skype
+12. Line
+13. Snapchat
+14. Viber
+15. WeChat
+16. Google Map
+17. SMS
+18. Call
+19. Tawk
+20. Custom Form
+21. Knowledge Base
+22. FAQ
+23. More Comming Soon
 
  
-More coming soon...
-[Request for more features](https://www.facebook.com/groups/bitapps) 
+[Request for more features](https://www.facebook.com/groups/bitapps/) 
 
 ✨ Overview of other products we are offering :
 
@@ -64,13 +85,11 @@ More coming soon...
 
 📧 [**Bit Integrations**](https://wordpress.org/plugins/bit-integrations//): Send WordPress Forms, WooCommerce, LMS, Membership plugin and other data to your Google Sheet, CRM, Email Marketing Tools and other platforms. 100+ integrations between your WordPress site and other software. This plugin connects your website with external world.
 
-📧 [**Bit File Manager**](https://wordpress.org/plugins/bit-integrations//): Most robust and powerful file manager plugin for WordPress. You can upload, delete, copy, move, rename, archive, extract files with the file manager plugin. You don’t need to worry about FTP anymore. It is really simple and easy to use. 100% free file manager for WordPress
+📧 [**Bit File Manager**](https://wordpress.org/plugins/file-manager/): Most robust and powerful file manager plugin for WordPress. You can upload, delete, copy, move, rename, archive, extract files with the file manager plugin. You don’t need to worry about FTP anymore. It is really simple and easy to use. 100% free file manager for WordPress
 
 📧 [**Bit SMTP**](https://wordpress.org/plugins/bit-smtp/): The ultimate goal of Bit SMTP plugin to make your email deliverability more easy as well as secure.
 
-**[Bit Assist Website](https://www.bitapps.pro/)**
-
-
+**[Bit Assist Website](https://www.bitapps.pro/bit-assist/)**
 
 == Installation ==
 
