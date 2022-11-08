@@ -1,4 +1,4 @@
-=== Bit Assist ===
+=== Bit Assist - Connect your all support assistant in a single button ===
 Contributors: bitpressadmin
 Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google map, slack, youtube, call, skype, twitter, instagram, telegram.
 Requires at least: 5.0
