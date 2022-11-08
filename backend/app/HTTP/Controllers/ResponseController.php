@@ -30,8 +30,8 @@ final class ResponseController
         $totalResponses = Response::where('widget_channel_id', $widgetChannelId)->count();
 
         return [
-            'channelName'    => $config->title ?? 'Untitled',
-            'formFields'     => $config->card_config->form_fields ?? [],
+            'channelName'    => isset($config->title) ? $config->title : 'Untitled',
+            'formFields'     => isset($config->card_config->form_fields) ? $config->card_config->form_fields : [],
             'totalResponses' => $totalResponses,
         ];
     }
@@ -39,7 +39,7 @@ final class ResponseController
     public function store(Request $request)
     {
         $formData = $request->formData;
-        $widgetChannelId = $formData['widget_channel_id'] ?? null;
+        $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
