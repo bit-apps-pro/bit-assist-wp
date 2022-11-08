@@ -43,7 +43,7 @@
     "hot": "webpack serve --progress --color --mode=development --hot",
     "fwp": "webpack --progress --color --config webpack.client.config.js --watch --mode=development",
     "pd": "tsc && vite build",
-    "fpd": "cd ../client;npm run build; cd ..",
+    "fpd": "cd ../client && pnpm i && pnpm build && cd ..",
     "pda": "npm run pd && npm run fpd",
     "clear-lint-cache": "eslint . --cache --cache-file eslint-cache/eslintcache",
     "i18n:json": "npx po2json ./language/locale.pot ../languages/bitform-btcassist-admin-script.json -f jed1.x",
