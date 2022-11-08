@@ -140,7 +140,7 @@ class Layout
             <p></p>
         </div>
         </div>
-        HTML;
+HTML;
     }
 
     public function RemoveAdminNotices()
