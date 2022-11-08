@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   FormControl,
   FormLabel,
   Input,
@@ -10,7 +11,8 @@ import { Button,
   SimpleGrid,
   Stack,
   useColorModeValue,
-  VStack } from '@chakra-ui/react'
+  VStack
+} from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -18,7 +20,8 @@ import { TColor } from '@atomik-color/core/dist/types'
 import { str2Color } from '@atomik-color/core'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import CustomFormField from '@components/widgetChannels/channels/Fields/CustomFormField'
-import { closestCenter,
+import {
+  closestCenter,
   DndContext,
   DragEndEvent,
   DragOverlay,
@@ -26,7 +29,8 @@ import { closestCenter,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors } from '@dnd-kit/core'
+  useSensors
+} from '@dnd-kit/core'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
@@ -181,6 +185,8 @@ function CustomForm() {
         />
       </FormControl>
 
+      <StoreResponses />
+
       <FormControl>
         <FormLabel htmlFor="send_mail_to">Send Mail To</FormLabel>
         <Input
@@ -223,8 +229,6 @@ function CustomForm() {
           />
         </FormControl>
       </Stack>
-
-      <StoreResponses />
     </>
   )
 }
