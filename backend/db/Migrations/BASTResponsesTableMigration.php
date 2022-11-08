@@ -15,7 +15,7 @@ final class BASTResponsesTableMigration extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
             $table->bigint('widget_channel_id', 20)->unsigned()->foreign('widget_channels', 'id')->onDelete()->cascade();
-            $table->json('response');
+            $table->longtext('response');
             $table->timestamps();
         });
     }

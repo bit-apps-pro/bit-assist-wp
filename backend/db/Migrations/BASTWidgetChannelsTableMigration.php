@@ -16,7 +16,7 @@ final class BASTWidgetChannelsTableMigration extends Migration
             $table->id();
             $table->bigint('widget_id', 20)->unsigned()->foreign('widgets', 'id')->onDelete()->cascade();
             $table->string('channel_name');
-            $table->json('config')->nullable();
+            $table->longtext('config')->nullable();
             $table->integer('sequence')->nullable();
             $table->boolean('status')->defaultValue(1);
             $table->timestamps();
