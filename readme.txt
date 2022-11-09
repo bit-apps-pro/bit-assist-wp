@@ -26,7 +26,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  
  You can also use this plugin in other platform like Shopify, Webflow, Wix, BigCommerce, Squarespace etc. The plugin will be hosted on your WordPress but you can use it on multiple platform.
  
- Free version features:
+ ## Free version features:
  1. 21+ Channels
  2. 1 Active Widget
  3. 2 Active Channels
@@ -40,7 +40,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
  12. Dark Mode
 
-[Pro version features](https://www.bitapps.pro/bit-assist):
+## [Pro version features](https://www.bitapps.pro/bit-assist):
 1. Everything Included in Free
 2. Unlimited Widgets
 3. Unlimited Channels
