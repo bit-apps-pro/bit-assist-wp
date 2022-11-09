@@ -167,19 +167,19 @@ HTML;
     {
         $slug = Config::SLUG;
         $newTag = $html;
-        if (str_contains($handle, 'PRECONNECT') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'PRECONNECT') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/rel=("|\')stylesheet("|\')/', 'rel="preconnect"', $newTag);
         }
 
-        if (str_contains($handle, 'PRELOAD') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'PRELOAD') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/rel=("|\')stylesheet("|\')/', 'rel="preload"', $newTag);
         }
 
-        if (str_contains($handle, 'CROSSORIGIN') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'CROSSORIGIN') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/<link /', '<link crossorigin ', $newTag);
         }
 
-        if (str_contains($handle, 'SCRIPT') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'SCRIPT') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/<link /', '<link as="script" ', $newTag);
         }
 
@@ -198,7 +198,7 @@ HTML;
     public function scriptTagFilter($html, $handle, $href)
     {
         $newTag = $html;
-        if (str_contains($handle, 'MODULE') && str_contains($handle, Config::SLUG)) {
+        if (strpos($handle, 'MODULE') !== false && strpos($handle, Config::SLUG) !== false) {
             $newTag = preg_replace('/<script /', '<script type="module" ', $newTag);
         }
 
