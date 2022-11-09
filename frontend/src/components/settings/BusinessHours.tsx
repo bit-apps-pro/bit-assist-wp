@@ -138,9 +138,7 @@ function BusinessHours() {
       <Title>Business Hours</Title>
 
       <FormControl display="flex" alignItems="center">
-        <FormLabel htmlFor="businessHours" mb="0">
-          Enable Business Hours
-        </FormLabel>
+        <FormLabel htmlFor="businessHours" mb="0">Enable Business Hours</FormLabel>
         <Switch isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} id="businessHours" />
       </FormControl>
 

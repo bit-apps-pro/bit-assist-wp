@@ -57,9 +57,7 @@ function DeleteResponses() {
   return (
     <Stack alignItems="center" flexDirection={['column', 'row']} spacing="0" gap="2">
       <FormControl display="flex" alignItems="center">
-        <FormLabel htmlFor="deleteResponses" mb="0">
-          Delete Responses
-        </FormLabel>
+        <FormLabel htmlFor="deleteResponses" mb="0">Delete Responses</FormLabel>
         <Switch isChecked={!!widget.delete_responses?.is_enabled} colorScheme="purple" onChange={handleSwitchEnable} id="deleteResponses" />
       </FormControl>
       <HStack>
