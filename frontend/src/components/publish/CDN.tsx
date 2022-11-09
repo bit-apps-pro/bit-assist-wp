@@ -11,7 +11,7 @@ export default function CDN() {
   const cdnUrl = `
     <script>
       var bit_assist_={host: ${JSON.stringify(config.ROOT_URL)},api: ${JSON.stringify(config.API_URL)}}
-      var d=document;s=d.createElement('script');s.type='text/javascript';s.defer=true;s.src='${config.ROOT_URL}/iframe/bit-assist.js';t=d.getElementsByTagName('script')[0];t.parentNode.insertBefore(s, t)
+      var d=document; s=d.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='${config.ROOT_URL}/iframe/bit-assist.js'; t=d.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t)
     </script>
   `
 
