@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Stack,
   useColorModeValue,
+  useDisclosure,
   VStack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
@@ -42,6 +43,7 @@ function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
+  const { onOpen, onClose, isOpen } = useDisclosure()
 
   useEffect(() => {
     if (typeof flow.config?.card_config?.card_bg_color !== 'undefined') return
@@ -100,6 +102,7 @@ function CustomForm() {
         required: true,
       })
     })
+    onClose()
   }
 
   const handleFormChange = (value: string | number | boolean, key: string) => {
@@ -141,7 +144,7 @@ function CustomForm() {
           </DndContext>
         )}
 
-        <Popover>
+        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
           <PopoverTrigger>
             <Button rightIcon={<FiPlus />}>Add Field</Button>
           </PopoverTrigger>

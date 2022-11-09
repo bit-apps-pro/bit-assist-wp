@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -7,7 +8,8 @@ import { Button,
   ModalCloseButton,
   useDisclosure,
   Text,
-  HStack } from '@chakra-ui/react'
+  HStack
+} from '@chakra-ui/react'
 import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { useAtom } from 'jotai'
