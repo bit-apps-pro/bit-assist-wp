@@ -119,7 +119,7 @@ function Widgets() {
                 </Td>
                 <Td>
                   <Text display="inline-block" fontSize="md" _hover={{ color: brandColorToggle }}>
-                    <Link to={`/widgets/${widget.id}`}>{widget.name}</Link>
+                    <Link to={`/widgets/${widget.id}`}>{widget.name || 'Untitled Widget'}</Link>
                   </Text>
                 </Td>
                 <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
