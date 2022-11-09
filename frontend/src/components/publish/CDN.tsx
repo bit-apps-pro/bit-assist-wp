@@ -45,7 +45,7 @@ export default function CDN() {
         tag.
       </Text>
       <HStack spacing={0} gap="2">
-        <Code maxW="full">{cdnUrl}</Code>
+        <Code maxW="full" p='4' rounded='lg'>{cdnUrl}</Code>
         <Tooltip label="Copy">
           <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} tabIndex={tabIndex} />
         </Tooltip>
