@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -10,7 +11,8 @@ import { Button,
   FormControl,
   FormLabel,
   Input,
-  ModalFooter } from '@chakra-ui/react'
+  ModalFooter
+} from '@chakra-ui/react'
 import { defaultCreateWidgetInfo } from '@globalStates/DefaultStates'
 import { CreateWidgetInfo } from '@globalStates/Interfaces'
 import useCreateWidget from '@hooks/mutations/widget/useCreateWidget'
@@ -56,8 +58,8 @@ function AddWidget() {
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel htmlFor="name">Widget Name</FormLabel>
-              <Input id="name" value={createWidgetInfo?.name ?? ''} onChange={(e) => handleChanges(e.target.value, 'name')} />
+              <FormLabel>Widget Name</FormLabel>
+              <Input value={createWidgetInfo?.name ?? ''} onChange={(e) => handleChanges(e.target.value, 'name')} />
             </FormControl>
           </ModalBody>
           <ModalFooter gap="2">

@@ -48,8 +48,8 @@ function ChannelSettings() {
   return (
     <VStack alignItems="flex-start" spacing="6">
       <FormControl isRequired>
-        <FormLabel htmlFor="title">Title</FormLabel>
-        <Input id="title" value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
+        <FormLabel>Title</FormLabel>
+        <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
         <FormHelperText>Descriptive text for visitors.</FormHelperText>
       </FormControl>
 
@@ -78,10 +78,9 @@ function ChannelSettings() {
 
       <FormControl>
         <Flex alignItems="center">
-          <FormLabel htmlFor="hide_after_office_hours" mb="0">Hide after office hours</FormLabel>
+          <FormLabel mb="0">Hide after office hours</FormLabel>
           <Switch
             ml="2"
-            id="hide_after_office_hours"
             colorScheme="purple"
             aria-label="hide after office hours"
             isChecked={flow.config?.hide_after_office_hours || false}

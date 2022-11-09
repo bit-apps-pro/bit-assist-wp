@@ -19,8 +19,8 @@ function Viber() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">Phone number</FormLabel>
-        <Input id="unique_id" type="tel" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+        <FormLabel>Phone number</FormLabel>
+        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
     </>

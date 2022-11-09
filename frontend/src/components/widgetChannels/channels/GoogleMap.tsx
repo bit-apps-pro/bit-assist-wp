@@ -20,10 +20,10 @@ function GoogleMap() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">Google maps link</FormLabel>
+        <FormLabel>Google maps link</FormLabel>
         <InputGroup>
           <InputLeftAddon children="goo.gl/maps/" />
-          <Input id="unique_id" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+          <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
         </InputGroup>
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />

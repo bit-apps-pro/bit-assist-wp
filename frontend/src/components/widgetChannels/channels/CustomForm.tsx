@@ -170,18 +170,16 @@ function CustomForm() {
       </VStack>
 
       <FormControl>
-        <FormLabel htmlFor="submitButtonText">Button Text</FormLabel>
+        <FormLabel>Button Text</FormLabel>
         <Input
-          id="submitButtonText"
           value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
           onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel htmlFor="successMessage">Success Message</FormLabel>
+        <FormLabel>Success Message</FormLabel>
         <Input
-          id="successMessage"
           value={flow.config?.card_config?.success_message}
           placeholder="Submitted successfully"
           onChange={(e) => handleFormChange(e.target.value, 'success_message')}
@@ -191,9 +189,8 @@ function CustomForm() {
       <StoreResponses />
 
       <FormControl>
-        <FormLabel htmlFor="send_mail_to">Send Mail To</FormLabel>
+        <FormLabel>Send Mail To</FormLabel>
         <Input
-          id="send_mail_to"
           placeholder="Your email"
           value={flow.config?.card_config?.send_mail_to || ''}
           onChange={(e) => handleFormChange(e.target.value, 'send_mail_to')}
@@ -202,9 +199,8 @@ function CustomForm() {
 
       <ProWrapper>
         <FormControl>
-          <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
+          <FormLabel>Webhook URL</FormLabel>
           <Input
-            id="webhook_url"
             placeholder="https://"
             value={flow.config?.card_config?.webhook_url || ''}
             onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}

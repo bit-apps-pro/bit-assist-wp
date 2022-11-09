@@ -15,8 +15,8 @@ function StoreResponses() {
     <Box>
       <FormControl>
         <Flex alignItems="center">
-          <FormLabel htmlFor="storeResponses" mb="0">Store Responses</FormLabel>
-          <Switch ml="2" isChecked={!!flow.config.store_responses} colorScheme="purple" onChange={handleSwitchEnable} id="storeResponses" />
+          <FormLabel mb="0">Store Responses</FormLabel>
+          <Switch ml="2" isChecked={!!flow.config.store_responses} colorScheme="purple" onChange={handleSwitchEnable} />
         </Flex>
         <FormHelperText>Store form submit data in response list.</FormHelperText>
       </FormControl>
