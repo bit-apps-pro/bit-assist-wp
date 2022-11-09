@@ -40,7 +40,7 @@ class Layout
                         $menu['name'],
                         $menu['capability'],
                         $menu['slug'],
-                        $menu['callback'],
+                        is_string($menu['callback']) ? (method_exists($this, $menu['callback']) ? [$this, $menu['callback']] : $menu['callback']) : $menu['callback'],
                         $menu['icon'],
                         $menu['position']
                     );

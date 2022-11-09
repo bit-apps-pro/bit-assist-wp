@@ -52,7 +52,7 @@ final class Plugin
     public function loaded()
     {
         Hooks::doAction(Config::withPrefix('loaded'));
-        Hooks::addAction('init', [$this, 'registerProviders'], 11);
+        Hooks::addAction('init', [$this, 'registerProviders']);
         Hooks::addFilter('plugin_action_links_' . Config::get('BASENAME'), [$this, 'actionLinks']);
         $this->maybeMigrateDB();
     }
