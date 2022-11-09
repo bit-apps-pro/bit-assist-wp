@@ -1,4 +1,4 @@
-import { Box, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, Tooltip, useColorModeValue, VStack } from '@chakra-ui/react'
+import { Box, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, Textarea, Tooltip, useColorModeValue, VStack } from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
@@ -16,7 +16,7 @@ function CallToAction() {
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const textColorToggle = useColorModeValue('white', 'gray.800')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateData(e.target.value, 'text')
   }
 
@@ -89,7 +89,7 @@ function CallToAction() {
             <SliderThumb bg={brandColorToggle} />
           </Tooltip>
         </Slider>
-        <Input placeholder="Message" value={widget.call_to_action?.text ?? ''} onChange={handleChange} />
+        <Textarea placeholder="Message" value={widget.call_to_action?.text ?? ''} onChange={handleChange} />
       </VStack>
     </Box>
   )
