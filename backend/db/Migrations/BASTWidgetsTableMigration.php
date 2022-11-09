@@ -15,19 +15,19 @@ final class BASTWidgetsTableMigration extends Migration
         Schema::create('widgets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('styles')->nullable();
-            $table->json('domains')->nullable();
-            $table->json('business_hours')->nullable();
+            $table->longtext('styles')->nullable();
+            $table->longtext('domains')->nullable();
+            $table->longtext('business_hours')->nullable();
             $table->string('timezone')->nullable();
-            $table->json('exclude_pages')->nullable();
+            $table->longtext('exclude_pages')->nullable();
             $table->integer('initial_delay')->defaultValue(0);
             $table->integer('page_scroll')->defaultValue(0);
             $table->tinyint('widget_behavior')->defaultValue(1);
             $table->string('custom_css')->nullable();
-            $table->json('call_to_action')->nullable();
+            $table->longtext('call_to_action')->nullable();
             $table->boolean('store_responses')->defaultValue(1);
-            $table->json('delete_responses')->nullable();
-            $table->json('integrations')->nullable();
+            $table->longtext('delete_responses')->nullable();
+            $table->longtext('integrations')->nullable();
             $table->boolean('status')->defaultValue(1);
             $table->boolean('active')->defaultValue(0);
             $table->timestamps();

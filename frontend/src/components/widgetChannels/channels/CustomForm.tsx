@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Stack,
   useColorModeValue,
+  useDisclosure,
   VStack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
@@ -42,6 +43,7 @@ function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
+  const { onOpen, onClose, isOpen } = useDisclosure()
 
   useEffect(() => {
     if (typeof flow.config?.card_config?.card_bg_color !== 'undefined') return
@@ -100,6 +102,7 @@ function CustomForm() {
         required: true,
       })
     })
+    onClose()
   }
 
   const handleFormChange = (value: string | number | boolean, key: string) => {
@@ -141,7 +144,7 @@ function CustomForm() {
           </DndContext>
         )}
 
-        <Popover>
+        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
           <PopoverTrigger>
             <Button rightIcon={<FiPlus />}>Add Field</Button>
           </PopoverTrigger>
@@ -167,18 +170,16 @@ function CustomForm() {
       </VStack>
 
       <FormControl>
-        <FormLabel htmlFor="submitButtonText">Button Text</FormLabel>
+        <FormLabel>Button Text</FormLabel>
         <Input
-          id="submitButtonText"
           value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
           onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel htmlFor="successMessage">Success Message</FormLabel>
+        <FormLabel>Success Message</FormLabel>
         <Input
-          id="successMessage"
           value={flow.config?.card_config?.success_message}
           placeholder="Submitted successfully"
           onChange={(e) => handleFormChange(e.target.value, 'success_message')}
@@ -188,9 +189,8 @@ function CustomForm() {
       <StoreResponses />
 
       <FormControl>
-        <FormLabel htmlFor="send_mail_to">Send Mail To</FormLabel>
+        <FormLabel>Send Mail To</FormLabel>
         <Input
-          id="send_mail_to"
           placeholder="Your email"
           value={flow.config?.card_config?.send_mail_to || ''}
           onChange={(e) => handleFormChange(e.target.value, 'send_mail_to')}
@@ -199,9 +199,8 @@ function CustomForm() {
 
       <ProWrapper>
         <FormControl>
-          <FormLabel htmlFor="webhook_url">Webhook URL</FormLabel>
+          <FormLabel>Webhook URL</FormLabel>
           <Input
-            id="webhook_url"
             placeholder="https://"
             value={flow.config?.card_config?.webhook_url || ''}
             onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}

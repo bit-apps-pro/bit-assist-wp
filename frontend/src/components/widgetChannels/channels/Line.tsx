@@ -20,10 +20,10 @@ function Line() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">Line ID</FormLabel>
+        <FormLabel>Line ID</FormLabel>
         <InputGroup>
           <InputLeftAddon children="@" />
-          <Input id="unique_id" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+          <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
         </InputGroup>
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />

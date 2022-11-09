@@ -19,8 +19,8 @@ function WeChat() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">User Id</FormLabel>
-        <Input id="unique_id" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+        <FormLabel>User Id</FormLabel>
+        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
     </>

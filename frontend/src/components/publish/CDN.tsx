@@ -11,7 +11,7 @@ export default function CDN() {
   const cdnUrl = `
     <script>
       var bit_assist_={host: ${JSON.stringify(config.ROOT_URL)},api: ${JSON.stringify(config.API_URL)}}
-      var d=document;s=d.createElement('script');s.type='text/javascript';s.defer=true;s.src='${config.ROOT_URL}/iframe/bit-assist.js';t=d.getElementsByTagName('script')[0];t.parentNode.insertBefore(s, t)
+      var d=document; s=d.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='${config.ROOT_URL}/iframe/bit-assist.js'; t=d.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t)
     </script>
   `
 
@@ -45,7 +45,7 @@ export default function CDN() {
         tag.
       </Text>
       <HStack spacing={0} gap="2">
-        <Code maxW="full">{cdnUrl}</Code>
+        <Code maxW="full" p='4' rounded='lg'>{cdnUrl}</Code>
         <Tooltip label="Copy">
           <IconButton colorScheme="purple" icon={<CopyIcon />} size="sm" aria-label="Copy" onClick={copy} tabIndex={tabIndex} />
         </Tooltip>

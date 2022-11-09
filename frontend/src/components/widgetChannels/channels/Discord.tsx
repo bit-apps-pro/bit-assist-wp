@@ -20,10 +20,10 @@ function Discord() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">Discord invite code</FormLabel>
+        <FormLabel>Discord invite code</FormLabel>
         <InputGroup>
           <InputLeftAddon children="discord.gg/" />
-          <Input id="unique_id" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+          <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
         </InputGroup>
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />

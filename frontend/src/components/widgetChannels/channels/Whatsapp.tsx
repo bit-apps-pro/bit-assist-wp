@@ -22,12 +22,12 @@ function Whatsapp() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">Phone number</FormLabel>
-        <Input id="unique_id" type="tel" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} placeholder="ex: 88012312312312" />
+        <FormLabel>Phone number</FormLabel>
+        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} placeholder="ex: 88012312312312" />
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="message">Message</FormLabel>
-        <Textarea id="message" value={flow.config?.message ?? ''} onChange={(e) => handleChanges(e.target.value, 'message')} />
+        <FormLabel>Message</FormLabel>
+        <Textarea value={flow.config?.message ?? ''} onChange={(e) => handleChanges(e.target.value, 'message')} />
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
     </>

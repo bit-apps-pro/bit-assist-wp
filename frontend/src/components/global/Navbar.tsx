@@ -6,7 +6,7 @@ import Logo from '@icons/Logo'
 
 function Navbar() {
   return (
-    <Container maxW="container.lg">
+    <Container maxW="1170px" px={[4, 6]}>
       <Stack py="5" direction={['column', 'row']} alignItems={['center', 'initial']} justifyContent={['initial', 'space-between']}>
         <Flex alignItems="center" gap={2}>
           <Link to="/">

@@ -44,11 +44,11 @@ class WebsiteLayout
     {
         $slug = Config::SLUG;
         $newTag = $html;
-        if (str_contains($handle, 'MODULE') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'MODULE') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/<script /', '<script type="module" ', $newTag);
         }
 
-        if (str_contains($handle, 'DEFER') && str_contains($handle, $slug)) {
+        if (strpos($handle, 'DEFER') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/<script /', '<script defer ', $newTag);
         }
 

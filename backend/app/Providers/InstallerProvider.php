@@ -95,10 +95,10 @@ class InstallerProvider
     public static function drop()
     {
         $migrations = [
-            'BASTWidgetsTableMigration',
-            'BASTWidgetChannelsTableMigration',
-            'BASTResponsesTableMigration',
             'BASTPluginOptions',
+            'BASTResponsesTableMigration',
+            'BASTWidgetChannelsTableMigration',
+            'BASTWidgetsTableMigration',
         ];
 
         return [

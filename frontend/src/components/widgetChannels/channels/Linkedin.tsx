@@ -19,8 +19,8 @@ function Linkedin() {
   return (
     <>
       <FormControl>
-        <FormLabel htmlFor="unique_id">User name</FormLabel>
-        <Input id="unique_id" value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+        <FormLabel>User name</FormLabel>
+        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
     </>
