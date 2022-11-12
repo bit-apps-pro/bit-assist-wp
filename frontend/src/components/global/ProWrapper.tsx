@@ -13,7 +13,7 @@ export default function ProWrapper({ children }: { children: React.ReactNode }) 
           Buy Pro
         </Button>
       </Link>
-      <Box filter="blur(1.5px)" bg={blurBg} pointerEvents="none" py="2" px="4" rounded="md" userSelect="none">
+      <Box filter="blur(0.6px)" bg={blurBg} pointerEvents="none" py="2" px="4" rounded="md" userSelect="none">
         {children}
       </Box>
     </Box>

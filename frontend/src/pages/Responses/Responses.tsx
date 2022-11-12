@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Checkbox,
   HStack,
   IconButton,
@@ -26,7 +27,8 @@ import { Button,
   DrawerContent,
   DrawerCloseButton,
   DrawerHeader,
-  DrawerBody } from '@chakra-ui/react'
+  DrawerBody
+} from '@chakra-ui/react'
 import { WidgetResponse } from '@globalStates/Interfaces'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
@@ -49,7 +51,7 @@ function Responses() {
   const navigate = useNavigate()
   const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure()
   const btnRef = useRef<HTMLTableCellElement | null>(null)
-  const drawerResponse = useRef< object | null>()
+  const drawerResponse = useRef<object | null>()
 
   const handleDeleteWidget = async () => {
     await deleteResponses(checkedItems)
@@ -59,7 +61,7 @@ function Responses() {
 
   const convertDate = (date: string) => {
     const dateObj = new Date(date)
-    return `${dateObj.toLocaleDateString() } ${ dateObj.toLocaleTimeString()}`
+    return `${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString()}`
   }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, responseId: string) => {
@@ -107,7 +109,7 @@ function Responses() {
           <Text as="h2" fontSize="lg" textTransform="none">
             Response List
             {' '}
-            {othersData?.channelName && `- ${ othersData.channelName}`}
+            {othersData?.channelName && `- ${othersData.channelName}`}
           </Text>
           {isResponsesLoading && <Spinner />}
         </HStack>
@@ -145,7 +147,7 @@ function Responses() {
                 />
               </Th>
               {othersData?.formFields?.map((field: { id: string; label: string }) => (
-                <Th key={`${field.id }th`}>{textTrim(field.label, 20)}</Th>
+                <Th key={`${field.id}th`}>{textTrim(field.label, 20)}</Th>
               ))}
               <Th w="6">Created At</Th>
             </Tr>
@@ -167,14 +169,20 @@ function Responses() {
                       ref={btnRef}
                       onClick={() => handleResponseClick(widgetResponse.response)}
                       cursor="pointer"
-                      key={`${field.id }td`}
+                      key={`${field.id}td`}
                     >
                       {typeof widgetResponse.response[toSlug(field.label)] === 'object'
                         ? 'file'
                         : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
                     </Td>
                   ))}
-                  <Td>{convertDate(widgetResponse.created_at)}</Td>
+                  <Td
+                    ref={btnRef}
+                    onClick={() => handleResponseClick(widgetResponse.response)}
+                    cursor="pointer"
+                  >
+                    {convertDate(widgetResponse.created_at)}
+                  </Td>
                 </Tr>
               ))}
             {widgetResponses?.length < 1 && (
@@ -191,7 +199,6 @@ function Responses() {
           pageNumber={pageNumber}
           pageLimit={pageLimit}
           totalResponses={othersData?.totalResponses || 0}
-          // totalPages={Math.ceil((othersData?.totalResponses || 0) / pageLimit)}
           setPageNumber={setPageNumber}
           setPageLimit={setPageLimit}
         >

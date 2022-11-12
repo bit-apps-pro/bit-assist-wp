@@ -35,6 +35,8 @@ import FAQ from '@components/widgetChannels/channels/FAQ'
 import CustomForm from '@components/widgetChannels/channels/CustomForm'
 import KnowledgeBase from '@components/widgetChannels/channels/KnowledgeBase'
 import Tawk from '@components/widgetChannels/channels/Tawk'
+import config from '@config/config'
+import ProWrapper from '@components/global/ProWrapper'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -76,19 +78,22 @@ function ChannelSettings() {
       {flow.channel_name?.toLowerCase() === 'instagram' && <Instagram />}
       {flow.channel_name?.toLowerCase() === 'telegram' && <Telegram />}
 
-      <FormControl>
-        <Flex alignItems="center">
-          <FormLabel mb="0">Hide after office hours</FormLabel>
-          <Switch
-            ml="2"
-            colorScheme="purple"
-            aria-label="hide after office hours"
-            isChecked={flow.config?.hide_after_office_hours || false}
-            onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
-          />
-        </Flex>
-        <FormHelperText>Hide this channel after office time.</FormHelperText>
-      </FormControl>
+      <ProWrapper>
+        <FormControl>
+          <Flex alignItems="center">
+            <FormLabel mb="0">Hide after office hours</FormLabel>
+            <Switch
+              ml="2"
+              colorScheme="purple"
+              aria-label="hide after office hours"
+              isChecked={flow.config?.hide_after_office_hours || false}
+              onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
+              tabIndex={config.IS_PRO ? 0 : -1}
+            />
+          </Flex>
+          <FormHelperText>Hide this channel after office time.</FormHelperText>
+        </FormControl>
+      </ProWrapper>
 
       <FormControl>
         <FormLabel display='inline-block'>Channel show on</FormLabel>
