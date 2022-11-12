@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 == Description ==
@@ -82,5 +82,8 @@ More coming soon...
 
 
 == Changelog ==
-= v1.0.0 (Nov 7, 2022) =
+= v1.0.1 (Nov 12, 2022) =
+* Fixed: Widget Delay & Widget Scroll conflict
+
+= v1.0.0 (Nov 9, 2022) =
 * Initial release

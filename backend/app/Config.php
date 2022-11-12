@@ -19,15 +19,15 @@ class Config
 
     const VAR_PREFIX = 'bit_assist_';
 
-    const VERSION = '1.0';
+    const VERSION = '1.0.1';
 
-    const DB_VERSION = '1.0';
+    const DB_VERSION = '1.0.0';
 
     const REQUIRED_PHP_VERSION = '5.6.4';
 
     const REQUIRED_WP_VERSION = '5.0';
 
-    const API_VERSION = '1.0';
+    const API_VERSION = '1.0.0';
 
     const APP_BASE = '../../index.php';
 
