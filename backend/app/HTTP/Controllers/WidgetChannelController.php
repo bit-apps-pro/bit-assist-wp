@@ -26,15 +26,20 @@ final class WidgetChannelController
 
     public function store(WidgetChannelStoreRequest $request)
     {
+        $validated = $request->all();
         $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
-        if (!$isPro && WidgetChannel::where('widget_id', $request->widget_id)->count() >= 2) {
+
+        if (!$isPro && WidgetChannel::where('widget_id', $validated['widget_id'])->count() >= 2) {
             return Response::error('Limited 2 channels in free version');
         }
-
-        if (!$isPro && $request->channel_name === 'Custom-Form' && !empty($request->config->card_config->webhook_url)) {
-            $request->config->card_config->webhook_url = '';
+        if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
+            unset($validated['config']['hide_after_office_hours']);
         }
-        $result = WidgetChannel::insert($request->all());
+        if (!$isPro && $validated['channel_name'] === 'Custom-Form' && !empty($validated['config']['card_config']['webhook_url'])) {
+            unset($validated['config']['card_config']['webhook_url']);
+        }
+
+        $result = WidgetChannel::insert($validated);
 
         if ($result) {
             return Response::success('Channel created successfully');
@@ -44,7 +49,17 @@ final class WidgetChannelController
 
     public function update(WidgetChannelUpdateRequest $request, WidgetChannel $widgetChannel)
     {
-        $widgetChannel->update($request->all());
+        $validated = $request->all();
+        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+
+        if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
+            unset($validated['config']['hide_after_office_hours']);
+        }
+        if (!$isPro && $validated['channel_name'] === 'Custom-Form' && !empty($validated['config']['card_config']['webhook_url'])) {
+            unset($validated['config']['card_config']['webhook_url']);
+        }
+
+        $widgetChannel->update($validated);
 
         if ($widgetChannel->save()) {
             return Response::success('Channel updated successfully');
