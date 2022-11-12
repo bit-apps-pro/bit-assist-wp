@@ -13,7 +13,7 @@ License: GPLv2 or later
 
 📢 **You can avail this plugin free if you tag us as your Zoho Partner. Read the details here - [Bit Apps products giveaway](https://www.bitapps.pro/zoho-partner-tag)**
 
-📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitappss) & get updates of our new plugins.**
+📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitapps) & get updates of our new plugins.**
 
 📢 **We are open for freelance work/custom development for this plugin. [Connect](https://bitapps.pro/contact) with us for further information.**
 
@@ -40,7 +40,8 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
  12. Dark Mode
 
-## [Pro version features](https://www.bitapps.pro/bit-assist):
+📢 [Pro version features](https://www.bitapps.pro/bit-assist):
+
 1. Everything Included in Free
 2. Unlimited Widgets
 3. Unlimited Channels
