@@ -22,8 +22,10 @@ export default class Widget {
 	#selectedFormBg
 	#cardBody
 	#formBody
+	#delayExist
 
 	constructor(config) {
+		this.#delayExist = true
 		this.#isOfficeHours = true
 		this.#isMobileDevice = false
 		this.#root = document.documentElement
@@ -416,28 +418,25 @@ export default class Widget {
 	#onMessageReceived = e => {
 		const { action } = e.data
 		if (action === 'windowLoaded') {
-			const { url, winWidth, scrollPercent, apiEndPoint } = e.data
-			this.#root.style.setProperty('--client-win-width', winWidth + 'px')
-
-			this.#apiEndPoint = apiEndPoint
-			this.#fetchWidgetData()
-
-			this.#handleWindowLoaded(url, winWidth)
-			this.#handleScrollPercent(scrollPercent)
+			this.#handleWindowLoaded(e.data)
 		} else if (action === 'scrollPercent') {
-			const { scrollPercent } = e.data
-			this.#handleScrollPercent(scrollPercent)
+			this.#handleScrollPercent(e.data)
 		}
 	}
 
-	#handleWindowLoaded = (url, winWidth) => {
-		this.#clientPageUrl = url.slice(this.#clientDomain.length + 1, url.length)
+	#handleWindowLoaded = ({ url, winWidth, scrollPercent, apiEndPoint }) => {
+		this.#root.style.setProperty('--client-win-width', winWidth + 'px')
+		this.#scrollPercent = scrollPercent
+		this.#apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
+		this.#clientPageUrl = url.slice(this.#clientDomain.length + 1, url.length)
+
+		this.#fetchWidgetData()
 	}
 
-	#handleScrollPercent = scrollPercent => {
+	#handleScrollPercent = ({ scrollPercent }) => {
 		this.#scrollPercent = scrollPercent
-		if (this.#widgetData?.page_scroll > 0) {
+		if (this.#widgetData?.page_scroll > 0 && !this.#delayExist) {
 			this.#widgetShowAfterScroll()
 		}
 	}
@@ -480,9 +479,11 @@ export default class Widget {
 		this.#addCustomStyles()
 		this.#renderChannels()
 		this.#renderWidgetBubble()
-		await this.#widgetShowDelay()
-		this.#widgetShowAfterScroll()
 		this.#showCallToAction()
+		this.#delayExist = true
+		await this.#widgetShowDelay()
+		this.#delayExist = false
+		this.#widgetShowAfterScroll()
 	}
 
 	// eslint-disable-next-line no-promise-executor-return
@@ -738,7 +739,7 @@ export default class Widget {
 	}
 
 	#widgetShowAfterScroll = () => {
-		if (this.#scrollPercent >= this.#widgetData?.page_scroll) {
+		if (this.#widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.#widgetData?.page_scroll) {
 			this.#widgetWrapper.classList.remove('hide')
 			this.#resetClientWidgetSize()
 		} else {
