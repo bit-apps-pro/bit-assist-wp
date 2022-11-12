@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\Core\Database;
 
+use BitApps\Assist\Core\Helpers\DateTimeHelper;
 use BitApps\Assist\Core\Helpers\JSON;
 use Closure;
 use Exception;
@@ -776,7 +777,8 @@ class QueryBuilder
         foreach ($attributes as $row) {
             ksort($row);
             if ($createdAt) {
-                $row['created_at'] = date(self::TIME_FORMAT);
+                $dateObj = new \DateTime('now', new \DateTimeZone(DateTimeHelper::wp_timezone_string()));
+                $row['created_at'] = $dateObj->format(self::TIME_FORMAT);
             }
 
             $rowValues = array_values($row);
@@ -1322,12 +1324,13 @@ class QueryBuilder
         }
 
         if (property_exists($this->_model, 'timestamps') && $this->_model->timestamps) {
+            $dateObj = new \DateTime('now', new \DateTimeZone(DateTimeHelper::wp_timezone_string()));
             if (!$isUpdate) {
-                $this->_model->setAttribute('created_at', date(self::TIME_FORMAT));
+                $this->_model->setAttribute('created_at', $dateObj->format(self::TIME_FORMAT));
                 $columnsToPrepare[] = 'created_at';
             }
 
-            $this->_model->setAttribute('updated_at', date(self::TIME_FORMAT));
+            $this->_model->setAttribute('updated_at', $dateObj->format(self::TIME_FORMAT));
             $columnsToPrepare[] = 'updated_at';
         }
 
