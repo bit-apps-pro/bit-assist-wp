@@ -17,6 +17,7 @@ export default class Widget {
 	#clientPageUrl
 	#scrollPercent
 	#callToAction
+	#closeCallToAction
 	#isOfficeHours
 	#card
 	#selectedFormBg
@@ -103,12 +104,17 @@ export default class Widget {
 	#widgetOpenActions = isWidgetOpen => {
 		this.#openClientWidget(isWidgetOpen)
 		if (isWidgetOpen && !this.#callToAction?.classList.contains('hide')) {
-			this.#callToAction?.classList.add('hide')
+			this.#callToActionHide()
 		}
 
 		if (!isWidgetOpen) {
 			this.#resetClientWidgetSize()
 		}
+	}
+
+	#callToActionHide = () => {
+		this.#callToAction?.classList.add('hide')
+		this.#closeCallToAction?.classList.add('hide')
 	}
 
 	#onChannelClick = e => {
@@ -479,10 +485,10 @@ export default class Widget {
 		this.#addCustomStyles()
 		this.#renderChannels()
 		this.#renderWidgetBubble()
-		this.#showCallToAction()
 		this.#delayExist = true
 		await this.#widgetShowDelay()
 		this.#delayExist = false
+		this.#showCallToAction()
 		this.#widgetShowAfterScroll()
 	}
 
@@ -760,10 +766,16 @@ export default class Widget {
 		this.#callToAction = document.createElement('div')
 		this.#callToAction.id = 'callToActionMsg'
 		this.#callToAction.innerHTML = this.#widgetData.call_to_action.text
-		$('#widgetBubbleRow').appendChild(this.#callToAction)
+
+		this.#closeCallToAction = document.createElement('img')
+		this.#closeCallToAction.id = 'closeCallToAction'
+		this.#closeCallToAction.src = closeIcon
+		this.#closeCallToAction.addEventListener('click', this.#callToActionHide)
+
+		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
 
 		if (this.#channels?.classList.contains('show')) {
-			this.#callToAction?.classList.add('hide')
+			this.#callToActionHide()
 			return
 		}
 

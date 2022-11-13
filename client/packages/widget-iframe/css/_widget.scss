@@ -5,6 +5,7 @@
 	gap: 20px;
 	justify-content: flex-end;
 	max-width: calc(var(--client-win-width) - 8px);
+
 	&:focus-visible {
 		outline: none;
 	}
@@ -15,35 +16,36 @@
 	left: auto;
 	right: 0;
 	align-items: flex-end;
+
 	#channels {
 		align-items: flex-end;
+
 		.channel {
 			flex-direction: row;
 		}
 	}
+
 	#widgetBubbleRow {
 		align-items: flex-end;
 	}
-	#callToActionMsg {
-		animation: fadeInFromLeft var(--transition-duration) ease-in-out;
-	}
 }
+
 .bottom-left,
 .top-left {
 	left: 0;
 	right: auto;
 	align-items: flex-start;
+
 	#channels {
 		align-items: flex-start;
+
 		.channel {
 			flex-direction: row-reverse;
 		}
 	}
+
 	#widgetBubbleRow {
 		align-items: flex-start;
-	}
-	#callToActionMsg {
-		animation: fadeInFromRight var(--transition-duration) ease-in-out;
 	}
 }
 
@@ -51,49 +53,72 @@
 .bottom-left {
 	flex-direction: column;
 	animation: fadeInFromBottom var(--transition-duration) ease-in-out;
+
 	#credit {
 		top: calc(100% + 5px);
 		bottom: auto;
 	}
+
 	#channels {
 		flex-direction: column;
 		animation: fadeInFromBottom var(--transition-duration) ease-in-out;
+
 		.channel {
 			margin-bottom: 10px;
+
 			&:last-child {
 				margin-bottom: 0;
 			}
 		}
 	}
+
 	#widgetBubbleRow {
-		flex-direction: column-reverse;
+		flex-direction: column;
 	}
+
 	#card {
 		animation: fadeInFromBottom var(--transition-duration) ease-in-out;
 	}
+
+	#callToActionMsg,
+	#closeCallToAction {
+		animation: fadeInFromBottom var(--transition-duration) ease-in-out;
+	}
 }
+
 .top-right,
 .top-left {
 	flex-direction: column-reverse;
 	animation: fadeInFromTop var(--transition-duration) ease-in-out;
+
 	#credit {
 		top: auto;
 		bottom: calc(100% + 5px);
 	}
+
 	#channels {
 		flex-direction: column-reverse;
 		animation: fadeInFromTop var(--transition-duration) ease-in-out;
+
 		.channel {
 			margin-top: 10px;
+
 			&:last-child {
 				margin-top: 0;
 			}
 		}
 	}
+
 	#widgetBubbleRow {
-		flex-direction: column;
+		flex-direction: column-reverse;
 	}
+
 	#card {
+		animation: fadeInFromTop var(--transition-duration) ease-in-out;
+	}
+
+	#callToActionMsg,
+	#closeCallToAction {
 		animation: fadeInFromTop var(--transition-duration) ease-in-out;
 	}
 }
@@ -102,14 +127,17 @@
 	top: auto;
 	bottom: 0;
 }
+
 .top-right {
 	top: 0;
 	bottom: auto;
 }
+
 .bottom-left {
 	top: auto;
 	bottom: 0;
 }
+
 .top-left {
 	top: 0;
 	bottom: auto;
