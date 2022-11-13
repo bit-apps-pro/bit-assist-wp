@@ -42,7 +42,7 @@ final class ApiWidgetController
         if (Config::get('SITE_URL') === $domain) {
             $widget->where('active', 1);
         } elseif ($this->isPro) {
-            $widget->whereRaw('JSON_CONTAINS(domains, \'["' . $domain . '"]\')');
+            $widget->whereRaw('domains LIKE ' . "'%" . parse_url($domain)['host'] . "%'");
         } else {
             return null;
         }
