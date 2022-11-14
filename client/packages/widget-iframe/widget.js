@@ -747,12 +747,10 @@ export default class Widget {
 	#widgetShowAfterScroll = async () => {
 		if (this.#widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.#widgetData?.page_scroll) {
 			this.#widgetWrapper.classList.remove('hide')
-			await this.#delay(0.01)
-			this.#resetClientWidgetSize()
 		} else {
 			this.#widgetWrapper.classList.add('hide')
-			this.#resetClientWidgetSize()
 		}
+		this.#resetClientWidgetSize()
 	}
 
 	#showCallToAction = async () => {
