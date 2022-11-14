@@ -1,4 +1,5 @@
-import { Box,
+import {
+  Box,
   Button,
   Modal,
   ModalBody,
@@ -8,7 +9,8 @@ import { Box,
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure } from '@chakra-ui/react'
+  useDisclosure
+} from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
@@ -42,16 +44,13 @@ function CustomCSS() {
       <Title>Custom CSS</Title>
       <ProWrapper>
         <Textarea
-          onClick={onOpen}
-          filter="auto"
-          blur="1.1px"
           h="36"
+          readOnly
+          filter="auto"
           cursor="pointer"
           overflow="hidden"
-          bg="gray.800"
-          color="green.500"
-          value={widget.custom_css || '/*write your custom css here*/'}
-          readOnly
+          onClick={onOpen}
+          value={widget.custom_css || ''}
           tabIndex={tabIndex}
         />
       </ProWrapper>
@@ -59,9 +58,9 @@ function CustomCSS() {
       <Modal id="custom_css" size="2xl" isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Custom CSS</ModalHeader>
+          <ModalHeader py="2">Custom CSS</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody p="0">
             <Box boxShadow="md">
               <Editor
                 height="40vh"
@@ -69,12 +68,11 @@ function CustomCSS() {
                 theme="vs-dark"
                 onChange={handleChangeCustomCSS}
                 defaultLanguage="css"
-                defaultValue="/*write your custom css here*/"
                 value={widget.custom_css || ''}
               />
             </Box>
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter py="2">
             <Button mr={3} onClick={onClose}>
               Cancel
             </Button>
@@ -85,7 +83,7 @@ function CustomCSS() {
               colorScheme="purple"
               shadow="md"
             >
-              update
+              Update
             </Button>
           </ModalFooter>
         </ModalContent>

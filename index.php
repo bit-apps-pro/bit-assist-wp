@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Bit Assist
  * Plugin URI:  https://bitapps.pro/bit-assist
- * Description: Connect with your customers and increase sales with Bit Assist.
- * Version:     1.0.1
+ * Description: Communicate with your customers using different messaging apps.
+ * Version:     1.0.2
  * Author:      Bit Apps
  * Author URI:  https://bitapps.pro
  * Text Domain: bit-assist

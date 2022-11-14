@@ -8,7 +8,17 @@
   max-height: 450px;
   overflow-y: auto;
   font-size: .9375rem;
-  line-height: 1.5rem;
+  line-height: 1.4rem;
   font-weight: 400;
   color: #545454;
+}
+
+#closeCallToAction {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  padding: 5px;
+  background: #f7f7f7;
+  box-shadow: 0 2px 3px -1px rgb(#000, 25%), 0 2px 6px rgb(#000, 9%);
+  cursor: pointer;
 }

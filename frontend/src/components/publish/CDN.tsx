@@ -9,9 +9,9 @@ export default function CDN() {
   const tabIndex = config.IS_PRO ? 0 : -1
 
   const cdnUrl = `
-    <script>
-      var bit_assist_={host: ${JSON.stringify(config.ROOT_URL)},api: ${JSON.stringify(config.API_URL)}}
-      var d=document; s=d.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='${config.ROOT_URL}/iframe/bit-assist.js'; t=d.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t)
+    <script type="text/javascript">
+      var bit_assist_={ host: ${JSON.stringify(config.ROOT_URL)}, api: ${JSON.stringify(config.API_URL)}};
+      (function () { var s=document.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='${config.ROOT_URL}/iframe/bit-assist.js'; t=document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t) })()
     </script>
   `
 

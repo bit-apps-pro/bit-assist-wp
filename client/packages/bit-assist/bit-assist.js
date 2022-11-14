@@ -14,9 +14,9 @@ const css = `
 #bit-assist-widget-container.bottom-left{left:0;right:auto;top:auto;bottom:0}
 #bit-assist-widget-container.top-right{left:auto;right:0;top:0;bottom:auto}
 #bit-assist-widget-container.top-left{left:0;right:auto;top:0;bottom:auto}
-#bit-assist-widget-container.open{width:100vw!important;height:100vh!important;background-color:rgba(255,255,255,0.1)}
+#bit-assist-widget-container.bit-assist-open{width:100vw!important;height:100vh!important;background-color:rgba(255,255,255,0.1)}
 #bit-assist-widget-iframe{width:100%;height:100%;border:none;position:absolute}
-.hide{visibility:hidden;pointer-events:none}
+.bit-assist-hide{visibility:hidden;pointer-events:none}
 `
 
 const styleElement = document.createElement('style')
@@ -24,7 +24,7 @@ styleElement.appendChild(document.createTextNode(css))
 
 const widgetContainer = document.createElement('div')
 widgetContainer.id = 'bit-assist-widget-container'
-widgetContainer.classList.add('hide')
+widgetContainer.classList.add('bit-assist-hide')
 
 const iframeElement = document.createElement('iframe')
 iframeElement.src = `${iframeHost}?clientDomain=${domain}`
@@ -36,6 +36,8 @@ document.body.append(styleElement, widgetContainer)
 
 // Pass window width to iframe
 window.addEventListener('load', () => {
+	hideTawkTo()
+
 	const scrollPercent = windowScrollPercentage()
 	iframeElement.contentWindow.postMessage({ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint }, iframeHost)
 })
@@ -72,7 +74,7 @@ window.addEventListener('message', e => {
 	const { action } = e.data
 	if (action === 'widgetLoaded') {
 		const { height, width, position, pageScroll } = e.data
-		widgetContainer.classList.remove('hide')
+		widgetContainer.classList.remove('bit-assist-hide')
 		widgetContainer.classList.add(position)
 		resetWidgetSize(width, height)
 		if (pageScroll > 0) {
@@ -80,7 +82,7 @@ window.addEventListener('message', e => {
 		}
 	} else if (action === 'widgetOpen') {
 		const { isWidgetOpen } = e.data
-		widgetContainer.classList.toggle('open', isWidgetOpen)
+		widgetContainer.classList.toggle('bit-assist-open', isWidgetOpen)
 	} else if (action === 'removeWidget') {
 		widgetContainer.remove()
 		styleElement.remove()
@@ -108,10 +110,6 @@ function openChatWidget(chatWidgetName) {
 	}
 }
 
-window.addEventListener('load', function () {
-	hideTawkTo()
-})
-
 function isLoadedTawkTo() {
 	return typeof Tawk_API !== 'undefined'
 }
@@ -122,10 +120,10 @@ function openTawkTo() {
 		Tawk_API = Tawk_API || {}
 		Tawk_API.showWidget()
 		Tawk_API.toggle()
-		widgetContainer.classList.add('hide')
+		widgetContainer.classList.add('bit-assist-hide')
 	} catch (e) {
 		alert('Sorry, Tawk not loaded yet.')
-		widgetContainer.classList.remove('hide')
+		widgetContainer.classList.remove('bit-assist-hide')
 	}
 }
 
@@ -137,23 +135,23 @@ function hideTawkTo() {
 	}
 	Tawk_API.onChatStarted = function () {
 		Tawk_API.showWidget()
-		widgetContainer.classList.add('hide')
+		widgetContainer.classList.add('bit-assist-hide')
 	}
 	Tawk_API.onChatMessageAgent = function () {
 		Tawk_API.showWidget()
-		widgetContainer.classList.add('hide')
+		widgetContainer.classList.add('bit-assist-hide')
 	}
 	Tawk_API.onChatMessageSystem = function () {
 		Tawk_API.showWidget()
-		widgetContainer.classList.add('hide')
+		widgetContainer.classList.add('bit-assist-hide')
 	}
 	Tawk_API.onChatEnded = function () {
 		Tawk_API.hideWidget()
-		widgetContainer.classList.remove('hide')
+		widgetContainer.classList.remove('bit-assist-hide')
 	}
 	Tawk_API.onChatMinimized = function () {
 		Tawk_API.hideWidget()
-		widgetContainer.classList.remove('hide')
+		widgetContainer.classList.remove('bit-assist-hide')
 	}
 	Tawk_API.onStatusChange = function () {
 		Tawk_API.hideWidget()
