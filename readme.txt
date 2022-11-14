@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 
 == Description ==
@@ -101,6 +101,10 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.0.2 (Nov 14, 2022) =
+* Added: Call To Action close button
+* Fixed: Old mysql version issue
+
 = v1.0.1 (Nov 12, 2022) =
 * Fixed: Widget Delay & Widget Scroll conflict
 
