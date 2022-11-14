@@ -4,8 +4,8 @@ const apiEndPoint = window?.bit_assist_?.api?.base ? bit_assist_.api.base : 'htt
 const domain = window.location.origin
 const url = window.location.href
 const winWidth = window.innerWidth
-let defaultHeight = '0px'
-let defaultWidth = '0px'
+let defaultHeight = '100px'
+let defaultWidth = '100px'
 let currentScrollPercent = 0
 
 const css = `
@@ -24,6 +24,7 @@ styleElement.appendChild(document.createTextNode(css))
 
 const widgetContainer = document.createElement('div')
 widgetContainer.id = 'bit-assist-widget-container'
+widgetContainer.classList.add('bit-assist-hide')
 
 const iframeElement = document.createElement('iframe')
 iframeElement.src = `${iframeHost}?clientDomain=${domain}`
@@ -73,6 +74,7 @@ window.addEventListener('message', e => {
 	const { action } = e.data
 	if (action === 'widgetLoaded') {
 		const { height, width, position, pageScroll } = e.data
+		widgetContainer.classList.remove('bit-assist-hide')
 		widgetContainer.classList.add(position)
 		resetWidgetSize(width, height)
 		if (pageScroll > 0) {
