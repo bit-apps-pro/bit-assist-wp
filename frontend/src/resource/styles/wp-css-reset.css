@@ -76,7 +76,7 @@ li {
 }
 
 textarea.readonly, textarea[readonly] {
-  background-color: var(--chakra-colors-gray-800);
+  background-color: inherit;
 }
 
 h2, h3 {
