@@ -84,6 +84,10 @@
 	#closeCallToAction {
 		animation: fadeInFromBottom var(--transition-duration) ease-in-out;
 	}
+
+	#callToActionMsg {
+		margin-bottom: 15px;
+	}
 }
 
 .top-right,
@@ -120,6 +124,10 @@
 	#callToActionMsg,
 	#closeCallToAction {
 		animation: fadeInFromTop var(--transition-duration) ease-in-out;
+	}
+
+	#callToActionMsg {
+		margin-top: 15px;
 	}
 }
 

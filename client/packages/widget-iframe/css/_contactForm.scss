@@ -1,13 +1,14 @@
 .formControl {
   width: 100%;
-  color: #a0a0a0;
+  color: var(--widget-black);
   padding: 10px 12px;
   margin-bottom: 8px;
   border-radius: 10px;
   background-color: #fff;
-  border: 1px solid #e7e7e7;
+  border: 1px solid #e1e1e1;
+
   &::placeholder {
-    color: #b1b1b1;
+    color: #a1a1a1;
   }
 }
 
@@ -23,10 +24,12 @@ button[type='submit'] {
   color: var(--card-text-color);
   background-color: var(--card-theme-color);
   text-shadow: 0 1px 1px rgba(#000, 0.25);
+
   &:hover {
     color: var(--card-text-color);
     background-color: var(--card-theme-color);
   }
+
   &.disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -40,8 +43,14 @@ button[type='submit'] {
   font-size: 0.75rem;
   color: #a1a1a1;
   margin-bottom: 8px;
+
   a {
     color: #a1a1a1;
     text-decoration: none;
   }
+}
+
+input[type="checkbox"] {
+  height: 15px;
+  width: 15px;
 }

@@ -5,7 +5,7 @@
 	max-width: 100%;
 	border-radius: 12px;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15), 0 0 20px rgba(0, 0, 0, 0.07);
-	background-color: #fff;
+
 	&.show {
 		display: block;
 	}
@@ -19,6 +19,7 @@
 	border-top-left-radius: 12px;
 	border-top-right-radius: 12px;
 	background-color: var(--card-theme-color);
+
 	h4 {
 		font-size: 1rem;
 		font-weight: 600;
@@ -37,10 +38,12 @@
 	align-items: center;
 	color: var(--card-theme-color);
 	background-color: rgba(#fff, 0.6);
+
 	svg,
 	img {
 		filter: brightness(25%);
 	}
+
 	&:focus-visible {
 		outline: 2px solid #000;
 	}
@@ -48,6 +51,7 @@
 
 #cardBody {
 	padding: 20px;
+	background-color: #fff;
 	border-bottom-left-radius: 12px;
 	border-bottom-right-radius: 12px;
 }
