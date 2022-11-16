@@ -15,12 +15,7 @@ interface CustomFormFieldProps {
   bg?: string
 }
 
-CustomFormField.defaultProps = {
-  cursor: 'grab',
-  bg: 'none',
-}
-
-function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
+function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomFormFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
 

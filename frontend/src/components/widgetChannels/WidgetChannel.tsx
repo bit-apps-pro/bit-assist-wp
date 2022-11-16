@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box,
+import {
+  Box,
   Button,
   Flex,
   HStack,
@@ -17,7 +18,8 @@ import { Box,
   ModalOverlay,
   Text,
   useColorModeValue,
-  useDisclosure } from '@chakra-ui/react'
+  useDisclosure
+} from '@chakra-ui/react'
 import { useRef } from 'react'
 import { useAtom } from 'jotai'
 import { DragHandleIcon } from '@chakra-ui/icons'
@@ -38,13 +40,7 @@ interface WidgetChannelProps {
   bg?: string
 }
 
-WidgetChannel.defaultProps = {
-  shadow: 'none',
-  cursor: 'grab',
-  bg: 'none',
-}
-
-function WidgetChannel({ widgetChannel, shadow, cursor, bg }: WidgetChannelProps) {
+function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = 'none' }: WidgetChannelProps) {
   const tempWidgetChannelId = useRef<number>(0)
   const [, setEditWidgetChannelId] = useAtom(editWidgetChannelIdAtom)
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')

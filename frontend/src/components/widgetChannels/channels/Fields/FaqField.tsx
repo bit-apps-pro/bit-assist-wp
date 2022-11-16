@@ -18,12 +18,7 @@ interface FaqFieldProps {
   bg?: string
 }
 
-FaqField.defaultProps = {
-  cursor: 'grab',
-  bg: 'none',
-}
-
-function FaqField({ id, field, cursor, bg }: FaqFieldProps) {
+function FaqField({ id, field, cursor = 'grab', bg = 'none' }: FaqFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()
