@@ -461,6 +461,7 @@ export default class Widget {
 			this.#widgetData = data
 
 			if (typeof this.#widgetData.id === 'undefined') {
+				console.error(this.#widgetData)
 				this.#removeClientWidget()
 				return
 			}

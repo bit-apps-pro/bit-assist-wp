@@ -20,7 +20,7 @@ final class ApiWidgetController
     public function bitAssistWidget(Request $request)
     {
         $widget = $this->getWidget($request->domain);
-        if (is_null($widget)) {
+        if (!isset($widget->id)) {
             return 'Widget not found';
         }
 
@@ -42,7 +42,7 @@ final class ApiWidgetController
         if (Config::get('SITE_URL') === $domain) {
             $widget->where('active', 1);
         } elseif ($this->isPro) {
-            $widget->whereRaw('domains LIKE ' . "'%" . parse_url($domain)['host'] . "%'");
+            $widget->where('domains', 'LIKE', '%' . parse_url($domain)['host'] . '%');
         } else {
             return null;
         }
