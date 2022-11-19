@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { Box, Flex, HStack, IconButton, Input, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
+import { Box, Flex, HStack, IconButton, Input, Radio, RadioGroup, Stack, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
 import { FiX } from 'react-icons/fi'
 import { CSS } from '@dnd-kit/utilities'
@@ -15,18 +15,11 @@ interface CustomFormFieldProps {
   bg?: string
 }
 
-CustomFormField.defaultProps = {
-  cursor: 'grab',
-  bg: 'none',
-}
-
-function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
+function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomFormFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
 
-  const {
-    attributes, listeners, setNodeRef, transition, transform, isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
     id: field?.id || 0,
   })
 
@@ -88,7 +81,7 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
               />
             </HStack>
           </HStack>
-          <VStack>
+          <VStack alignItems='flex-start'>
             <Input
               value={field?.label}
               onChange={(e) => handleChange(e.target.value, 'label', id)}
@@ -96,6 +89,14 @@ function CustomFormField({ id, field, cursor, bg }: CustomFormFieldProps) {
             />
             {field?.field_type === 'GDPR' && (
               <Input value={field?.url} onChange={(e) => handleChange(e.target.value, 'url', id)} placeholder="url" />
+            )}
+            {field?.field_type === 'rating' && (
+              <RadioGroup colorScheme='purple' value={field?.rating_type} onChange={(val) => handleChange(val, 'rating_type', id)}>
+                <Stack spacing={4} direction={'row'}>
+                  <Radio value='star' isRequired>Star</Radio>
+                  <Radio value='smiley'>Smiley</Radio>
+                </Stack>
+              </RadioGroup>
             )}
           </VStack>
         </Box>

@@ -90,6 +90,8 @@ function CustomForm() {
   const handleAddField = (value: string) => {
     if (value === '') return
 
+    const fieldCount = flow.config?.card_config?.form_fields?.filter((item) => item.field_type === value)?.length || 0
+
     setFlow((prev) => {
       if (typeof prev.config?.card_config?.form_fields === 'undefined') {
         prev.config.card_config = { ...prev.config.card_config, form_fields: [] }
@@ -97,7 +99,7 @@ function CustomForm() {
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
       prev.config.card_config?.form_fields?.push({
         id: prev.config.card_config.maxId || 0,
-        label: value.charAt(0).toUpperCase() + value.slice(1),
+        label: `${value.charAt(0).toUpperCase() + value.slice(1)} ${fieldCount == 0 ? '' : fieldCount + 1}`,
         field_type: value,
         required: true,
       })
@@ -158,11 +160,12 @@ function CustomForm() {
                 <Button onClick={() => handleAddField('date')}>Date</Button>
                 <Button onClick={() => handleAddField('textarea')}>Textarea</Button>
                 <Button onClick={() => handleAddField('GDPR')}>GDPR</Button>
-                {/* <Button onClick={() => handleAddField('file')}>File</Button>
-                <Button onClick={() => handleAddField('select')}>Select</Button>
                 <Button onClick={() => handleAddField('rating')}>Rating</Button>
-                <Button onClick={() => handleAddField('emoji')}>Emoji</Button>
-                <Button onClick={() => handleAddField('feedback')}>Feedback</Button> */}
+                {/*
+                <Button onClick={() => handleAddField('feedback')}>Feedback</Button> 
+                <Button onClick={() => handleAddField('file')}>File</Button>
+                <Button onClick={() => handleAddField('select')}>Select</Button>
+                */}
               </SimpleGrid>
             </PopoverBody>
           </PopoverContent>

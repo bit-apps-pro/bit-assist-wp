@@ -104,6 +104,7 @@ export interface DynamicFormField {
   label?: string
   field_type?: string
   url?: string
+  rating_type?: string
   required?: boolean
 }
 export interface Faqs {

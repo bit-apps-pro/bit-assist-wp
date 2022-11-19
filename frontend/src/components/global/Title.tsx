@@ -5,11 +5,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-Title.defaultProps = {
-  badge: '',
-}
-
-function Title({ children, badge }: Props) {
+function Title({ children, badge = '' }: Props) {
   return (
     <HStack mb="4">
       {badge && <Badge fontSize="0.85em" colorScheme="purple">{badge}</Badge>}

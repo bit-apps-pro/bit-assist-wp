@@ -18,12 +18,7 @@ interface KnowledgeBaseFieldProps {
   bg?: string
 }
 
-KnowledgeBaseField.defaultProps = {
-  cursor: 'grab',
-  bg: 'none',
-}
-
-function KnowledgeBaseField({ id, field, cursor, bg }: KnowledgeBaseFieldProps) {
+function KnowledgeBaseField({ id, field, cursor = 'grab', bg = 'none' }: KnowledgeBaseFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()

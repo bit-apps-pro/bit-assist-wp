@@ -9,7 +9,7 @@ let defaultWidth = '100px'
 let currentScrollPercent = 0
 
 const css = `
-#bit-assist-widget-container{position:fixed;z-index:99998;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
+#bit-assist-widget-container{position:fixed;z-index:9999999;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
 #bit-assist-widget-container.bottom-right{left:auto;right:0;top:auto;bottom:0}
 #bit-assist-widget-container.bottom-left{left:0;right:auto;top:auto;bottom:0}
 #bit-assist-widget-container.top-right{left:auto;right:0;top:0;bottom:auto}
