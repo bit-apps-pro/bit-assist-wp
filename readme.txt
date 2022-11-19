@@ -101,7 +101,8 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
-= v1.0.3 (Nov 17, 2022) =
+= v1.0.3 (Nov 19, 2022) =
+* Added: Rating (Star & Smiley) field in custom form channel
 * Fixed: Old mysql version issue
 
 = v1.0.2 (Nov 14, 2022) =

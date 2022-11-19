@@ -166,41 +166,81 @@ export default class Widget {
 		this.#cardBody.innerHTML = ''
 		this.#cardBody.appendChild(this.#formBody)
 		this.#formBody.addEventListener('submit', this.#formSubmitted)
+		this.#createAllFields(cardConfig?.form_fields)
+	}
 
-		// Render fields
+	#createAllFields = (fields) => {
 		const dynamicFields = $('#dynamicFields')
-		cardConfig?.form_fields?.forEach(field => {
-			let fieldInput = document.createElement('input')
-			if (field.field_type === 'textarea') {
-				fieldInput = document.createElement('textarea')
-			}
 
-			fieldInput.setAttribute('name', field.label.toLowerCase().replace(/ /g, '_'))
-			fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
-			if (field.required) {
-				fieldInput.setAttribute('required', '')
-			}
-
-			if (field.field_type === 'GDPR') {
-				fieldInput.setAttribute('type', 'checkbox')
-
-				const link = document.createElement('a')
-				link.target = '_blank'
-				link.innerHTML = field.label
-				if (field?.url) {
-					link.href = field.url
-				}
-
-				const gdprContainer = document.createElement('div')
-				gdprContainer.classList.add('gdprContainer')
-				gdprContainer.append(fieldInput, link)
-				dynamicFields.appendChild(gdprContainer)
+		fields?.forEach(field => {
+			if (field.field_type === 'rating') {
+				this.#createRatingField(field, dynamicFields)
 			} else {
-				fieldInput.classList.add('formControl')
-				fieldInput.setAttribute('type', field.field_type)
-				dynamicFields.appendChild(fieldInput)
+				this.#createTextField(field, dynamicFields)
 			}
 		})
+	}
+
+	#createRatingField = (field, dynamicFields) => {
+		const randomId = Math.floor(Math.random() * 100000000)
+		const name = field.label.toLowerCase().replace(/ /g, '_')
+		const rating = document.createElement('div')
+		rating.classList.add('rating', field.rating_type)
+
+		const ratingTypes = field.rating_type === 'star'
+			? ['5 star', '4 star', '3 star', '2 star', '1 star']
+			: ['sad', 'confused', 'happy']
+
+		ratingTypes.forEach(ratingType => {
+			const fieldId = `${name}_${ratingType.replace(/ /g, '_')}_${randomId}`
+
+			const ratingInput = document.createElement('input')
+			ratingInput.setAttribute('type', 'radio')
+			ratingInput.setAttribute('name', name)
+			ratingInput.setAttribute('value', ratingType)
+			ratingInput.setAttribute('id', fieldId)
+
+			const ratingLabel = document.createElement('label')
+			ratingLabel.setAttribute('title', ratingType)
+			ratingLabel.setAttribute('for', fieldId)
+			ratingLabel.setAttribute('class', ratingType)
+
+			rating.append(ratingInput, ratingLabel)
+		});
+		dynamicFields.appendChild(rating)
+	}
+
+	#createTextField = (field, dynamicFields) => {
+		let fieldInput = document.createElement('input')
+		if (field.field_type === 'textarea') {
+			fieldInput = document.createElement('textarea')
+		}
+
+		fieldInput.setAttribute('name', field.label.toLowerCase().replace(/ /g, '_'))
+		fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
+		if (field.required) {
+			fieldInput.setAttribute('required', '')
+		}
+
+		if (field.field_type === 'GDPR') {
+			fieldInput.setAttribute('type', 'checkbox')
+
+			const link = document.createElement('a')
+			link.target = '_blank'
+			link.innerHTML = field.label
+			if (field?.url) {
+				link.href = field.url
+			}
+
+			const gdprContainer = document.createElement('div')
+			gdprContainer.classList.add('gdprContainer')
+			gdprContainer.append(fieldInput, link)
+			dynamicFields.appendChild(gdprContainer)
+		} else {
+			fieldInput.classList.add('formControl')
+			fieldInput.setAttribute('type', field.field_type)
+			dynamicFields.appendChild(fieldInput)
+		}
 	}
 
 	// Faq
@@ -584,8 +624,7 @@ export default class Widget {
 			)
 			.map(
 				widgetChannel => `
-          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${widgetChannel.config?.url || '#'
-					}" data-target="${widgetChannel.config.open_window_action}">
+          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${widgetChannel.config?.url || '#'}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
             <div class="channel-icon">
               <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
@@ -626,8 +665,7 @@ export default class Widget {
             </svg>
           </div>
         </div>
-        <div id="cardBody"></div>
-    `
+        <div id="cardBody"></div>`
 		this.#contentWrapper.appendChild(this.#card)
 		this.#cardBody = $('#cardBody')
 
@@ -774,7 +812,7 @@ export default class Widget {
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
 
-		if (this.#channels?.classList.contains('show')) {
+		if (this.#widgetBubble?.classList.contains('open')) {
 			this.#callToActionHide()
 			return
 		}
