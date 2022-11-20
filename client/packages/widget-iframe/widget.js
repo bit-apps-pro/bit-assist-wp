@@ -173,41 +173,61 @@ export default class Widget {
 		const dynamicFields = $('#dynamicFields')
 
 		fields?.forEach(field => {
+			console.log(field.field_type);
+
 			if (field.field_type === 'rating') {
-				this.#createRatingField(field, dynamicFields)
+				this.#createRatingField(field, dynamicFields, 'rating')
+			} else if (field.field_type === 'feedback') {
+				this.#createRatingField(field, dynamicFields, 'feedback')
 			} else {
 				this.#createTextField(field, dynamicFields)
 			}
 		})
 	}
 
-	#createRatingField = (field, dynamicFields) => {
+	#createRatingField = (field, dynamicFields, filedType) => {
 		const randomId = Math.floor(Math.random() * 100000000)
 		const name = field.label.toLowerCase().replace(/ /g, '_')
-		const rating = document.createElement('div')
-		rating.classList.add('rating', field.rating_type)
+		const wrapper = document.createElement('div')
+		wrapper.classList.add(filedType)
 
-		const ratingTypes = field.rating_type === 'star'
-			? ['5 star', '4 star', '3 star', '2 star', '1 star']
-			: ['sad', 'confused', 'happy']
+		if (filedType === 'rating') {
+			wrapper.classList.add(field.rating_type)
+		}
 
-		ratingTypes.forEach(ratingType => {
-			const fieldId = `${name}_${ratingType.replace(/ /g, '_')}_${randomId}`
+		const types = filedType === 'feedback'
+			? ['bug', 'suggest', 'love']
+			: (field.rating_type === 'star'
+				? ['5 star', '4 star', '3 star', '2 star', '1 star']
+				: ['sad', 'confused', 'happy'])
 
-			const ratingInput = document.createElement('input')
-			ratingInput.setAttribute('type', 'radio')
-			ratingInput.setAttribute('name', name)
-			ratingInput.setAttribute('value', ratingType)
-			ratingInput.setAttribute('id', fieldId)
+		types.forEach(type => {
+			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
 
-			const ratingLabel = document.createElement('label')
-			ratingLabel.setAttribute('title', ratingType)
-			ratingLabel.setAttribute('for', fieldId)
-			ratingLabel.setAttribute('class', ratingType)
+			const inputElm = document.createElement('input')
+			inputElm.setAttribute('type', 'radio')
+			inputElm.setAttribute('name', name)
+			inputElm.setAttribute('value', type)
+			inputElm.setAttribute('id', fieldId)
+			if (field.required) {
+				inputElm.setAttribute('required', '')
+			}
 
-			rating.append(ratingInput, ratingLabel)
+			const labelElm = document.createElement('label')
+			labelElm.setAttribute('title', type)
+			labelElm.setAttribute('for', fieldId)
+			labelElm.setAttribute('class', type)
+
+			if (filedType === 'feedback') {
+				labelElm.innerHTML = `${type.charAt(0).toUpperCase() + type.slice(1)}`
+				const feedbackIcon = document.createElement('div')
+				feedbackIcon.setAttribute('class', 'feedback-icon')
+				labelElm.prepend(feedbackIcon)
+			}
+
+			wrapper.append(inputElm, labelElm)
 		});
-		dynamicFields.appendChild(rating)
+		dynamicFields.appendChild(wrapper)
 	}
 
 	#createTextField = (field, dynamicFields) => {

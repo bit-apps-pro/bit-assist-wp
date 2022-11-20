@@ -1,0 +1,46 @@
+.feedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 8px;
+
+  input {
+    display: none;
+  }
+
+  input:checked+label .feedback-icon {
+    border: 2px solid var(--widget-black);
+  }
+
+  label {
+    color: var(--widget-black);
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .feedback-icon {
+    height: 60px;
+    width: 60px;
+    border-radius: 11px;
+    margin-bottom: 6px;
+    border: 2px solid #f2f2f2;
+  }
+}
+
+.bug .feedback-icon {
+  background: #f2f2f2 url("../public/images/feedback/bug.svg") no-repeat center;
+  background-size: 55%;
+}
+
+.suggest .feedback-icon {
+  background: #f2f2f2 url("../public/images/feedback/suggest.svg") no-repeat center;
+  background-size: 55%;
+}
+
+.love .feedback-icon {
+  background: #f2f2f2 url("../public/images/feedback/love.svg") no-repeat center;
+  background-size: 55%;
+}
