@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 
 == Description ==
@@ -101,6 +101,9 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.0.4 (Nov 21, 2022) =
+* Fixed: WP admin menu overflow on bit-assist modal
+
 = v1.0.3 (Nov 19, 2022) =
 * Added: Rating (Star & Smiley) field in custom form channel
 * Fixed: Old mysql version issue
