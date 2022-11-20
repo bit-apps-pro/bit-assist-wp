@@ -35,7 +35,8 @@
       "@icons/*": ["./src/icons/*"],
       "@queries/*": ["./src/api/queries/*"],
       "@resource/*": ["./src/resource/*"],
-      "@static/*": ["./src/static/*"]
+      "@static/*": ["./src/static/*"],
+      "@helpers/*": ["./src/helpers/*"]
     }
   },
   "include": ["./src"],

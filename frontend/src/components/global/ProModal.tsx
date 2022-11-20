@@ -1,4 +1,5 @@
-import { Button,
+import {
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -9,7 +10,8 @@ import { Button,
   Text,
   Link,
   Box,
-  Flex } from '@chakra-ui/react'
+  Flex
+} from '@chakra-ui/react'
 
 interface ProModalProps {
   type: string
