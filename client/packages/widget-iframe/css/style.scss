@@ -18,6 +18,15 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdcdcd;
+  border-radius: 4px;
+}
+
 body {
   overflow: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

@@ -1,4 +1,6 @@
 #faqBody {
+  padding-top: 12px;
+  padding-bottom: 12px;
   position: relative;
 
   &.openDesc {
@@ -9,8 +11,11 @@
 }
 
 #lists {
+  padding-left: 12px;
+  padding-right: 12px;
   max-height: calc(100vh - (var(--widget-size) + 40px + 210px));
   overflow-y: auto;
+  scrollbar-color: #cdcdcd #fff;
 }
 
 .listItem {
@@ -41,12 +46,16 @@
 }
 
 #listSearch {
+  margin-left: 12px;
+  margin-right: 12px;
+  width: calc(100% - 24px);
   margin-top: 2rem;
   margin-bottom: 0;
   background-color: #f4f4f4;
 }
 
 #faqDescription {
+  padding: 12px;
   position: absolute;
   top: 0;
   left: 0;
@@ -57,6 +66,9 @@
 }
 
 #knowledgeBaseBody {
+  padding-top: 12px;
+  padding-bottom: 12px;
+
   &.openDesc {
     #knowledgeBaseDescription {
       display: block;
@@ -109,6 +121,7 @@
   .content {
     max-height: calc(100vh - (var(--modal-title-height) + calc(var(--modal-padding) * 2) + 75px));
     overflow-y: auto;
+    scrollbar-color: #cdcdcd #fff;
   }
 }
 
