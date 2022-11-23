@@ -17,6 +17,6 @@ final class BASTUpdateOptions extends Migration
 
     public function down()
     {
-        //
+        return;
     }
 }
