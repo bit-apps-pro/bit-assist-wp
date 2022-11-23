@@ -42,6 +42,7 @@ export const WidgetDefault = {
   },
   status: true,
   active: false,
+  hide_credit: false,
   integrations: [],
   created_at: '',
 }
