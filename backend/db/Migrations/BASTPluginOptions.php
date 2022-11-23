@@ -12,10 +12,12 @@ final class BASTPluginOptions extends Migration
 {
     public function up()
     {
-        Config::addOption('widget_active', null, true);
-        Config::addOption('db_version', Config::DB_VERSION, true);
-        Config::addOption('installed', time(), true);
-        Config::addOption('version', Config::VERSION, true);
+        if (!Config::getOption('installed', null)) {
+            Config::addOption('widget_active', null, true);
+            Config::addOption('db_version', Config::DB_VERSION, true);
+            Config::addOption('installed', time(), true);
+            Config::addOption('version', Config::VERSION, true);
+        }
     }
 
     public function down()

@@ -546,6 +546,7 @@ export default class Widget {
 		this.#addCustomStyles()
 		this.#renderChannels()
 		this.#renderWidgetBubble()
+		this.#hideCredit()
 		this.#delayExist = true
 		await this.#widgetShowDelay()
 		this.#delayExist = false
@@ -555,6 +556,12 @@ export default class Widget {
 
 	// eslint-disable-next-line no-promise-executor-return
 	#delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))
+
+	#hideCredit = () => {
+		if (this.#widgetData?.hide_credit) {
+			$('#credit')?.remove()
+		}
+	}
 
 	#setWidgetVisibleOrNot = () => {
 		if (this.#widgetData?.exclude_pages?.length > 0) {

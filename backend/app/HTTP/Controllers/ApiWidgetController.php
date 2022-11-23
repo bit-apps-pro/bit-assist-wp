@@ -47,7 +47,7 @@ final class ApiWidgetController
             return null;
         }
 
-        $columns = ['id', 'name', 'styles', 'initial_delay', 'page_scroll', 'widget_behavior', 'call_to_action', 'store_responses', 'status'];
+        $columns = ['id', 'name', 'styles', 'initial_delay', 'page_scroll', 'widget_behavior', 'call_to_action', 'store_responses', 'status', 'hide_credit'];
 
         if ($this->isPro) {
             $columns = array_merge($columns, ['custom_css', 'timezone', 'business_hours', 'exclude_pages']);
