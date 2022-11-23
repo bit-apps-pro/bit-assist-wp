@@ -58,6 +58,7 @@ export interface Widget {
   delete_responses: DeleteResponses
   status: boolean
   active: boolean
+  hide_credit: boolean
   integrations: Integrations[]
   created_at: string
 }

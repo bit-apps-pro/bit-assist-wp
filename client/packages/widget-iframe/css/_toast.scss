@@ -1,7 +1,10 @@
 .toast {
+  padding: 12px;
+
   &.show {
     display: block;
   }
+
   &.error {
     .toast-text-title {
       color: #ce6666;

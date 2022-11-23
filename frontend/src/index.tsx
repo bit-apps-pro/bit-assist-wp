@@ -6,7 +6,7 @@ import AppRoutes from './AppRoutes'
 import '@resource/styles/variables.css'
 import '@resource/styles/wp-css-reset.css'
 import '@resource/styles/global.css'
-import theme from './theme'
+import customTheme from './theme/customTheme'
 
 const queryClient = new QueryClient()
 const elm = document.getElementById('bit-apps-root')
@@ -16,7 +16,7 @@ if (elm) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider theme={customTheme}>
           <AppRoutes />
         </ChakraProvider>
       </QueryClientProvider>

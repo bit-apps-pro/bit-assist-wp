@@ -16,6 +16,7 @@ class Widget extends Model
         'integrations'     => 'array',
         'status'           => 'int',
         'active'           => 'int',
+        'hide_credit'      => 'int',
         'widget_behavior'  => 'int',
         'initial_delay'    => 'int',
         'page_scroll'      => 'int',
@@ -38,6 +39,7 @@ class Widget extends Model
         'integrations',
         'status',
         'active',
+        'hide_credit',
     ];
 
     public function widgetChannels()

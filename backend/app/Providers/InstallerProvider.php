@@ -76,9 +76,11 @@ class InstallerProvider
     {
         $migrations = [
             'BASTWidgetsTableMigration',
+            'BASTAddHideCreditColumnToWidgetsTableMigration',
             'BASTWidgetChannelsTableMigration',
             'BASTResponsesTableMigration',
             'BASTPluginOptions',
+            'BASTUpdateOptions'
         ];
 
         return [

@@ -12,6 +12,13 @@
   }
 }
 
+#formBody {
+  padding: 12px;
+  max-height: calc(100vh - (var(--widget-size) + 40px + 115px));
+  overflow-y: auto;
+  scrollbar-color: #cdcdcd #fff;
+}
+
 button[type='submit'] {
   border-radius: 10px;
   padding: 8px 12px;

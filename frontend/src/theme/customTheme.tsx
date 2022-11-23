@@ -1,4 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
+import { modalTheme } from './modalTheme'
+
 
 const fonts = {
   heading: 'Outfit, sans-serif',
@@ -13,7 +15,7 @@ const breakpoints = {
   xl: '80em',
 }
 
-const theme = extendTheme({
+const customTheme = extendTheme({
   semanticTokens: {
     radii: {
       none: '0',
@@ -33,6 +35,7 @@ const theme = extendTheme({
   },
   fonts,
   breakpoints,
+  components: { Modal: modalTheme },
   // colors: {
   //   purple: {
   //     50: '#F0FFF4',
@@ -49,4 +52,4 @@ const theme = extendTheme({
   // }
 })
 
-export default theme
+export default customTheme

@@ -5,7 +5,8 @@ import WidgetName from '@components/customizations/WidgetName'
 import WidgetSize from '@components/customizations/WidgetSize'
 import WidgetShape from '@components/customizations/WidgetShape'
 import CustomCSS from '@components/customizations/CustomCSS'
-import WidgetPositions from './WidgetPositions'
+import WidgetPositions from '@components/customizations/WidgetPositions'
+import WidgetCredit from '@components/customizations/WidgetCredit'
 
 function Customizations() {
   return (
@@ -17,6 +18,7 @@ function Customizations() {
       <WidgetSize />
       <WidgetShape />
       <CustomCSS />
+      <WidgetCredit />
     </Stack>
   )
 }
