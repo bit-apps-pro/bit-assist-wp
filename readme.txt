@@ -105,6 +105,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 == Changelog ==
 = v1.0.4 (Nov 23, 2022) =
 * Added: Hide credit option
+* Added: Feedback field in custom form channel
 * Added: New channel design
 * Fixed: WP admin menu overflow on bit-assist modal
 
