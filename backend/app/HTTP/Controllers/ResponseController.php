@@ -39,6 +39,8 @@ final class ResponseController
     public function store(Request $request)
     {
         $formData = $request->formData;
+
+        // return Res::success($formData);
         $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');

@@ -106,6 +106,9 @@ export interface DynamicFormField {
   field_type?: string
   url?: string
   rating_type?: string
+  allow_multiple?: boolean
+  max_upload_size?: number
+  allowed_file_type?: string
   required?: boolean
 }
 export interface Faqs {

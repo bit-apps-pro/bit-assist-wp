@@ -162,6 +162,7 @@ function CustomForm() {
                 <Button onClick={() => handleAddField('GDPR')}>GDPR</Button>
                 <Button onClick={() => handleAddField('rating')}>Rating</Button>
                 <Button onClick={() => handleAddField('feedback')}>Feedback</Button>
+                <Button onClick={() => handleAddField('file')}>File</Button>
               </SimpleGrid>
             </PopoverBody>
           </PopoverContent>
