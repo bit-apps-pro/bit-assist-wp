@@ -243,7 +243,7 @@ export default class Widget {
 			fieldInput = document.createElement('textarea')
 		}
 
-		fieldInput.setAttribute('name', field.label.toLowerCase().replace(/ /g, '_'))
+		fieldInput.setAttribute('name', `${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`)
 		fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
 		if (field.required) {
 			fieldInput.setAttribute('required', '')
@@ -747,22 +747,17 @@ export default class Widget {
 
 	#formSubmitted = async e => {
 		e.preventDefault()
-		const submitButton = $('button[type="submit"]')
 
+		const submitBtn = e.target.querySelector('[type="submit"]')
+		const oldText = submitBtn.innerHTML
 		const formData = new FormData(e.target)
-		const data = {}
-		for (const [key, value] of formData.entries()) {
-			data[key] = value
-		}
 
-		const oldText = submitButton.innerHTML
 		try {
-			submitButton.innerHTML = 'Sending...'
-			submitButton?.classList.add('disabled')
+			submitBtn.innerHTML = 'Sending...'
+			submitBtn?.classList.add('disabled')
 			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ formData: data }),
+				body: formData,
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
@@ -772,14 +767,20 @@ export default class Widget {
 			}
 
 			e.target.reset()
-			submitButton?.classList.remove('disabled')
-			submitButton.innerHTML = oldText
+			e.target.querySelectorAll('.cfit-title').forEach(title => {
+				title.innerHTML = 'No file chosen'
+			})
+			submitBtn?.classList.remove('disabled')
+			submitBtn.innerHTML = oldText
 		} catch (err) {
 			console.log(err)
 			await this.#showToast('error')
 			e.target.reset()
-			submitButton?.classList.remove('disabled')
-			submitButton.innerHTML = oldText
+			e.target.querySelectorAll('.cfit-title').forEach(title => {
+				title.innerHTML = 'No file chosen'
+			})
+			submitBtn?.classList.remove('disabled')
+			submitBtn.innerHTML = oldText
 		}
 	}
 

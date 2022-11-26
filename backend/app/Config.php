@@ -93,6 +93,9 @@ class Config
             case 'SIDE_BAR_MENU':
                 return self::sideBarMenu();
 
+            case 'UPLOAD_DIR':
+                return wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . self::SLUG;
+
             default:
                 return $default;
         }

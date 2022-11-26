@@ -6,6 +6,7 @@ use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Core\Http\Client\HttpClient;
 use BitApps\Assist\Core\Http\Response as Res;
 use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Core\Utils\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
 
@@ -38,9 +39,7 @@ final class ResponseController
 
     public function store(Request $request)
     {
-        $formData = $request->formData;
-
-        // return Res::success($formData);
+        $formData = $request->all();
         $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
@@ -55,10 +54,14 @@ final class ResponseController
         }
 
         if (!empty($config->store_responses)) {
-            Response::insert([
+            $response = Response::insert([
                 'widget_channel_id' => $widgetChannelId,
                 'response'          => $formData
             ]);
+        }
+
+        if (!empty($request->files())) {
+            $this->storeFiles($request->files(), $widgetChannelId, $response->id, $formData);
         }
 
         if (!empty($config->card_config->send_mail_to)) {
@@ -66,6 +69,23 @@ final class ResponseController
         }
 
         return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
+    }
+
+    private function storeFiles($files, $widgetChannelId, $entryId, $formData)
+    {
+        $isUploaded = false;
+        $fileHandler = new FileHandler;
+        foreach ($files as $fileName => $fileDetails) {
+            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId, $entryId);
+            if (!empty($filePath)) {
+                $formData[$fileName] = $filePath;
+                $isUploaded = true;
+            }
+        }
+
+        if ($isUploaded) {
+            Response::where('id', $entryId)->first()->update(['response' => $formData])->save();
+        }
     }
 
     public function sendMail($email, $formTitle, $data)
