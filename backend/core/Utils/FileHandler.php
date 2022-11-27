@@ -47,14 +47,14 @@ final class FileHandler
         }
     }
 
-    public function moveUploadedFiles($file_details, $form_id, $entry_id)
+    public function moveUploadedFiles($fileDetails, $widgetChannelId, $entryId)
     {
         $file_upoalded = [];
-        $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $form_id . DIRECTORY_SEPARATOR . $entry_id;
+        $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelId . DIRECTORY_SEPARATOR . $entryId;
         wp_mkdir_p($_upload_dir);
-        if (is_array($file_details['name'])) {
-            foreach ($file_details['name'] as $key => $value) {
-                //check accepted filetype in_array($file_details['name'][$key], $supported_files) else \
+        if (is_array($fileDetails['name'])) {
+            foreach ($fileDetails['name'] as $key => $value) {
+                //check accepted filetype in_array($fileDetails['name'][$key], $supported_files) else \
                 if (!empty($value)) {
                     $fileNameCount = 1;
                     // $file_upoalded[$key] = time()."_$value";
@@ -66,24 +66,24 @@ final class FileHandler
                             break;
                         }
                     }
-                    $move_status = \move_uploaded_file($file_details['tmp_name'][$key], $_upload_dir . DIRECTORY_SEPARATOR . $file_upoalded[$key]);
+                    $move_status = \move_uploaded_file($fileDetails['tmp_name'][$key], $_upload_dir . DIRECTORY_SEPARATOR . $file_upoalded[$key]);
                     if (!$move_status) {
                         unset($file_upoalded[$key]);
                     }
                 }
             }
         } else {
-            if (!empty($file_details['name'])) {
+            if (!empty($fileDetails['name'])) {
                 $fileNameCount = 1;
-                $file_upoalded[0] = sanitize_file_name($file_details['name']);
+                $file_upoalded[0] = sanitize_file_name($fileDetails['name']);
                 while (file_exists($_upload_dir . DIRECTORY_SEPARATOR . $file_upoalded[0])) {
-                    $file_upoalded[0] = sanitize_file_name(preg_replace('/(.[a-z A-Z 0-9]+)$/', "__{$fileNameCount}$1", $file_details['name']));
+                    $file_upoalded[0] = sanitize_file_name(preg_replace('/(.[a-z A-Z 0-9]+)$/', "__{$fileNameCount}$1", $fileDetails['name']));
                     $fileNameCount = $fileNameCount + 1;
                     if ($fileNameCount === 11) {
                         break;
                     }
                 }
-                $move_status = \move_uploaded_file($file_details['tmp_name'], $_upload_dir . DIRECTORY_SEPARATOR . $file_upoalded[0]);
+                $move_status = \move_uploaded_file($fileDetails['tmp_name'], $_upload_dir . DIRECTORY_SEPARATOR . $file_upoalded[0]);
                 if (!$move_status) {
                     unset($file_upoalded[0]);
                 }
@@ -92,9 +92,9 @@ final class FileHandler
         return $file_upoalded;
     }
 
-    public function deleteFiles($form_id, $entry_id, $files)
+    public function deleteFiles($widgetChannelId, $entryId, $files)
     {
-        $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $form_id . DIRECTORY_SEPARATOR . $entry_id;
+        $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelId . DIRECTORY_SEPARATOR . $entryId;
         foreach ($files as $name) {
             unlink($_upload_dir . DIRECTORY_SEPARATOR . $name);
         }

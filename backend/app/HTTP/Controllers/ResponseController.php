@@ -84,7 +84,7 @@ final class ResponseController
         }
 
         if ($isUploaded) {
-            Response::where('id', $entryId)->first()->update(['response' => $formData])->save();
+            Response::findOne(['id' => $entryId])->update(['response' => $formData])->save();
         }
     }
 

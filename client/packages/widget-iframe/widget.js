@@ -796,11 +796,9 @@ export default class Widget {
       <div class="toast-content">
         <div class="toast-text">
           <div class="toast-text-title">${type === 'success' ? 'Success' : 'Error'}</div>
-          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'
-			}</div>
+          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'}</div>
         </div>
-      </div>
-    `
+      </div>`
 		this.#cardBody.appendChild(toast)
 		this.#formBody?.classList.add('hide')
 
@@ -809,9 +807,7 @@ export default class Widget {
 		}
 
 		await this.#delay(2)
-		if (!this.#formBody?.classList.contains('hide')) {
-			return
-		}
+		if (!this.#formBody?.classList.contains('hide')) return
 
 		this.#cardBody.removeChild(toast)
 		this.#formBody?.classList.remove('hide')

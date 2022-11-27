@@ -1,0 +1,8 @@
+.downloadLink:hover .fileDownloadIcon {
+  display: inline-block;
+}
+
+.fileDownloadIcon {
+  display: none;
+}
+
