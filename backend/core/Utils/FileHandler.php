@@ -7,43 +7,39 @@ final class FileHandler
 {
     public function moveUploadedFiles($fileDetails, $widgetChannelID)
     {
-        $file_uploaded = [];
         $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID;
         wp_mkdir_p($_upload_dir);
+        $file_uploaded = [];
+
         if (is_array($fileDetails['name'])) {
-            foreach ($fileDetails['name'] as $key => $value) {
-                if (!empty($value)) {
-                    $fileNameCount = 1;
-                    $file_uploaded[$key] = sanitize_file_name($value);
-                    while (file_exists($_upload_dir . DIRECTORY_SEPARATOR . $file_uploaded[$key])) {
-                        $file_uploaded[$key] = sanitize_file_name(preg_replace('/(.[a-z A-Z 0-9]+)$/', "__{$fileNameCount}$1", $value));
-                        $fileNameCount = $fileNameCount + 1;
-                        if ($fileNameCount === 11) {
-                            break;
-                        }
-                    }
-                    $move_status = \move_uploaded_file($fileDetails['tmp_name'][$key], $_upload_dir . DIRECTORY_SEPARATOR . $file_uploaded[$key]);
-                    if (!$move_status) {
-                        unset($file_uploaded[$key]);
-                    }
+            foreach ($fileDetails['name'] as $key => $fileName) {
+                $fileData = $this->saveFile($_upload_dir, $fileDetails['tmp_name'][$key], $fileName);
+                if ($fileData) {
+                    $file_uploaded[$key] = $fileData;
                 }
             }
         } else {
-            if (!empty($fileDetails['name'])) {
-                $fileNameCount = 1;
-                $file_uploaded[0] = sanitize_file_name($fileDetails['name']);
-                while (file_exists($_upload_dir . DIRECTORY_SEPARATOR . $file_uploaded[0])) {
-                    $file_uploaded[0] = sanitize_file_name(preg_replace('/(.[a-z A-Z 0-9]+)$/', "__{$fileNameCount}$1", $fileDetails['name']));
-                    $fileNameCount = $fileNameCount + 1;
-                    if ($fileNameCount === 11) {
-                        break;
-                    }
-                }
-                $move_status = \move_uploaded_file($fileDetails['tmp_name'], $_upload_dir . DIRECTORY_SEPARATOR . $file_uploaded[0]);
-                if (!$move_status) {
-                    unset($file_uploaded[0]);
-                }
+            $fileData = $this->saveFile($_upload_dir, $fileDetails['tmp_name'], $fileDetails['name']);
+            if ($fileData) {
+                $file_uploaded[0] = $fileData;
             }
+        }
+
+        return $file_uploaded;
+    }
+
+    private function saveFile($_upload_dir, $tmpName, $fileName)
+    {
+        if (empty($fileName)) {
+            return false;
+        }
+
+        $uniqueFileName = wp_generate_uuid4();
+        $file_uploaded = ['uniqueName' => $uniqueFileName, 'originalName' => $fileName];
+
+        $move_status = \move_uploaded_file($tmpName, $_upload_dir . DIRECTORY_SEPARATOR . $uniqueFileName);
+        if (!$move_status) {
+            return false;
         }
         return $file_uploaded;
     }

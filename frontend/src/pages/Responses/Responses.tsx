@@ -3,13 +3,6 @@ import {
   Checkbox,
   HStack,
   IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spinner,
   Table,
   TableContainer,
@@ -21,31 +14,20 @@ import {
   Tr,
   Badge,
   useDisclosure,
-  Box,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  Tooltip,
-  Link,
-  useColorModeValue,
-  Flex
 } from '@chakra-ui/react'
 import { WidgetResponse } from '@globalStates/Interfaces'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
 import { textTrim, toSlug } from '@utils/utils'
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { FiDownload, FiEye, FiFile, FiTrash2 } from 'react-icons/fi'
+import React, { useEffect, useRef, useState } from 'react'
+import { FiEye, FiTrash2 } from 'react-icons/fi'
 import Pagination from '@components/global/Pagination'
 import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import style from './Response.module.css'
-
-import config from '@config/config'
+import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
+import ResponseDrawer from '@components/response/ResponseDrawer'
+import DownloadLinks from '@components/response/DownloadLinks'
 
 export default function Responses() {
   const [pageLimit, setPageLimit] = useState<number>(10)
@@ -120,7 +102,25 @@ export default function Responses() {
           </Text>
           {isResponsesLoading && <Spinner />}
         </HStack>
-        <SelectedDeleteBtn checkedItems={checkedItems} openDelModal={openDelModal} />
+
+        {checkedItems?.length ? (
+          <HStack spacing={1}>
+            <IconButton
+              onClick={openDelModal}
+              fontSize="1rem"
+              size="sm"
+              rounded="full"
+              aria-label="Delete Icon"
+              variant="ghost"
+              icon={<FiTrash2 />}
+            />
+            <Badge textTransform="lowercase">
+              {checkedItems.length}
+              {' '}
+              items selected
+            </Badge>
+          </HStack>
+        ) : null}
       </HStack>
 
       <TableContainer borderWidth="1px" rounded="lg" shadow="md">
@@ -209,154 +209,11 @@ export default function Responses() {
         handleDrawerClose={handleDrawerClose}
         btnRef={btnRef} />
 
-      <ResponseModal
+      <ResponseDeleteModal
         isOpen={isOpen}
         closeDelModal={closeDelModal}
         handleDeleteWidget={handleDeleteWidget}
         isResponsesDeleting={isResponsesDeleting} />
     </>
-  )
-}
-
-type DownloadLinksProps = { files: string[], widgetChannelId: string }
-
-function DownloadLinks({ files, widgetChannelId }: DownloadLinksProps) {
-  const grayColorToggle = useColorModeValue('gray.200', 'gray.600')
-
-  return (
-    <>
-      {files.map((file: string) => {
-        const { AJAX_URL, NONCE, ROUTE_PREFIX } = config
-        const uri = new URL(AJAX_URL)
-        uri.searchParams.append('action', `${ROUTE_PREFIX}downloadResponseFile`)
-        uri.searchParams.append('_ajax_nonce', NONCE)
-        uri.searchParams.append('widgetChannelID', widgetChannelId)
-        uri.searchParams.append('fileID', file)
-        uri.searchParams.append('fileName', file)
-
-        return (
-          <Tooltip placement='top' key={Math.random()} label={file}>
-            <Flex className={style.downloadLink} gap='0.5'>
-              <Link
-                target='_blank'
-                href={uri.href}
-                display='flex' alignItems="center" gap='1'
-                h='7'
-              >
-                <FiFile fontSize='0.875rem' />
-                {textTrim(file, 6)}
-              </Link>
-              <Link
-                href={`${uri.href}&download`}
-                className={style.fileDownloadIcon} rounded='full' p='1.5' _hover={{ backgroundColor: grayColorToggle }}>
-                <FiDownload fontSize='0.875rem' />
-              </Link>
-            </Flex>
-          </Tooltip>
-        )
-      })}
-    </>
-  )
-}
-
-type SelectedDeleteBtnProps = { checkedItems: string[]; openDelModal: () => void }
-
-function SelectedDeleteBtn({ checkedItems, openDelModal }: SelectedDeleteBtnProps) {
-  return (
-    <>
-      {checkedItems?.length ? (
-        <HStack spacing={1}>
-          <IconButton
-            onClick={openDelModal}
-            fontSize="1rem"
-            size="sm"
-            rounded="full"
-            aria-label="Delete Icon"
-            variant="ghost"
-            icon={<FiTrash2 />}
-          />
-          <Badge textTransform="lowercase">
-            {checkedItems.length}
-            {' '}
-            items selected
-          </Badge>
-        </HStack>
-      ) : null}
-    </>
-  )
-}
-
-type ResponseDrawerProps = {
-  drawerResponse: WidgetResponse | null
-  isDrawerOpen: boolean
-  handleDrawerClose: () => void
-  btnRef: MutableRefObject<HTMLButtonElement | null>
-}
-
-function ResponseDrawer({ drawerResponse, isDrawerOpen, handleDrawerClose, btnRef }: ResponseDrawerProps) {
-  return (
-    <Drawer isOpen={isDrawerOpen} placement="right" onClose={handleDrawerClose} finalFocusRef={btnRef}>
-      <DrawerOverlay bg="blackAlpha.400" />
-      <DrawerContent marginTop="32px">
-        <DrawerCloseButton />
-        <DrawerHeader>Response Details</DrawerHeader>
-
-        <DrawerBody>
-          {drawerResponse && Object.entries<string | string[]>(drawerResponse.response).map(([label, value]) => (
-            <Box key={label + Math.random()}>
-              <Text fontSize="md" fontWeight="bold" mb="2">
-                {label.toUpperCase().replace(/_/g, ' ')}
-              </Text>
-
-              {typeof value === 'object'
-                ? (
-                  <HStack maxW='300px' flexWrap='wrap' mb='2' spacing='0' gap='1'>
-                    <DownloadLinks
-                      files={value}
-                      widgetChannelId={drawerResponse.widget_channel_id} />
-                  </HStack>
-                )
-                : <Text fontSize="sm" mb="2">{value}</Text>}
-            </Box>
-          ))}
-        </DrawerBody>
-      </DrawerContent>
-    </Drawer>
-  )
-}
-
-
-type ResponseModalProps = {
-  isOpen: boolean
-  closeDelModal: () => void
-  handleDeleteWidget: () => void
-  isResponsesDeleting: boolean
-}
-
-function ResponseModal({ isOpen, closeDelModal, handleDeleteWidget, isResponsesDeleting }: ResponseModalProps) {
-  return (
-    <Modal isOpen={isOpen} onClose={closeDelModal} isCentered>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Confirmation</ModalHeader>
-        <ModalCloseButton disabled={isResponsesDeleting} />
-        <ModalBody>Are you sure want to delete selected responses?</ModalBody>
-
-        <ModalFooter>
-          <Button disabled={isResponsesDeleting} mr={3} onClick={closeDelModal}>
-            Cancel
-          </Button>
-          <Button
-            onClick={handleDeleteWidget}
-            isLoading={isResponsesDeleting}
-            loadingText="Deleting..."
-            colorScheme="red"
-            shadow="md"
-          >
-            Delete
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
   )
 }

@@ -9,11 +9,9 @@ final class DownloadController
     public function downloadResponseFile()
     {
         $filePath = $this->isRequestedFileExists();
-        $fileName = sanitize_file_name($_GET['fileName']);
-        $isDownload = isset($_GET['download']);
 
         if ($filePath) {
-            $this->fileDownloadORView($filePath, $fileName, $isDownload);
+            $this->fileDownloadORView($filePath, $_GET['fileName'], isset($_GET['download']));
         } else {
             $this->show404();
         }
@@ -41,12 +39,11 @@ final class DownloadController
             header('Content-Type: application/download');
             header('Content-Disposition: attachment; filename="' . $fileName . '"');
         } else {
-            $fileInfo = wp_check_filetype($filePath);
+            $fileInfo = wp_check_filetype_and_ext($filePath, $fileName);
             $content_types = 'text/plain';
             if ($fileInfo['type'] && $fileInfo['ext']) {
                 $content_types = $fileInfo['type'];
-                $ext = $fileInfo['ext'];
-                if (in_array($ext[1], ['txt', 'php', 'html', 'xhtml', 'json'])) {
+                if (in_array($fileInfo['ext'], ['txt', 'php', 'html', 'xhtml', 'json'])) {
                     $content_types = 'text/plain';
                 }
             }

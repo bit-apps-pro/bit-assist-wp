@@ -143,6 +143,11 @@ export interface Flow {
   config: WidgetChannelConfig
 }
 
+export interface ResponseFileType {
+  uniqueName: string
+  originalName: string
+}
+
 // react select search
 export type SelectSearchOption = {
   name: string
