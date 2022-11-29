@@ -25,7 +25,8 @@ function SingleChannel({ channel }: { channel: Channel }) {
 
   return (
     <GridItem
-      py="2"
+      py="2.5"
+      px="1"
       rounded="md"
       tabIndex={0}
       borderWidth={1}
@@ -42,7 +43,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
     >
       <>
         <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
-        <Text marginTop="1">{channel.name.replace(/-/g, ' ')}</Text>
+        <Text marginTop="2" lineHeight='1'>{channel.name.replace(/-/g, ' ')}</Text>
       </>
     </GridItem>
   )
