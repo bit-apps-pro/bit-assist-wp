@@ -30,7 +30,8 @@ import {
   DrawerBody,
   Tooltip,
   Link,
-  useColorModeValue
+  useColorModeValue,
+  Flex
 } from '@chakra-ui/react'
 import { WidgetResponse } from '@globalStates/Interfaces'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
@@ -43,6 +44,8 @@ import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import style from './Response.module.css'
+
+import config from '@config/config'
 
 export default function Responses() {
   const [pageLimit, setPageLimit] = useState<number>(10)
@@ -158,20 +161,24 @@ export default function Responses() {
                       />
                     </HStack>
                   </Td>
-                  {othersData?.formFields?.map((field: { id: string; label: string }) => (
-                    <Td key={`${field.id}td`} py='2'>
-                      {typeof widgetResponse.response[toSlug(field.label, '_')] === 'object'
-                        ? (
-                          <HStack maxW='300px' overflow='hidden'>
+
+                  {othersData?.formFields?.map((field: { id: string; label: string }) => {
+                    const isFile = typeof widgetResponse.response[toSlug(field.label, '_')] === 'object'
+
+                    return (
+                      <Td key={`${field.id}td`} maxW={isFile ? '300px' : 'auto'} py='2'>
+                        {isFile ? (
+                          <HStack overflow='hidden' spacing={1}>
                             <DownloadLinks
                               files={widgetResponse.response[toSlug(field.label, '_')]}
-                              widgetChannelId={widgetResponse.widget_channel_id}
-                              entryId={widgetResponse.id} />
+                              widgetChannelId={widgetResponse.widget_channel_id} />
                           </HStack>
                         )
-                        : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
-                    </Td>
-                  ))}
+                          : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
+                      </Td>
+                    )
+                  })}
+
                   <Td py='2'>{convertDate(widgetResponse.created_at)}</Td>
                 </Tr>
               ))}
@@ -211,30 +218,43 @@ export default function Responses() {
   )
 }
 
-type DownloadLinksProps = { files: string[], widgetChannelId: string, entryId: string }
+type DownloadLinksProps = { files: string[], widgetChannelId: string }
 
-function DownloadLinks({ files, widgetChannelId, entryId }: DownloadLinksProps) {
+function DownloadLinks({ files, widgetChannelId }: DownloadLinksProps) {
   const grayColorToggle = useColorModeValue('gray.200', 'gray.600')
 
   return (
     <>
-      {files.map((file: string) => (
-        <Tooltip key={Math.random()} label={file}>
-          <Link
-            target='_blank'
-            href={`http://bit-assist-wp.test/wp-content/uploads/bit-assist/${widgetChannelId}/${entryId}/${file}`}
-            display='flex' alignItems="center" gap={1}
-            className={style.downloadLink}
-            h='7'
-          >
-            <FiFile fontSize='0.875rem' />
-            {textTrim(file, 6)}
-            <Box className={style.fileDownloadIcon} rounded='full' p='1.5' _hover={{ backgroundColor: grayColorToggle }}>
-              <FiDownload fontSize='0.875rem' />
-            </Box>
-          </Link>
-        </Tooltip>
-      ))}
+      {files.map((file: string) => {
+        const { AJAX_URL, NONCE, ROUTE_PREFIX } = config
+        const uri = new URL(AJAX_URL)
+        uri.searchParams.append('action', `${ROUTE_PREFIX}downloadResponseFile`)
+        uri.searchParams.append('_ajax_nonce', NONCE)
+        uri.searchParams.append('widgetChannelID', widgetChannelId)
+        uri.searchParams.append('fileID', file)
+        uri.searchParams.append('fileName', file)
+
+        return (
+          <Tooltip placement='top' key={Math.random()} label={file}>
+            <Flex className={style.downloadLink} gap='0.5'>
+              <Link
+                target='_blank'
+                href={uri.href}
+                display='flex' alignItems="center" gap='1'
+                h='7'
+              >
+                <FiFile fontSize='0.875rem' />
+                {textTrim(file, 6)}
+              </Link>
+              <Link
+                href={`${uri.href}&download`}
+                className={style.fileDownloadIcon} rounded='full' p='1.5' _hover={{ backgroundColor: grayColorToggle }}>
+                <FiDownload fontSize='0.875rem' />
+              </Link>
+            </Flex>
+          </Tooltip>
+        )
+      })}
     </>
   )
 }
@@ -290,11 +310,10 @@ function ResponseDrawer({ drawerResponse, isDrawerOpen, handleDrawerClose, btnRe
 
               {typeof value === 'object'
                 ? (
-                  <HStack maxW='300px' overflow='hidden' flexWrap={'wrap'} mb='2' spacing='0' gap='2'>
+                  <HStack maxW='300px' flexWrap='wrap' mb='2' spacing='0' gap='1'>
                     <DownloadLinks
                       files={value}
-                      widgetChannelId={drawerResponse.widget_channel_id}
-                      entryId={drawerResponse.id} />
+                      widgetChannelId={drawerResponse.widget_channel_id} />
                   </HStack>
                 )
                 : <Text fontSize="sm" mb="2">{value}</Text>}

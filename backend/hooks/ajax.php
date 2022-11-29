@@ -2,6 +2,7 @@
 
 use BitApps\Assist\Core\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\ChannelController;
+use BitApps\Assist\HTTP\Controllers\DownloadController;
 use BitApps\Assist\HTTP\Controllers\ResponseController;
 use BitApps\Assist\HTTP\Controllers\WidgetChannelController;
 use BitApps\Assist\HTTP\Controllers\WidgetController;
@@ -10,20 +11,20 @@ if (!\defined('ABSPATH')) {
     exit;
 }
 
-if (!headers_sent()) {
-    header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-    header('Access-Control-Allow-Origin: *');
+// if (!headers_sent()) {
+//     header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+//     header('Access-Control-Allow-Credentials: true');
+//     header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+//     header('Access-Control-Allow-Origin: *');
+//     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+//         status_header(200);
+//         exit;
+//     }
+// }
 
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        status_header(200);
+// noAuth()->
 
-        exit;
-    }
-}
-
-Route::noAuth()->group(function () {
+Route::group(function () {
     Route::get('widgets', [WidgetController::class, 'index']);
     Route::get('widgets/{widget}', [WidgetController::class, 'show']);
     Route::post('widgets', [WidgetController::class, 'store']);
@@ -45,4 +46,6 @@ Route::noAuth()->group(function () {
     Route::get('responses/{widgetChannelId}/{page}/{limit}', [ResponseController::class, 'index']);
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('responsesDelete', [ResponseController::class, 'destroy']);
-})->middleware('nonce:admin');
+
+    Route::get('downloadResponseFile', [DownloadController::class, 'downloadResponseFile']);
+})->middleware('nonce');

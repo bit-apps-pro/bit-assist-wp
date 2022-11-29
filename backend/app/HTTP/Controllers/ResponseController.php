@@ -54,14 +54,15 @@ final class ResponseController
         }
 
         if (!empty($config->store_responses)) {
-            $response = Response::insert([
+            if (!empty($request->files())) {
+                $fileNames = $this->storeFiles($request->files(), $widgetChannelId);
+                $formData = array_merge($formData, $fileNames);
+            }
+
+            Response::insert([
                 'widget_channel_id' => $widgetChannelId,
                 'response'          => $formData
             ]);
-        }
-
-        if (!empty($request->files())) {
-            $this->storeFiles($request->files(), $widgetChannelId, $response->id, $formData);
         }
 
         if (!empty($config->card_config->send_mail_to)) {
@@ -71,21 +72,18 @@ final class ResponseController
         return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
     }
 
-    private function storeFiles($files, $widgetChannelId, $entryId, $formData)
+    private function storeFiles($files, $widgetChannelId)
     {
-        $isUploaded = false;
+        $fileNames = [];
         $fileHandler = new FileHandler;
         foreach ($files as $fileName => $fileDetails) {
-            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId, $entryId);
+            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
             if (!empty($filePath)) {
-                $formData[$fileName] = $filePath;
-                $isUploaded = true;
+                $fileNames[$fileName] = $filePath;
             }
         }
 
-        if ($isUploaded) {
-            Response::findOne(['id' => $entryId])->update(['response' => $formData])->save();
-        }
+        return $fileNames;
     }
 
     public function sendMail($email, $formTitle, $data)
