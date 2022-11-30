@@ -35,6 +35,7 @@ import FAQ from '@components/widgetChannels/channels/FAQ'
 import CustomForm from '@components/widgetChannels/channels/CustomForm'
 import KnowledgeBase from '@components/widgetChannels/channels/KnowledgeBase'
 import Tawk from '@components/widgetChannels/channels/Tawk'
+import Waze from '@components/widgetChannels/channels/Waze'
 import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
 
@@ -68,6 +69,7 @@ function ChannelSettings() {
       {flow.channel_name?.toLowerCase() === 'linkedin' && <Linkedin />}
       {flow.channel_name?.toLowerCase() === 'tiktok' && <TikTok />}
       {flow.channel_name?.toLowerCase() === 'google-map' && <GoogleMap />}
+      {flow.channel_name?.toLowerCase() === 'waze' && <Waze />}
       {flow.channel_name?.toLowerCase() === 'slack' && <Slack />}
       {flow.channel_name?.toLowerCase() === 'youtube' && <Youtube />}
       {flow.channel_name?.toLowerCase() === 'call' && <Call />}

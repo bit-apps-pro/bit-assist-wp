@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 
 == Description ==
@@ -103,6 +103,12 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.0.5 (Nov 30, 2022) =
+* Added: Copy channel
+* Added: File upload field in custom form channel
+* Added: New channel Waze
+* Fixed: Channel reordering issue
+
 = v1.0.4 (Nov 23, 2022) =
 * Added: Hide credit option
 * Added: Feedback field in custom form channel

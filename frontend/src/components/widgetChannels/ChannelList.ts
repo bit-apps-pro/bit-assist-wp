@@ -78,6 +78,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/viber.svg`,
   },
   {
+    name: 'Waze',
+    icon: `${config.ROOT_URL}/img/channel/waze.svg`,
+  },
+  {
     name: 'WeChat',
     icon: `${config.ROOT_URL}/img/channel/wechat.svg`,
   },

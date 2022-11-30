@@ -18,12 +18,12 @@ import {
   ModalOverlay,
   Text,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
 import { useRef } from 'react'
 import { useAtom } from 'jotai'
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { FiEdit2, FiList, FiTrash2 } from 'react-icons/fi'
+import { FiCopy, FiEdit2, FiList, FiTrash2 } from 'react-icons/fi'
 import { editWidgetChannelIdAtom } from '@globalStates/atoms'
 import EditChannel from '@components/widgetChannels/EditChannel'
 import useDeleteWidgetChannel from '@hooks/mutations/widgetChannel/useDeleteWidgetChannel'
@@ -32,6 +32,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { WidgetChannelType } from '@globalStates/Interfaces'
+import useCopyWidgetChannel from '@hooks/mutations/widgetChannel/useCopyWidgetChannel'
+import useToaster from '@hooks/useToaster'
 
 interface WidgetChannelProps {
   widgetChannel: WidgetChannelType
@@ -46,12 +48,19 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const channelColorToggle = useColorModeValue('white', 'gray.800')
   const { deleteWidgetChannel, isWidgetChannelDeleting } = useDeleteWidgetChannel()
+  const { copyWidgetChannel, isWidgetChannelCoping } = useCopyWidgetChannel()
   const { isOpen: isOpenEditModal, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toaster = useToaster()
 
   const onOpenEditModal = (widgetChannelId: number) => () => {
     setEditWidgetChannelId(widgetChannelId)
     openEditModal()
+  }
+
+  const onCopyChannel = (widgetChannelId: number) => async () => {
+    const { status, data } = await copyWidgetChannel(widgetChannelId)
+    toaster(status, data)
   }
 
   const openDeleteModal = (widgetChannelId: number) => () => {
@@ -64,9 +73,7 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
     onClose()
   }
 
-  const {
-    attributes, listeners, setNodeRef, transition, transform, isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
     id: widgetChannel.id,
   })
 
@@ -121,6 +128,9 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
             <MenuList shadow="lg">
               <MenuItem icon={<FiEdit2 />} onClick={onOpenEditModal(widgetChannel.id)}>
                 Edit
+              </MenuItem>
+              <MenuItem icon={<FiCopy />} onClick={onCopyChannel(widgetChannel.id)}>
+                Copy
               </MenuItem>
               {widgetChannel.config?.card_config?.form_fields && (
                 <Link to={`/responses/${widgetChannel.id}`}>

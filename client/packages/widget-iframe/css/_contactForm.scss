@@ -2,7 +2,7 @@
   width: 100%;
   color: var(--widget-black);
   padding: 10px 12px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border-radius: 10px;
   background-color: #fff;
   border: 1px solid #e1e1e1;
@@ -60,4 +60,44 @@ button[type='submit'] {
 input[type="checkbox"] {
   height: 15px;
   width: 15px;
+}
+
+.customFile {
+  position: relative;
+  padding: 6px;
+
+  input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    cursor: pointer;
+  }
+}
+
+.cfit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .875rem;
+  color: var(--widget-black);
+}
+
+.cfit-btn {
+  align-items: center;
+  background: var(--card-theme-color);
+  border-radius: 6px;
+  color: var(--card-text-color);
+  padding: 5px 11px;
+  border: none;
+}
+
+.cfit-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

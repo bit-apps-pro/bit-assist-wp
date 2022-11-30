@@ -172,8 +172,12 @@ export default class Widget {
 	#createAllFields = (fields) => {
 		const dynamicFields = $('#dynamicFields')
 
+		let flag = false
 		fields?.forEach(field => {
-			console.log(field.field_type);
+			if (field.field_type === 'file' && !flag) {
+				$('#formBody').setAttribute('enctype', 'multipart/form-data')
+				flag = true
+			}
 
 			if (field.field_type === 'rating') {
 				this.#createRatingField(field, dynamicFields, 'rating')
@@ -195,11 +199,14 @@ export default class Widget {
 			wrapper.classList.add(field.rating_type)
 		}
 
-		const types = filedType === 'feedback'
-			? ['bug', 'suggest', 'love']
-			: (field.rating_type === 'star'
-				? ['5 star', '4 star', '3 star', '2 star', '1 star']
-				: ['sad', 'confused', 'happy'])
+		let types = []
+		if (filedType === 'feedback') {
+			types = ['bug', 'suggest', 'love']
+		} else if (field.rating_type === 'star') {
+			types = ['5 star', '4 star', '3 star', '2 star', '1 star']
+		} else {
+			types = ['sad', 'confused', 'happy']
+		}
 
 		types.forEach(type => {
 			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
@@ -236,31 +243,64 @@ export default class Widget {
 			fieldInput = document.createElement('textarea')
 		}
 
-		fieldInput.setAttribute('name', field.label.toLowerCase().replace(/ /g, '_'))
+		fieldInput.setAttribute('name', `${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`)
 		fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
 		if (field.required) {
 			fieldInput.setAttribute('required', '')
 		}
 
 		if (field.field_type === 'GDPR') {
-			fieldInput.setAttribute('type', 'checkbox')
-
-			const link = document.createElement('a')
-			link.target = '_blank'
-			link.innerHTML = field.label
-			if (field?.url) {
-				link.href = field.url
-			}
-
-			const gdprContainer = document.createElement('div')
-			gdprContainer.classList.add('gdprContainer')
-			gdprContainer.append(fieldInput, link)
-			dynamicFields.appendChild(gdprContainer)
-		} else {
-			fieldInput.classList.add('formControl')
-			fieldInput.setAttribute('type', field.field_type)
-			dynamicFields.appendChild(fieldInput)
+			this.#gdprField(field, dynamicFields, fieldInput)
+			return
 		}
+
+		fieldInput.classList.add('formControl')
+		fieldInput.setAttribute('type', field.field_type)
+
+		if (field.field_type === 'file') {
+			this.#fileField(field, dynamicFields, fieldInput)
+			return
+		}
+
+		dynamicFields.appendChild(fieldInput)
+	}
+
+	#fileField = (field, dynamicFields, fieldInput) => {
+		if (!!field?.allow_multiple) {
+			fieldInput.setAttribute('multiple', '')
+		}
+
+		const inputWrap = document.createElement('div')
+		inputWrap.classList.add('formControl', 'customFile')
+		inputWrap.innerHTML = `<div class="cfit"><button class="cfit-btn">Attach File</button><div class="cfit-title">No file chosen</div></div>`
+		inputWrap.append(fieldInput)
+		dynamicFields.appendChild(inputWrap)
+
+		fieldInput.addEventListener('change', (e) => {
+			let fileName = 'No file chosen'
+			const fileLength = e.target.files.length
+			if (fileLength > 0) {
+				fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
+			}
+			const cfitTitle = e.target.parentElement.querySelector('.cfit-title')
+			cfitTitle.innerHTML = fileName
+		})
+	}
+
+	#gdprField = (field, dynamicFields, fieldInput) => {
+		fieldInput.setAttribute('type', 'checkbox')
+
+		const link = document.createElement('a')
+		link.target = '_blank'
+		link.innerHTML = field.label
+		if (field?.url) {
+			link.href = field.url
+		}
+
+		const gdprContainer = document.createElement('div')
+		gdprContainer.classList.add('gdprContainer')
+		gdprContainer.append(fieldInput, link)
+		dynamicFields.appendChild(gdprContainer)
 	}
 
 	// Faq
@@ -707,22 +747,17 @@ export default class Widget {
 
 	#formSubmitted = async e => {
 		e.preventDefault()
-		const submitButton = $('button[type="submit"]')
 
+		const submitBtn = e.target.querySelector('[type="submit"]')
+		const oldText = submitBtn.innerHTML
 		const formData = new FormData(e.target)
-		const data = {}
-		for (const [key, value] of formData.entries()) {
-			data[key] = value
-		}
 
-		const oldText = submitButton.innerHTML
 		try {
-			submitButton.innerHTML = 'Sending...'
-			submitButton?.classList.add('disabled')
+			submitBtn.innerHTML = 'Sending...'
+			submitBtn?.classList.add('disabled')
 			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ formData: data }),
+				body: formData,
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
@@ -732,14 +767,20 @@ export default class Widget {
 			}
 
 			e.target.reset()
-			submitButton?.classList.remove('disabled')
-			submitButton.innerHTML = oldText
+			e.target.querySelectorAll('.cfit-title').forEach(title => {
+				title.innerHTML = 'No file chosen'
+			})
+			submitBtn?.classList.remove('disabled')
+			submitBtn.innerHTML = oldText
 		} catch (err) {
 			console.log(err)
 			await this.#showToast('error')
 			e.target.reset()
-			submitButton?.classList.remove('disabled')
-			submitButton.innerHTML = oldText
+			e.target.querySelectorAll('.cfit-title').forEach(title => {
+				title.innerHTML = 'No file chosen'
+			})
+			submitBtn?.classList.remove('disabled')
+			submitBtn.innerHTML = oldText
 		}
 	}
 
@@ -755,11 +796,9 @@ export default class Widget {
       <div class="toast-content">
         <div class="toast-text">
           <div class="toast-text-title">${type === 'success' ? 'Success' : 'Error'}</div>
-          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'
-			}</div>
+          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'}</div>
         </div>
-      </div>
-    `
+      </div>`
 		this.#cardBody.appendChild(toast)
 		this.#formBody?.classList.add('hide')
 
@@ -768,9 +807,7 @@ export default class Widget {
 		}
 
 		await this.#delay(2)
-		if (!this.#formBody?.classList.contains('hide')) {
-			return
-		}
+		if (!this.#formBody?.classList.contains('hide')) return
 
 		this.#cardBody.removeChild(toast)
 		this.#formBody?.classList.remove('hide')

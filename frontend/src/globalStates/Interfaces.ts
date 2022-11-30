@@ -106,6 +106,9 @@ export interface DynamicFormField {
   field_type?: string
   url?: string
   rating_type?: string
+  allow_multiple?: boolean
+  max_upload_size?: number
+  allowed_file_type?: string
   required?: boolean
 }
 export interface Faqs {
@@ -138,6 +141,11 @@ export interface Flow {
   widget_id: string
   channel_name: string
   config: WidgetChannelConfig
+}
+
+export interface ResponseFileType {
+  uniqueName: string
+  originalName: string
 }
 
 // react select search

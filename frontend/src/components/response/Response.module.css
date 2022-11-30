@@ -1,0 +1,8 @@
+.downloadLink:hover .fileDownloadIcon {
+  visibility: visible;
+}
+
+.fileDownloadIcon {
+  visibility: hidden;
+}
+

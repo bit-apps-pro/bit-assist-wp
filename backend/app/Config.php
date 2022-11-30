@@ -19,7 +19,7 @@ class Config
 
     const VAR_PREFIX = 'bit_assist_';
 
-    const VERSION = '1.0.4';
+    const VERSION = '1.0.5';
 
     const DB_VERSION = '1.0.1';
 
@@ -92,6 +92,9 @@ class Config
 
             case 'SIDE_BAR_MENU':
                 return self::sideBarMenu();
+
+            case 'UPLOAD_DIR':
+                return wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . self::SLUG;
 
             default:
                 return $default;

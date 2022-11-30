@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { Box, Flex, HStack, IconButton, Input, Radio, RadioGroup, Stack, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
+import { Box, Flex, HStack, IconButton, Input, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
 import { FiX } from 'react-icons/fi'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { DynamicFormField } from '@globalStates/Interfaces'
+import RatingSettings from './customFormHelper/RatingSettings'
+import FileSettings from './customFormHelper/FileSettings'
 
 interface CustomFormFieldProps {
   id: number
@@ -91,12 +93,10 @@ function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomForm
               <Input value={field?.url} onChange={(e) => handleChange(e.target.value, 'url', id)} placeholder="url" />
             )}
             {field?.field_type === 'rating' && (
-              <RadioGroup colorScheme='purple' value={field?.rating_type} onChange={(val) => handleChange(val, 'rating_type', id)}>
-                <Stack spacing={4} direction={'row'}>
-                  <Radio value='star' isRequired>Star</Radio>
-                  <Radio value='smiley'>Smiley</Radio>
-                </Stack>
-              </RadioGroup>
+              <RatingSettings id={id} type={field?.rating_type} handleChange={handleChange} />
+            )}
+            {field?.field_type === 'file' && (
+              <FileSettings id={id} field={field} handleChange={handleChange} />
             )}
           </VStack>
         </Box>

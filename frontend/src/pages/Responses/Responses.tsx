@@ -3,13 +3,6 @@ import {
   Checkbox,
   HStack,
   IconButton,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Spinner,
   Table,
   TableContainer,
@@ -21,26 +14,22 @@ import {
   Tr,
   Badge,
   useDisclosure,
-  Box,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody
 } from '@chakra-ui/react'
 import { WidgetResponse } from '@globalStates/Interfaces'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
 import { textTrim, toSlug } from '@utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
-import { FiTrash2 } from 'react-icons/fi'
+import { FiEye, FiTrash2 } from 'react-icons/fi'
 import Pagination from '@components/global/Pagination'
 import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
+import ResponseDrawer from '@components/response/ResponseDrawer'
+import DownloadLinks from '@components/response/DownloadLinks'
 
-function Responses() {
+export default function Responses() {
   const [pageLimit, setPageLimit] = useState<number>(10)
   const [pageNumber, setPageNumber] = useState<number>(1)
   const { othersData } = useFetchOthersData()
@@ -50,8 +39,8 @@ function Responses() {
   const [checkedItems, setCheckedItems] = useState<string[]>([])
   const navigate = useNavigate()
   const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure()
-  const btnRef = useRef<HTMLTableCellElement | null>(null)
-  const drawerResponse = useRef<object | null>()
+  const btnRef = useRef<HTMLButtonElement | null>(null)
+  const drawerResponse = useRef<WidgetResponse | null>(null)
 
   const handleDeleteWidget = async () => {
     await deleteResponses(checkedItems)
@@ -89,8 +78,8 @@ function Responses() {
     setCheckedItems([])
   }, [pageNumber, pageLimit])
 
-  const handleResponseClick = (response: object) => {
-    drawerResponse.current = response
+  const handleResponseClick = (widgetResponse: WidgetResponse) => {
+    drawerResponse.current = widgetResponse
     onDrawerOpen()
   }
 
@@ -113,7 +102,8 @@ function Responses() {
           </Text>
           {isResponsesLoading && <Spinner />}
         </HStack>
-        {checkedItems?.length && (
+
+        {checkedItems?.length ? (
           <HStack spacing={1}>
             <IconButton
               onClick={openDelModal}
@@ -130,7 +120,7 @@ function Responses() {
               items selected
             </Badge>
           </HStack>
-        )}
+        ) : null}
       </HStack>
 
       <TableContainer borderWidth="1px" rounded="lg" shadow="md">
@@ -156,33 +146,40 @@ function Responses() {
             {Array.isArray(widgetResponses)
               && widgetResponses.map((widgetResponse: WidgetResponse) => (
                 <Tr key={widgetResponse.id}>
-                  <Td>
-                    <Checkbox
-                      colorScheme="purple"
-                      isChecked={!!checkedItems.includes(widgetResponse.id)}
-                      onChange={(e) => handleCheckboxChange(e, widgetResponse.id)}
-                      aria-label="select single checkbox"
-                    />
+                  <Td py='2'>
+                    <HStack spacing={3}>
+                      <Checkbox
+                        colorScheme="purple"
+                        isChecked={!!checkedItems.includes(widgetResponse.id)}
+                        onChange={(e) => handleCheckboxChange(e, widgetResponse.id)}
+                        aria-label="select single checkbox"
+                      />
+                      <IconButton
+                        ref={btnRef}
+                        onClick={() => handleResponseClick(widgetResponse)}
+                        aria-label='detailed view' icon={<FiEye fontSize={'1rem'} />} size='sm' h='auto' variant={'unstyled'}
+                      />
+                    </HStack>
                   </Td>
-                  {othersData?.formFields?.map((field: { id: string; label: string }) => (
-                    <Td
-                      ref={btnRef}
-                      onClick={() => handleResponseClick(widgetResponse.response)}
-                      cursor="pointer"
-                      key={`${field.id}td`}
-                    >
-                      {typeof widgetResponse.response[toSlug(field.label)] === 'object'
-                        ? 'file'
-                        : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
-                    </Td>
-                  ))}
-                  <Td
-                    ref={btnRef}
-                    onClick={() => handleResponseClick(widgetResponse.response)}
-                    cursor="pointer"
-                  >
-                    {convertDate(widgetResponse.created_at)}
-                  </Td>
+
+                  {othersData?.formFields?.map((field: { id: string; label: string }) => {
+                    const isFile = typeof widgetResponse.response[toSlug(field.label, '_')] === 'object'
+
+                    return (
+                      <Td key={`${field.id}td`} maxW={isFile ? '300px' : 'auto'} py='2'>
+                        {isFile ? (
+                          <HStack overflow='hidden' spacing={1}>
+                            <DownloadLinks
+                              files={widgetResponse.response[toSlug(field.label, '_')]}
+                              widgetChannelId={widgetResponse.widget_channel_id} />
+                          </HStack>
+                        )
+                          : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
+                      </Td>
+                    )
+                  })}
+
+                  <Td py='2'>{convertDate(widgetResponse.created_at)}</Td>
                 </Tr>
               ))}
             {widgetResponses?.length < 1 && (
@@ -206,55 +203,17 @@ function Responses() {
         </Pagination>
       )}
 
-      <Drawer isOpen={isDrawerOpen} placement="right" onClose={handleDrawerClose} finalFocusRef={btnRef}>
-        <DrawerOverlay bg="blackAlpha.400" />
-        <DrawerContent marginTop="32px">
-          <DrawerCloseButton />
-          <DrawerHeader>Response Details</DrawerHeader>
+      <ResponseDrawer
+        drawerResponse={drawerResponse.current}
+        isDrawerOpen={isDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+        btnRef={btnRef} />
 
-          <DrawerBody>
-            {drawerResponse?.current
-              && Object.entries(drawerResponse.current).map(([label, value]) => (
-                <Box key={label}>
-                  <Text fontSize="md" fontWeight="bold" mb="2">
-                    {label.toUpperCase().replace(/_/g, ' ')}
-                  </Text>
-                  <Text fontSize="sm" mb="2">
-                    {typeof value === 'object' ? 'file' : value.toString()}
-                  </Text>
-                </Box>
-              ))}
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-
-      <Modal isOpen={isOpen} onClose={closeDelModal} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirmation</ModalHeader>
-          <ModalCloseButton disabled={isResponsesDeleting} />
-          <ModalBody>Are you sure want to delete selected responses?</ModalBody>
-
-          <ModalFooter>
-            <Button disabled={isResponsesDeleting} mr={3} onClick={closeDelModal}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleDeleteWidget}
-              isLoading={isResponsesDeleting}
-              loadingText="Deleting..."
-              colorScheme="red"
-              shadow="md"
-            >
-              Delete
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ResponseDeleteModal
+        isOpen={isOpen}
+        closeDelModal={closeDelModal}
+        handleDeleteWidget={handleDeleteWidget}
+        isResponsesDeleting={isResponsesDeleting} />
     </>
   )
 }
-
-Responses.auth = true
-
-export default Responses

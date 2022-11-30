@@ -6,6 +6,7 @@ use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Core\Http\Client\HttpClient;
 use BitApps\Assist\Core\Http\Response as Res;
 use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Core\Utils\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
 
@@ -38,7 +39,7 @@ final class ResponseController
 
     public function store(Request $request)
     {
-        $formData = $request->formData;
+        $formData = $request->all();
         $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
@@ -53,6 +54,11 @@ final class ResponseController
         }
 
         if (!empty($config->store_responses)) {
+            if (!empty($request->files())) {
+                $fileNames = $this->storeFiles($request->files(), $widgetChannelId);
+                $formData = array_merge($formData, $fileNames);
+            }
+
             Response::insert([
                 'widget_channel_id' => $widgetChannelId,
                 'response'          => $formData
@@ -64,6 +70,20 @@ final class ResponseController
         }
 
         return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
+    }
+
+    private function storeFiles($files, $widgetChannelId)
+    {
+        $fileNames = [];
+        $fileHandler = new FileHandler;
+        foreach ($files as $fileName => $fileDetails) {
+            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
+            if (!empty($filePath)) {
+                $fileNames[$fileName] = $filePath;
+            }
+        }
+
+        return $fileNames;
     }
 
     public function sendMail($email, $formTitle, $data)
