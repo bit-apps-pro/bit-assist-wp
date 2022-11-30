@@ -87,9 +87,16 @@ final class WidgetChannelController
 
     public function copy(WidgetChannel $widgetChannel)
     {
+        if (!(class_exists(ProConfig::class) && ProConfig::isPro())) {
+            $widgetCount = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->count();
+            if ($widgetCount >= 2) {
+                return Response::error('Limited 2 channels in free version');
+            }
+        }
+
         if ($widgetChannel->exists()) {
             $newWidgetChannel = $this->replicate($widgetChannel);
-            $result = WidgetChannel::insert($newWidgetChannel);
+            $result = WidgetChannel::insert((array)$newWidgetChannel);
             if ($result) {
                 return Response::success('Channel copied successfully');
             }

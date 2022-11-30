@@ -8,6 +8,10 @@ final class DownloadController
 {
     public function downloadResponseFile()
     {
+        if (!function_exists('wp_check_filetype_and_ext')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
         $filePath = $this->isRequestedFileExists();
 
         if ($filePath) {
@@ -23,7 +27,7 @@ final class DownloadController
             return false;
         }
         $widgetChannelID = intval(sanitize_text_field($_GET['widgetChannelID']));
-        $fileID = sanitize_file_name($_GET['fileID']);
+        $fileID = $_GET['fileID'];
         $filePath = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID . DIRECTORY_SEPARATOR . $fileID;
         if (is_readable($filePath)) {
             return $filePath;

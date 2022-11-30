@@ -33,6 +33,7 @@ import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 import { WidgetChannelType } from '@globalStates/Interfaces'
 import useCopyWidgetChannel from '@hooks/mutations/widgetChannel/useCopyWidgetChannel'
+import useToaster from '@hooks/useToaster'
 
 interface WidgetChannelProps {
   widgetChannel: WidgetChannelType
@@ -50,14 +51,16 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
   const { copyWidgetChannel, isWidgetChannelCoping } = useCopyWidgetChannel()
   const { isOpen: isOpenEditModal, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const toaster = useToaster()
 
   const onOpenEditModal = (widgetChannelId: number) => () => {
     setEditWidgetChannelId(widgetChannelId)
     openEditModal()
   }
 
-  const copyChannel = (widgetChannelId: number) => () => {
-    copyWidgetChannel(widgetChannelId)
+  const onCopyChannel = (widgetChannelId: number) => async () => {
+    const { status, data } = await copyWidgetChannel(widgetChannelId)
+    toaster(status, data)
   }
 
   const openDeleteModal = (widgetChannelId: number) => () => {
@@ -126,7 +129,7 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
               <MenuItem icon={<FiEdit2 />} onClick={onOpenEditModal(widgetChannel.id)}>
                 Edit
               </MenuItem>
-              <MenuItem icon={<FiCopy />} onClick={copyChannel(widgetChannel.id)}>
+              <MenuItem icon={<FiCopy />} onClick={onCopyChannel(widgetChannel.id)}>
                 Copy
               </MenuItem>
               {widgetChannel.config?.card_config?.form_fields && (
