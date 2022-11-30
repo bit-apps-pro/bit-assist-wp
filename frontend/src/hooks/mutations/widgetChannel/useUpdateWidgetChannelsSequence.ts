@@ -12,27 +12,36 @@ export default function useUpdateWidgetChannelsSequence() {
   const { widgetId } = useParams()
   const queryClient = useQueryClient()
 
-  const { mutateAsync, isLoading } = useMutation(
-    async (widgetChannels: UpdateSequenceProps[]) => request('widgetChannels/updateSequence', { widgetChannels }, null, 'PUT'),
+  const { mutateAsync, isLoading } = useMutation(async (widgetChannels: UpdateSequenceProps[]) =>
+    request('widgetChannels/updateSequence', { widgetChannels }, null, 'PUT'),
   )
 
-  const updateSequence = (widgetChannels: WidgetChannelType[], newIndex: number, oldIndex: number) => {
+  const updateSequence = (newWidgetChannels: WidgetChannelType[], newIndex: number, oldIndex: number) => {
+    const { data } = queryClient.getQueryData<any>(['widget/widgetChannels', widgetId])
+    const oldWidgetChannel: WidgetChannelType[] = data
+
     queryClient.setQueryData(['widget/widgetChannels', widgetId], {
-      data: widgetChannels,
+      data: newWidgetChannels,
     })
 
     const newArray: UpdateSequenceProps[] = []
-    widgetChannels.map((widgetChannel: WidgetChannelType, i: number) => {
-      if ((i >= oldIndex && i <= newIndex) || (i >= newIndex && i <= oldIndex)) {
-        newArray.push({ id: widgetChannel.id, sequence: i + 1 })
+    oldWidgetChannel?.map((widgetChannel: WidgetChannelType, i: number) => {
+      if (i !== oldIndex && ((i >= oldIndex && i <= newIndex) || (i >= newIndex && i <= oldIndex))) {
+        if (oldIndex < newIndex) {
+          newArray.push({ id: widgetChannel.id, sequence: oldWidgetChannel[i - 1].sequence })
+        } else if (oldIndex > newIndex) {
+          newArray.push({ id: widgetChannel.id, sequence: oldWidgetChannel[i + 1].sequence })
+        }
       }
     })
+    newArray.push({ id: oldWidgetChannel[oldIndex].id, sequence: oldWidgetChannel[newIndex].sequence })
 
     mutateAsync(newArray)
   }
 
   return {
-    updateWidgetChannelsOrder: (widgetChannels: WidgetChannelType[], newIndex: number, oldIndex: number) => updateSequence(widgetChannels, newIndex, oldIndex),
+    updateWidgetChannelsOrder: (newWidgetChannels: WidgetChannelType[], newIndex: number, oldIndex: number) =>
+      updateSequence(newWidgetChannels, newIndex, oldIndex),
     isWidgetChannelOrderUpdating: isLoading,
   }
 }
