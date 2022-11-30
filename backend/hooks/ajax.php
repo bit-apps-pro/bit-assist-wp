@@ -41,6 +41,7 @@ Route::group(function () {
     Route::put('widgetChannels/updateSequence', [WidgetChannelController::class, 'updateSequence']);
     Route::put('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'update']);
     Route::destroy('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'destroy']);
+    Route::get('copyWidgetChannel/{widgetChannel}', [WidgetChannelController::class, 'copy']);
 
     Route::get('responses/{widgetChannelId}/othersData', [ResponseController::class, 'othersData']);
     Route::get('responses/{widgetChannelId}/{page}/{limit}', [ResponseController::class, 'index']);

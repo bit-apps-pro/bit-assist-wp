@@ -84,4 +84,30 @@ final class WidgetChannelController
 
         return Response::success('Sequence ordered');
     }
+
+    public function copy(WidgetChannel $widgetChannel)
+    {
+        if ($widgetChannel->exists()) {
+            $newWidgetChannel = $this->replicate($widgetChannel);
+            $result = WidgetChannel::insert($newWidgetChannel);
+            if ($result) {
+                return Response::success('Channel copied successfully');
+            }
+        }
+        return Response::error('Something went wrong');
+    }
+
+    private function replicate($widgetChannel)
+    {
+        $maxSequence = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence');
+
+        $newWidgetChannel = (object)[];
+        $newWidgetChannel->widget_id = $widgetChannel->widget_id;
+        $newWidgetChannel->channel_name = $widgetChannel->channel_name;
+        $newWidgetChannel->config = $widgetChannel->config;
+        $newWidgetChannel->config->title = $widgetChannel->config->title . ' (Copy)';
+        $newWidgetChannel->sequence = $maxSequence + 1;
+        $newWidgetChannel->status = $widgetChannel->status;
+        return $newWidgetChannel;
+    }
 }
