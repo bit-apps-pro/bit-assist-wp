@@ -20,7 +20,7 @@ import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
 import { textTrim, toSlug } from '@utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
-import { FiEye, FiTrash2 } from 'react-icons/fi'
+import { FiEye, FiRefreshCw, FiTrash2 } from 'react-icons/fi'
 import Pagination from '@components/global/Pagination'
 import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import { MdArrowBackIosNew } from 'react-icons/md'
@@ -33,7 +33,10 @@ export default function Responses() {
   const [pageLimit, setPageLimit] = useState<number>(10)
   const [pageNumber, setPageNumber] = useState<number>(1)
   const { othersData } = useFetchOthersData()
-  const { widgetResponses, isResponsesLoading, isFetching, isFetched } = useFetchResponses(pageLimit, pageNumber)
+  const { widgetResponses, isResponsesLoading, isFetching, isFetched, refresh } = useFetchResponses(
+    pageLimit,
+    pageNumber,
+  )
   const { deleteResponses, isResponsesDeleting } = useDeleteResponses(pageLimit, pageNumber)
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const [checkedItems, setCheckedItems] = useState<string[]>([])
@@ -96,11 +99,20 @@ export default function Responses() {
             <MdArrowBackIosNew size="1rem" aria-label="back button" />
           </Button>
           <Text as="h2" fontSize="lg" textTransform="none">
-            Response List
-            {' '}
-            {othersData?.channelName && `- ${othersData.channelName}`}
+            Response List {othersData?.channelName && `- ${othersData.channelName}`}
           </Text>
-          {isResponsesLoading && <Spinner />}
+          {isFetching ? (
+            <IconButton aria-label="spinner" size="sm" variant="ghost" rounded="full" icon={<Spinner size="sm" />} />
+          ) : (
+            <IconButton
+              onClick={refresh}
+              aria-label="refresh button"
+              size="sm"
+              rounded="full"
+              variant="ghost"
+              icon={<FiRefreshCw />}
+            />
+          )}
         </HStack>
 
         {checkedItems?.length ? (
@@ -114,11 +126,7 @@ export default function Responses() {
               variant="ghost"
               icon={<FiTrash2 />}
             />
-            <Badge textTransform="lowercase">
-              {checkedItems.length}
-              {' '}
-              items selected
-            </Badge>
+            <Badge textTransform="lowercase">{checkedItems.length} items selected</Badge>
           </HStack>
         ) : null}
       </HStack>
@@ -143,10 +151,10 @@ export default function Responses() {
             </Tr>
           </Thead>
           <Tbody>
-            {Array.isArray(widgetResponses)
-              && widgetResponses.map((widgetResponse: WidgetResponse) => (
+            {Array.isArray(widgetResponses) &&
+              widgetResponses.map((widgetResponse: WidgetResponse) => (
                 <Tr key={widgetResponse.id}>
-                  <Td py='2'>
+                  <Td py="2">
                     <HStack spacing={3}>
                       <Checkbox
                         colorScheme="purple"
@@ -157,7 +165,11 @@ export default function Responses() {
                       <IconButton
                         ref={btnRef}
                         onClick={() => handleResponseClick(widgetResponse)}
-                        aria-label='detailed view' icon={<FiEye fontSize={'1rem'} />} size='sm' h='auto' variant={'unstyled'}
+                        aria-label="detailed view"
+                        icon={<FiEye fontSize={'1rem'} />}
+                        size="sm"
+                        h="auto"
+                        variant={'unstyled'}
                       />
                     </HStack>
                   </Td>
@@ -166,20 +178,22 @@ export default function Responses() {
                     const isFile = typeof widgetResponse.response[toSlug(field.label, '_')] === 'object'
 
                     return (
-                      <Td key={`${field.id}td`} maxW={isFile ? '300px' : 'auto'} py='2'>
+                      <Td key={`${field.id}td`} maxW={isFile ? '300px' : 'auto'} py="2">
                         {isFile ? (
-                          <HStack overflow='hidden' spacing={1}>
+                          <HStack overflow="hidden" spacing={1}>
                             <DownloadLinks
                               files={widgetResponse.response[toSlug(field.label, '_')]}
-                              widgetChannelId={widgetResponse.widget_channel_id} />
+                              widgetChannelId={widgetResponse.widget_channel_id}
+                            />
                           </HStack>
-                        )
-                          : textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)}
+                        ) : (
+                          textTrim(widgetResponse.response[toSlug(field.label, '_')], 40)
+                        )}
                       </Td>
                     )
                   })}
 
-                  <Td py='2'>{convertDate(widgetResponse.created_at)}</Td>
+                  <Td py="2">{convertDate(widgetResponse.created_at)}</Td>
                 </Tr>
               ))}
             {widgetResponses?.length < 1 && (
@@ -207,13 +221,15 @@ export default function Responses() {
         drawerResponse={drawerResponse.current}
         isDrawerOpen={isDrawerOpen}
         handleDrawerClose={handleDrawerClose}
-        btnRef={btnRef} />
+        btnRef={btnRef}
+      />
 
       <ResponseDeleteModal
         isOpen={isOpen}
         closeDelModal={closeDelModal}
         handleDeleteWidget={handleDeleteWidget}
-        isResponsesDeleting={isResponsesDeleting} />
+        isResponsesDeleting={isResponsesDeleting}
+      />
     </>
   )
 }
