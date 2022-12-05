@@ -205,7 +205,7 @@ export default function Responses() {
         </Table>
       </TableContainer>
 
-      {!isResponsesLoading && (
+      {widgetResponses?.length > 0 && !isResponsesLoading && (
         <Pagination
           pageNumber={pageNumber}
           pageLimit={pageLimit}
