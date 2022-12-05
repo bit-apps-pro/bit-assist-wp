@@ -3,7 +3,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+  text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
 html,
 body {
@@ -36,7 +36,10 @@ svg {
   filter: invert(7%) sepia(5%) saturate(5605%) hue-rotate(182deg) brightness(98%) contrast(88%); /* white icon */
 }
 .tox-tinymce-aux {
-  z-index: 2000 !important;
+  z-index: 9999 !important;
+}
+.tox .tox-dialog-wrap__backdrop {
+  background-color: transparent !important;
 }
 .select-search-container {
   --select-search-background: var(--chakra-colors-chakra-body-bg) !important;
@@ -75,8 +78,8 @@ svg {
   min-height: 30px !important;
   padding: 0 10px !important;
 }
-.chipSelect.active.disabled, 
-.chipSelect.active:disabled, 
+.chipSelect.active.disabled,
+.chipSelect.active:disabled,
 .chipSelect.active {
   background: var(--chakra-colors-purple-200);
 }
