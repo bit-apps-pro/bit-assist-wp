@@ -8,7 +8,7 @@ import {
   CheckboxGroup,
   Checkbox,
   HStack,
-  Flex
+  Flex,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
@@ -36,6 +36,7 @@ import CustomForm from '@components/widgetChannels/channels/CustomForm'
 import KnowledgeBase from '@components/widgetChannels/channels/KnowledgeBase'
 import Tawk from '@components/widgetChannels/channels/Tawk'
 import Waze from '@components/widgetChannels/channels/Waze'
+import CustomChannel from '@components/widgetChannels/channels/CustomChannel'
 import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
 
@@ -56,6 +57,7 @@ function ChannelSettings() {
         <FormHelperText>Descriptive text for visitors.</FormHelperText>
       </FormControl>
 
+      {flow.channel_name?.toLowerCase() === 'custom-channel' && <CustomChannel />}
       {flow.channel_name?.toLowerCase() === 'tawk' && <Tawk />}
       {flow.channel_name?.toLowerCase() === 'knowledge-base' && <KnowledgeBase />}
       {flow.channel_name?.toLowerCase() === 'faq' && <FAQ />}
@@ -98,7 +100,7 @@ function ChannelSettings() {
       </ProWrapper>
 
       <FormControl>
-        <FormLabel display='inline-block'>Channel show on</FormLabel>
+        <FormLabel display="inline-block">Channel show on</FormLabel>
         <CheckboxGroup
           onChange={(val) => handleChanges(val, 'channel_show_on')}
           colorScheme="purple"
