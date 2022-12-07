@@ -23,9 +23,6 @@
 	box-shadow: 0 2px 7px -3px rgba(#000, 0.25), 0 4px 15px rgba(#000, 0.09);
 	overflow: hidden;
 	text-decoration: none;
-	&:focus-visible {
-		outline: 2px solid #000;
-	}
 }
 
 .channel-name {

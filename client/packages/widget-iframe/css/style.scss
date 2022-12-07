@@ -1,39 +1,43 @@
 :root {
-  --widget-color: #00ffa3;
-  --widget-black: #141844;
-  --widget-size: 60px;
-  --transition-duration: 300ms;
-  --card-theme-color: #23c88c;
-  --card-text-color: #fff;
-  --widget-bubble-icon-color: invert(0);
-  --modal-title-height: 0px;
-  --modal-padding: 30px;
-  --client-win-width: 0;
-  --widget-padding: 20px;
+	--widget-color: #00ffa3;
+	--widget-black: #141844;
+	--widget-size: 60px;
+	--transition-duration: 300ms;
+	--card-theme-color: #23c88c;
+	--card-text-color: #fff;
+	--widget-bubble-icon-color: invert(0);
+	--modal-title-height: 0px;
+	--modal-padding: 30px;
+	--client-win-width: 0;
+	--widget-padding: 20px;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:focus-visible {
+	outline: 2px solid var(--widget-black);
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+	width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cdcdcd;
-  border-radius: 4px;
+	background: #cdcdcd;
+	border-radius: 4px;
 }
 
 body {
-  overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	overflow: hidden;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .hide {
-  display: none !important;
+	display: none !important;
 }
 
 @import './widget';
