@@ -39,7 +39,7 @@ import Waze from '@components/widgetChannels/channels/Waze'
 import CustomChannel from '@components/widgetChannels/channels/CustomChannel'
 import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
-import CustomIcon from '@components/widgetChannels/channels/Fields/CustomIcon'
+import CustomChannelIcon from '@components/widgetChannels/channels/Fields/CustomChannelIcon'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -58,7 +58,7 @@ function ChannelSettings() {
         <FormHelperText>Descriptive text for visitors.</FormHelperText>
       </FormControl>
 
-      <CustomIcon />
+      <CustomChannelIcon />
 
       {flow.channel_name?.toLowerCase() === 'custom-channel' && <CustomChannel />}
       {flow.channel_name?.toLowerCase() === 'tawk' && <Tawk />}

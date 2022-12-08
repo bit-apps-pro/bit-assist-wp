@@ -23,7 +23,7 @@ export default function CustomChannel() {
         <Input
           value={flow.config?.unique_id ?? ''}
           onChange={(e) => handleChanges(e.target.value, 'unique_id')}
-          placeholder="https://"
+          placeholder="https://..."
         />
       </FormControl>
       <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />

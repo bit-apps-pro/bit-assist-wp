@@ -8,7 +8,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Text,
-  HStack
+  HStack,
+  Box,
 } from '@chakra-ui/react'
 import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
@@ -19,7 +20,6 @@ import { MdArrowBackIosNew } from 'react-icons/md'
 import useToaster from '@hooks/useToaster'
 import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
 import { widgetChannelValidate } from '@utils/validation'
-import SaveButton from './SaveButton'
 
 function AddChannel() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -52,32 +52,38 @@ function AddChannel() {
         Add Channel
       </Button>
 
-      <Modal
-        scrollBehavior="inside"
-        size="3xl"
-        closeOnOverlayClick={false}
-        isOpen={isOpen}
-        onClose={onModalClose}
-      >
+      <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose}>
         <ModalOverlay />
         <ModalContent pb="4">
-          <ModalHeader>
-            <HStack>
-              {flow.step > 1 && (
-                <Button p="1" size="sm" variant="ghost" onClick={resetFlow}>
-                  <MdArrowBackIosNew size="1rem" aria-label="back button" />
-                </Button>
-              )}
-              <Text>Create New Channel</Text>
+          <ModalHeader mr="6">
+            <HStack justifyContent="space-between">
+              <HStack>
+                {flow.step > 1 && (
+                  <Button p="1" size="sm" variant="ghost" onClick={resetFlow}>
+                    <MdArrowBackIosNew size="1rem" aria-label="back button" />
+                  </Button>
+                )}
+                <Text>Create New Channel</Text>
+              </HStack>
+
+              <Button
+                form="createNewChannelForm"
+                type="submit"
+                colorScheme="purple"
+                loadingText="Saving..."
+                spinnerPlacement="start"
+                isLoading={isWidgetChannelCreating}
+              >
+                Save
+              </Button>
             </HStack>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {flow.step === 1 && <ChannelSelect />}
             {flow.step === 2 && (
-              <form onSubmit={saveFormSubmit}>
+              <form onSubmit={saveFormSubmit} id="createNewChannelForm">
                 <ChannelSettings />
-                <SaveButton isSaving={isWidgetChannelCreating} />
               </form>
             )}
           </ModalBody>

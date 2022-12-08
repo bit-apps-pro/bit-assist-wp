@@ -9,6 +9,7 @@ import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useEffect } from 'react'
 import config from '@config/config'
+import CustomWidgetIcon from '@components/customizations/CustomWidgetIcon'
 
 function WidgetIcons() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -67,6 +68,7 @@ function WidgetIcons() {
           )
         })}
       </HStack>
+      <CustomWidgetIcon />
     </Box>
   )
 }

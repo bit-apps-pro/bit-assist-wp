@@ -17,6 +17,7 @@ interface Styles {
   position?: string
   icon?: string
   iconUrl?: string
+  customImage?: string
   shape?: string
   size?: number
 }
