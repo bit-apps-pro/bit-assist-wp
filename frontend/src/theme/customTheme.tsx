@@ -1,7 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 import { modalTheme } from './modalTheme'
 
-
 const fonts = {
   heading: 'Outfit, sans-serif',
   body: 'Outfit, sans-serif',
