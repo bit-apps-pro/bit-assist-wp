@@ -65,17 +65,18 @@ function AddChannel() {
                 )}
                 <Text>Create New Channel</Text>
               </HStack>
-
-              <Button
-                form="createNewChannelForm"
-                type="submit"
-                colorScheme="purple"
-                loadingText="Saving..."
-                spinnerPlacement="start"
-                isLoading={isWidgetChannelCreating}
-              >
-                Save
-              </Button>
+              {flow.step === 2 && (
+                <Button
+                  form="createNewChannelForm"
+                  type="submit"
+                  colorScheme="purple"
+                  loadingText="Saving..."
+                  spinnerPlacement="start"
+                  isLoading={isWidgetChannelCreating}
+                >
+                  Save
+                </Button>
+              )}
             </HStack>
           </ModalHeader>
           <ModalCloseButton />
