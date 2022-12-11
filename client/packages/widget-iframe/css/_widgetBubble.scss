@@ -25,8 +25,13 @@
 	justify-content: center;
 	background-color: var(--widget-color);
 
+	&:focus-visible {
+		outline-offset: 2px;
+		outline-style: dashed;
+		outline-width: 1.5px;
+	}
+
 	&.semiRounded {
-		border-radius: 10px;
 		mask: url('../public/images/widget-button-mask.svg') no-repeat;
 		-webkit-mask: url('../public/images/widget-button-mask.svg') no-repeat;
 	}
