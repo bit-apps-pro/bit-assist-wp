@@ -2,6 +2,10 @@ import config from '@config/config'
 
 const channelList = [
   {
+    name: 'Custom-Channel',
+    icon: `${config.ROOT_URL}/img/channel/custom-channel.svg`,
+  },
+  {
     name: 'Call',
     icon: `${config.ROOT_URL}/img/channel/call.svg`,
   },

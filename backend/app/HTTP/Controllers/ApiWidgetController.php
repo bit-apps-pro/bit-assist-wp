@@ -67,6 +67,10 @@ final class ApiWidgetController
 
         $rootURL = Config::get('ROOT_URI');
         foreach ($widgetChannels as $key => $value) {
+            if (!empty($widgetChannels[$key]->config->channel_icon)) {
+                $widgetChannels[$key]->channel_icon = $widgetChannels[$key]->config->channel_icon;
+                continue;
+            }
             $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.svg';
         }
 

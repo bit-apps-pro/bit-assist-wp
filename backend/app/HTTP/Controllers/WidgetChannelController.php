@@ -30,7 +30,7 @@ final class WidgetChannelController
         $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
 
         if (!$isPro && WidgetChannel::where('widget_id', $validated['widget_id'])->count() >= 2) {
-            return Response::error('Limited 2 channels in free version');
+            return Response::error('You can use 2 channel in free version.');
         }
         if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
             unset($validated['config']['hide_after_office_hours']);
@@ -87,11 +87,9 @@ final class WidgetChannelController
 
     public function copy(WidgetChannel $widgetChannel)
     {
-        if (!(class_exists(ProConfig::class) && ProConfig::isPro())) {
-            $widgetCount = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->count();
-            if ($widgetCount >= 2) {
-                return Response::error('Limited 2 channels in free version');
-            }
+        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        if (!$isPro && WidgetChannel::where('widget_id', $widgetChannel->widget_id)->count() >= 2) {
+            return Response::error('You can use 2 channel in free version.');
         }
 
         if ($widgetChannel->exists()) {
@@ -106,14 +104,12 @@ final class WidgetChannelController
 
     private function replicate($widgetChannel)
     {
-        $maxSequence = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence');
-
         $newWidgetChannel = (object)[];
         $newWidgetChannel->widget_id = $widgetChannel->widget_id;
         $newWidgetChannel->channel_name = $widgetChannel->channel_name;
         $newWidgetChannel->config = $widgetChannel->config;
         $newWidgetChannel->config->title = $widgetChannel->config->title . ' (Copy)';
-        $newWidgetChannel->sequence = $maxSequence + 1;
+        $newWidgetChannel->sequence = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence') + 1;
         $newWidgetChannel->status = $widgetChannel->status;
         return $newWidgetChannel;
     }

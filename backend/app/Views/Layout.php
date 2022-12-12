@@ -82,6 +82,10 @@ class Layout
             wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
 
+        if (!wp_script_is('media-upload')) {
+            wp_enqueue_media();
+        }
+
         // wp_enqueue_script(
         //     $slug.'-vendors',
         //     $jsURI.'/vendors-main.js',

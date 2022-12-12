@@ -12,7 +12,7 @@ import {
   Stack,
   useColorModeValue,
   useDisclosure,
-  VStack
+  VStack,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
@@ -30,7 +30,7 @@ import {
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors
+  useSensors,
 } from '@dnd-kit/core'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -51,6 +51,7 @@ function CustomForm() {
       if (typeof prev.config?.card_config === 'undefined') {
         prev.config.card_config = {}
       }
+      prev.config.store_responses = true
       prev.config.card_config = {
         card_bg_color: str2Color('#0038FF'),
         card_text_color: str2Color('#fff'),
@@ -129,7 +130,9 @@ function CustomForm() {
               strategy={verticalListSortingStrategy}
             >
               <VStack w="full" spacing="3">
-                {flow.config.card_config.form_fields.map((field, index) => <CustomFormField key={field.id} id={index} field={field} />)}
+                {flow.config.card_config.form_fields.map((field, index) => (
+                  <CustomFormField key={field.id} id={index} field={field} />
+                ))}
 
                 {activeId ? (
                   <DragOverlay style={{ marginTop: 0 }}>
@@ -215,7 +218,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_bg_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
-            handleClose={() => { }}
+            handleClose={() => {}}
           />
         </FormControl>
 
@@ -224,7 +227,7 @@ function CustomForm() {
           <ColorPickerWrap
             color={flow.config?.card_config?.card_text_color}
             handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
-            handleClose={() => { }}
+            handleClose={() => {}}
           />
         </FormControl>
       </Stack>
