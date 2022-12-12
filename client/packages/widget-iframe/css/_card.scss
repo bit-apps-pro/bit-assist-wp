@@ -1,6 +1,6 @@
 #card {
 	display: none;
-	width: 300px;
+	width: 330px;
 	min-width: 200px;
 	max-width: 100%;
 	border-radius: 12px;
@@ -68,10 +68,10 @@
 	&::after {
 		content: '';
 		width: 100%;
-		height: 44px;
+		height: 50px;
 		background-color: var(--card-theme-color);
 		position: absolute;
-		top: calc(35% - 24px);
+		top: calc(35% - 28px);
 		left: 0;
 		z-index: -1;
 		transform: skewY(-8deg);
