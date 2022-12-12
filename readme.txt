@@ -32,7 +32,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  10. Trigger Widget (Delay, Page Scroll)
  11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
  12. Dark Mode
- 13. More Comming Soon
+ 13. More Coming Soon
 
 📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitapps) & get updates of our new plugins.**
 
@@ -46,7 +46,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 6. Set Business Hours
 7. Add Page Filter
 8. Custom CSS
-9. More Comming Soon
+9. More Coming Soon
 
 📢 ** Want to get Bit Assist for free. Read the details here - [Bit Apps products giveaway](https://www.bitapps.pro/zoho-partner-tag)**
  
@@ -74,7 +74,9 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 20. Custom Form
 21. Knowledge Base
 22. FAQ
-23. More Comming Soon
+23. Waze
+24. Custom Channel
+25. More Coming Soon
 
  
 [Request for more features](https://www.facebook.com/groups/bitapps/) 
