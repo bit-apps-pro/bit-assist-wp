@@ -2,7 +2,7 @@
 Contributors: bitpressadmin
 Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google map, slack, youtube, call, skype, twitter, instagram, telegram.
 Requires at least: 5.0
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 5.6
 Stable tag: 1.0.6
 License: GPLv2 or later
