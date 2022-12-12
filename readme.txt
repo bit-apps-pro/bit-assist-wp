@@ -101,7 +101,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
-= v1.0.6 (Dec 11, 2022) =
+= v1.0.6 (Dec 12, 2022) =
 * Added: Custom image change in widget & channel
 * Added: Custom channel create
 * Added: Copy widget
