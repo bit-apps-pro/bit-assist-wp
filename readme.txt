@@ -11,13 +11,6 @@ License: GPLv2 or later
 
 = Bit Assist turn your website visitors into leads =
 
-📢 **You can avail this plugin free if you tag us as your Zoho Partner. Read the details here - [Bit Apps products giveaway](https://www.bitapps.pro/zoho-partner-tag)**
-
-📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitappss) & get updates of our new plugins.**
-
-📢 **We are open for freelance work/custom development for this plugin. [Connect](https://bitapps.pro/contact) with us for further information.**
-
-
 ## ♻ How does this plugin work?
 
 Connect with your visitor using their favorite Facebook Messenger, WhatsApp, Tawk to, Telegram, Viber, Slack etc. 
@@ -39,8 +32,12 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  10. Trigger Widget (Delay, Page Scroll)
  11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
  12. Dark Mode
+ 13. More Comming Soon
 
-## [Pro version features](https://www.bitapps.pro/bit-assist):
+📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitapps) & get updates of our new plugins.**
+
+📢 [Pro version features](https://www.bitapps.pro/bit-assist):
+
 1. Everything Included in Free
 2. Unlimited Widgets
 3. Unlimited Channels
@@ -49,6 +46,9 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 6. Set Business Hours
 7. Add Page Filter
 8. Custom CSS
+9. More Comming Soon
+
+📢 ** Want to get Bit Assist for free. Read the details here - [Bit Apps products giveaway](https://www.bitapps.pro/zoho-partner-tag)**
  
 ### ✔ Available Channels:
 
@@ -78,6 +78,8 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
  
 [Request for more features](https://www.facebook.com/groups/bitapps/) 
+
+📢 **We are open for freelance work/custom development. [Connect](https://bitapps.pro/contact) with us for further information.**
 
 ✨ Overview of other products we are offering :
 
