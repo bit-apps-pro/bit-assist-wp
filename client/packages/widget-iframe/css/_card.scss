@@ -43,10 +43,6 @@
 	img {
 		filter: brightness(0.25);
 	}
-
-	&:focus-visible {
-		outline: 2px solid #000;
-	}
 }
 
 #cardBody {
@@ -83,8 +79,8 @@
 }
 
 :is(#knowledgeBaseBody, #faqBody, #faqDescription, #formBody, .toast) {
-	background: #FFFFFF;
-	border: 1px solid #E1E1E1;
+	background: #ffffff;
+	border: 1px solid #e1e1e1;
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 }

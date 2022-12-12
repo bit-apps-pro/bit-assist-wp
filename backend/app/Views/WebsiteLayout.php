@@ -24,8 +24,8 @@ class WebsiteLayout
         $version = Config::VERSION;
         $rootURL = Config::get('ROOT_URI');
 
-        wp_enqueue_script($slug . '-widget-script-DEFER-MODULE', $rootURL . '/iframe/bit-assist.js', [], $version, true);
-        wp_localize_script($slug . '-widget-script-DEFER-MODULE', Config::VAR_PREFIX, [
+        wp_enqueue_script($slug . '-widget-script-ASYNC-MODULE', $rootURL . '/iframe/bit-assist.js', [], $version, true);
+        wp_localize_script($slug . '-widget-script-ASYNC-MODULE', Config::VAR_PREFIX, [
             'host' => Config::get('ROOT_URI'),
             'api'  => Config::get('API_URL'),
         ]);
@@ -50,6 +50,10 @@ class WebsiteLayout
 
         if (strpos($handle, 'DEFER') !== false && strpos($handle, $slug) !== false) {
             $newTag = preg_replace('/<script /', '<script defer ', $newTag);
+        }
+
+        if (strpos($handle, 'ASYNC') !== false && strpos($handle, $slug) !== false) {
+            $newTag = preg_replace('/<script /', '<script async ', $newTag);
         }
 
         return $newTag;

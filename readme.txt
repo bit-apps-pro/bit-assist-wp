@@ -103,6 +103,12 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.0.6 (Dec , 2022) =
+* Added: Custom image change in widget & channel
+* Added: Custom channel create
+* Added: Copy widget
+* Added: Refresh button in the form response table
+
 = v1.0.5 (Nov 30, 2022) =
 * Added: Copy channel
 * Added: File upload field in custom form channel

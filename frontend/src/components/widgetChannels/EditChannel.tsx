@@ -1,4 +1,16 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, Spinner, Center } from '@chakra-ui/react'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Spinner,
+  Center,
+  HStack,
+  Button,
+  Text,
+} from '@chakra-ui/react'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { editWidgetChannelIdAtom, flowAtom, resetFlowAtom } from '@globalStates/atoms'
 import useUpdateWidgetChannel from '@hooks/mutations/widgetChannel/useUpdateWidgetChannel'
@@ -8,7 +20,6 @@ import { widgetChannelValidate } from '@utils/validation'
 import { useAtom } from 'jotai'
 import { useResetAtom } from 'jotai/utils'
 import { useEffect } from 'react'
-import UpdateButton from './UpdateButton'
 
 interface EditChannelProps {
   isOpen: boolean
@@ -55,21 +66,41 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
   }
 
   return (
-    <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose} trapFocus={false}>
+    <Modal
+      scrollBehavior="inside"
+      size="3xl"
+      closeOnOverlayClick={false}
+      isOpen={isOpen}
+      onClose={onModalClose}
+      trapFocus={false}
+    >
       <ModalOverlay />
       <ModalContent pb="4">
-        <ModalHeader>Edit Channel</ModalHeader>
+        <ModalHeader mr="6">
+          <HStack justifyContent="space-between">
+            <Text>Edit Channel</Text>
+            <Button
+              form="editChannelForm"
+              type="submit"
+              colorScheme="purple"
+              spinnerPlacement="start"
+              loadingText="Updating..."
+              isLoading={isWidgetChannelUpdating}
+            >
+              Update
+            </Button>
+          </HStack>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {(isWidgetChannelFetching) && (
+          {isWidgetChannelFetching && (
             <Center>
               <Spinner />
             </Center>
           )}
           {!isWidgetChannelFetching && (
-            <form onSubmit={editFormSubmit}>
+            <form onSubmit={editFormSubmit} id="editChannelForm">
               <ChannelSettings />
-              <UpdateButton isUpdating={isWidgetChannelUpdating} />
             </form>
           )}
         </ModalBody>

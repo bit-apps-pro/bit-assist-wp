@@ -26,11 +26,11 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
 import { HiDotsVertical, HiPlus } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
-import { FiEdit2, FiTrash2 } from 'react-icons/fi'
+import { FiCopy, FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { useRef } from 'react'
 import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
 import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
@@ -43,6 +43,7 @@ import ProModal from '@components/global/ProModal'
 import { useAtom } from 'jotai'
 import { freeLimitsAtom } from '@globalStates/atoms'
 import config from '@config/config'
+import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
 
 function Widgets() {
   const { widgets, isWidgetFetching } = useFetchWidgets()
@@ -50,6 +51,7 @@ function Widgets() {
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const ThColorToggle = useColorModeValue('gray.50', 'gray.700')
   const { updateWidgetStatus, isWidgetStatusUpdating } = useUpdateWidgetStatus()
+  const { copyWidget, isWidgetCoping } = useCopyWidget()
   const { updateWidgetActive } = useWidgetActive()
   const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
   const tempWidgetId = useRef('')
@@ -59,6 +61,11 @@ function Widgets() {
   const openDeleteModal = (widgetId: string) => () => {
     tempWidgetId.current = widgetId
     openDelModal()
+  }
+
+  const onCopyWidget = (widgetId: string) => async () => {
+    const { status, data } = await copyWidget(widgetId)
+    toaster(status, data)
   }
 
   const handleDeleteWidget = async () => {
@@ -91,9 +98,11 @@ function Widgets() {
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
-                  {!config.IS_PRO && widgets?.length >= freeLimit.widget
-                    ? <ProModal type="widget" number={freeLimit.widget} text="Add Widget" icon={<HiPlus />} />
-                    : <AddWidget />}
+                  {!config.IS_PRO && widgets?.length >= freeLimit.widget ? (
+                    <ProModal type="widget" number={freeLimit.widget} text="Add Widget" icon={<HiPlus />} />
+                  ) : (
+                    <AddWidget />
+                  )}
                 </HStack>
               </Th>
             </Tr>
@@ -145,6 +154,10 @@ function Widgets() {
                       <Link to={`/widgets/${widget.id}`}>
                         <MenuItem icon={<FiEdit2 />}>Edit</MenuItem>
                       </Link>
+
+                      <MenuItem icon={<FiCopy />} onClick={onCopyWidget(widget.id)}>
+                        Copy
+                      </MenuItem>
                       <MenuItem icon={<FiTrash2 />} color="red.600" onClick={openDeleteModal(widget.id)}>
                         Delete
                       </MenuItem>

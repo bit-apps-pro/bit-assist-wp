@@ -11,9 +11,7 @@ interface PaginationProps {
   setPageLimit: (pageNumber: number | ((pageNumber: number) => number)) => void
 }
 
-function Pagination({
-  children, pageNumber, pageLimit, totalResponses, setPageNumber, setPageLimit,
-}: PaginationProps) {
+function Pagination({ children, pageNumber, pageLimit, totalResponses, setPageNumber, setPageLimit }: PaginationProps) {
   const totalPages = Math.ceil(totalResponses / pageLimit)
 
   const handlePageLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -29,7 +27,15 @@ function Pagination({
   }
 
   return (
-    <Stack alignItems="center" gap="3" justifyContent={['center', 'space-between']} direction="row" flexWrap="wrap" mt="4" w="full">
+    <Stack
+      alignItems="center"
+      gap="3"
+      justifyContent={['center', 'space-between']}
+      direction="row"
+      flexWrap="wrap"
+      mt="4"
+      w="full"
+    >
       <HStack>
         <Select id="page_limit" maxW="20" value={pageLimit} onChange={handlePageLimitChange}>
           <option value={10}>10</option>
@@ -48,7 +54,7 @@ function Pagination({
           size="sm"
           rounded="full"
           leftIcon={<FiArrowLeft />}
-          disabled={pageNumber === 1}
+          disabled={pageNumber === 1 || totalPages === 0}
           onClick={() => setPageNumber((prev: number) => prev - 1)}
         >
           Prev
@@ -58,19 +64,14 @@ function Pagination({
           size="sm"
           rounded="full"
           rightIcon={<FiArrowRight />}
-          disabled={pageNumber === totalPages}
+          disabled={pageNumber === totalPages || totalPages === 0}
           onClick={() => setPageNumber((prev: number) => prev + 1)}
         >
           Next
         </Button>
 
         <Text whiteSpace="nowrap">
-          {pageNumber}
-          {' '}
-          /
-          {totalPages}
-          {' '}
-          page
+          {pageNumber} /{totalPages} page
         </Text>
       </HStack>
     </Stack>

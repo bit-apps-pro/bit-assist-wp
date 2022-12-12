@@ -1,0 +1,20 @@
+import request from '@utils/request'
+import { useMutation, useQueryClient } from 'react-query'
+
+export default function useCopyWidget() {
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isLoading } = useMutation(
+    async (widgetId: string) => request(`copyWidget/${widgetId}`, null, null, 'GET'),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('widgets')
+      },
+    },
+  )
+
+  return {
+    copyWidget: (widgetId: string) => mutateAsync(widgetId),
+    isWidgetCoping: isLoading,
+  }
+}

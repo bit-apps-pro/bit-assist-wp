@@ -2,7 +2,7 @@ import './css/style.scss'
 import leftArrow from './public/images/left-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
 
-const $ = (s) => document.querySelector(s)
+const $ = s => document.querySelector(s)
 
 export default class Widget {
 	#apiEndPoint
@@ -36,8 +36,6 @@ export default class Widget {
 		this.#widgetBubble = $(config.widgetBubble)
 		this.#addEvents()
 	}
-
-
 
 	// ====================
 	// Events
@@ -169,7 +167,7 @@ export default class Widget {
 		this.#createAllFields(cardConfig?.form_fields)
 	}
 
-	#createAllFields = (fields) => {
+	#createAllFields = fields => {
 		const dynamicFields = $('#dynamicFields')
 
 		let flag = false
@@ -233,7 +231,7 @@ export default class Widget {
 			}
 
 			wrapper.append(inputElm, labelElm)
-		});
+		})
 		dynamicFields.appendChild(wrapper)
 	}
 
@@ -243,7 +241,10 @@ export default class Widget {
 			fieldInput = document.createElement('textarea')
 		}
 
-		fieldInput.setAttribute('name', `${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`)
+		fieldInput.setAttribute(
+			'name',
+			`${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`,
+		)
 		fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
 		if (field.required) {
 			fieldInput.setAttribute('required', '')
@@ -276,7 +277,7 @@ export default class Widget {
 		inputWrap.append(fieldInput)
 		dynamicFields.appendChild(inputWrap)
 
-		fieldInput.addEventListener('change', (e) => {
+		fieldInput.addEventListener('change', e => {
 			let fileName = 'No file chosen'
 			const fileLength = e.target.files.length
 			if (fileLength > 0) {
@@ -441,10 +442,7 @@ export default class Widget {
 		$('.descriptionTitle p').innerHTML = knowledgeBase?.title || ''
 		$('.content').innerHTML = knowledgeBase?.description || ''
 
-		this.#root.style.setProperty(
-			'--modal-title-height',
-			$('.descriptionTitle').offsetHeight + 'px',
-		)
+		this.#root.style.setProperty('--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
 	}
 
 	#itemListAppend = items => {
@@ -676,7 +674,7 @@ export default class Widget {
 			const styleElement = document.createElement('style')
 			styleElement.appendChild(document.createTextNode(this.#widgetData.custom_css))
 			document.head.appendChild(styleElement)
-		};
+		}
 	}
 
 	#renderChannels = () => {
@@ -691,7 +689,9 @@ export default class Widget {
 			)
 			.map(
 				widgetChannel => `
-          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${widgetChannel.config?.url || '#'}" data-target="${widgetChannel.config.open_window_action}">
+          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${
+					widgetChannel.config?.url || '#'
+				}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
             <div class="channel-icon">
               <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
@@ -828,15 +828,15 @@ export default class Widget {
 		this.#widgetBubble?.classList.add(this.#widgetData?.styles?.shape)
 		this.#widgetWrapper?.classList.add(this.#widgetData?.styles?.position)
 
-		$('#widget-img').src = this.#widgetData?.styles?.iconUrl
-		$('#widget-img')?.classList.add('icon')
+		$('#widget-img').src = this.#widgetData?.styles?.customImage || this.#widgetData?.styles?.iconUrl
+		$('#widget-img')?.classList.add(this.#widgetData?.styles?.customImage ? 'image' : 'icon')
 
 		// Change image color depend on background
 		const brightness = Math.round(
 			(parseInt(this.#widgetData?.styles?.color?.r, 10) * 299 +
 				parseInt(this.#widgetData?.styles?.color?.g, 10) * 587 +
 				parseInt(this.#widgetData?.styles?.color?.b, 10) * 114) /
-			1000,
+				1000,
 		)
 		this.#root.style.setProperty('--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}

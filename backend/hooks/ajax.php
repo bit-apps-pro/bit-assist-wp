@@ -31,6 +31,7 @@ Route::group(function () {
     Route::put('widgets/{widget}', [WidgetController::class, 'update']);
     Route::destroy('widgets/{widget}', [WidgetController::class, 'destroy']);
     Route::put('widgets/{widget}/changeStatus', [WidgetController::class, 'changeStatus']);
+    Route::get('copyWidget/{widget}', [WidgetController::class, 'copy']);
 
     Route::get('channels', [ChannelController::class, 'index']);
     Route::get('channels/{channel}', [ChannelController::class, 'show']);

@@ -17,6 +17,7 @@ interface Styles {
   position?: string
   icon?: string
   iconUrl?: string
+  customImage?: string
   shape?: string
   size?: number
 }
@@ -81,6 +82,7 @@ export interface WidgetChannelConfig {
   unique_id?: string
   phone_number?: string
   message?: string
+  channel_icon?: string
   card_config?: CardConfig
   channel_show_on?: (string | number)[]
   open_window_action?: string
