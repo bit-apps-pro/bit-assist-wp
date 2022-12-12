@@ -24,9 +24,7 @@ function KnowledgeBaseField({ id, field, cursor = 'grab', bg = 'none' }: Knowled
   const { colorMode } = useColorMode()
   const bgColorToggle = useColorModeValue('white', 'gray.700')
 
-  const {
-    attributes, listeners, setNodeRef, transition, transform, isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
     id: field?.id || 0,
   })
 
@@ -43,7 +41,11 @@ function KnowledgeBaseField({ id, field, cursor = 'grab', bg = 'none' }: Knowled
     })
   }
 
-  const handleChange = (value: string | boolean | number, key: string, index: number) => {
+  const handleChange = (value: string, key: string, index: number) => {
+    if (key === 'description') {
+      value = value.replace(/<a/g, '<a target="_blank"')
+    }
+
     setFlow((prev) => {
       const newFields = [...(prev.config?.card_config?.knowledge_bases || [])]
       newFields[index] = { ...newFields[index], [key]: value }
@@ -87,10 +89,10 @@ function KnowledgeBaseField({ id, field, cursor = 'grab', bg = 'none' }: Knowled
                 menubar: false,
                 plugins: ['autolink', 'lists', 'link', 'image', 'code', 'table'],
                 toolbar:
-                  'undo redo | blocks | '
-                  + 'bold italic link image forecolor | alignleft aligncenter '
-                  + 'alignright alignjustify | bullist numlist outdent indent | '
-                  + 'removeformat',
+                  'undo redo | blocks | ' +
+                  'bold italic link image forecolor | alignleft aligncenter ' +
+                  'alignright alignjustify | bullist numlist outdent indent | ' +
+                  'removeformat',
                 link_default_target: '_blank',
                 link_target_list: false,
                 skin: colorMode === 'dark' ? 'oxide-dark' : 'oxide',
