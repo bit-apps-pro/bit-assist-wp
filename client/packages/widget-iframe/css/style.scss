@@ -35,6 +35,16 @@ body {
 	display: none !important;
 }
 
+.iconBtn {
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+
+	&.rounded {
+		border-radius: 50%;
+	}
+}
+
 @import './widget';
 @import './widgetBubble';
 @import './callToAction';

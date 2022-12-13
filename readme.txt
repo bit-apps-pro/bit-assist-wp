@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 
 == Description ==
@@ -105,6 +105,10 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.0.7 (Dec 13, 2022) =
+* Feature: Next & Prev button added in Knowledge Base modal
+* Fixed: Knowledge Base & FAQ link not working
+
 = v1.0.6 (Dec 12, 2022) =
 * Added: Custom image change in widget & channel
 * Added: Custom channel create
