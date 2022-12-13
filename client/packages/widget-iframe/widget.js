@@ -36,6 +36,7 @@ export default class Widget {
 		this.#widgetWrapper = $('#widgetWrapper')
 		this.#widgetBubble = $(config.widgetBubble)
 		this.#addEvents()
+		this.#getClientInfo()
 	}
 
 	// ====================
@@ -476,6 +477,10 @@ export default class Widget {
 	// =====================
 	// poseMessage to parent
 	// =====================
+	#getClientInfo = () => {
+		parent.postMessage({ action: 'getClientInfo' }, `${this.#clientDomain}`)
+	}
+
 	#openClientWidget = isWidgetOpen => {
 		parent.postMessage({ action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
 	}
