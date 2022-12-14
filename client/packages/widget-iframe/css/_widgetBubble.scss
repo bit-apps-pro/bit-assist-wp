@@ -25,8 +25,13 @@
 	justify-content: center;
 	background-color: var(--widget-color);
 
+	&:focus-visible {
+		outline-offset: 2px;
+		outline-style: dashed;
+		outline-width: 1.5px;
+	}
+
 	&.semiRounded {
-		border-radius: 10px;
 		mask: url('../public/images/widget-button-mask.svg') no-repeat;
 		-webkit-mask: url('../public/images/widget-button-mask.svg') no-repeat;
 	}
@@ -53,7 +58,7 @@
 		background-image: url('../public/images/close-icon.svg');
 		background-repeat: no-repeat;
 		background-position: center;
-		background-size: 40%;
+		background-size: 30%;
 		filter: brightness(0) var(--widget-bubble-icon-color);
 		opacity: 0;
 		transition: opacity 0.15s ease-out;

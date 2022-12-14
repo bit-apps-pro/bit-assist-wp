@@ -1,5 +1,6 @@
 import './css/style.scss'
 import leftArrow from './public/images/left-circle-arrow.svg'
+import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
 
 const $ = s => document.querySelector(s)
@@ -35,6 +36,7 @@ export default class Widget {
 		this.#widgetWrapper = $('#widgetWrapper')
 		this.#widgetBubble = $(config.widgetBubble)
 		this.#addEvents()
+		this.#getClientInfo()
 	}
 
 	// ====================
@@ -319,9 +321,7 @@ export default class Widget {
         </div>
         <div id="faqDescription">
           <div class="descriptionTitle">
-            <div class="closeDescBtn" tabindex="0">
-              <img src="${leftArrow}" alt="back" />
-            </div>
+            <button class="iconBtn closeDescBtn" title="Back"><img src="${leftArrow}" alt="back" /></button>
             <p></p>
           </div>
           <div class="content"></div>
@@ -330,11 +330,6 @@ export default class Widget {
 
 		$('#listSearch').addEventListener('input', this.#searchList)
 		$('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
-		$('.closeDescBtn').addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				this.#faqDescToggle()
-			}
-		})
 
 		this.#renderFaqItem(cardConfig?.faqs)
 	}
@@ -354,7 +349,7 @@ export default class Widget {
 	#faqDescToggle = (e, faqs) => {
 		if (faqs) {
 			const faq = faqs.find(
-				item => parseInt(item.id, 10) === parseInt(e.target.closest('.listItemTitleWrapper').dataset.item_id, 10),
+				item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
 			)
 			$('.descriptionTitle p').innerHTML = faq?.title || ''
 			$('.content').innerHTML = faq?.description || ''
@@ -392,21 +387,20 @@ export default class Widget {
         <div id="knowledgeBaseDescription">
           <div class="descriptionTitle">
             <p></p>
-            <div class="closeDescBtn" tabindex="0">
-              <img src="${closeIcon}" alt="close" />
-            </div>
+						<div class="modalActions">
+							<button class="iconBtn rounded prevKB" title="Prev"><img src="${leftArrow}" alt="prev" /></button>
+							<button class="iconBtn rounded nextKB" title="Next"><img src="${rightArrow}" alt="next" /></button>
+							<button class="iconBtn rounded closeKB" title="Close"><img src="${closeIcon}" alt="close" /></button>
+						</div>
           </div>
           <div class="content"></div>
         </div>
       </div>`
 
 		$('#listSearch').addEventListener('input', this.#searchList)
-		$('.closeDescBtn').addEventListener('click', this.#knowledgeBaseDescToggle)
-		$('.closeDescBtn').addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				this.#knowledgeBaseDescToggle()
-			}
-		})
+		$('.closeKB').addEventListener('click', this.#knowledgeBaseDescToggle)
+		$('.prevKB').addEventListener('click', () => this.#gotoPrevNextKB('previousElementSibling'))
+		$('.nextKB').addEventListener('click', () => this.#gotoPrevNextKB('nextElementSibling'))
 
 		this.#renderKnowledgeBaseItem(cardConfig?.knowledge_bases)
 	}
@@ -423,16 +417,25 @@ export default class Widget {
 		})
 	}
 
-	#knowledgeBaseDescToggle = (e, knowledgeBases) => {
-		const knowledgeBaseBody = $('#knowledgeBaseBody')
+	#gotoPrevNextKB = indicator => {
+		const item = $('.listItem.active')[indicator]
+		if (item) {
+			item.querySelector('.listItemTitleWrapper').click()
+		}
+	}
 
+	#knowledgeBaseDescToggle = (e, knowledgeBases) => {
+		$('.listItem.active')?.classList.remove('active')
+
+		const knowledgeBaseBody = $('#knowledgeBaseBody')
 		if (!knowledgeBases) {
 			knowledgeBaseBody?.classList.remove('openDesc')
 			return
 		}
 
+		e.target.closest('.listItem').classList.toggle('active')
 		const knowledgeBase = knowledgeBases.find(
-			item => parseInt(item.id, 10) === parseInt(e.target.closest('.listItemTitleWrapper').dataset.item_id, 10),
+			item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
 		)
 		if (!knowledgeBase) {
 			return
@@ -451,17 +454,7 @@ export default class Widget {
 			itemsHtml += `
         <div class="listItem">
           <div class="listItemTitleWrapper" data-item_id="${item.id}" tabindex="0">
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.39736 14.1756C11.3119 14.1756 14.4851 11.0024 14.4851 7.08779C14.4851 3.1732 11.3119 0 7.39736 0C3.48277 0 0.30957 3.1732 0.30957 7.08779C0.30957 11.0024 3.48277 14.1756 7.39736 14.1756Z"
-                fill="currentColor"
-                fill-opacity="0.2"
-              />
-              <path
-                d="M6.50421 10.1215C6.36955 10.1215 6.23488 10.0719 6.12856 9.96559C6.0297 9.86556 5.97426 9.73059 5.97426 9.58994C5.97426 9.4493 6.0297 9.31433 6.12856 9.21429L8.2549 7.08795L6.12856 4.96162C6.0297 4.86158 5.97426 4.72661 5.97426 4.58596C5.97426 4.44532 6.0297 4.31035 6.12856 4.21031C6.33411 4.00477 6.67432 4.00477 6.87987 4.21031L9.38186 6.7123C9.5874 6.91785 9.5874 7.25806 9.38186 7.46361L6.87987 9.96559C6.77355 10.0719 6.63888 10.1215 6.50421 10.1215Z"
-                fill="currentColor"
-              />
-            </svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>
             <p class="title">${item.title}</p>
           </div>
         </div>`
@@ -484,6 +477,10 @@ export default class Widget {
 	// =====================
 	// poseMessage to parent
 	// =====================
+	#getClientInfo = () => {
+		parent.postMessage({ action: 'getClientInfo' }, `${this.#clientDomain}`)
+	}
+
 	#openClientWidget = isWidgetOpen => {
 		parent.postMessage({ action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
 	}
@@ -723,14 +720,7 @@ export default class Widget {
 		this.#card.innerHTML = `
         <div id="cardHeader">
           <h4></h4>
-          <div class="closeCardBtn" tabindex="0">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M10.2666 8.89085L13.3822 5.77521C13.5301 5.6276 13.6133 5.4273 13.6134 5.21837C13.6136 5.00944 13.5308 4.80899 13.3832 4.66112C13.2356 4.51325 13.0353 4.43008 12.8264 4.4299C12.6174 4.42971 12.417 4.51253 12.2691 4.66014L9.15348 7.77578L6.03784 4.66014C5.88997 4.51227 5.68942 4.4292 5.48031 4.4292C5.27119 4.4292 5.07064 4.51227 4.92277 4.66014C4.7749 4.80801 4.69183 5.00856 4.69183 5.21767C4.69183 5.42679 4.7749 5.62734 4.92277 5.77521L8.03841 8.89085L4.92277 12.0065C4.7749 12.1543 4.69183 12.3549 4.69183 12.564C4.69183 12.7731 4.7749 12.9737 4.92277 13.1216C5.07064 13.2694 5.27119 13.3525 5.48031 13.3525C5.68942 13.3525 5.88997 13.2694 6.03784 13.1216L9.15348 10.0059L12.2691 13.1216C12.417 13.2694 12.6175 13.3525 12.8267 13.3525C13.0358 13.3525 13.2363 13.2694 13.3842 13.1216C13.5321 12.9737 13.6151 12.7731 13.6151 12.564C13.6151 12.3549 13.5321 12.1543 13.3842 12.0065L10.2666 8.89085Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
+          <button class="iconBtn closeCardBtn" title="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg></button>
         </div>
         <div id="cardBody"></div>`
 		this.#contentWrapper.appendChild(this.#card)

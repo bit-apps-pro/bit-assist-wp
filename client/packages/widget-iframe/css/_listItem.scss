@@ -35,7 +35,7 @@
 	gap: 6px;
 	align-items: center;
 	padding: 6px 0;
-	font-size: 0.875rem;
+	font-size: 1rem;
 	cursor: pointer;
 	color: var(--widget-black);
 
@@ -63,6 +63,7 @@
 	background-color: #fff;
 	display: none;
 	animation: fadeInFromRight var(--transition-duration) ease-in-out;
+	border: none;
 }
 
 .overlay {
@@ -113,10 +114,10 @@
 }
 
 .closeDescBtn {
-	height: 28px;
-	width: 28px;
-	min-width: 28px;
-	min-height: 28px;
+	height: 24px;
+	width: 24px;
+	min-width: 24px;
+	min-height: 24px;
 	border-radius: 50%;
 	cursor: pointer;
 	display: flex;
@@ -174,21 +175,27 @@
 		background-color: #fff;
 	}
 
-	.closeDescBtn {
-		background-color: #e7e7e7;
+	.modalActions {
 		position: absolute;
 		top: 6px;
 		right: 6px;
+		display: flex;
+		gap: 8px;
 
-		svg,
-		img {
-			height: 52%;
-			width: 52%;
+		button {
+			height: 26px;
+			width: 26px;
+		}
+		.closeKB {
+			background-color: rgba(#000000, 0.1);
+			img {
+				padding: 7px;
+			}
 		}
 	}
 
 	.content {
-		padding: 20px 30px;
+		padding: 0 30px 20px;
 	}
 }
 
@@ -204,7 +211,7 @@
 			background-color: #fff;
 		}
 		.content {
-			padding: 20px 15px;
+			padding: 0 15px 20px;
 		}
 	}
 }

@@ -1,5 +1,7 @@
 const iframeHost = window?.bit_assist_?.host ? bit_assist_.host + '/iframe/' : 'http://localhost:5000'
-const apiEndPoint = window?.bit_assist_?.api?.base ? bit_assist_.api.base : 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
+const apiEndPoint = window?.bit_assist_?.api?.base
+	? bit_assist_.api.base
+	: 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
 
 const domain = window.location.origin
 const url = window.location.href
@@ -34,14 +36,6 @@ widgetContainer.appendChild(iframeElement)
 
 document.body.append(styleElement, widgetContainer)
 
-// Pass window width to iframe
-window.addEventListener('load', () => {
-	hideTawkTo()
-
-	const scrollPercent = windowScrollPercentage()
-	iframeElement.contentWindow.postMessage({ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint }, iframeHost)
-})
-
 // Pass scroll percent to iframe
 function windowScrollPercentage(e, pageScroll = false) {
 	const scrollTop = window.scrollY
@@ -72,7 +66,13 @@ window.addEventListener('message', e => {
 	}
 
 	const { action } = e.data
-	if (action === 'widgetLoaded') {
+	if (action === 'getClientInfo') {
+		const scrollPercent = windowScrollPercentage()
+		iframeElement.contentWindow.postMessage(
+			{ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint },
+			iframeHost,
+		)
+	} else if (action === 'widgetLoaded') {
 		const { height, width, position, pageScroll } = e.data
 		widgetContainer.classList.remove('bit-assist-hide')
 		widgetContainer.classList.add(position)
@@ -126,6 +126,10 @@ function openTawkTo() {
 		widgetContainer.classList.remove('bit-assist-hide')
 	}
 }
+
+window.addEventListener('load', () => {
+	hideTawkTo()
+})
 
 function hideTawkTo() {
 	if (!isLoadedTawkTo()) return false

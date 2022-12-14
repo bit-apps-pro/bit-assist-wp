@@ -2,9 +2,9 @@
 Contributors: bitpressadmin
 Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently asked questions, discord, line, snapchat, viber, wechat, sms, linkedin, tiktok, google map, slack, youtube, call, skype, twitter, instagram, telegram.
 Requires at least: 5.0
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.0.5
+Stable tag: 1.0.7
 License: GPLv2 or later
 
 == Description ==
@@ -32,7 +32,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
  10. Trigger Widget (Delay, Page Scroll)
  11. Widget Color, Widget Icon, Widget Position, Widget Size, Widget Shape
  12. Dark Mode
- 13. More Comming Soon
+ 13. More Coming Soon
 
 📢 **Join our community for [Bit Assist](https://www.facebook.com/groups/bitapps) & get updates of our new plugins.**
 
@@ -46,7 +46,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 6. Set Business Hours
 7. Add Page Filter
 8. Custom CSS
-9. More Comming Soon
+9. More Coming Soon
 
 📢 ** Want to get Bit Assist for free. Read the details here - [Bit Apps products giveaway](https://www.bitapps.pro/zoho-partner-tag)**
  
@@ -74,7 +74,9 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 20. Custom Form
 21. Knowledge Base
 22. FAQ
-23. More Comming Soon
+23. Waze
+24. Custom Channel
+25. More Coming Soon
 
  
 [Request for more features](https://www.facebook.com/groups/bitapps/) 
@@ -103,7 +105,11 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
-= v1.0.6 (Dec , 2022) =
+= v1.0.7 (Dec 13, 2022) =
+* Feature: Next & Prev button added in Knowledge Base modal
+* Fixed: Knowledge Base & FAQ link not working
+
+= v1.0.6 (Dec 12, 2022) =
 * Added: Custom image change in widget & channel
 * Added: Custom channel create
 * Added: Copy widget
