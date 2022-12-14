@@ -10,4 +10,8 @@
     "source.fixAll.eslint": true
   },
   "eslint.validate": ["javascript"],
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 120,
+  "prettier.trailingComma": "all"
 }
