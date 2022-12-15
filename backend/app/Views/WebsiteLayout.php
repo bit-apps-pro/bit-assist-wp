@@ -26,7 +26,6 @@ class WebsiteLayout
 
         wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', [], $version, true);
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [
-            'host' => Config::get('ROOT_URI'),
             'api'  => Config::get('API_URL'),
         ]);
     }
