@@ -45,8 +45,8 @@ final class IframeController
 </html>
 HTML;
 
+        status_header(200);
         header('Content-Type: text/html');
-        header('Status Code: 200 ok');
         header('Content-Security-Policy: frame-ancestors ' . $frameAncestor);
         exit();
     }
