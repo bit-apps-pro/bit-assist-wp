@@ -45,13 +45,7 @@ export default class Widget {
 	#addEvents = () => {
 		window.addEventListener('message', this.#onMessageReceived)
 		document.addEventListener('click', this.#checkClickOutside)
-
 		this.#widgetBubble.addEventListener('click', this.#onBubbleClick)
-		this.#widgetBubble.addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				this.#onBubbleClick(e)
-			}
-		})
 	}
 
 	#closeWidget = () => {
