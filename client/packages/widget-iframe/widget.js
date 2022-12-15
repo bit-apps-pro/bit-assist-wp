@@ -5,6 +5,14 @@ import closeIcon from './public/images/close-icon.svg'
 
 const $ = s => document.querySelector(s)
 
+const createElm = (elm, attributes) => {
+	const domElm = document.createElement(elm)
+	for (const attribute in attributes) {
+		domElm.setAttribute(attribute, attributes[attribute])
+	}
+	return domElm
+}
+
 export default class Widget {
 	#apiEndPoint
 	#root
@@ -149,14 +157,22 @@ export default class Widget {
 		const cardConfig = widgetChannel.config?.card_config
 
 		// Render form
-		this.#formBody = document.createElement('form')
-		this.#formBody.setAttribute('id', 'formBody')
-		this.#formBody.setAttribute('method', 'POST')
-		this.#formBody.innerHTML = `
-        <div id="dynamicFields"></div>
-        <input type="hidden" name="widget_channel_id" value="${widgetChannel.id}" />
-        <button type="submit">${cardConfig?.submit_button_text}</button>
-    `
+
+		this.#formBody = createElm('form', { id: 'formBody', method: 'POST' })
+
+		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
+
+		const hiddenInput = createElm('input', {
+			type: 'hidden',
+			name: 'widget_channel_id',
+			value: widgetChannel.id,
+		})
+
+		const submitButton = createElm('button', { type: 'submit' })
+		submitButton.innerText = cardConfig?.submit_button_text
+
+		this.#formBody.append(dynamicFieldsDiv, hiddenInput, submitButton)
+
 		this.#cardBody.innerHTML = ''
 		this.#cardBody.appendChild(this.#formBody)
 		this.#formBody.addEventListener('submit', this.#formSubmitted)
@@ -186,8 +202,7 @@ export default class Widget {
 	#createRatingField = (field, dynamicFields, filedType) => {
 		const randomId = Math.floor(Math.random() * 100000000)
 		const name = field.label.toLowerCase().replace(/ /g, '_')
-		const wrapper = document.createElement('div')
-		wrapper.classList.add(filedType)
+		const wrapper = createElm('div', { class: filedType })
 
 		if (filedType === 'rating') {
 			wrapper.classList.add(field.rating_type)
@@ -205,24 +220,16 @@ export default class Widget {
 		types.forEach(type => {
 			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
 
-			const inputElm = document.createElement('input')
-			inputElm.setAttribute('type', 'radio')
-			inputElm.setAttribute('name', name)
-			inputElm.setAttribute('value', type)
-			inputElm.setAttribute('id', fieldId)
+			const inputElm = createElm('input', { type: 'radio', name: name, value: type, id: fieldId })
 			if (field.required) {
 				inputElm.setAttribute('required', '')
 			}
 
-			const labelElm = document.createElement('label')
-			labelElm.setAttribute('title', type)
-			labelElm.setAttribute('for', fieldId)
-			labelElm.setAttribute('class', type)
+			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
 
 			if (filedType === 'feedback') {
 				labelElm.innerHTML = `${type.charAt(0).toUpperCase() + type.slice(1)}`
-				const feedbackIcon = document.createElement('div')
-				feedbackIcon.setAttribute('class', 'feedback-icon')
+				const feedbackIcon = createElm('div', { class: 'feedback-icon' })
 				labelElm.prepend(feedbackIcon)
 			}
 
@@ -267,8 +274,7 @@ export default class Widget {
 			fieldInput.setAttribute('multiple', '')
 		}
 
-		const inputWrap = document.createElement('div')
-		inputWrap.classList.add('formControl', 'customFile')
+		const inputWrap = createElm('div', { class: 'formControl customFile' })
 		inputWrap.innerHTML = `<div class="cfit"><button class="cfit-btn">Attach File</button><div class="cfit-title">No file chosen</div></div>`
 		inputWrap.append(fieldInput)
 		dynamicFields.appendChild(inputWrap)
@@ -287,15 +293,13 @@ export default class Widget {
 	#gdprField = (field, dynamicFields, fieldInput) => {
 		fieldInput.setAttribute('type', 'checkbox')
 
-		const link = document.createElement('a')
-		link.target = '_blank'
+		const link = createElm('a', { target: '_blank' })
 		link.innerHTML = field.label
 		if (field?.url) {
 			link.href = field.url
 		}
 
-		const gdprContainer = document.createElement('div')
-		gdprContainer.classList.add('gdprContainer')
+		const gdprContainer = createElm('div', { class: 'gdprContainer' })
 		gdprContainer.append(fieldInput, link)
 		dynamicFields.appendChild(gdprContainer)
 	}
@@ -669,8 +673,7 @@ export default class Widget {
 	}
 
 	#renderChannels = () => {
-		this.#channels = document.createElement('div')
-		this.#channels.id = 'channels'
+		this.#channels = createElm('div', { id: 'channels' })
 		this.#channels.innerHTML = this.#widgetData?.widget_channels
 			?.filter(
 				widgetChannel =>
@@ -708,9 +711,7 @@ export default class Widget {
 			return
 		}
 
-		this.#card = document.createElement('div')
-		this.#card.setAttribute('id', 'card')
-		this.#card.classList.add('show')
+		this.#card = createElm('div', { id: 'card', class: 'show' })
 		this.#card.innerHTML = `
         <div id="cardHeader">
           <h4></h4>
@@ -773,9 +774,7 @@ export default class Widget {
 			return
 		}
 
-		const toast = document.createElement('div')
-		toast.classList.add('toast')
-		toast.classList.add(type)
+		const toast = createElm('div', { class: `toast ${type}` })
 		toast.innerHTML = `
       <div class="toast-content">
         <div class="toast-text">
@@ -849,13 +848,12 @@ export default class Widget {
 			await this.#delay(this.#widgetData.call_to_action.delay)
 		}
 
-		this.#callToAction = document.createElement('div')
-		this.#callToAction.id = 'callToActionMsg'
+		this.#callToAction = createElm('div', { id: 'callToActionMsg' })
 		this.#callToAction.innerHTML = this.#widgetData.call_to_action.text
 
-		this.#closeCallToAction = document.createElement('img')
-		this.#closeCallToAction.id = 'closeCallToAction'
-		this.#closeCallToAction.src = closeIcon
+		const ctaImage = createElm('img', { src: closeIcon })
+		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
+		this.#closeCallToAction.appendChild(ctaImage)
 		this.#closeCallToAction.addEventListener('click', this.#callToActionHide)
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
