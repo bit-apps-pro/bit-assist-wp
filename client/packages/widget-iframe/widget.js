@@ -331,11 +331,6 @@ export default class Widget {
 		this.#itemListAppend(items)
 		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
 			item.addEventListener('click', e => this.#faqDescToggle(e, items))
-			item.addEventListener('keydown', e => {
-				if (e.key === 'Enter') {
-					this.#faqDescToggle(e, items)
-				}
-			})
 		})
 	}
 
@@ -402,11 +397,6 @@ export default class Widget {
 		this.#itemListAppend(items)
 		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
 			item.addEventListener('click', e => this.#knowledgeBaseDescToggle(e, items))
-			item.addEventListener('keydown', e => {
-				if (e.key === 'Enter') {
-					this.#knowledgeBaseDescToggle(e, items)
-				}
-			})
 		})
 	}
 
@@ -446,10 +436,10 @@ export default class Widget {
 		items?.forEach(item => {
 			itemsHtml += `
         <div class="listItem">
-          <div class="listItemTitleWrapper" data-item_id="${item.id}" tabindex="0">
+          <button class="listItemTitleWrapper" data-item_id="${item.id}">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>
             <p class="title">${item.title}</p>
-          </div>
+          </button>
         </div>`
 		})
 		$('#lists').innerHTML = itemsHtml
@@ -678,25 +668,20 @@ export default class Widget {
 			)
 			.map(
 				widgetChannel => `
-          <div class="channel" tabindex="0" data-id="${widgetChannel.id}" data-url="${
+          <button class="channel" data-id="${widgetChannel.id}" data-url="${
 					widgetChannel.config?.url || '#'
 				}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
             <div class="channel-icon">
               <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
             </div>
-          </div>`,
+          </button>`,
 			)
 			.join('')
 		this.#contentWrapper.appendChild(this.#channels)
 
 		document.querySelectorAll('.channel').forEach(channel => {
 			channel.addEventListener('click', this.#onChannelClick)
-			channel.addEventListener('keydown', e => {
-				if (e.key === 'Enter') {
-					this.#onChannelClick(e)
-				}
-			})
 		})
 	}
 
@@ -716,13 +701,7 @@ export default class Widget {
 		this.#contentWrapper.appendChild(this.#card)
 		this.#cardBody = $('#cardBody')
 
-		const closeBtn = $('.closeCardBtn')
-		closeBtn.addEventListener('click', this.#closeWidget)
-		closeBtn.addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				this.#closeWidget()
-			}
-		})
+		$('.closeCardBtn').addEventListener('click', this.#closeWidget)
 	}
 
 	#formSubmitted = async e => {
