@@ -8,7 +8,11 @@
 	--widget-bubble-icon-color: invert(0);
 	--modal-title-height: 0px;
 	--client-win-width: 0;
-	--widget-padding: 20px;
+	--client-win-height: 0;
+	--widget-minus-sizeY: 0;
+	--widget-minus-sizeX: 0;
+	--widget-padding: 10px;
+	--card-width: 330px;
 }
 
 * {
@@ -27,7 +31,6 @@
 }
 
 body {
-	overflow: hidden;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 

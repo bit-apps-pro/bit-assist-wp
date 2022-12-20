@@ -7,10 +7,8 @@ function Trigger() {
   return (
     <Box>
       <Title>Trigger Widget</Title>
-      <VStack alignItems="flex-start">
-        <InitialDelay />
-        <PageScroll />
-      </VStack>
+      <InitialDelay />
+      <PageScroll />
     </Box>
   )
 }

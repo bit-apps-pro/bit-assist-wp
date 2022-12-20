@@ -4,7 +4,7 @@
 	display: flex;
 	gap: 20px;
 	justify-content: flex-end;
-	max-width: calc(var(--client-win-width) - 8px);
+	max-width: calc(var(--client-win-width) - var(--widget-minus-sizeX));
 }
 
 .bottom-right,
@@ -51,7 +51,7 @@
 	animation: fadeInFromBottom var(--transition-duration) ease-in-out;
 
 	#credit {
-		top: calc(100% + 5px);
+		top: 100%;
 		bottom: auto;
 	}
 
@@ -93,7 +93,7 @@
 
 	#credit {
 		top: auto;
-		bottom: calc(100% + 5px);
+		bottom: 100%;
 	}
 
 	#channels {
@@ -159,6 +159,6 @@
 	color: #363636;
 	text-shadow: 0.0313rem 0.0313rem 0 rgba(#fff, 0.5);
 	font-size: 0.625rem;
-	opacity: 0;
+	display: none;
 	white-space: nowrap;
 }

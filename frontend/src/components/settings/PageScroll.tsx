@@ -37,12 +37,15 @@ function PageScroll() {
     }, 1000),
   ).current
 
-  useEffect(() => () => {
-    debounceUpdateWidget.cancel()
-  }, [debounceUpdateWidget])
+  useEffect(
+    () => () => {
+      debounceUpdateWidget.cancel()
+    },
+    [debounceUpdateWidget],
+  )
 
   return (
-    <HStack>
+    <HStack mt="2">
       <Text w="28">Page scroll</Text>
       <InputGroup>
         <Input w="28" min="0" placeholder="Page Scroll in %" value={widget.page_scroll ?? ''} onChange={handleChange} />

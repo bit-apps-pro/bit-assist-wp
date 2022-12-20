@@ -19,7 +19,7 @@
 
 #formBody {
 	padding: 12px;
-	max-height: calc(100vh - (var(--widget-size) + 40px + 115px));
+	max-height: calc(var(--client-win-height) - (var(--widget-minus-sizeY) + var(--widget-size) + 135px));
 	overflow-y: auto;
 	scrollbar-color: #cdcdcd #fff;
 }

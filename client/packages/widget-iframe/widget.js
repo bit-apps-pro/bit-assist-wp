@@ -52,7 +52,6 @@ export default class Widget {
 	// ====================
 	#addEvents = () => {
 		window.addEventListener('message', this.#onMessageReceived)
-		document.addEventListener('click', this.#checkClickOutside)
 		this.#widgetBubble.addEventListener('click', this.#onBubbleClick)
 	}
 
@@ -62,6 +61,7 @@ export default class Widget {
 		this.#widgetBubble?.classList.remove('open')
 		this.#contentWrapper?.classList.add('hide')
 		this.#widgetOpenActions(false)
+		this.#root.style.setProperty('--card-width', '330px')
 	}
 
 	#hideChannels = () => {
@@ -76,17 +76,10 @@ export default class Widget {
 		}
 	}
 
-	#checkClickOutside = e => {
-		if (this.#widgetWrapper.contains(e.target)) {
-			return
-		}
-
-		this.#closeWidget()
-	}
-
 	#onBubbleClick = (e, toggleIfNotExist = false) => {
 		let close = true
 		if (this.#card?.classList.contains('show')) {
+			this.#root.style.setProperty('--card-width', '330px')
 			this.#hideCard()
 			close = false
 		}
@@ -100,23 +93,26 @@ export default class Widget {
 			this.#contentWrapper.classList.toggle('hide')
 			const isWidgetOpen = this.#widgetBubble?.classList.toggle('open')
 			this.#widgetOpenActions(isWidgetOpen)
+			return
 		}
+		this.#resetClientWidgetSize()
 	}
 
 	#widgetOpenActions = isWidgetOpen => {
 		this.#openClientWidget(isWidgetOpen)
 		if (isWidgetOpen && !this.#callToAction?.classList.contains('hide')) {
 			this.#callToActionHide()
+			return
 		}
 
-		if (!isWidgetOpen) {
-			this.#resetClientWidgetSize()
-		}
+		this.#resetClientWidgetSize()
 	}
 
 	#callToActionHide = () => {
 		this.#callToAction?.classList.add('hide')
 		this.#closeCallToAction?.classList.add('hide')
+
+		this.#resetClientWidgetSize()
 	}
 
 	#onChannelClick = e => {
@@ -135,6 +131,7 @@ export default class Widget {
 			} else if (widgetChannel.config?.card_config?.isChatWidget) {
 				this.#chatWidgetClick(widgetChannel.channel_name.toLowerCase())
 			}
+			this.#resetClientWidgetSize()
 		} else if (channel.dataset.target === 'new_window') {
 			window.open(channel.dataset.url, '_blank', 'popup')
 		} else {
@@ -413,6 +410,8 @@ export default class Widget {
 		const knowledgeBaseBody = $('#knowledgeBaseBody')
 		if (!knowledgeBases) {
 			knowledgeBaseBody?.classList.remove('openDesc')
+			this.#root.style.setProperty('--card-width', '330px')
+			this.#resetClientWidgetSize()
 			return
 		}
 
@@ -429,6 +428,8 @@ export default class Widget {
 		$('.content').innerHTML = knowledgeBase?.description || ''
 
 		this.#root.style.setProperty('--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
+		this.#root.style.setProperty('--card-width', '767px')
+		this.#resetClientWidgetSize()
 	}
 
 	#itemListAppend = items => {
@@ -476,9 +477,13 @@ export default class Widget {
 		parent.postMessage(
 			{
 				action: 'widgetLoaded',
-				height: (this.#widgetData?.styles?.size || 60) + 40,
-				width: (this.#widgetData?.styles?.size || 60) + 40,
+				height: (this.#widgetData?.styles?.size || 60) + 20,
+				width: (this.#widgetData?.styles?.size || 60) + 20,
 				position: this.#widgetData?.styles?.position,
+				top: this.#widgetData?.styles?.top || 0,
+				bottom: this.#widgetData?.styles?.bottom || 0,
+				left: this.#widgetData?.styles?.left || 0,
+				right: this.#widgetData?.styles?.right || 0,
 				pageScroll: this.#widgetData?.page_scroll,
 			},
 			`${this.#clientDomain}`,
@@ -505,11 +510,14 @@ export default class Widget {
 			this.#handleWindowLoaded(e.data)
 		} else if (action === 'scrollPercent') {
 			this.#handleScrollPercent(e.data)
+		} else if (action === 'clickOutside') {
+			this.#closeWidget()
 		}
 	}
 
-	#handleWindowLoaded = ({ url, winWidth, scrollPercent, apiEndPoint }) => {
+	#handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint }) => {
 		this.#root.style.setProperty('--client-win-width', winWidth + 'px')
+		this.#root.style.setProperty('--client-win-height', winHeight + 'px')
 		this.#scrollPercent = scrollPercent
 		this.#apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
@@ -570,6 +578,19 @@ export default class Widget {
 		this.#delayExist = false
 		this.#showCallToAction()
 		this.#widgetShowAfterScroll()
+
+		if (this.#widgetData.styles?.position?.indexOf('top') > -1) {
+			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
+		}
+		if (this.#widgetData.styles?.position?.indexOf('bottom') > -1) {
+			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
+		}
+		if (this.#widgetData.styles?.position?.indexOf('left') > -1) {
+			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
+		}
+		if (this.#widgetData.styles?.position?.indexOf('right') > -1) {
+			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
+		}
 	}
 
 	// eslint-disable-next-line no-promise-executor-return

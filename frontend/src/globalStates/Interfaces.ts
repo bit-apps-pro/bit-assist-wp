@@ -15,6 +15,10 @@ export interface UserStateType {
 interface Styles {
   color?: TColor
   position?: string
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
   icon?: string
   iconUrl?: string
   customImage?: string

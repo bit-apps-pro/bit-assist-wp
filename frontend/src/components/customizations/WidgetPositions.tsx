@@ -5,6 +5,7 @@ import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
+import CustomizePosition from '@components/customizations/CustomizePosition'
 
 function WidgetPositions() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -21,12 +22,14 @@ function WidgetPositions() {
       prev.styles.position = position
     })
 
-    const { status, data } = await updateWidget(produce(widget, (draft) => {
-      if (draft.styles === null) {
-        draft.styles = {}
-      }
-      draft.styles.position = position
-    }))
+    const { status, data } = await updateWidget(
+      produce(widget, (draft) => {
+        if (draft.styles === null) {
+          draft.styles = {}
+        }
+        draft.styles.position = position
+      }),
+    )
     toaster(status, data)
   }
 
@@ -84,6 +87,8 @@ function WidgetPositions() {
           />
         </Tooltip>
       </SimpleGrid>
+
+      <CustomizePosition />
     </Box>
   )
 }

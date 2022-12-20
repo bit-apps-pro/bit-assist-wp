@@ -5,18 +5,18 @@ const separator = window?.bit_assist_?.api?.separator || '?'
 
 const domain = window.location.origin
 const url = window.location.href
-const winWidth = window.innerWidth
+const winWidth = document.documentElement.offsetWidth
+const winHeight = window.innerHeight
 let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
 
 const css = `
-#bit-assist-widget-container{position:fixed;z-index:9999999;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
-#bit-assist-widget-container.bottom-right{left:auto;right:0;top:auto;bottom:0}
-#bit-assist-widget-container.bottom-left{left:0;right:auto;top:auto;bottom:0}
-#bit-assist-widget-container.top-right{left:auto;right:0;top:0;bottom:auto}
-#bit-assist-widget-container.top-left{left:0;right:auto;top:0;bottom:auto}
-#bit-assist-widget-container.bit-assist-open{width:100vw!important;height:100vh!important;background-color:rgba(255,255,255,0.1)}
+#bit-assist-widget-container{--ba-top:auto;--ba-left:auto;--ba-bottom:10;--ba-right:10;position:fixed;z-index:9999999;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
+#bit-assist-widget-container.bottom-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+#bit-assist-widget-container.bottom-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+#bit-assist-widget-container.top-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+#bit-assist-widget-container.top-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
 #bit-assist-widget-iframe{width:100%;height:100%;border:none;position:absolute}
 .bit-assist-hide{visibility:hidden;pointer-events:none}
 `
@@ -32,6 +32,7 @@ const iframeElement = document.createElement('iframe')
 iframeElement.src = `${iframeHost}${separator}clientDomain=${domain}`
 iframeElement.id = 'bit-assist-widget-iframe'
 iframeElement.setAttribute('allowfullscreen', '')
+iframeElement.setAttribute('scrolling', 'no')
 widgetContainer.appendChild(iframeElement)
 
 document.body.append(styleElement, widgetContainer)
@@ -59,6 +60,12 @@ function sendScrollPercent(scrollPercent) {
 	iframeElement.contentWindow.postMessage({ action: 'scrollPercent', scrollPercent }, iframeDomain)
 }
 
+document.addEventListener('click', e => {
+	if (widgetContainer.classList.contains('bit-assist-open') && !e.target.closest('#bit-assist-widget-container')) {
+		iframeElement.contentWindow.postMessage({ action: 'clickOutside' }, iframeDomain)
+	}
+})
+
 // Listen for messages from iframe
 window.addEventListener('message', e => {
 	if (e.origin !== iframeDomain) return
@@ -67,11 +74,13 @@ window.addEventListener('message', e => {
 	if (action === 'getClientInfo') {
 		const scrollPercent = windowScrollPercentage()
 		iframeElement.contentWindow.postMessage(
-			{ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint },
+			{ action: 'windowLoaded', url, winWidth, winHeight, scrollPercent, apiEndPoint },
 			iframeDomain,
 		)
 	} else if (action === 'widgetLoaded') {
-		const { height, width, position, pageScroll } = e.data
+		const { height, width, position, top, bottom, left, right, pageScroll } = e.data
+
+		widgetPosition(position, top, bottom, left, right)
 		widgetContainer.classList.remove('bit-assist-hide')
 		widgetContainer.classList.add(position)
 		resetWidgetSize(width, height)
@@ -92,6 +101,21 @@ window.addEventListener('message', e => {
 		openChatWidget(chatWidgetName)
 	}
 })
+
+function widgetPosition(position, top, bottom, left, right) {
+	if (position.indexOf('top') > -1) {
+		widgetContainer.style.setProperty('--ba-top', top + 'px')
+	}
+	if (position.indexOf('bottom') > -1) {
+		widgetContainer.style.setProperty('--ba-bottom', bottom + 'px')
+	}
+	if (position.indexOf('left') > -1) {
+		widgetContainer.style.setProperty('--ba-left', left + 'px')
+	}
+	if (position.indexOf('right') > -1) {
+		widgetContainer.style.setProperty('--ba-right', right + 'px')
+	}
+}
 
 function resetWidgetSize(width, height) {
 	defaultWidth = width + 'px'
