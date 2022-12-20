@@ -1,7 +1,7 @@
-const iframeHost = window?.bit_assist_?.host ? bit_assist_.host + '/iframe/' : 'http://localhost:5000'
-const apiEndPoint = window?.bit_assist_?.api?.base
-	? bit_assist_.api.base
-	: 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
+const apiEndPoint = window?.bit_assist_?.api?.base || 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
+const iframeHost = window?.bit_assist_?.api?.base ? `${bit_assist_.api.base}/iframe` : 'http://localhost:5000'
+const iframeDomain = new URL(iframeHost).origin
+const separator = window?.bit_assist_?.api?.separator || '?'
 
 const domain = window.location.origin
 const url = window.location.href
@@ -29,7 +29,7 @@ widgetContainer.id = 'bit-assist-widget-container'
 widgetContainer.classList.add('bit-assist-hide')
 
 const iframeElement = document.createElement('iframe')
-iframeElement.src = `${iframeHost}?clientDomain=${domain}`
+iframeElement.src = `${iframeHost}${separator}clientDomain=${domain}`
 iframeElement.id = 'bit-assist-widget-iframe'
 iframeElement.setAttribute('allowfullscreen', '')
 widgetContainer.appendChild(iframeElement)
@@ -56,21 +56,19 @@ function windowScrollPercentage(e, pageScroll = false) {
 }
 
 function sendScrollPercent(scrollPercent) {
-	iframeElement.contentWindow.postMessage({ action: 'scrollPercent', scrollPercent }, iframeHost)
+	iframeElement.contentWindow.postMessage({ action: 'scrollPercent', scrollPercent }, iframeDomain)
 }
 
 // Listen for messages from iframe
 window.addEventListener('message', e => {
-	if (e.origin !== new URL(iframeHost).origin) {
-		return
-	}
+	if (e.origin !== iframeDomain) return
 
 	const { action } = e.data
 	if (action === 'getClientInfo') {
 		const scrollPercent = windowScrollPercentage()
 		iframeElement.contentWindow.postMessage(
 			{ action: 'windowLoaded', url, winWidth, scrollPercent, apiEndPoint },
-			iframeHost,
+			iframeDomain,
 		)
 	} else if (action === 'widgetLoaded') {
 		const { height, width, position, pageScroll } = e.data

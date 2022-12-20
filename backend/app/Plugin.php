@@ -119,7 +119,7 @@ final class Plugin
             return;
         }
 
-        if (version_compare(Config::getOption('db_version'), Config::DB_VERSION, '<')) {
+        if (version_compare(Config::getOption('db_version'), Config::DB_VERSION, '<') || version_compare(Config::getOption('version'), Config::VERSION, '<')) {
             DBOperator::migrate(InstallerProvider::migration());
         }
     }

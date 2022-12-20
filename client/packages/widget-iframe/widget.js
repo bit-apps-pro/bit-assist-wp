@@ -54,13 +54,7 @@ export default class Widget {
 	#addEvents = () => {
 		window.addEventListener('message', this.#onMessageReceived)
 		document.addEventListener('click', this.#checkClickOutside)
-
 		this.#widgetBubble.addEventListener('click', this.#onBubbleClick)
-		this.#widgetBubble.addEventListener('keydown', e => {
-			if (e.key === 'Enter') {
-				this.#onBubbleClick(e)
-			}
-		})
 	}
 
 	#closeWidget = () => {
@@ -164,17 +158,13 @@ export default class Widget {
 		const cardConfig = widgetChannel.config?.card_config
 
 		// Render form
-
 		this.#formBody = createElm('form', { id: 'formBody', method: 'POST' })
-
 		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
-
 		const hiddenInput = createElm('input', {
 			type: 'hidden',
 			name: 'widget_channel_id',
 			value: widgetChannel.id,
 		})
-
 		const submitButton = createElm('button', { type: 'submit' })
 		submitButton.innerText = cardConfig?.submit_button_text
 
@@ -233,7 +223,6 @@ export default class Widget {
 			}
 
 			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
-
 			if (filedType === 'feedback') {
 				labelElm.innerHTML = `${type.charAt(0).toUpperCase() + type.slice(1)}`
 				const feedbackIcon = createElm('div', { class: 'feedback-icon' })
