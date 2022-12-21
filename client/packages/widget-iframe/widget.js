@@ -7,6 +7,7 @@ const $ = s => document.querySelector(s)
 
 const createElm = (elm, attributes) => {
 	const domElm = document.createElement(elm)
+
 	for (const attribute in attributes) {
 		domElm.setAttribute(attribute, attributes[attribute])
 	}
@@ -303,20 +304,31 @@ export default class Widget {
 		this.#setCardStyle(widgetChannel.config)
 		const cardConfig = widgetChannel.config?.card_config
 
-		this.#cardBody.innerHTML = `
-      <div id="faqBody">
-        <div id="listWrapper">
-          <div id="lists"></div>
-          <input type="text" id="listSearch" class="formControl" placeholder="Search" />
-        </div>
-        <div id="faqDescription">
-          <div class="descriptionTitle">
-            <button class="iconBtn closeDescBtn" title="Back"><img src="${leftArrow}" alt="back" /></button>
-            <p></p>
-          </div>
-          <div class="content"></div>
-        </div>
-      </div>`
+		const faqBody = createElm('div', { id: 'faqBody' })
+		const listWrapper = createElm('div', { id: 'listWrapper' })
+		const lists = createElm('div', { id: 'lists' })
+		const listSearch = createElm('input', {
+			type: 'text',
+			id: 'listSearch',
+			class: 'formControl',
+			placeholder: 'Search',
+		})
+		listWrapper.append(lists, listSearch)
+
+		const faqDescription = createElm('div', { id: 'faqDescription' })
+		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
+		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
+		const img = createElm('img', { src: leftArrow, alt: 'back' })
+		closeDescBtn.appendChild(img)
+		const p = document.createElement('p')
+		descriptionTitle.append(closeDescBtn, p)
+
+		const content = createElm('div', { class: 'content' })
+		faqDescription.append(descriptionTitle, content)
+		faqBody.append(listWrapper, faqDescription)
+
+		this.#cardBody.innerHTML = ''
+		this.#cardBody.appendChild(faqBody)
 
 		$('#listSearch').addEventListener('input', this.#searchList)
 		$('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
@@ -362,25 +374,44 @@ export default class Widget {
 		this.#setCardStyle(widgetChannel.config)
 		const cardConfig = widgetChannel.config?.card_config
 
-		this.#cardBody.innerHTML = `
-      <div id="knowledgeBaseBody">
-        <div id="listWrapper">
-          <div id="lists"></div>
-          <input type="text" id="listSearch" class="formControl" placeholder="Search" />
-        </div>
-        <div class="overlay"></div>
-        <div id="knowledgeBaseDescription">
-          <div class="descriptionTitle">
-            <p></p>
-						<div class="modalActions">
-							<button class="iconBtn rounded prevKB" title="Prev"><img src="${leftArrow}" alt="prev" /></button>
-							<button class="iconBtn rounded nextKB" title="Next"><img src="${rightArrow}" alt="next" /></button>
-							<button class="iconBtn rounded closeKB" title="Close"><img src="${closeIcon}" alt="close" /></button>
-						</div>
-          </div>
-          <div class="content"></div>
-        </div>
-      </div>`
+		const knowledgeBaseBody = createElm('div', { id: 'knowledgeBaseBody' })
+		const listWrapper = createElm('div', { id: 'listWrapper' })
+		const lists = createElm('div', { id: 'lists' })
+		const listSearch = createElm('input', {
+			type: 'text',
+			id: 'listSearch',
+			class: 'formControl',
+			placeholder: 'Search',
+		})
+		listWrapper.append(lists, listSearch)
+
+		const overlay = createElm('div', { class: 'overlay' })
+		const knowledgeBaseDescription = createElm('div', { id: 'knowledgeBaseDescription' })
+		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
+		const p = document.createElement('p')
+		const modalActions = createElm('div', { class: 'modalActions' })
+
+		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
+		const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
+		prevKBBtn.appendChild(prevKbImg)
+
+		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
+		const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
+		nextKBBtn.appendChild(nextKbImg)
+
+		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
+		const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
+		closeKBBtn.appendChild(closeKbImg)
+
+		modalActions.append(prevKBBtn, nextKBBtn, closeKBBtn)
+		descriptionTitle.append(p, modalActions)
+
+		const content = createElm('div', { class: 'content' })
+		knowledgeBaseDescription.append(descriptionTitle, content)
+		knowledgeBaseBody.append(listWrapper, overlay, knowledgeBaseDescription)
+
+		this.#cardBody.innerHTML = ''
+		this.#cardBody.appendChild(knowledgeBaseBody)
 
 		$('#listSearch').addEventListener('input', this.#searchList)
 		$('.closeKB').addEventListener('click', this.#knowledgeBaseDescToggle)
@@ -433,17 +464,21 @@ export default class Widget {
 	}
 
 	#itemListAppend = items => {
-		let itemsHtml = ''
+		const itemsObj = []
 		items?.forEach(item => {
-			itemsHtml += `
-        <div class="listItem">
-          <button class="listItemTitleWrapper" data-item_id="${item.id}">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>
-            <p class="title">${item.title}</p>
-          </button>
-        </div>`
+			const listItem = createElm('div', { class: 'listItem' })
+			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', 'data-item_id': item.id })
+
+			const title = createElm('p', { class: 'title' })
+			title.innerHTML = item?.title || ''
+
+			listItemTitleWrapper.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>`
+			listItemTitleWrapper.appendChild(title)
+
+			listItem.appendChild(listItemTitleWrapper)
+			itemsObj.push(listItem)
 		})
-		$('#lists').innerHTML = itemsHtml
+		$('#lists').append(...itemsObj)
 	}
 
 	#searchList = e => {
@@ -713,14 +748,16 @@ export default class Widget {
 		}
 
 		this.#card = createElm('div', { id: 'card', class: 'show' })
-		this.#card.innerHTML = `
-        <div id="cardHeader">
-          <h4></h4>
-          <button class="iconBtn closeCardBtn" title="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg></button>
-        </div>
-        <div id="cardBody"></div>`
+		const cardHeader = createElm('div', { id: 'cardHeader' })
+		const h4 = document.createElement('h4')
+		const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
+
+		iconBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`
+
+		cardHeader.append(h4, iconBtn)
+		this.#cardBody = createElm('div', { id: 'cardBody' })
+		this.#card.append(cardHeader, this.#cardBody)
 		this.#contentWrapper.appendChild(this.#card)
-		this.#cardBody = $('#cardBody')
 
 		$('.closeCardBtn').addEventListener('click', this.#closeWidget)
 	}
@@ -770,13 +807,19 @@ export default class Widget {
 		}
 
 		const toast = createElm('div', { class: `toast ${type}` })
-		toast.innerHTML = `
-      <div class="toast-content">
-        <div class="toast-text">
-          <div class="toast-text-title">${type === 'success' ? 'Success' : 'Error'}</div>
-          <div class="toast-text-body">${type === 'success' ? message : 'Something went wrong'}</div>
-        </div>
-      </div>`
+		const toastContent = createElm('div', { class: 'toast-content' })
+		const toastText = createElm('div', { class: 'toast-text' })
+
+		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
+		toastTextTitle.innerText = type === 'success' ? 'Success' : 'Error'
+
+		const toastTextBody = createElm('div', { class: 'toast-text-body' })
+		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
+
+		toastText.append(toastTextTitle, toastTextBody)
+		toastContent.appendChild(toastText)
+		toast.appendChild(toastContent)
+
 		this.#cardBody.appendChild(toast)
 		this.#formBody?.classList.add('hide')
 
