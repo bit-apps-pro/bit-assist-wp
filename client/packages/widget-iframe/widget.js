@@ -316,22 +316,17 @@ export default class Widget {
 			class: 'formControl',
 			placeholder: 'Search',
 		})
-
 		listWrapper.append(lists, listSearch)
 
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
 		const img = createElm('img', { src: leftArrow, alt: 'back' })
-
 		closeDescBtn.appendChild(img)
-
 		const p = document.createElement('p')
-
 		descriptionTitle.append(closeDescBtn, p)
 
 		const content = createElm('div', { class: 'content' })
-
 		faqDescription.append(descriptionTitle, content)
 		faqBody.append(listWrapper, faqDescription)
 
@@ -420,7 +415,6 @@ export default class Widget {
 		descriptionTitle.append(p, modalActions)
 
 		const content = createElm('div', { class: 'content' })
-
 		knowledgeBaseDescription.append(descriptionTitle, content)
 		knowledgeBaseBody.append(listWrapper, overlay, knowledgeBaseDescription)
 
@@ -493,9 +487,7 @@ export default class Widget {
 			    <p class="title">${item.title}</p>`
 
 			listItemTitleWrapper.innerHTML = svgHTML
-
 			listItem.appendChild(listItemTitleWrapper)
-
 			itemsHtml.push(listItem)
 		})
 		$('#lists').append(...itemsHtml)
@@ -751,10 +743,8 @@ export default class Widget {
 			this.#card?.classList.add('show')
 			return
 		}
+
 		this.#card = createElm('div', { id: 'card', class: 'show' })
-
-		let cardElement = []
-
 		const cardHeader = createElm('div', { id: 'cardHeader' })
 		const h4 = document.createElement('h4')
 		const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
@@ -762,15 +752,9 @@ export default class Widget {
 		iconBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`
 
 		cardHeader.append(h4, iconBtn)
-
-		const cardBody = createElm('div', { id: 'cardBody' })
-
-		cardElement.push(cardHeader, cardBody)
-
-		this.#card.append(...cardElement)
+		this.#cardBody = createElm('div', { id: 'cardBody' })
+		this.#card.append(cardHeader, this.#cardBody)
 		this.#contentWrapper.appendChild(this.#card)
-
-		this.#cardBody = $('#cardBody')
 
 		const closeBtn = $('.closeCardBtn')
 		closeBtn.addEventListener('click', this.#closeWidget)
