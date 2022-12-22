@@ -14,6 +14,14 @@ const createElm = (elm, attributes) => {
 	return domElm
 }
 
+const globalAppend = (elm, child) => {
+	Array.isArray(child) ? elm.append(...child) : elm.append(child)
+}
+
+const globalEventListener = (elm, type, fn) => {
+	elm.addEventListener(type, fn)
+}
+
 export default class Widget {
 	#apiEndPoint
 	#root
@@ -165,11 +173,12 @@ export default class Widget {
 		const submitButton = createElm('button', { type: 'submit' })
 		submitButton.innerText = cardConfig?.submit_button_text
 
-		this.#formBody.append(dynamicFieldsDiv, hiddenInput, submitButton)
+		globalAppend(this.#formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(this.#formBody)
-		this.#formBody.addEventListener('submit', this.#formSubmitted)
+		globalAppend(this.#cardBody, this.#formBody)
+
+		globalEventListener(this.#formBody, 'submit', this.#formSubmitted)
 		this.#createAllFields(cardConfig?.form_fields)
 	}
 
@@ -226,9 +235,9 @@ export default class Widget {
 				labelElm.prepend(feedbackIcon)
 			}
 
-			wrapper.append(inputElm, labelElm)
+			globalAppend(wrapper, [inputElm, labelElm])
 		})
-		dynamicFields.appendChild(wrapper)
+		globalAppend(dynamicFields, wrapper)
 	}
 
 	#createTextField = (field, dynamicFields) => {
@@ -258,8 +267,7 @@ export default class Widget {
 			this.#fileField(field, dynamicFields, fieldInput)
 			return
 		}
-
-		dynamicFields.appendChild(fieldInput)
+		globalAppend(dynamicFields, fieldInput)
 	}
 
 	#fileField = (field, dynamicFields, fieldInput) => {
@@ -269,8 +277,8 @@ export default class Widget {
 
 		const inputWrap = createElm('div', { class: 'formControl customFile' })
 		inputWrap.innerHTML = `<div class="cfit"><button class="cfit-btn">Attach File</button><div class="cfit-title">No file chosen</div></div>`
-		inputWrap.append(fieldInput)
-		dynamicFields.appendChild(inputWrap)
+		globalAppend(inputWrap, fieldInput)
+		globalAppend(dynamicFields, inputWrap)
 
 		fieldInput.addEventListener('change', e => {
 			let fileName = 'No file chosen'
@@ -293,8 +301,8 @@ export default class Widget {
 		}
 
 		const gdprContainer = createElm('div', { class: 'gdprContainer' })
-		gdprContainer.append(fieldInput, link)
-		dynamicFields.appendChild(gdprContainer)
+		globalAppend(gdprContainer, [fieldInput, link])
+		globalAppend(dynamicFields, gdprContainer)
 	}
 
 	// Faq
@@ -313,22 +321,22 @@ export default class Widget {
 			class: 'formControl',
 			placeholder: 'Search',
 		})
-		listWrapper.append(lists, listSearch)
+		globalAppend(listWrapper, [lists, listSearch])
 
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
 		const img = createElm('img', { src: leftArrow, alt: 'back' })
-		closeDescBtn.appendChild(img)
+		globalAppend(closeDescBtn, img)
 		const p = document.createElement('p')
-		descriptionTitle.append(closeDescBtn, p)
+		globalAppend(descriptionTitle, [closeDescBtn, p])
 
 		const content = createElm('div', { class: 'content' })
-		faqDescription.append(descriptionTitle, content)
-		faqBody.append(listWrapper, faqDescription)
+		globalAppend(faqDescription, [descriptionTitle, content])
+		globalAppend(faqBody, [listWrapper, faqDescription])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(faqBody)
+		globalAppend(this.#cardBody, faqBody)
 
 		$('#listSearch').addEventListener('input', this.#searchList)
 		$('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
@@ -383,7 +391,7 @@ export default class Widget {
 			class: 'formControl',
 			placeholder: 'Search',
 		})
-		listWrapper.append(lists, listSearch)
+		globalAppend(listWrapper, [lists, listSearch])
 
 		const overlay = createElm('div', { class: 'overlay' })
 		const knowledgeBaseDescription = createElm('div', { id: 'knowledgeBaseDescription' })
@@ -393,25 +401,25 @@ export default class Widget {
 
 		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
 		const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
-		prevKBBtn.appendChild(prevKbImg)
+		globalAppend(prevKBBtn, prevKbImg)
 
 		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
 		const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
-		nextKBBtn.appendChild(nextKbImg)
+		globalAppend(nextKBBtn, nextKbImg)
 
 		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
 		const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
-		closeKBBtn.appendChild(closeKbImg)
+		globalAppend(closeKBBtn, closeKbImg)
 
-		modalActions.append(prevKBBtn, nextKBBtn, closeKBBtn)
-		descriptionTitle.append(p, modalActions)
+		globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])
+		globalAppend(descriptionTitle, [p, modalActions])
 
 		const content = createElm('div', { class: 'content' })
-		knowledgeBaseDescription.append(descriptionTitle, content)
-		knowledgeBaseBody.append(listWrapper, overlay, knowledgeBaseDescription)
+		globalAppend(knowledgeBaseDescription, [descriptionTitle, content])
+		globalAppend(knowledgeBaseBody, [listWrapper, overlay, knowledgeBaseDescription])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(knowledgeBaseBody)
+		globalAppend(this.#cardBody, knowledgeBaseBody)
 
 		$('#listSearch').addEventListener('input', this.#searchList)
 		$('.closeKB').addEventListener('click', this.#knowledgeBaseDescToggle)
@@ -473,12 +481,12 @@ export default class Widget {
 			title.innerHTML = item?.title || ''
 
 			listItemTitleWrapper.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>`
-			listItemTitleWrapper.appendChild(title)
+			globalAppend(listItemTitleWrapper, title)
 
-			listItem.appendChild(listItemTitleWrapper)
+			globalAppend(listItem, listItemTitleWrapper)
 			itemsObj.push(listItem)
 		})
-		$('#lists').append(...itemsObj)
+		globalAppend($('#lists'), itemsObj)
 	}
 
 	#searchList = e => {
@@ -708,8 +716,8 @@ export default class Widget {
 	#addCustomStyles = () => {
 		if (this.#widgetData.custom_css?.length > 0) {
 			const styleElement = document.createElement('style')
-			styleElement.appendChild(document.createTextNode(this.#widgetData.custom_css))
-			document.head.appendChild(styleElement)
+			globalAppend(styleElement, document.createTextNode(this.#widgetData.custom_css))
+			globalAppend(document.head, styleElement)
 		}
 	}
 
@@ -734,7 +742,7 @@ export default class Widget {
           </button>`,
 			)
 			.join('')
-		this.#contentWrapper.appendChild(this.#channels)
+		globalAppend(this.#contentWrapper, this.#channels)
 
 		document.querySelectorAll('.channel').forEach(channel => {
 			channel.addEventListener('click', this.#onChannelClick)
@@ -754,10 +762,10 @@ export default class Widget {
 
 		iconBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`
 
-		cardHeader.append(h4, iconBtn)
+		globalAppend(cardHeader, [h4, iconBtn])
 		this.#cardBody = createElm('div', { id: 'cardBody' })
-		this.#card.append(cardHeader, this.#cardBody)
-		this.#contentWrapper.appendChild(this.#card)
+		globalAppend(this.#card, [cardHeader, this.#cardBody])
+		globalAppend(this.#contentWrapper, this.#card)
 
 		$('.closeCardBtn').addEventListener('click', this.#closeWidget)
 	}
@@ -816,11 +824,11 @@ export default class Widget {
 		const toastTextBody = createElm('div', { class: 'toast-text-body' })
 		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
 
-		toastText.append(toastTextTitle, toastTextBody)
-		toastContent.appendChild(toastText)
-		toast.appendChild(toastContent)
+		globalAppend(toastText, [toastTextTitle, toastTextBody])
+		globalAppend(toastContent, toastText)
+		globalAppend(toast, toastContent)
 
-		this.#cardBody.appendChild(toast)
+		globalAppend(this.#cardBody, toast)
 		this.#formBody?.classList.add('hide')
 
 		if (toast.classList.contains('success')) {
@@ -891,7 +899,7 @@ export default class Widget {
 
 		const ctaImage = createElm('img', { src: closeIcon })
 		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
-		this.#closeCallToAction.appendChild(ctaImage)
+		globalAppend(this.#closeCallToAction, ctaImage)
 		this.#closeCallToAction.addEventListener('click', this.#callToActionHide)
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
