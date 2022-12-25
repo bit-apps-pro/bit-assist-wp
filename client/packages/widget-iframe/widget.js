@@ -2,25 +2,7 @@ import './css/style.scss'
 import leftArrow from './public/images/left-circle-arrow.svg'
 import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
-
-const $ = s => document.querySelector(s)
-
-const createElm = (elm, attributes) => {
-	const domElm = document.createElement(elm)
-
-	for (const attribute in attributes) {
-		domElm.setAttribute(attribute, attributes[attribute])
-	}
-	return domElm
-}
-
-const globalAppend = (elm, child) => {
-	Array.isArray(child) ? elm.append(...child) : elm.append(child)
-}
-
-const globalEventListener = (elm, type, fn) => {
-	elm.addEventListener(type, fn)
-}
+import { $, createElm, globalAppend, globalEventListener } from './Utils/Helpers.js'
 
 export default class Widget {
 	#apiEndPoint
@@ -60,8 +42,8 @@ export default class Widget {
 	// Events
 	// ====================
 	#addEvents = () => {
-		window.addEventListener('message', this.#onMessageReceived)
-		this.#widgetBubble.addEventListener('click', this.#onBubbleClick)
+		globalEventListener(window, 'message', this.#onMessageReceived)
+		globalEventListener(this.#widgetBubble, 'click', this.#onBubbleClick)
 	}
 
 	#closeWidget = () => {
@@ -280,7 +262,7 @@ export default class Widget {
 		globalAppend(inputWrap, fieldInput)
 		globalAppend(dynamicFields, inputWrap)
 
-		fieldInput.addEventListener('change', e => {
+		const handleImageUpload = e => {
 			let fileName = 'No file chosen'
 			const fileLength = e.target.files.length
 			if (fileLength > 0) {
@@ -288,7 +270,9 @@ export default class Widget {
 			}
 			const cfitTitle = e.target.parentElement.querySelector('.cfit-title')
 			cfitTitle.innerHTML = fileName
-		})
+		}
+
+		globalEventListener(fieldInput, 'change', handleImageUpload)
 	}
 
 	#gdprField = (field, dynamicFields, fieldInput) => {
@@ -338,8 +322,8 @@ export default class Widget {
 		this.#cardBody.innerHTML = ''
 		globalAppend(this.#cardBody, faqBody)
 
-		$('#listSearch').addEventListener('input', this.#searchList)
-		$('.closeDescBtn').addEventListener('click', this.#faqDescToggle)
+		globalEventListener($('#listSearch'), 'input', this.#searchList)
+		globalEventListener($('.closeDescBtn'), 'click', this.#faqDescToggle)
 
 		this.#renderFaqItem(cardConfig?.faqs)
 	}
@@ -347,7 +331,7 @@ export default class Widget {
 	#renderFaqItem = items => {
 		this.#itemListAppend(items)
 		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
-			item.addEventListener('click', e => this.#faqDescToggle(e, items))
+			globalEventListener(item, 'click', e => this.#faqDescToggle(e, items))
 		})
 	}
 
@@ -421,10 +405,10 @@ export default class Widget {
 		this.#cardBody.innerHTML = ''
 		globalAppend(this.#cardBody, knowledgeBaseBody)
 
-		$('#listSearch').addEventListener('input', this.#searchList)
-		$('.closeKB').addEventListener('click', this.#knowledgeBaseDescToggle)
-		$('.prevKB').addEventListener('click', () => this.#gotoPrevNextKB('previousElementSibling'))
-		$('.nextKB').addEventListener('click', () => this.#gotoPrevNextKB('nextElementSibling'))
+		globalEventListener($('#listSearch'), 'input', this.#searchList)
+		globalEventListener($('.closeKB'), 'click', this.#knowledgeBaseDescToggle)
+		globalEventListener($('.prevKB'), 'click', () => this.#gotoPrevNextKB('previousElementSibling'))
+		globalEventListener($('.nextKB'), 'click', () => this.#gotoPrevNextKB('nextElementSibling'))
 
 		this.#renderKnowledgeBaseItem(cardConfig?.knowledge_bases)
 	}
@@ -432,7 +416,7 @@ export default class Widget {
 	#renderKnowledgeBaseItem = items => {
 		this.#itemListAppend(items)
 		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
-			item.addEventListener('click', e => this.#knowledgeBaseDescToggle(e, items))
+			globalEventListener(item, 'click', e => this.#knowledgeBaseDescToggle(e, items))
 		})
 	}
 
@@ -745,7 +729,7 @@ export default class Widget {
 		globalAppend(this.#contentWrapper, this.#channels)
 
 		document.querySelectorAll('.channel').forEach(channel => {
-			channel.addEventListener('click', this.#onChannelClick)
+			globalEventListener(channel, 'click', this.#onChannelClick)
 		})
 	}
 
@@ -767,7 +751,7 @@ export default class Widget {
 		globalAppend(this.#card, [cardHeader, this.#cardBody])
 		globalAppend(this.#contentWrapper, this.#card)
 
-		$('.closeCardBtn').addEventListener('click', this.#closeWidget)
+		globalEventListener($('.closeCardBtn'), 'click', this.#closeWidget)
 	}
 
 	#formSubmitted = async e => {
@@ -848,8 +832,8 @@ export default class Widget {
 
 		if (this.#widgetData?.widget_behavior === 2) {
 			this.#widgetBubble.removeEventListener('click', this.#onBubbleClick)
-			this.#widgetBubble.addEventListener('mouseenter', e => this.#onBubbleClick(e, true))
-			this.#widgetWrapper.addEventListener('mouseleave', this.#onBubbleClick)
+			globalEventListener(this.#widgetBubble, 'mouseenter', e => this.#onBubbleClick(e, true))
+			globalEventListener(this.#widgetWrapper, 'mouseleave', this.#onBubbleClick)
 		} else if (this.#widgetData?.widget_behavior === 3) {
 			this.#onBubbleClick()
 		}
@@ -900,7 +884,7 @@ export default class Widget {
 		const ctaImage = createElm('img', { src: closeIcon })
 		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
 		globalAppend(this.#closeCallToAction, ctaImage)
-		this.#closeCallToAction.addEventListener('click', this.#callToActionHide)
+		globalEventListener(this.#closeCallToAction, 'click', this.#callToActionHide)
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
 
