@@ -2,7 +2,19 @@ import './css/style.scss'
 import leftArrow from './public/images/left-circle-arrow.svg'
 import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
-import { $, createElm, globalAppend, globalEventListener } from './Utils/Helpers.js'
+import {
+	$,
+	createElm,
+	globalAppend,
+	globalClassListAdd,
+	globalClassListContains,
+	globalClassListRemove,
+	globalClassListToggle,
+	globalEventListener,
+	globalPostMessage,
+	globalQuerySelectorAll,
+	globalSetProperty,
+} from './Utils/Helpers.js'
 
 export default class Widget {
 	#apiEndPoint
@@ -49,40 +61,40 @@ export default class Widget {
 	#closeWidget = () => {
 		this.#hideCard()
 		this.#hideChannels()
-		this.#widgetBubble?.classList.remove('open')
-		this.#contentWrapper?.classList.add('hide')
+		globalClassListRemove(this.#widgetBubble, 'open')
+		globalClassListAdd(this.#contentWrapper, 'hide')
 		this.#widgetOpenActions(false)
-		this.#root.style.setProperty('--card-width', '330px')
+		globalSetProperty(this.#root.style, '--card-width', '330px')
 	}
 
 	#hideChannels = () => {
-		if (this.#channels?.classList.contains('show')) {
-			this.#channels?.classList.remove('show')
+		if (globalClassListContains(this.#channels, 'show')) {
+			globalClassListRemove(this.#channels, 'show')
 		}
 	}
 
 	#hideCard = () => {
-		if (this.#card?.classList.contains('show')) {
-			this.#card?.classList.remove('show')
+		if (globalClassListContains(this.#card, 'show')) {
+			globalClassListRemove(this.#card, 'show')
 		}
 	}
 
 	#onBubbleClick = (e, toggleIfNotExist = false) => {
 		let close = true
-		if (this.#card?.classList.contains('show')) {
-			this.#root.style.setProperty('--card-width', '330px')
+		if (globalClassListContains(this.#card, 'show')) {
+			globalSetProperty(this.#root.style, '--card-width', '330px')
 			this.#hideCard()
 			close = false
 		}
 
-		if (toggleIfNotExist && this.#channels?.classList.contains('show')) {
+		if (toggleIfNotExist && globalClassListContains(this.#channels, 'show')) {
 			return
 		}
 
-		this.#channels?.classList.toggle('show')
+		globalClassListToggle(this.#channels, 'show')
 		if (close) {
-			this.#contentWrapper.classList.toggle('hide')
-			const isWidgetOpen = this.#widgetBubble?.classList.toggle('open')
+			globalClassListToggle(this.#contentWrapper, 'hide')
+			const isWidgetOpen = globalClassListToggle(this.#widgetBubble, 'open')
 			this.#widgetOpenActions(isWidgetOpen)
 			return
 		}
@@ -91,7 +103,7 @@ export default class Widget {
 
 	#widgetOpenActions = isWidgetOpen => {
 		this.#openClientWidget(isWidgetOpen)
-		if (isWidgetOpen && !this.#callToAction?.classList.contains('hide')) {
+		if (isWidgetOpen && !globalClassListContains(this.#callToAction, 'hide')) {
 			this.#callToActionHide()
 			return
 		}
@@ -100,8 +112,8 @@ export default class Widget {
 	}
 
 	#callToActionHide = () => {
-		this.#callToAction?.classList.add('hide')
-		this.#closeCallToAction?.classList.add('hide')
+		globalClassListAdd(this.#callToAction, 'hide')
+		globalClassListAdd(this.#closeCallToAction, 'hide')
 
 		this.#resetClientWidgetSize()
 	}
@@ -134,8 +146,9 @@ export default class Widget {
 		this.#selectedFormBg = config?.card_config?.card_bg_color?.str
 
 		$('#cardHeader>h4').innerHTML = config?.title
-		this.#root.style.setProperty('--card-theme-color', this.#selectedFormBg)
-		this.#root.style.setProperty('--card-text-color', config?.card_config?.card_text_color?.str)
+
+		globalSetProperty(this.#root.style, '--card-theme-color', this.#selectedFormBg)
+		globalSetProperty(this.#root.style, '--card-text-color', config?.card_config?.card_text_color?.str)
 	}
 
 	#renderForm = widgetChannel => {
@@ -190,7 +203,7 @@ export default class Widget {
 		const wrapper = createElm('div', { class: filedType })
 
 		if (filedType === 'rating') {
-			wrapper.classList.add(field.rating_type)
+			globalClassListAdd(wrapper, field.rating_type)
 		}
 
 		let types = []
@@ -242,7 +255,7 @@ export default class Widget {
 			return
 		}
 
-		fieldInput.classList.add('formControl')
+		globalClassListAdd(fieldInput, 'formControl')
 		fieldInput.setAttribute('type', field.field_type)
 
 		if (field.field_type === 'file') {
@@ -330,7 +343,7 @@ export default class Widget {
 
 	#renderFaqItem = items => {
 		this.#itemListAppend(items)
-		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
+		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
 			globalEventListener(item, 'click', e => this.#faqDescToggle(e, items))
 		})
 	}
@@ -345,7 +358,7 @@ export default class Widget {
 		}
 
 		const faqBody = $('#faqBody')
-		const isOpen = faqBody?.classList.toggle('openDesc')
+		const isOpen = globalClassListToggle($('#faqBody'), 'openDesc')
 		if (isOpen) {
 			const descHeight = $('#faqDescription').scrollHeight
 			Object.assign(faqBody.style, {
@@ -356,7 +369,7 @@ export default class Widget {
 			faqBody.removeAttribute('style')
 		}
 
-		$('#listWrapper')?.classList.toggle('hide')
+		globalClassListToggle($('#listWrapper'), 'hide')
 	}
 
 	// Knowledge base
@@ -415,7 +428,7 @@ export default class Widget {
 
 	#renderKnowledgeBaseItem = items => {
 		this.#itemListAppend(items)
-		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
+		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
 			globalEventListener(item, 'click', e => this.#knowledgeBaseDescToggle(e, items))
 		})
 	}
@@ -428,17 +441,17 @@ export default class Widget {
 	}
 
 	#knowledgeBaseDescToggle = (e, knowledgeBases) => {
-		$('.listItem.active')?.classList.remove('active')
+		globalClassListRemove($('.listItem.active'), 'active')
 
 		const knowledgeBaseBody = $('#knowledgeBaseBody')
 		if (!knowledgeBases) {
-			knowledgeBaseBody?.classList.remove('openDesc')
-			this.#root.style.setProperty('--card-width', '330px')
+			globalClassListRemove(knowledgeBaseBody, 'openDesc')
+			globalSetProperty(this.#root.style, '--card-width', '330px')
 			this.#resetClientWidgetSize()
 			return
 		}
 
-		e.target.closest('.listItem').classList.toggle('active')
+		globalClassListToggle(e.target.closest('.listItem'), 'active')
 		const knowledgeBase = knowledgeBases.find(
 			item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
 		)
@@ -446,12 +459,12 @@ export default class Widget {
 			return
 		}
 
-		knowledgeBaseBody?.classList.add('openDesc')
+		globalClassListAdd(knowledgeBaseBody, 'openDesc')
 		$('.descriptionTitle p').innerHTML = knowledgeBase?.title || ''
 		$('.content').innerHTML = knowledgeBase?.description || ''
 
-		this.#root.style.setProperty('--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
-		this.#root.style.setProperty('--card-width', '767px')
+		globalSetProperty(this.#root.style, '--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
+		globalSetProperty(this.#root.style, '--card-width', '767px')
 		this.#resetClientWidgetSize()
 	}
 
@@ -475,12 +488,11 @@ export default class Widget {
 
 	#searchList = e => {
 		const search = e.target.value.toLowerCase()
-		const listItems = document.querySelectorAll('.listItem')
-		listItems.forEach(item => {
+		globalQuerySelectorAll(document, '.listItem').forEach(item => {
 			if (item.querySelector('.title').innerText.toLowerCase().includes(search)) {
-				item?.classList.remove('hide')
+				globalClassListRemove(item, 'hide')
 			} else {
-				item?.classList.add('hide')
+				globalClassListAdd(item, 'hide')
 			}
 		})
 	}
@@ -489,19 +501,20 @@ export default class Widget {
 	// poseMessage to parent
 	// =====================
 	#getClientInfo = () => {
-		parent.postMessage({ action: 'getClientInfo' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'getClientInfo' }, `${this.#clientDomain}`)
 	}
 
 	#openClientWidget = isWidgetOpen => {
-		parent.postMessage({ action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
 	}
 
 	#removeClientWidget = () => {
-		parent.postMessage({ action: 'removeWidget' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'removeWidget' }, `${this.#clientDomain}`)
 	}
 
 	#renderWidgetConf = () => {
-		parent.postMessage(
+		globalPostMessage(
+			parent,
 			{
 				action: 'widgetLoaded',
 				height: (this.#widgetData?.styles?.size || 60) + 20,
@@ -518,14 +531,15 @@ export default class Widget {
 	}
 
 	#resetClientWidgetSize = () => {
-		parent.postMessage(
+		globalPostMessage(
+			parent,
 			{ action: 'resetWidgetSize', height: this.#widgetWrapper.offsetHeight, width: this.#widgetWrapper.offsetWidth },
 			`${this.#clientDomain}`,
 		)
 	}
 
 	#chatWidgetClick = chatWidgetName => {
-		parent.postMessage({ action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
 	}
 
 	// =====================
@@ -543,8 +557,8 @@ export default class Widget {
 	}
 
 	#handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint }) => {
-		this.#root.style.setProperty('--client-win-width', winWidth + 'px')
-		this.#root.style.setProperty('--client-win-height', winHeight + 'px')
+		globalSetProperty(this.#root.style, '--client-win-width', winWidth + 'px')
+		globalSetProperty(this.#root.style, '--client-win-height', winHeight + 'px')
 		this.#scrollPercent = scrollPercent
 		this.#apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
@@ -607,16 +621,16 @@ export default class Widget {
 		this.#widgetShowAfterScroll()
 
 		if (this.#widgetData.styles?.position?.indexOf('top') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('bottom') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('left') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('right') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
 		}
 	}
 
@@ -728,14 +742,14 @@ export default class Widget {
 			.join('')
 		globalAppend(this.#contentWrapper, this.#channels)
 
-		document.querySelectorAll('.channel').forEach(channel => {
+		globalQuerySelectorAll(document, '.channel').forEach(channel => {
 			globalEventListener(channel, 'click', this.#onChannelClick)
 		})
 	}
 
 	#renderCard = () => {
 		if ($('#card')) {
-			this.#card?.classList.add('show')
+			globalClassListAdd(this.#card, 'show')
 			return
 		}
 
@@ -763,7 +777,7 @@ export default class Widget {
 
 		try {
 			submitBtn.innerHTML = 'Sending...'
-			submitBtn?.classList.add('disabled')
+			globalClassListAdd(submitBtn, 'disabled')
 			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
 				method: 'POST',
 				body: formData,
@@ -776,19 +790,19 @@ export default class Widget {
 			}
 
 			e.target.reset()
-			e.target.querySelectorAll('.cfit-title').forEach(title => {
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
 				title.innerHTML = 'No file chosen'
 			})
-			submitBtn?.classList.remove('disabled')
+			globalClassListRemove(submitBtn, 'disabled')
 			submitBtn.innerHTML = oldText
 		} catch (err) {
 			console.log(err)
 			await this.#showToast('error')
 			e.target.reset()
-			e.target.querySelectorAll('.cfit-title').forEach(title => {
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
 				title.innerHTML = 'No file chosen'
 			})
-			submitBtn?.classList.remove('disabled')
+			globalClassListRemove(submitBtn, 'disabled')
 			submitBtn.innerHTML = oldText
 		}
 	}
@@ -813,22 +827,22 @@ export default class Widget {
 		globalAppend(toast, toastContent)
 
 		globalAppend(this.#cardBody, toast)
-		this.#formBody?.classList.add('hide')
+		globalClassListAdd(this.#formBody, 'hide')
 
-		if (toast.classList.contains('success')) {
+		if (globalClassListContains(toast, 'success')) {
 			$('.toast-text-title').style.color = this.#selectedFormBg
 		}
 
 		await this.#delay(2)
-		if (!this.#formBody?.classList.contains('hide')) return
+		if (!globalClassListContains(this.#formBody, 'hide')) return
 
 		this.#cardBody.removeChild(toast)
-		this.#formBody?.classList.remove('hide')
+		globalClassListRemove(this.#formBody, 'hide')
 	}
 
 	#renderWidgetBubble = () => {
-		this.#root.style.setProperty('--widget-size', (this.#widgetData?.styles?.size || 60) + 'px')
-		this.#root.style.setProperty('--widget-color', this.#widgetData?.styles?.color?.str)
+		globalSetProperty(this.#root.style, '--widget-size', (this.#widgetData?.styles?.size || 60) + 'px')
+		globalSetProperty(this.#root.style, '--widget-color', this.#widgetData?.styles?.color?.str)
 
 		if (this.#widgetData?.widget_behavior === 2) {
 			this.#widgetBubble.removeEventListener('click', this.#onBubbleClick)
@@ -838,11 +852,11 @@ export default class Widget {
 			this.#onBubbleClick()
 		}
 
-		this.#widgetBubble?.classList.add(this.#widgetData?.styles?.shape)
-		this.#widgetWrapper?.classList.add(this.#widgetData?.styles?.position)
+		globalClassListAdd(this.#widgetBubble, this.#widgetData?.styles?.shape)
+		globalClassListAdd(this.#widgetWrapper, this.#widgetData?.styles?.position)
 
 		$('#widget-img').src = this.#widgetData?.styles?.customImage || this.#widgetData?.styles?.iconUrl
-		$('#widget-img')?.classList.add(this.#widgetData?.styles?.customImage ? 'image' : 'icon')
+		globalClassListAdd($('#widget-img'), this.#widgetData?.styles?.customImage ? 'image' : 'icon')
 
 		// Change image color depend on background
 		const brightness = Math.round(
@@ -851,7 +865,7 @@ export default class Widget {
 				parseInt(this.#widgetData?.styles?.color?.b, 10) * 114) /
 				1000,
 		)
-		this.#root.style.setProperty('--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
+		globalSetProperty(this.#root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}
 
 	#widgetShowDelay = async () => {
@@ -862,9 +876,9 @@ export default class Widget {
 
 	#widgetShowAfterScroll = async () => {
 		if (this.#widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.#widgetData?.page_scroll) {
-			this.#widgetWrapper.classList.remove('hide')
+			globalClassListRemove(this.#widgetWrapper, 'hide')
 		} else {
-			this.#widgetWrapper.classList.add('hide')
+			globalClassListAdd(this.#widgetWrapper, 'hide')
 		}
 		this.#resetClientWidgetSize()
 	}
@@ -888,7 +902,7 @@ export default class Widget {
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
 
-		if (this.#widgetBubble?.classList.contains('open')) {
+		if (globalClassListContains(this.#widgetBubble, 'open')) {
 			this.#callToActionHide()
 			return
 		}

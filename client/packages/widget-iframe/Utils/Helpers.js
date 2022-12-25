@@ -13,6 +13,34 @@ export const globalAppend = (elm, child) => {
 	Array.isArray(child) ? elm.append(...child) : elm.append(child)
 }
 
-export const globalEventListener = (elm, type, fn) => {
-	elm.addEventListener(type, fn)
+export const globalEventListener = (selector, type, callback) => {
+	selector.addEventListener(type, callback)
+}
+
+export const globalSetProperty = (selector, propName, value) => {
+	selector.setProperty(propName, value)
+}
+
+export const globalPostMessage = (parent, message, clientDomain) => {
+	parent.postMessage(message, clientDomain)
+}
+
+export const globalQuerySelectorAll = (documentTarget, selectedClass) => {
+	return documentTarget.querySelectorAll(selectedClass)
+}
+
+export const globalClassListRemove = (selector, action) => {
+	return selector?.classList.remove(action)
+}
+
+export const globalClassListAdd = (selector, action) => {
+	return selector?.classList.add(action)
+}
+
+export const globalClassListContains = (selector, action) => {
+	return selector?.classList.contains(action)
+}
+
+export const globalClassListToggle = (selector, action) => {
+	return selector?.classList.toggle(action)
 }
