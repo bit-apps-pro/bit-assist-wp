@@ -37,6 +37,7 @@ export default class Widget {
 	#cardBody
 	#formBody
 	#delayExist
+	#iFrameWrapper
 
 	constructor(config) {
 		this.#delayExist = true
@@ -62,6 +63,9 @@ export default class Widget {
 	#closeWidget = () => {
 		this.#hideCard()
 		this.#hideChannels()
+		if (typeof this.#iFrameWrapper !== 'undefined') {
+			this.#removeIframe()
+		}
 		globalClassListRemove(this.#widgetBubble, 'open')
 		globalClassListAdd(this.#contentWrapper, 'hide')
 		this.#widgetOpenActions(false)
@@ -81,24 +85,28 @@ export default class Widget {
 	}
 
 	#onBubbleClick = (e, toggleIfNotExist = false) => {
-		let close = true
-		if (globalClassListContains(this.#card, 'show')) {
-			globalSetProperty(this.#root.style, '--card-width', '330px')
-			this.#hideCard()
-			close = false
-		}
-
 		if (toggleIfNotExist && globalClassListContains(this.#channels, 'show')) {
 			return
 		}
 
 		globalClassListToggle(this.#channels, 'show')
-		if (close) {
+
+		if (globalClassListContains(this.#card, 'show')) {
+			globalSetProperty(this.#root.style, '--card-width', '330px')
+			this.#hideCard()
+			this.#resetClientWidgetSize()
+		} else if (typeof this.#iFrameWrapper !== 'undefined') {
+			this.#removeIframe()
+		} else {
 			globalClassListToggle(this.#contentWrapper, 'hide')
 			const isWidgetOpen = globalClassListToggle(this.#widgetBubble, 'open')
 			this.#widgetOpenActions(isWidgetOpen)
-			return
 		}
+	}
+
+	#removeIframe = () => {
+		this.#iFrameWrapper.remove()
+		this.#iFrameWrapper = undefined
 		this.#resetClientWidgetSize()
 	}
 
@@ -122,25 +130,52 @@ export default class Widget {
 	#onChannelClick = e => {
 		e.preventDefault()
 		const channel = e.target.closest('.channel')
+		const { id, url, channel_name, target } = channel.dataset || {}
 
-		if (channel.dataset.url === '#') {
-			const widgetChannel = this.#widgetData?.widget_channels.find(item => item.id === channel.dataset.id)
+		const widgetChannel = this.#widgetData?.widget_channels.find(item => item.id === id)
+		const { title, unique_id } = widgetChannel?.config || {}
+		const { isChatWidget } = widgetChannel?.config?.card_config || {}
 
-			if (widgetChannel.config?.card_config?.faqs) {
-				this.#renderFaq(widgetChannel)
-			} else if (widgetChannel.config?.card_config?.form_fields) {
-				this.#renderForm(widgetChannel)
-			} else if (widgetChannel.config?.card_config?.knowledge_bases) {
-				this.#renderKnowledgeBase(widgetChannel)
-			} else if (widgetChannel.config?.card_config?.isChatWidget) {
-				this.#chatWidgetClick(widgetChannel.channel_name.toLowerCase())
-			}
-			this.#resetClientWidgetSize()
-		} else if (channel.dataset.target === 'new_window') {
-			window.open(channel.dataset.url, '_blank', 'popup')
-		} else {
-			window.open(channel.dataset.url, channel.dataset.target)
+		if (channel_name === 'faq') {
+			this.#renderFaq(widgetChannel)
+		} else if (channel_name === 'custom-form') {
+			this.#renderForm(widgetChannel)
+		} else if (channel_name === 'knowledge-base') {
+			this.#renderKnowledgeBase(widgetChannel)
+		} else if (channel_name === 'google-map') {
+			this.#renderIframe(url, channel_name, unique_id)
+		} else if (channel_name === 'youtube' || channel_name === 'custom-iframe') {
+			this.#renderIframe(url, channel_name)
+		} else if (isChatWidget) {
+			this.#chatWidgetClick(channel_name)
+		} else if (target === 'new_window' && url !== '#') {
+			window.open(url, '_blank', 'popup')
+		} else if (url !== '#') {
+			window.open(url, target)
 		}
+
+		this.#resetClientWidgetSize()
+		this.#channelClickEventTrigger(channel_name, title, url)
+	}
+
+	#renderIframe = (url, channelName, iframe = false) => {
+		this.#hideChannels()
+		this.#iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
+
+		if (iframe) {
+			this.#iFrameWrapper.innerHTML = iframe
+		} else {
+			const iframeElm = createElm('iframe', {
+				scrolling: 'no',
+				src: url,
+				allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+				allowfullscreen: '',
+			})
+			this.#iFrameWrapper.append(iframeElm)
+		}
+
+		this.#contentWrapper.appendChild(this.#iFrameWrapper)
+		this.#resetClientWidgetSize()
 	}
 
 	#setCardStyle = config => {
@@ -337,8 +372,8 @@ export default class Widget {
 		this.#cardBody.innerHTML = ''
 		globalAppend(this.#cardBody, faqBody)
 
-		globalEventListener($('#listSearch'), 'input', this.#searchList)
-		globalEventListener($('.closeDescBtn'), 'click', this.#faqDescToggle)
+		globalEventListener(listSearch, 'input', this.#searchList)
+		globalEventListener(closeDescBtn, 'click', this.#faqDescToggle)
 
 		this.#renderFaqItem(cardConfig?.faqs)
 	}
@@ -420,10 +455,10 @@ export default class Widget {
 		this.#cardBody.innerHTML = ''
 		globalAppend(this.#cardBody, knowledgeBaseBody)
 
-		globalEventListener($('#listSearch'), 'input', this.#searchList)
-		globalEventListener($('.closeKB'), 'click', this.#knowledgeBaseDescToggle)
-		globalEventListener($('.prevKB'), 'click', () => this.#gotoPrevNextKB('previousElementSibling'))
-		globalEventListener($('.nextKB'), 'click', () => this.#gotoPrevNextKB('nextElementSibling'))
+		globalEventListener(listSearch, 'input', this.#searchList)
+		globalEventListener(closeKBBtn, 'click', this.#knowledgeBaseDescToggle)
+		globalEventListener(prevKBBtn, 'click', () => this.#gotoPrevNextKB('previousElementSibling'))
+		globalEventListener(nextKBBtn, 'click', () => this.#gotoPrevNextKB('nextElementSibling'))
 
 		this.#renderKnowledgeBaseItem(cardConfig?.knowledge_bases)
 	}
@@ -542,6 +577,13 @@ export default class Widget {
 
 	#chatWidgetClick = chatWidgetName => {
 		globalPostMessage(parent, { action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
+	}
+
+	#channelClickEventTrigger = (channelType, channelName, channelUrl) => {
+		parent.postMessage(
+			{ action: 'bitAssistChannelClick', channelInfo: { channelType, channelName, channelUrl } },
+			`${this.#clientDomain}`,
+		)
 	}
 
 	// =====================
@@ -732,7 +774,9 @@ export default class Widget {
 			)
 			.map(
 				widgetChannel => `
-          <button class="channel" data-id="${widgetChannel.id}" data-url="${
+          <button class="channel" data-id="${
+						widgetChannel.id
+					}" data-channel_name="${widgetChannel.channel_name.toLowerCase()}" data-url="${
 					widgetChannel.config?.url || '#'
 				}" data-target="${widgetChannel.config.open_window_action}">
             <div class="channel-name">${widgetChannel.config.title}</div>
@@ -767,7 +811,7 @@ export default class Widget {
 		globalAppend(this.#card, [cardHeader, this.#cardBody])
 		globalAppend(this.#contentWrapper, this.#card)
 
-		globalEventListener($('.closeCardBtn'), 'click', this.#closeWidget)
+		globalEventListener(iconBtn, 'click', this.#closeWidget)
 	}
 
 	#formSubmitted = async e => {
@@ -832,7 +876,7 @@ export default class Widget {
 		globalClassListAdd(this.#formBody, 'hide')
 
 		if (globalClassListContains(toast, 'success')) {
-			$('.toast-text-title').style.color = this.#selectedFormBg
+			toastTextTitle.style.color = this.#selectedFormBg
 		}
 
 		await this.#delay(2)

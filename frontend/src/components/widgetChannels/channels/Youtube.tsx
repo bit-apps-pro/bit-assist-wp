@@ -1,8 +1,6 @@
-/* eslint-disable react/no-children-prop */
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 
 function Youtube() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -12,22 +10,19 @@ function Youtube() {
       prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
-        prev.config.url = `https://youtube.com/${value}`
+        prev.config.url = value !== '' ? `https://www.youtube.com/embed/${value}?autoplay=1` : ''
       }
     })
   }
 
   return (
-    <>
-      <FormControl>
-        <FormLabel>youtube page</FormLabel>
-        <InputGroup>
-          <InputLeftAddon children="youtube.com/" />
-          <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
-        </InputGroup>
-      </FormControl>
-      <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
-    </>
+    <FormControl>
+      <FormLabel>Youtube video id</FormLabel>
+      <InputGroup>
+        <InputLeftAddon children="youtube.com/watch?v=" />
+        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+      </InputGroup>
+    </FormControl>
   )
 }
 

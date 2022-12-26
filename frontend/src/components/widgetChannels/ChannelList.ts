@@ -6,6 +6,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/custom-channel.svg`,
   },
   {
+    name: 'Custom-Iframe',
+    icon: `${config.ROOT_URL}/img/channel/custom-iframe.svg`,
+  },
+  {
     name: 'Call',
     icon: `${config.ROOT_URL}/img/channel/call.svg`,
   },
