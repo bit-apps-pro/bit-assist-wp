@@ -44,3 +44,7 @@ export const globalClassListContains = (selector, action) => {
 export const globalClassListToggle = (selector, action) => {
 	return selector?.classList.toggle(action)
 }
+
+export const globalSetAttribute = (domElm, attribute, value) => {
+	domElm.setAttribute(attribute, value)
+}

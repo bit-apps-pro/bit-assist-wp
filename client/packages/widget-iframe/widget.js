@@ -13,6 +13,7 @@ import {
 	globalEventListener,
 	globalPostMessage,
 	globalQuerySelectorAll,
+	globalSetAttribute,
 	globalSetProperty,
 } from './Utils/Helpers.js'
 
@@ -183,7 +184,7 @@ export default class Widget {
 		let flag = false
 		fields?.forEach(field => {
 			if (field.field_type === 'file' && !flag) {
-				$('#formBody').setAttribute('enctype', 'multipart/form-data')
+				globalSetAttribute($('#formBody'), 'enctype', 'multipart/form-data')
 				flag = true
 			}
 
@@ -220,7 +221,7 @@ export default class Widget {
 
 			const inputElm = createElm('input', { type: 'radio', name: name, value: type, id: fieldId })
 			if (field.required) {
-				inputElm.setAttribute('required', '')
+				globalSetAttribute(inputElm, 'required', '')
 			}
 
 			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
@@ -241,13 +242,14 @@ export default class Widget {
 			fieldInput = document.createElement('textarea')
 		}
 
-		fieldInput.setAttribute(
+		globalSetAttribute(
+			fieldInput,
 			'name',
 			`${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`,
 		)
-		fieldInput.setAttribute('placeholder', field.label + (field.required ? '' : ' (optional)'))
+		globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
 		if (field.required) {
-			fieldInput.setAttribute('required', '')
+			globalSetAttribute(fieldInput, 'required', '')
 		}
 
 		if (field.field_type === 'GDPR') {
@@ -256,7 +258,7 @@ export default class Widget {
 		}
 
 		globalClassListAdd(fieldInput, 'formControl')
-		fieldInput.setAttribute('type', field.field_type)
+		globalSetAttribute(fieldInput, 'type', field.field_type)
 
 		if (field.field_type === 'file') {
 			this.#fileField(field, dynamicFields, fieldInput)
@@ -267,7 +269,7 @@ export default class Widget {
 
 	#fileField = (field, dynamicFields, fieldInput) => {
 		if (!!field?.allow_multiple) {
-			fieldInput.setAttribute('multiple', '')
+			globalSetAttribute(fieldInput, 'multiple', '')
 		}
 
 		const inputWrap = createElm('div', { class: 'formControl customFile' })
@@ -289,7 +291,7 @@ export default class Widget {
 	}
 
 	#gdprField = (field, dynamicFields, fieldInput) => {
-		fieldInput.setAttribute('type', 'checkbox')
+		globalSetAttribute(fieldInput, 'type', 'checkbox')
 
 		const link = createElm('a', { target: '_blank' })
 		link.innerHTML = field.label
