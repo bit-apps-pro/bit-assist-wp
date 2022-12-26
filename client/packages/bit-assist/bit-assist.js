@@ -99,6 +99,10 @@ window.addEventListener('message', e => {
 	} else if (action === 'chatWidgetClick') {
 		const { chatWidgetName } = e.data
 		openChatWidget(chatWidgetName)
+	} else if (action === 'bitAssistChannelClick') {
+		const { channelInfo } = e.data
+		window.dataLayer = window.dataLayer || []
+		window.dataLayer.push({ event: 'bitAssistChannel', ...channelInfo })
 	}
 })
 

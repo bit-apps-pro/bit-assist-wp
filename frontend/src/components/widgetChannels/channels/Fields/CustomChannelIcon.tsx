@@ -3,7 +3,7 @@ import { FiUpload, FiX } from 'react-icons/fi'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
-import config from '@config/config'
+import channelList from '@components/widgetChannels/ChannelList'
 
 export default function CustomIcon() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -53,7 +53,7 @@ export default function CustomIcon() {
             borderRadius="full"
             objectFit="cover"
             objectPosition="center"
-            fallbackSrc={`${config.ROOT_URL}/img/channel/${flow.channel_name.toLowerCase()}.svg`}
+            fallbackSrc={channelList.find((c) => c.name === flow.channel_name)?.icon || ''}
           />
           {flow.config?.channel_icon ? (
             <IconButton

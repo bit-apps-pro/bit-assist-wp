@@ -204,7 +204,7 @@ function CustomForm() {
         <FormControl>
           <FormLabel>Webhook URL</FormLabel>
           <Input
-            placeholder="https://"
+            placeholder="https://..."
             value={flow.config?.card_config?.webhook_url || ''}
             onChange={(e) => handleFormChange(e.target.value, 'webhook_url')}
             tabIndex={config.IS_PRO ? 0 : -1}

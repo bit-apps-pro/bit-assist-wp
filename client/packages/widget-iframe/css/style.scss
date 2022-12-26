@@ -31,6 +31,7 @@
 }
 
 body {
+	overflow: hidden;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -57,5 +58,6 @@ body {
 @import './rating';
 @import './feedback';
 @import './listItem';
+@import './iframe';
 @import './toast';
 @import './keyframes';

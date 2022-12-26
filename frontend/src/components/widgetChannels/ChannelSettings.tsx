@@ -37,6 +37,7 @@ import KnowledgeBase from '@components/widgetChannels/channels/KnowledgeBase'
 import Tawk from '@components/widgetChannels/channels/Tawk'
 import Waze from '@components/widgetChannels/channels/Waze'
 import CustomChannel from '@components/widgetChannels/channels/CustomChannel'
+import CustomIframe from '@components/widgetChannels/channels/CustomIframe'
 import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
 import CustomChannelIcon from '@components/widgetChannels/channels/Fields/CustomChannelIcon'
@@ -60,6 +61,7 @@ function ChannelSettings() {
 
       <CustomChannelIcon />
 
+      {flow.channel_name?.toLowerCase() === 'custom-iframe' && <CustomIframe />}
       {flow.channel_name?.toLowerCase() === 'custom-channel' && <CustomChannel />}
       {flow.channel_name?.toLowerCase() === 'tawk' && <Tawk />}
       {flow.channel_name?.toLowerCase() === 'knowledge-base' && <KnowledgeBase />}
