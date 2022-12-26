@@ -2,17 +2,19 @@ import './css/style.scss'
 import leftArrow from './public/images/left-circle-arrow.svg'
 import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
-
-const $ = s => document.querySelector(s)
-
-const createElm = (elm, attributes) => {
-	const domElm = document.createElement(elm)
-
-	for (const attribute in attributes) {
-		domElm.setAttribute(attribute, attributes[attribute])
-	}
-	return domElm
-}
+import {
+	$,
+	createElm,
+	globalAppend,
+	globalClassListAdd,
+	globalClassListContains,
+	globalClassListRemove,
+	globalClassListToggle,
+	globalEventListener,
+	globalPostMessage,
+	globalQuerySelectorAll,
+	globalSetProperty,
+} from './Utils/Helpers.js'
 
 export default class Widget {
 	#apiEndPoint
@@ -53,8 +55,8 @@ export default class Widget {
 	// Events
 	// ====================
 	#addEvents = () => {
-		window.addEventListener('message', this.#onMessageReceived)
-		this.#widgetBubble.addEventListener('click', this.#onBubbleClick)
+		globalEventListener(window, 'message', this.#onMessageReceived)
+		globalEventListener(this.#widgetBubble, 'click', this.#onBubbleClick)
 	}
 
 	#closeWidget = () => {
@@ -63,40 +65,40 @@ export default class Widget {
 		if (typeof this.#iFrameWrapper !== 'undefined') {
 			this.#removeIframe()
 		}
-		this.#widgetBubble?.classList.remove('open')
-		this.#contentWrapper?.classList.add('hide')
+		globalClassListRemove(this.#widgetBubble, 'open')
+		globalClassListAdd(this.#contentWrapper, 'hide')
 		this.#widgetOpenActions(false)
-		this.#root.style.setProperty('--card-width', '330px')
+		globalSetProperty(this.#root.style, '--card-width', '330px')
 	}
 
 	#hideChannels = () => {
-		if (this.#channels?.classList.contains('show')) {
-			this.#channels?.classList.remove('show')
+		if (globalClassListContains(this.#channels, 'show')) {
+			globalClassListRemove(this.#channels, 'show')
 		}
 	}
 
 	#hideCard = () => {
-		if (this.#card?.classList.contains('show')) {
-			this.#card?.classList.remove('show')
+		if (globalClassListContains(this.#card, 'show')) {
+			globalClassListRemove(this.#card, 'show')
 		}
 	}
 
 	#onBubbleClick = (e, toggleIfNotExist = false) => {
-		if (toggleIfNotExist && this.#channels?.classList.contains('show')) {
+		if (toggleIfNotExist && globalClassListContains(this.#channels, 'show')) {
 			return
 		}
 
-		this.#channels?.classList.toggle('show')
+		globalClassListToggle(this.#channels, 'show')
 
-		if (this.#card?.classList.contains('show')) {
-			this.#root.style.setProperty('--card-width', '330px')
+		if (globalClassListContains(this.#card, 'show')) {
+			globalSetProperty(this.#root.style, '--card-width', '330px')
 			this.#hideCard()
 			this.#resetClientWidgetSize()
 		} else if (typeof this.#iFrameWrapper !== 'undefined') {
 			this.#removeIframe()
 		} else {
-			this.#contentWrapper.classList.toggle('hide')
-			const isWidgetOpen = this.#widgetBubble?.classList.toggle('open')
+			globalClassListToggle(this.#contentWrapper, 'hide')
+			const isWidgetOpen = globalClassListToggle(this.#widgetBubble, 'open')
 			this.#widgetOpenActions(isWidgetOpen)
 		}
 	}
@@ -109,7 +111,7 @@ export default class Widget {
 
 	#widgetOpenActions = isWidgetOpen => {
 		this.#openClientWidget(isWidgetOpen)
-		if (isWidgetOpen && !this.#callToAction?.classList.contains('hide')) {
+		if (isWidgetOpen && !globalClassListContains(this.#callToAction, 'hide')) {
 			this.#callToActionHide()
 			return
 		}
@@ -118,8 +120,8 @@ export default class Widget {
 	}
 
 	#callToActionHide = () => {
-		this.#callToAction?.classList.add('hide')
-		this.#closeCallToAction?.classList.add('hide')
+		globalClassListAdd(this.#callToAction, 'hide')
+		globalClassListAdd(this.#closeCallToAction, 'hide')
 
 		this.#resetClientWidgetSize()
 	}
@@ -179,8 +181,9 @@ export default class Widget {
 		this.#selectedFormBg = config?.card_config?.card_bg_color?.str
 
 		$('#cardHeader>h4').innerHTML = config?.title
-		this.#root.style.setProperty('--card-theme-color', this.#selectedFormBg)
-		this.#root.style.setProperty('--card-text-color', config?.card_config?.card_text_color?.str)
+
+		globalSetProperty(this.#root.style, '--card-theme-color', this.#selectedFormBg)
+		globalSetProperty(this.#root.style, '--card-text-color', config?.card_config?.card_text_color?.str)
 	}
 
 	#renderForm = widgetChannel => {
@@ -200,11 +203,12 @@ export default class Widget {
 		const submitButton = createElm('button', { type: 'submit' })
 		submitButton.innerText = cardConfig?.submit_button_text
 
-		this.#formBody.append(dynamicFieldsDiv, hiddenInput, submitButton)
+		globalAppend(this.#formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(this.#formBody)
-		this.#formBody.addEventListener('submit', this.#formSubmitted)
+		globalAppend(this.#cardBody, this.#formBody)
+
+		globalEventListener(this.#formBody, 'submit', this.#formSubmitted)
 		this.#createAllFields(cardConfig?.form_fields)
 	}
 
@@ -234,7 +238,7 @@ export default class Widget {
 		const wrapper = createElm('div', { class: filedType })
 
 		if (filedType === 'rating') {
-			wrapper.classList.add(field.rating_type)
+			globalClassListAdd(wrapper, field.rating_type)
 		}
 
 		let types = []
@@ -261,9 +265,9 @@ export default class Widget {
 				labelElm.prepend(feedbackIcon)
 			}
 
-			wrapper.append(inputElm, labelElm)
+			globalAppend(wrapper, [inputElm, labelElm])
 		})
-		dynamicFields.appendChild(wrapper)
+		globalAppend(dynamicFields, wrapper)
 	}
 
 	#createTextField = (field, dynamicFields) => {
@@ -286,15 +290,14 @@ export default class Widget {
 			return
 		}
 
-		fieldInput.classList.add('formControl')
+		globalClassListAdd(fieldInput, 'formControl')
 		fieldInput.setAttribute('type', field.field_type)
 
 		if (field.field_type === 'file') {
 			this.#fileField(field, dynamicFields, fieldInput)
 			return
 		}
-
-		dynamicFields.appendChild(fieldInput)
+		globalAppend(dynamicFields, fieldInput)
 	}
 
 	#fileField = (field, dynamicFields, fieldInput) => {
@@ -304,10 +307,10 @@ export default class Widget {
 
 		const inputWrap = createElm('div', { class: 'formControl customFile' })
 		inputWrap.innerHTML = `<div class="cfit"><button class="cfit-btn">Attach File</button><div class="cfit-title">No file chosen</div></div>`
-		inputWrap.append(fieldInput)
-		dynamicFields.appendChild(inputWrap)
+		globalAppend(inputWrap, fieldInput)
+		globalAppend(dynamicFields, inputWrap)
 
-		fieldInput.addEventListener('change', e => {
+		const handleImageUpload = e => {
 			let fileName = 'No file chosen'
 			const fileLength = e.target.files.length
 			if (fileLength > 0) {
@@ -315,7 +318,9 @@ export default class Widget {
 			}
 			const cfitTitle = e.target.parentElement.querySelector('.cfit-title')
 			cfitTitle.innerHTML = fileName
-		})
+		}
+
+		globalEventListener(fieldInput, 'change', handleImageUpload)
 	}
 
 	#gdprField = (field, dynamicFields, fieldInput) => {
@@ -328,8 +333,8 @@ export default class Widget {
 		}
 
 		const gdprContainer = createElm('div', { class: 'gdprContainer' })
-		gdprContainer.append(fieldInput, link)
-		dynamicFields.appendChild(gdprContainer)
+		globalAppend(gdprContainer, [fieldInput, link])
+		globalAppend(dynamicFields, gdprContainer)
 	}
 
 	// Faq
@@ -348,33 +353,33 @@ export default class Widget {
 			class: 'formControl',
 			placeholder: 'Search',
 		})
-		listWrapper.append(lists, listSearch)
+		globalAppend(listWrapper, [lists, listSearch])
 
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
 		const img = createElm('img', { src: leftArrow, alt: 'back' })
-		closeDescBtn.appendChild(img)
+		globalAppend(closeDescBtn, img)
 		const p = document.createElement('p')
-		descriptionTitle.append(closeDescBtn, p)
+		globalAppend(descriptionTitle, [closeDescBtn, p])
 
 		const content = createElm('div', { class: 'content' })
-		faqDescription.append(descriptionTitle, content)
-		faqBody.append(listWrapper, faqDescription)
+		globalAppend(faqDescription, [descriptionTitle, content])
+		globalAppend(faqBody, [listWrapper, faqDescription])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(faqBody)
+		globalAppend(this.#cardBody, faqBody)
 
-		listSearch.addEventListener('input', this.#searchList)
-		closeDescBtn.addEventListener('click', this.#faqDescToggle)
+		globalEventListener(listSearch, 'input', this.#searchList)
+		globalEventListener(closeDescBtn, 'click', this.#faqDescToggle)
 
 		this.#renderFaqItem(cardConfig?.faqs)
 	}
 
 	#renderFaqItem = items => {
 		this.#itemListAppend(items)
-		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
-			item.addEventListener('click', e => this.#faqDescToggle(e, items))
+		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
+			globalEventListener(item, 'click', e => this.#faqDescToggle(e, items))
 		})
 	}
 
@@ -388,7 +393,7 @@ export default class Widget {
 		}
 
 		const faqBody = $('#faqBody')
-		const isOpen = faqBody?.classList.toggle('openDesc')
+		const isOpen = globalClassListToggle($('#faqBody'), 'openDesc')
 		if (isOpen) {
 			const descHeight = $('#faqDescription').scrollHeight
 			Object.assign(faqBody.style, {
@@ -399,7 +404,7 @@ export default class Widget {
 			faqBody.removeAttribute('style')
 		}
 
-		$('#listWrapper')?.classList.toggle('hide')
+		globalClassListToggle($('#listWrapper'), 'hide')
 	}
 
 	// Knowledge base
@@ -418,7 +423,7 @@ export default class Widget {
 			class: 'formControl',
 			placeholder: 'Search',
 		})
-		listWrapper.append(lists, listSearch)
+		globalAppend(listWrapper, [lists, listSearch])
 
 		const overlay = createElm('div', { class: 'overlay' })
 		const knowledgeBaseDescription = createElm('div', { id: 'knowledgeBaseDescription' })
@@ -428,38 +433,38 @@ export default class Widget {
 
 		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
 		const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
-		prevKBBtn.appendChild(prevKbImg)
+		globalAppend(prevKBBtn, prevKbImg)
 
 		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
 		const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
-		nextKBBtn.appendChild(nextKbImg)
+		globalAppend(nextKBBtn, nextKbImg)
 
 		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
 		const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
-		closeKBBtn.appendChild(closeKbImg)
+		globalAppend(closeKBBtn, closeKbImg)
 
-		modalActions.append(prevKBBtn, nextKBBtn, closeKBBtn)
-		descriptionTitle.append(p, modalActions)
+		globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])
+		globalAppend(descriptionTitle, [p, modalActions])
 
 		const content = createElm('div', { class: 'content' })
-		knowledgeBaseDescription.append(descriptionTitle, content)
-		knowledgeBaseBody.append(listWrapper, overlay, knowledgeBaseDescription)
+		globalAppend(knowledgeBaseDescription, [descriptionTitle, content])
+		globalAppend(knowledgeBaseBody, [listWrapper, overlay, knowledgeBaseDescription])
 
 		this.#cardBody.innerHTML = ''
-		this.#cardBody.appendChild(knowledgeBaseBody)
+		globalAppend(this.#cardBody, knowledgeBaseBody)
 
-		listSearch.addEventListener('input', this.#searchList)
-		closeKBBtn.addEventListener('click', this.#knowledgeBaseDescToggle)
-		prevKBBtn.addEventListener('click', () => this.#gotoPrevNextKB('previousElementSibling'))
-		nextKBBtn.addEventListener('click', () => this.#gotoPrevNextKB('nextElementSibling'))
+		globalEventListener(listSearch, 'input', this.#searchList)
+		globalEventListener(closeKBBtn, 'click', this.#knowledgeBaseDescToggle)
+		globalEventListener(prevKBBtn, 'click', () => this.#gotoPrevNextKB('previousElementSibling'))
+		globalEventListener(nextKBBtn, 'click', () => this.#gotoPrevNextKB('nextElementSibling'))
 
 		this.#renderKnowledgeBaseItem(cardConfig?.knowledge_bases)
 	}
 
 	#renderKnowledgeBaseItem = items => {
 		this.#itemListAppend(items)
-		document.querySelectorAll('.listItemTitleWrapper').forEach(item => {
-			item.addEventListener('click', e => this.#knowledgeBaseDescToggle(e, items))
+		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
+			globalEventListener(item, 'click', e => this.#knowledgeBaseDescToggle(e, items))
 		})
 	}
 
@@ -471,17 +476,17 @@ export default class Widget {
 	}
 
 	#knowledgeBaseDescToggle = (e, knowledgeBases) => {
-		$('.listItem.active')?.classList.remove('active')
+		globalClassListRemove($('.listItem.active'), 'active')
 
 		const knowledgeBaseBody = $('#knowledgeBaseBody')
 		if (!knowledgeBases) {
-			knowledgeBaseBody?.classList.remove('openDesc')
-			this.#root.style.setProperty('--card-width', '330px')
+			globalClassListRemove(knowledgeBaseBody, 'openDesc')
+			globalSetProperty(this.#root.style, '--card-width', '330px')
 			this.#resetClientWidgetSize()
 			return
 		}
 
-		e.target.closest('.listItem').classList.toggle('active')
+		globalClassListToggle(e.target.closest('.listItem'), 'active')
 		const knowledgeBase = knowledgeBases.find(
 			item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
 		)
@@ -489,12 +494,12 @@ export default class Widget {
 			return
 		}
 
-		knowledgeBaseBody?.classList.add('openDesc')
+		globalClassListAdd(knowledgeBaseBody, 'openDesc')
 		$('.descriptionTitle p').innerHTML = knowledgeBase?.title || ''
 		$('.content').innerHTML = knowledgeBase?.description || ''
 
-		this.#root.style.setProperty('--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
-		this.#root.style.setProperty('--card-width', '767px')
+		globalSetProperty(this.#root.style, '--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
+		globalSetProperty(this.#root.style, '--card-width', '767px')
 		this.#resetClientWidgetSize()
 	}
 
@@ -508,22 +513,21 @@ export default class Widget {
 			title.innerHTML = item?.title || ''
 
 			listItemTitleWrapper.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>`
-			listItemTitleWrapper.appendChild(title)
+			globalAppend(listItemTitleWrapper, title)
 
-			listItem.appendChild(listItemTitleWrapper)
+			globalAppend(listItem, listItemTitleWrapper)
 			itemsObj.push(listItem)
 		})
-		$('#lists').append(...itemsObj)
+		globalAppend($('#lists'), itemsObj)
 	}
 
 	#searchList = e => {
 		const search = e.target.value.toLowerCase()
-		const listItems = document.querySelectorAll('.listItem')
-		listItems.forEach(item => {
+		globalQuerySelectorAll(document, '.listItem').forEach(item => {
 			if (item.querySelector('.title').innerText.toLowerCase().includes(search)) {
-				item?.classList.remove('hide')
+				globalClassListRemove(item, 'hide')
 			} else {
-				item?.classList.add('hide')
+				globalClassListAdd(item, 'hide')
 			}
 		})
 	}
@@ -532,19 +536,20 @@ export default class Widget {
 	// poseMessage to parent
 	// =====================
 	#getClientInfo = () => {
-		parent.postMessage({ action: 'getClientInfo' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'getClientInfo' }, `${this.#clientDomain}`)
 	}
 
 	#openClientWidget = isWidgetOpen => {
-		parent.postMessage({ action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
 	}
 
 	#removeClientWidget = () => {
-		parent.postMessage({ action: 'removeWidget' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'removeWidget' }, `${this.#clientDomain}`)
 	}
 
 	#renderWidgetConf = () => {
-		parent.postMessage(
+		globalPostMessage(
+			parent,
 			{
 				action: 'widgetLoaded',
 				height: (this.#widgetData?.styles?.size || 60) + 20,
@@ -561,14 +566,15 @@ export default class Widget {
 	}
 
 	#resetClientWidgetSize = () => {
-		parent.postMessage(
+		globalPostMessage(
+			parent,
 			{ action: 'resetWidgetSize', height: this.#widgetWrapper.offsetHeight, width: this.#widgetWrapper.offsetWidth },
 			`${this.#clientDomain}`,
 		)
 	}
 
 	#chatWidgetClick = chatWidgetName => {
-		parent.postMessage({ action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
 	}
 
 	#channelClickEventTrigger = (channelType, channelName, channelUrl) => {
@@ -593,8 +599,8 @@ export default class Widget {
 	}
 
 	#handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint }) => {
-		this.#root.style.setProperty('--client-win-width', winWidth + 'px')
-		this.#root.style.setProperty('--client-win-height', winHeight + 'px')
+		globalSetProperty(this.#root.style, '--client-win-width', winWidth + 'px')
+		globalSetProperty(this.#root.style, '--client-win-height', winHeight + 'px')
 		this.#scrollPercent = scrollPercent
 		this.#apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
@@ -657,16 +663,16 @@ export default class Widget {
 		this.#widgetShowAfterScroll()
 
 		if (this.#widgetData.styles?.position?.indexOf('top') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('bottom') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('left') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
 		}
 		if (this.#widgetData.styles?.position?.indexOf('right') > -1) {
-			this.#root.style.setProperty('--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
 		}
 	}
 
@@ -750,8 +756,8 @@ export default class Widget {
 	#addCustomStyles = () => {
 		if (this.#widgetData.custom_css?.length > 0) {
 			const styleElement = document.createElement('style')
-			styleElement.appendChild(document.createTextNode(this.#widgetData.custom_css))
-			document.head.appendChild(styleElement)
+			globalAppend(styleElement, document.createTextNode(this.#widgetData.custom_css))
+			globalAppend(document.head, styleElement)
 		}
 	}
 
@@ -778,16 +784,16 @@ export default class Widget {
           </button>`,
 			)
 			.join('')
-		this.#contentWrapper.appendChild(this.#channels)
+		globalAppend(this.#contentWrapper, this.#channels)
 
-		document.querySelectorAll('.channel').forEach(channel => {
-			channel.addEventListener('click', this.#onChannelClick)
+		globalQuerySelectorAll(document, '.channel').forEach(channel => {
+			globalEventListener(channel, 'click', this.#onChannelClick)
 		})
 	}
 
 	#renderCard = () => {
 		if ($('#card')) {
-			this.#card?.classList.add('show')
+			globalClassListAdd(this.#card, 'show')
 			return
 		}
 
@@ -798,12 +804,12 @@ export default class Widget {
 
 		iconBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`
 
-		cardHeader.append(h4, iconBtn)
+		globalAppend(cardHeader, [h4, iconBtn])
 		this.#cardBody = createElm('div', { id: 'cardBody' })
-		this.#card.append(cardHeader, this.#cardBody)
-		this.#contentWrapper.appendChild(this.#card)
+		globalAppend(this.#card, [cardHeader, this.#cardBody])
+		globalAppend(this.#contentWrapper, this.#card)
 
-		iconBtn.addEventListener('click', this.#closeWidget)
+		globalEventListener(iconBtn, 'click', this.#closeWidget)
 	}
 
 	#formSubmitted = async e => {
@@ -815,7 +821,7 @@ export default class Widget {
 
 		try {
 			submitBtn.innerHTML = 'Sending...'
-			submitBtn?.classList.add('disabled')
+			globalClassListAdd(submitBtn, 'disabled')
 			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
 				method: 'POST',
 				body: formData,
@@ -828,19 +834,19 @@ export default class Widget {
 			}
 
 			e.target.reset()
-			e.target.querySelectorAll('.cfit-title').forEach(title => {
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
 				title.innerHTML = 'No file chosen'
 			})
-			submitBtn?.classList.remove('disabled')
+			globalClassListRemove(submitBtn, 'disabled')
 			submitBtn.innerHTML = oldText
 		} catch (err) {
 			console.log(err)
 			await this.#showToast('error')
 			e.target.reset()
-			e.target.querySelectorAll('.cfit-title').forEach(title => {
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
 				title.innerHTML = 'No file chosen'
 			})
-			submitBtn?.classList.remove('disabled')
+			globalClassListRemove(submitBtn, 'disabled')
 			submitBtn.innerHTML = oldText
 		}
 	}
@@ -860,41 +866,41 @@ export default class Widget {
 		const toastTextBody = createElm('div', { class: 'toast-text-body' })
 		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
 
-		toastText.append(toastTextTitle, toastTextBody)
-		toastContent.appendChild(toastText)
-		toast.appendChild(toastContent)
+		globalAppend(toastText, [toastTextTitle, toastTextBody])
+		globalAppend(toastContent, toastText)
+		globalAppend(toast, toastContent)
 
-		this.#cardBody.appendChild(toast)
-		this.#formBody?.classList.add('hide')
+		globalAppend(this.#cardBody, toast)
+		globalClassListAdd(this.#formBody, 'hide')
 
-		if (toast.classList.contains('success')) {
+		if (globalClassListContains(toast, 'success')) {
 			toastTextTitle.style.color = this.#selectedFormBg
 		}
 
 		await this.#delay(2)
-		if (!this.#formBody?.classList.contains('hide')) return
+		if (!globalClassListContains(this.#formBody, 'hide')) return
 
 		this.#cardBody.removeChild(toast)
-		this.#formBody?.classList.remove('hide')
+		globalClassListRemove(this.#formBody, 'hide')
 	}
 
 	#renderWidgetBubble = () => {
-		this.#root.style.setProperty('--widget-size', (this.#widgetData?.styles?.size || 60) + 'px')
-		this.#root.style.setProperty('--widget-color', this.#widgetData?.styles?.color?.str)
+		globalSetProperty(this.#root.style, '--widget-size', (this.#widgetData?.styles?.size || 60) + 'px')
+		globalSetProperty(this.#root.style, '--widget-color', this.#widgetData?.styles?.color?.str)
 
 		if (this.#widgetData?.widget_behavior === 2) {
 			this.#widgetBubble.removeEventListener('click', this.#onBubbleClick)
-			this.#widgetBubble.addEventListener('mouseenter', e => this.#onBubbleClick(e, true))
-			this.#widgetWrapper.addEventListener('mouseleave', this.#onBubbleClick)
+			globalEventListener(this.#widgetBubble, 'mouseenter', e => this.#onBubbleClick(e, true))
+			globalEventListener(this.#widgetWrapper, 'mouseleave', this.#onBubbleClick)
 		} else if (this.#widgetData?.widget_behavior === 3) {
 			this.#onBubbleClick()
 		}
 
-		this.#widgetBubble?.classList.add(this.#widgetData?.styles?.shape)
-		this.#widgetWrapper?.classList.add(this.#widgetData?.styles?.position)
+		globalClassListAdd(this.#widgetBubble, this.#widgetData?.styles?.shape)
+		globalClassListAdd(this.#widgetWrapper, this.#widgetData?.styles?.position)
 
 		$('#widget-img').src = this.#widgetData?.styles?.customImage || this.#widgetData?.styles?.iconUrl
-		$('#widget-img')?.classList.add(this.#widgetData?.styles?.customImage ? 'image' : 'icon')
+		globalClassListAdd($('#widget-img'), this.#widgetData?.styles?.customImage ? 'image' : 'icon')
 
 		// Change image color depend on background
 		const brightness = Math.round(
@@ -903,7 +909,7 @@ export default class Widget {
 				parseInt(this.#widgetData?.styles?.color?.b, 10) * 114) /
 				1000,
 		)
-		this.#root.style.setProperty('--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
+		globalSetProperty(this.#root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}
 
 	#widgetShowDelay = async () => {
@@ -914,9 +920,9 @@ export default class Widget {
 
 	#widgetShowAfterScroll = async () => {
 		if (this.#widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.#widgetData?.page_scroll) {
-			this.#widgetWrapper.classList.remove('hide')
+			globalClassListRemove(this.#widgetWrapper, 'hide')
 		} else {
-			this.#widgetWrapper.classList.add('hide')
+			globalClassListAdd(this.#widgetWrapper, 'hide')
 		}
 		this.#resetClientWidgetSize()
 	}
@@ -935,12 +941,12 @@ export default class Widget {
 
 		const ctaImage = createElm('img', { src: closeIcon })
 		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
-		this.#closeCallToAction.appendChild(ctaImage)
-		this.#closeCallToAction.addEventListener('click', this.#callToActionHide)
+		globalAppend(this.#closeCallToAction, ctaImage)
+		globalEventListener(this.#closeCallToAction, 'click', this.#callToActionHide)
 
 		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
 
-		if (this.#widgetBubble?.classList.contains('open')) {
+		if (globalClassListContains(this.#widgetBubble, 'open')) {
 			this.#callToActionHide()
 			return
 		}
