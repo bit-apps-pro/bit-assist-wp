@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { FormControl, FormHelperText, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
@@ -24,6 +24,9 @@ export default function CustomIframe() {
           onChange={(e) => handleChanges(e.target.value, 'unique_id')}
           placeholder="https://..."
         />
+        <FormHelperText>
+          Don't directly use iFrame tag, only use <b>URL</b> from iFrame.
+        </FormHelperText>
       </FormControl>
     </>
   )

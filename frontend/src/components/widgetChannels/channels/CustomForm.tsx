@@ -9,7 +9,6 @@ import {
   PopoverContent,
   PopoverTrigger,
   SimpleGrid,
-  Stack,
   useColorModeValue,
   useDisclosure,
   VStack,
@@ -17,9 +16,6 @@ import {
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { TColor } from '@atomik-color/core/dist/types'
-import { str2Color } from '@atomik-color/core'
-import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import CustomFormField from '@components/widgetChannels/channels/Fields/CustomFormField'
 import {
   closestCenter,
@@ -38,6 +34,7 @@ import { FiPlus } from 'react-icons/fi'
 import StoreResponses from '@components/widgetChannels/StoreResponses'
 import ProWrapper from '@components/global/ProWrapper'
 import config from '@config/config'
+import CardColors from './common/CardColors'
 
 function CustomForm() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -46,25 +43,15 @@ function CustomForm() {
   const { onOpen, onClose, isOpen } = useDisclosure()
 
   useEffect(() => {
-    if (typeof flow.config?.card_config?.card_bg_color !== 'undefined') return
+    if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
     setFlow((prev) => {
       if (typeof prev.config?.card_config === 'undefined') {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
-      prev.config.card_config = {
-        card_bg_color: str2Color('#0038FF'),
-        card_text_color: str2Color('#fff'),
-        submit_button_text: 'Submit',
-      }
+      prev.config.card_config.submit_button_text = 'Submit'
     })
   }, [])
-
-  const handleColorChange = (color: TColor, key: string) => {
-    setFlow((prev) => {
-      prev.config.card_config = { ...prev.config.card_config, [key]: color }
-    })
-  }
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -212,25 +199,7 @@ function CustomForm() {
         </FormControl>
       </ProWrapper>
 
-      <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
-        <FormControl>
-          <FormLabel>Form Theme Color</FormLabel>
-          <ColorPickerWrap
-            color={flow.config?.card_config?.card_bg_color}
-            handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
-            handleClose={() => {}}
-          />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel>Form Text Color</FormLabel>
-          <ColorPickerWrap
-            color={flow.config?.card_config?.card_text_color}
-            handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
-            handleClose={() => {}}
-          />
-        </FormControl>
-      </Stack>
+      <CardColors bg="#0038FF" color="#fff" />
     </>
   )
 }
