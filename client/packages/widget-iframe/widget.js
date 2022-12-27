@@ -12,11 +12,12 @@ import {
 	globalClassListToggle,
 	globalEventListener,
 	globalInnerHTML,
+	globalInnerText,
 	globalPostMessage,
 	globalQuerySelectorAll,
 	globalSetAttribute,
 	globalSetProperty,
-} from './Utils/Helpers.js'
+} from './utils/Helpers.js'
 
 export default class Widget {
 	#apiEndPoint
@@ -203,7 +204,7 @@ export default class Widget {
 			value: widgetChannel.id,
 		})
 		const submitButton = createElm('button', { type: 'submit' })
-		submitButton.innerText = cardConfig?.submit_button_text
+		globalInnerText(submitButton, cardConfig?.submit_button_text)
 
 		globalAppend(this.#formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
@@ -777,22 +778,26 @@ export default class Widget {
 						(!this.#isMobileDevice && widgetChannel.config?.channel_show_on.includes('desktop'))) &&
 					((!this.#isOfficeHours && !widgetChannel.config?.hide_after_office_hours) || this.#isOfficeHours),
 			)
-			.map(
-				widgetChannel => `
-          <button class="channel" data-id="${
-						widgetChannel.id
-					}" data-channel_name="${widgetChannel.channel_name.toLowerCase()}" data-url="${
-					widgetChannel.config?.url || '#'
-				}" data-target="${widgetChannel.config.open_window_action}">
-            <div class="channel-name">${widgetChannel.config.title}</div>
-            <div class="channel-icon">
-              <img src="${widgetChannel.channel_icon}" alt="${widgetChannel.config.title}">
-            </div>
-          </button>`,
-			)
-			.join('')
+			.map(widgetChannel => {
+				const channelBtn = createElm('button', {
+					class: 'channel',
+					'data-id': widgetChannel.id,
+					'data-channel_name': widgetChannel.channel_name.toLowerCase(),
+					'data-url': widgetChannel.config?.url || '#',
+					'data-target': widgetChannel.config.open_window_action,
+				})
+				const channelName = createElm('div', { class: 'channel-name' })
+				globalInnerText(channelName, widgetChannel.config.title)
 
-		globalInnerHTML(this.#channels, allChannels)
+				const channelIcon = createElm('div', { class: 'channel-icon' })
+				const channelImg = createElm('img', { src: widgetChannel.channel_icon, alt: widgetChannel.config.title })
+
+				globalAppend(channelIcon, channelImg)
+				globalAppend(channelBtn, [channelName, channelIcon])
+				return channelBtn
+			})
+
+		globalAppend(this.#channels, allChannels)
 		globalAppend(this.#contentWrapper, this.#channels)
 
 		globalQuerySelectorAll(document, '.channel').forEach(channel => {
@@ -828,11 +833,11 @@ export default class Widget {
 		e.preventDefault()
 
 		const submitBtn = e.target.querySelector('[type="submit"]')
-		const oldText = submitBtn.innerHTML
+		const oldText = submitBtn.innerText
 		const formData = new FormData(e.target)
 
 		try {
-			globalInnerHTML(submitBtn, 'Sending...')
+			globalInnerText(submitBtn, 'Sending...')
 			globalClassListAdd(submitBtn, 'disabled')
 			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
 				method: 'POST',
@@ -847,19 +852,19 @@ export default class Widget {
 
 			e.target.reset()
 			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerHTML(title, 'No file chosen')
+				globalInnerText(title, 'No file chosen')
 			})
 			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerHTML(submitBtn, oldText)
+			globalInnerText(submitBtn, oldText)
 		} catch (err) {
 			console.log(err)
 			await this.#showToast('error')
 			e.target.reset()
 			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerHTML(title, 'No file chosen')
+				globalInnerText(title, 'No file chosen')
 			})
 			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerHTML(submitBtn, oldText)
+			globalInnerText(submitBtn, oldText)
 		}
 	}
 

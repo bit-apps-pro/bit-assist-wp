@@ -54,3 +54,6 @@ export const globalSetAttribute = (domElm, attribute, value) => {
 export const globalInnerHTML = (domElm, value) => {
 	domElm.innerHTML = value
 }
+export const globalInnerText = (domElm, value) => {
+	domElm.innerText = value
+}
