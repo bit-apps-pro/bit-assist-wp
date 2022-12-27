@@ -12,6 +12,7 @@ if (!\defined('ABSPATH')) {
 Route::noAuth()->group(function () {
     Route::post('bitAssistWidget', [ApiWidgetController::class, 'bitAssistWidget']);
     Route::post('responses', [ResponseController::class, 'store']);
+    Route::post('wpSearch', [ApiWidgetController::class, 'wpSearch']);
 
     Route::get('iframe', [IframeController::class, 'iframe']);
 });

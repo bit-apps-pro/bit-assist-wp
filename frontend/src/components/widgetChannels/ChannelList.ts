@@ -98,6 +98,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/whatsapp.svg`,
   },
   {
+    name: 'WP-Search',
+    icon: `${config.ROOT_URL}/img/channel/wp-search.svg`,
+  },
+  {
     name: 'Youtube',
     icon: `${config.ROOT_URL}/img/channel/youtube.svg`,
   },

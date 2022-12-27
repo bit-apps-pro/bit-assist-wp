@@ -141,6 +141,8 @@ export default class Widget {
 			this.#renderForm(widgetChannel)
 		} else if (channel_name === 'knowledge-base') {
 			this.#renderKnowledgeBase(widgetChannel)
+		} else if (channel_name === 'wp-search') {
+			this.#renderWPSearch()
 		} else if (channel_name === 'google-map') {
 			this.#renderIframe(url, channel_name, unique_id)
 		} else if (channel_name === 'youtube' || channel_name === 'custom-iframe') {
@@ -155,6 +157,10 @@ export default class Widget {
 
 		this.#resetClientWidgetSize()
 		this.#channelClickEventTrigger(channel_name, title, url)
+	}
+
+	#renderWPSearch = () => {
+		console.log('>>>', 'wp search')
 	}
 
 	#renderIframe = (url, channelName, iframe = false) => {
@@ -405,6 +411,7 @@ export default class Widget {
 		}
 
 		globalClassListToggle($('#listWrapper'), 'hide')
+		this.#resetClientWidgetSize()
 	}
 
 	// Knowledge base

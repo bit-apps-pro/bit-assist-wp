@@ -41,6 +41,7 @@ import CustomIframe from '@components/widgetChannels/channels/CustomIframe'
 import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
 import CustomChannelIcon from '@components/widgetChannels/channels/Fields/CustomChannelIcon'
+import WPSearch from '@components/widgetChannels/channels/WPSearch'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -49,6 +50,65 @@ function ChannelSettings() {
     setFlow((prev) => {
       prev.config = { ...prev.config, [key]: value }
     })
+  }
+
+  const renderSelectedChannelSettings = (channelName: string) => {
+    switch (channelName) {
+      case 'wp-search':
+        return <WPSearch />
+      case 'custom-iframe':
+        return <CustomIframe />
+      case 'custom-channel':
+        return <CustomChannel />
+      case 'tawk':
+        return <Tawk />
+      case 'knowledge-base':
+        return <KnowledgeBase />
+      case 'faq':
+        return <FAQ />
+      case 'custom-form':
+        return <CustomForm />
+      case 'discord':
+        return <Discord />
+      case 'line':
+        return <Line />
+      case 'snapchat':
+        return <Snapchat />
+      case 'viber':
+        return <Viber />
+      case 'wechat':
+        return <WeChat />
+      case 'sms':
+        return <SMS />
+      case 'linkedin':
+        return <Linkedin />
+      case 'tiktok':
+        return <TikTok />
+      case 'google-map':
+        return <GoogleMap />
+      case 'waze':
+        return <Waze />
+      case 'slack':
+        return <Slack />
+      case 'youtube':
+        return <Youtube />
+      case 'call':
+        return <Call />
+      case 'skype':
+        return <Skype />
+      case 'whatsapp':
+        return <Whatsapp />
+      case 'messenger':
+        return <Messenger />
+      case 'twitter':
+        return <Twitter />
+      case 'instagram':
+        return <Instagram />
+      case 'telegram':
+        return <Telegram />
+      default:
+        return null
+    }
   }
 
   return (
@@ -61,31 +121,7 @@ function ChannelSettings() {
 
       <CustomChannelIcon />
 
-      {flow.channel_name?.toLowerCase() === 'custom-iframe' && <CustomIframe />}
-      {flow.channel_name?.toLowerCase() === 'custom-channel' && <CustomChannel />}
-      {flow.channel_name?.toLowerCase() === 'tawk' && <Tawk />}
-      {flow.channel_name?.toLowerCase() === 'knowledge-base' && <KnowledgeBase />}
-      {flow.channel_name?.toLowerCase() === 'faq' && <FAQ />}
-      {flow.channel_name?.toLowerCase() === 'custom-form' && <CustomForm />}
-      {flow.channel_name?.toLowerCase() === 'discord' && <Discord />}
-      {flow.channel_name?.toLowerCase() === 'line' && <Line />}
-      {flow.channel_name?.toLowerCase() === 'snapchat' && <Snapchat />}
-      {flow.channel_name?.toLowerCase() === 'viber' && <Viber />}
-      {flow.channel_name?.toLowerCase() === 'wechat' && <WeChat />}
-      {flow.channel_name?.toLowerCase() === 'sms' && <SMS />}
-      {flow.channel_name?.toLowerCase() === 'linkedin' && <Linkedin />}
-      {flow.channel_name?.toLowerCase() === 'tiktok' && <TikTok />}
-      {flow.channel_name?.toLowerCase() === 'google-map' && <GoogleMap />}
-      {flow.channel_name?.toLowerCase() === 'waze' && <Waze />}
-      {flow.channel_name?.toLowerCase() === 'slack' && <Slack />}
-      {flow.channel_name?.toLowerCase() === 'youtube' && <Youtube />}
-      {flow.channel_name?.toLowerCase() === 'call' && <Call />}
-      {flow.channel_name?.toLowerCase() === 'skype' && <Skype />}
-      {flow.channel_name?.toLowerCase() === 'whatsapp' && <Whatsapp />}
-      {flow.channel_name?.toLowerCase() === 'messenger' && <Messenger />}
-      {flow.channel_name?.toLowerCase() === 'twitter' && <Twitter />}
-      {flow.channel_name?.toLowerCase() === 'instagram' && <Instagram />}
-      {flow.channel_name?.toLowerCase() === 'telegram' && <Telegram />}
+      {renderSelectedChannelSettings(flow.channel_name.toLowerCase())}
 
       <ProWrapper>
         <FormControl>

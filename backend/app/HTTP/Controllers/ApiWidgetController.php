@@ -76,4 +76,19 @@ final class ApiWidgetController
 
         return $widgetChannels;
     }
+
+    public function wpSearch(Request $request)
+    {
+        $pages = get_pages();
+        $posts = get_posts();
+        $allPageAndPosts = array_merge($pages, $posts);
+        $allPageAndPosts = array_map(function ($item) {
+            return [
+                'id'    => $item->ID,
+                'title' => $item->post_title,
+                'url'   => get_permalink($item->ID),
+            ];
+        }, $allPageAndPosts);
+        return $allPageAndPosts;
+    }
 }
