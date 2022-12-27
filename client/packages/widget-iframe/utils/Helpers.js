@@ -3,8 +3,10 @@ export const $ = s => document.querySelector(s)
 export const createElm = (elm, attributes) => {
 	const domElm = document.createElement(elm)
 
-	for (const attribute in attributes) {
-		domElm.setAttribute(attribute, attributes[attribute])
+	if (attributes) {
+		for (const attribute in attributes) {
+			domElm.setAttribute(attribute, attributes[attribute])
+		}
 	}
 	return domElm
 }
@@ -43,4 +45,15 @@ export const globalClassListContains = (selector, action) => {
 
 export const globalClassListToggle = (selector, action) => {
 	return selector?.classList.toggle(action)
+}
+
+export const globalSetAttribute = (domElm, attribute, value) => {
+	domElm.setAttribute(attribute, value)
+}
+
+export const globalInnerHTML = (domElm, value) => {
+	domElm.innerHTML = value
+}
+export const globalInnerText = (domElm, value) => {
+	domElm.innerText = value
 }
