@@ -6,13 +6,10 @@ import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowActi
 export default function Waze() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
-
-      if (key === 'unique_id') {
-        prev.config.url = value.toString()
-      }
+      prev.config.unique_id = value
+      prev.config.url = value
     })
   }
 
@@ -20,9 +17,9 @@ export default function Waze() {
     <>
       <FormControl>
         <FormLabel>Waze link</FormLabel>
-        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+        <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
       </FormControl>
-      <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
+      <OpenWindowAction />
     </>
   )
 }

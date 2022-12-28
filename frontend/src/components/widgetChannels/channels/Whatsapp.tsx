@@ -15,7 +15,9 @@ function Whatsapp() {
 
   useEffect(() => {
     setFlow((prev) => {
-      prev.config.url = `https://api.whatsapp.com/send/?phone=${flow.config?.unique_id ?? ''}&text=${flow.config?.message ?? ''}`
+      prev.config.url = `https://api.whatsapp.com/send/?phone=${flow.config?.unique_id ?? ''}&text=${
+        flow.config?.message ?? ''
+      }`
     })
   }, [flow.config?.unique_id, flow.config?.message])
 
@@ -23,13 +25,17 @@ function Whatsapp() {
     <>
       <FormControl>
         <FormLabel>Phone number</FormLabel>
-        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} placeholder="ex: 88012312312312" />
+        <Input
+          value={flow.config?.unique_id ?? ''}
+          onChange={(e) => handleChanges(e.target.value, 'unique_id')}
+          placeholder="ex: 88012312312312"
+        />
       </FormControl>
       <FormControl>
         <FormLabel>Message</FormLabel>
         <Textarea value={flow.config?.message ?? ''} onChange={(e) => handleChanges(e.target.value, 'message')} />
       </FormControl>
-      <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
+      <OpenWindowAction />
     </>
   )
 }

@@ -1,19 +1,15 @@
-/* eslint-disable react/no-children-prop */
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 
-function Line() {
+export default function Line() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
-
-      if (key === 'unique_id') {
-        prev.config.url = `http://line.me/ti/p/${value}`
-      }
+      prev.config.unique_id = value
+      prev.config.url = `http://line.me/ti/p/${value}`
     })
   }
 
@@ -23,12 +19,10 @@ function Line() {
         <FormLabel>Line ID</FormLabel>
         <InputGroup>
           <InputLeftAddon children="@" />
-          <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+          <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
         </InputGroup>
       </FormControl>
-      <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
+      <OpenWindowAction />
     </>
   )
 }
-
-export default Line

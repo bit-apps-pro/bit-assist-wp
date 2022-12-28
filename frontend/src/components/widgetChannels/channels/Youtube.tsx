@@ -2,16 +2,13 @@ import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chak
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
-function Youtube() {
+export default function Youtube() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
-
-      if (key === 'unique_id') {
-        prev.config.url = value !== '' ? `https://www.youtube.com/embed/${value}?autoplay=1` : ''
-      }
+      prev.config.unique_id = value
+      prev.config.url = value !== '' ? `https://www.youtube.com/embed/${value}?autoplay=1` : ''
     })
   }
 
@@ -20,10 +17,8 @@ function Youtube() {
       <FormLabel>Youtube video id</FormLabel>
       <InputGroup>
         <InputLeftAddon children="youtube.com/watch?v=" />
-        <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+        <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
       </InputGroup>
     </FormControl>
   )
 }
-
-export default Youtube

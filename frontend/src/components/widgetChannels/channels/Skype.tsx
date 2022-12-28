@@ -3,7 +3,7 @@ import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 
-function Skype() {
+export default function Skype() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string | number | boolean, key: string) => {
@@ -11,7 +11,9 @@ function Skype() {
       prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id' || key === 'phone_number') {
-        prev.config.url = `skype:${value || (key === 'unique_id' ? prev.config?.phone_number : prev.config?.unique_id)}?chat`
+        prev.config.url = `skype:${
+          value || (key === 'unique_id' ? prev.config?.phone_number : prev.config?.unique_id)
+        }?chat`
       }
     })
   }
@@ -27,11 +29,12 @@ function Skype() {
 
       <FormControl>
         <FormLabel>(Skype) Phone number</FormLabel>
-        <Input value={flow.config?.phone_number ?? ''} onChange={(e) => handleChanges(e.target.value, 'phone_number')} />
+        <Input
+          value={flow.config?.phone_number ?? ''}
+          onChange={(e) => handleChanges(e.target.value, 'phone_number')}
+        />
       </FormControl>
-      <OpenWindowAction value={flow.config?.open_window_action ?? ''} handleChanges={handleChanges} />
+      <OpenWindowAction />
     </>
   )
 }
-
-export default Skype

@@ -2,25 +2,20 @@ import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
-function Call() {
+export default function Call() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
-
-      if (key === 'unique_id') {
-        prev.config.url = `tel:${value}`
-      }
+      prev.config.unique_id = value
+      prev.config.url = `tel:${value}`
     })
   }
 
   return (
     <FormControl>
       <FormLabel>Phone number</FormLabel>
-      <Input value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+      <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
     </FormControl>
   )
 }
-
-export default Call

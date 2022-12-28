@@ -145,7 +145,7 @@ export default class Widget {
 		} else if (channel_name === 'knowledge-base') {
 			this.#renderKnowledgeBase(widgetChannel)
 		} else if (channel_name === 'wp-search') {
-			this.#renderWPSearch()
+			this.#renderWPSearch(widgetChannel)
 		} else if (channel_name === 'google-map') {
 			this.#renderIframe(url, channel_name, unique_id)
 		} else if (channel_name === 'youtube' || channel_name === 'custom-iframe') {
@@ -162,8 +162,72 @@ export default class Widget {
 		this.#channelClickEventTrigger(channel_name, title, url)
 	}
 
-	#renderWPSearch = () => {
-		console.log('>>>', 'wp search')
+	#renderWPSearch = ({ config }) => {
+		this.#hideChannels()
+		this.#renderCard()
+		this.#setCardStyle(config)
+
+		const wpSearchBody = createElm('div', { id: 'wpSearchBody' })
+		const listWrapper = createElm('div', { id: 'listWrapper' })
+		const lists = createElm('div', { id: 'lists', 'data-link_open_action': config.open_window_action })
+		const listSearch = createElm('input', {
+			type: 'text',
+			id: 'listSearch',
+			class: 'formControl',
+			placeholder: 'Search',
+		})
+		globalAppend(listWrapper, [lists, listSearch])
+		globalAppend(wpSearchBody, listWrapper)
+
+		globalInnerHTML(this.#cardBody, '')
+		globalAppend(this.#cardBody, wpSearchBody)
+
+		globalEventListener(listSearch, 'input', e => this.#searchPostPage(e.target.value))
+		this.#searchPostPage('')
+	}
+
+	#searchPostPage = async value => {
+		const data = await this.#fetchWPSearchData(value)
+		this.#renderWPSearchItem(data)
+	}
+
+	#fetchWPSearchData = async value => {
+		const { data } = await fetch(`${this.#apiEndPoint}/wpSearch`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ search: value }),
+		}).then(res => res.json())
+
+		return data
+	}
+
+	#renderWPSearchItem = items => {
+		const lists = $('#lists')
+		globalInnerHTML(lists, '')
+		const itemsObj = []
+
+		items?.forEach(item => {
+			const listItem = createElm('div', { class: 'listItem' })
+			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper' })
+			const title = createElm('p', { class: 'title' })
+
+			globalAppend(listItem, listItemTitleWrapper)
+			globalAppend(listItemTitleWrapper, title)
+			globalInnerText(title, item?.title || '')
+			itemsObj.push(listItem)
+
+			globalEventListener(listItemTitleWrapper, 'click', () => {
+				const { link_open_action } = lists.dataset
+				if (link_open_action === 'new_window') {
+					window.open(item.url, '_blank', 'popup')
+				} else {
+					window.open(item.url, link_open_action)
+				}
+			})
+		})
+
+		globalAppend(lists, itemsObj)
+		this.#resetClientWidgetSize()
 	}
 
 	#renderIframe = (url, channelName, iframe = false) => {

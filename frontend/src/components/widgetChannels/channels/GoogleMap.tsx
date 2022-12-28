@@ -2,21 +2,19 @@ import { FormControl, FormLabel, Textarea } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
-function GoogleMap() {
+export default function GoogleMap() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
+      prev.config.unique_id = value
     })
   }
 
   return (
     <FormControl>
       <FormLabel>Google maps embed code</FormLabel>
-      <Textarea value={flow.config?.unique_id ?? ''} onChange={(e) => handleChanges(e.target.value, 'unique_id')} />
+      <Textarea value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
     </FormControl>
   )
 }
-
-export default GoogleMap

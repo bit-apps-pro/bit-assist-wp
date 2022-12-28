@@ -5,13 +5,10 @@ import { useAtom } from 'jotai'
 export default function CustomIframe() {
   const [flow, setFlow] = useAtom(flowAtom)
 
-  const handleChanges = (value: string, key: string) => {
+  const handleChanges = (value: string) => {
     setFlow((prev) => {
-      prev.config = { ...prev.config, [key]: value }
-
-      if (key === 'unique_id') {
-        prev.config.url = value
-      }
+      prev.config.unique_id = value
+      prev.config.url = value
     })
   }
 
@@ -20,8 +17,8 @@ export default function CustomIframe() {
       <FormControl>
         <FormLabel>iFrame url</FormLabel>
         <Input
-          value={flow.config?.unique_id ?? ''}
-          onChange={(e) => handleChanges(e.target.value, 'unique_id')}
+          value={flow.config?.unique_id || ''}
+          onChange={(e) => handleChanges(e.target.value)}
           placeholder="https://..."
         />
         <FormHelperText>

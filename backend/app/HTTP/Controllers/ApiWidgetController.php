@@ -79,16 +79,25 @@ final class ApiWidgetController
 
     public function wpSearch(Request $request)
     {
+        $search = $request->search;
+
         $pages = get_pages();
         $posts = get_posts();
+
         $allPageAndPosts = array_merge($pages, $posts);
         $allPageAndPosts = array_map(function ($item) {
             return [
                 'id'    => $item->ID,
+                'type'  => $item->post_type,
                 'title' => $item->post_title,
                 'url'   => get_permalink($item->ID),
             ];
         }, $allPageAndPosts);
+
+        $allPageAndPosts = array_filter($allPageAndPosts, function ($item) use ($search) {
+            return stripos($item['title'], $search) !== false;
+        });
+
         return $allPageAndPosts;
     }
 }
