@@ -10,7 +10,8 @@ export default function useUpdateWidgetStatus() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (requestData: ReqProps) => request(`widgets/${requestData.widgetId}/changeStatus`, { status: requestData.status }, null, 'PUT'),
+    async (requestData: ReqProps) =>
+      request(`widgets/${requestData.widgetId}/changeStatus`, { status: requestData.status }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('widgets')

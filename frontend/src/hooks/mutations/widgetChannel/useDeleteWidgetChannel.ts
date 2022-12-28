@@ -7,7 +7,7 @@ export default function useDeleteWidgetChannel() {
   const { widgetId } = useParams()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (widgetChannelId: number) => request(`widgetChannels/${widgetChannelId}`, null, null, 'DELETE'),
+    async (widgetChannelId: number) => request(`widgetChannels/${widgetChannelId}/destroy`),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['widget/widgetChannels', widgetId])

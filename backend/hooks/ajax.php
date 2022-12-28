@@ -28,9 +28,9 @@ Route::group(function () {
     Route::get('widgets', [WidgetController::class, 'index']);
     Route::get('widgets/{widget}', [WidgetController::class, 'show']);
     Route::post('widgets', [WidgetController::class, 'store']);
-    Route::put('widgets/{widget}', [WidgetController::class, 'update']);
-    Route::destroy('widgets/{widget}', [WidgetController::class, 'destroy']);
-    Route::put('widgets/{widget}/changeStatus', [WidgetController::class, 'changeStatus']);
+    Route::post('widgets/{widget}/update', [WidgetController::class, 'update']);
+    Route::post('widgets/{widget}/destroy', [WidgetController::class, 'destroy']);
+    Route::post('widgets/{widget}/changeStatus', [WidgetController::class, 'changeStatus']);
     Route::get('copyWidget/{widget}', [WidgetController::class, 'copy']);
 
     Route::get('channels', [ChannelController::class, 'index']);
@@ -39,9 +39,9 @@ Route::group(function () {
     Route::get('widgets/{widgetId}/widgetChannels', [WidgetChannelController::class, 'index']);
     Route::get('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'show']);
     Route::post('widgetChannels', [WidgetChannelController::class, 'store']);
-    Route::put('widgetChannels/updateSequence', [WidgetChannelController::class, 'updateSequence']);
-    Route::put('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'update']);
-    Route::destroy('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'destroy']);
+    Route::post('widgetChannels/{widgetChannel}/update', [WidgetChannelController::class, 'update']);
+    Route::post('widgetChannels/{widgetChannel}/destroy', [WidgetChannelController::class, 'destroy']);
+    Route::post('widgetChannels/updateSequence', [WidgetChannelController::class, 'updateSequence']);
     Route::get('copyWidgetChannel/{widgetChannel}', [WidgetChannelController::class, 'copy']);
 
     Route::get('responses/{widgetChannelId}/othersData', [ResponseController::class, 'othersData']);

@@ -13,7 +13,7 @@ export default function useUpdateWidgetChannel() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (requestData: ReqProps) => request(`widgetChannels/${requestData.widgetChannelId}`, requestData.flow, null, 'PUT'),
+    async (requestData: ReqProps) => request(`widgetChannels/${requestData.widgetChannelId}/update`, requestData.flow),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['widget/widgetChannels', widgetId])

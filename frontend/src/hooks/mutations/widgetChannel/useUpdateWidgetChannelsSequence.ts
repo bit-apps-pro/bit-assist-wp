@@ -13,7 +13,7 @@ export default function useUpdateWidgetChannelsSequence() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(async (widgetChannels: UpdateSequenceProps[]) =>
-    request('widgetChannels/updateSequence', { widgetChannels }, null, 'PUT'),
+    request('widgetChannels/updateSequence', { widgetChannels }),
   )
 
   const updateSequence = (newWidgetChannels: WidgetChannelType[], newIndex: number, oldIndex: number) => {
