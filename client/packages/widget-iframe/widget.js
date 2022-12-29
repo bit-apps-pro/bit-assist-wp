@@ -54,6 +54,18 @@ export default class Widget {
 		this.#getClientInfo()
 	}
 
+	#delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))
+
+	#debounce = (callback, delay) => {
+		let debounceTimer
+		return function () {
+			const context = this
+			const args = arguments
+			clearTimeout(debounceTimer)
+			debounceTimer = setTimeout(() => callback.apply(context, args), delay)
+		}
+	}
+
 	// ====================
 	// Events
 	// ====================
@@ -145,7 +157,7 @@ export default class Widget {
 		} else if (channel_name === 'knowledge-base') {
 			this.#renderKnowledgeBase(widgetChannel)
 		} else if (channel_name === 'wp-search') {
-			this.#renderWPSearch(widgetChannel)
+			this.#renderWPSearch(widgetChannel?.config)
 		} else if (channel_name === 'google-map') {
 			this.#renderIframe(url, channel_name, unique_id)
 		} else if (channel_name === 'youtube' || channel_name === 'custom-iframe') {
@@ -162,7 +174,7 @@ export default class Widget {
 		this.#channelClickEventTrigger(channel_name, title, url)
 	}
 
-	#renderWPSearch = ({ config }) => {
+	#renderWPSearch = config => {
 		this.#hideChannels()
 		this.#renderCard()
 		this.#setCardStyle(config)
@@ -182,20 +194,30 @@ export default class Widget {
 		globalInnerHTML(this.#cardBody, '')
 		globalAppend(this.#cardBody, wpSearchBody)
 
-		globalEventListener(listSearch, 'input', e => this.#searchPostPage(e.target.value))
 		this.#searchPostPage('')
+		globalEventListener(
+			listSearch,
+			'input',
+			this.#debounce(e => this.#searchPostPage(e.target.value), 600),
+		)
 	}
 
-	#searchPostPage = async value => {
-		const data = await this.#fetchWPSearchData(value)
+	#searchPostPage = async (value, page = 1) => {
+		const { data, pagination } = await this.#fetchWPSearchData(value, page)
+
 		this.#renderWPSearchItem(data)
+		if (pagination?.has_next || pagination?.has_previous) {
+			this.#renderWPSearchPagination(pagination)
+		}
+
+		this.#resetClientWidgetSize()
 	}
 
-	#fetchWPSearchData = async value => {
+	#fetchWPSearchData = async (value, page) => {
 		const { data } = await fetch(`${this.#apiEndPoint}/wpSearch`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ search: value }),
+			body: JSON.stringify({ search: value, page }),
 		}).then(res => res.json())
 
 		return data
@@ -208,26 +230,52 @@ export default class Widget {
 
 		items?.forEach(item => {
 			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper' })
+			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.guid })
 			const title = createElm('p', { class: 'title' })
+			const type = createElm('p', { class: 'type' })
 
 			globalAppend(listItem, listItemTitleWrapper)
-			globalAppend(listItemTitleWrapper, title)
-			globalInnerText(title, item?.title || '')
+			globalAppend(listItemTitleWrapper, [title, type])
+			globalInnerText(title, item?.post_title || '(no title)')
+			globalInnerText(type, item?.post_type || '')
 			itemsObj.push(listItem)
 
 			globalEventListener(listItemTitleWrapper, 'click', () => {
 				const { link_open_action } = lists.dataset
 				if (link_open_action === 'new_window') {
-					window.open(item.url, '_blank', 'popup')
+					window.open(item.guid, '_blank', 'popup')
 				} else {
-					window.open(item.url, link_open_action)
+					window.open(item.guid, link_open_action)
 				}
 			})
 		})
 
 		globalAppend(lists, itemsObj)
-		this.#resetClientWidgetSize()
+	}
+
+	#renderWPSearchPagination = pagination => {
+		const paginationWrap = createElm('div', { class: 'pagination' })
+
+		const pageNumber = createElm('span', { class: 'pageNumber' })
+		globalInnerText(pageNumber, `${pagination?.current} / ${pagination?.total} page`)
+
+		const nextPage = createElm('button', { class: 'nextPage' })
+		globalInnerText(nextPage, 'Next')
+		if (!pagination?.has_next) {
+			globalSetAttribute(nextPage, 'disabled', '')
+		}
+		const prevPage = createElm('button', { class: 'prevPage' })
+		globalInnerText(prevPage, 'Prev')
+		if (!pagination?.has_previous) {
+			globalSetAttribute(prevPage, 'disabled', '')
+		}
+
+		const searchValue = $('#listSearch')?.value || ''
+		globalEventListener(nextPage, 'click', () => this.#searchPostPage(searchValue, pagination?.next))
+		globalEventListener(prevPage, 'click', () => this.#searchPostPage(searchValue, pagination?.previous))
+
+		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
+		globalAppend($('#lists'), paginationWrap)
 	}
 
 	#renderIframe = (url, channelName, iframe = false) => {
@@ -754,9 +802,6 @@ export default class Widget {
 			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
 		}
 	}
-
-	// eslint-disable-next-line no-promise-executor-return
-	#delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))
 
 	#hideCredit = () => {
 		if (this.#widgetData?.hide_credit) {

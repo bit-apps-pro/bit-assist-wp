@@ -79,25 +79,32 @@ final class ApiWidgetController
 
     public function wpSearch(Request $request)
     {
-        $search = $request->search;
+        return $this->getPageAndPosts($request->search, $request->page);
+    }
 
-        $pages = get_pages();
-        $posts = get_posts();
+    private function getPageAndPosts($search, $page)
+    {
+        $paged = !empty($page) ? $page : 1;
+        $args = [
+            'post_type'      => ['page', 'post'],
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            's'              => $search,
+            'orderby'        => 'title',
+            'order'          => 'ASC',
+            'paged'          => $paged,
+        ];
 
-        $allPageAndPosts = array_merge($pages, $posts);
-        $allPageAndPosts = array_map(function ($item) {
-            return [
-                'id'    => $item->ID,
-                'type'  => $item->post_type,
-                'title' => $item->post_title,
-                'url'   => get_permalink($item->ID),
-            ];
-        }, $allPageAndPosts);
+        $query = new \WP_Query($args);
+        $query->pagination = [
+            'total'        => $query->max_num_pages,
+            'current'      => $paged,
+            'next'         => $paged + 1,
+            'previous'     => $paged - 1,
+            'has_next'     => $paged < $query->max_num_pages,
+            'has_previous' => $paged > 1,
+        ];
 
-        $allPageAndPosts = array_filter($allPageAndPosts, function ($item) use ($search) {
-            return stripos($item['title'], $search) !== false;
-        });
-
-        return $allPageAndPosts;
+        return ['data' => $query->posts, 'pagination' => $query->pagination];
     }
 }
