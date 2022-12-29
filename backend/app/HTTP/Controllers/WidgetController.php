@@ -42,6 +42,10 @@ final class WidgetController
                 'icon'    => 'widget-icon-1',
                 'iconUrl' => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.svg',
                 'position'=> 'bottom-right',
+                'top'     => 10,
+                'bottom'  => 10,
+                'let'     => 10,
+                'right'   => 10,
             ]
         ];
 
