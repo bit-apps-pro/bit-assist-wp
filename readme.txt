@@ -4,7 +4,7 @@ Tags: tawk.to, knowledge base, faq, custom form, messenger, whatsapp, frequently
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6
-Stable tag: 1.0.9
+Stable tag: 1.1.0
 License: GPLv2 or later
 
 == Description ==
@@ -105,11 +105,18 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.1.0 (Dec 31, 2022) =
+* HOT: WP Search channel
+* HOT: Custom iFrame channel
+* Feature: Widget custom position change
+* Feature: Youtube video show in popup
+* Fixed: Some server blocking PUT & DELETE request
+
 = v1.0.9 (Dec 15, 2022) =
-* Fixed: iframe url throwing error
+* Fixed: iFrame url throwing error
 
 = v1.0.8 (Dec 15, 2022) =
-* Fixed: Security plugins blocking bit-assist iframe source
+* Fixed: Security plugins blocking bit-assist iFrame source
 
 = v1.0.7 (Dec 13, 2022) =
 * Feature: Next & Prev button added in Knowledge Base modal
