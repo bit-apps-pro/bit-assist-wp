@@ -105,11 +105,12 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
-= v1.1.0 (Dec 31, 2022) =
+= v1.1.0 (Jan 1, 2023) =
 * HOT: WP Search channel
 * HOT: Custom iFrame channel
 * Feature: Widget custom position change
 * Feature: Youtube video show in popup
+* Feature: Channel click track with GTM custom event
 * Fixed: Some server blocking PUT & DELETE request
 
 = v1.0.9 (Dec 15, 2022) =
