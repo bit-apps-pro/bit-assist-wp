@@ -425,24 +425,26 @@ export default class Widget {
 		}
 
 		const inputWrap = createElm('div', { class: 'formControl customFile' })
-		globalInnerHTML(
-			inputWrap,
-			`<div class="cfit"><button class="cfit-btn">Attach File</button><div class="cfit-title">No file chosen</div></div>`,
-		)
-		globalAppend(inputWrap, fieldInput)
+
+		const customFileInput = createElm('div', { class: 'cfit' })
+		const customFileInputBtn = createElm('button', { class: 'cfit-btn', type: 'button' })
+		globalInnerText(customFileInputBtn, 'Attach File')
+		const customFileInputTitle = createElm('div', { class: 'cfit-title' })
+		globalInnerText(customFileInputTitle, 'No file chosen')
+
+		globalAppend(customFileInput, [customFileInputBtn, customFileInputTitle])
+		globalAppend(inputWrap, [customFileInput, fieldInput])
 		globalAppend(dynamicFields, inputWrap)
 
-		const handleImageUpload = e => {
+		globalEventListener(customFileInputBtn, 'click', () => fieldInput.click())
+		globalEventListener(fieldInput, 'change', function (e) {
 			let fileName = 'No file chosen'
 			const fileLength = e.target.files.length
 			if (fileLength > 0) {
 				fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
 			}
-			const cfitTitle = e.target.parentElement.querySelector('.cfit-title')
-			globalInnerHTML(cfitTitle, fileName)
-		}
-
-		globalEventListener(fieldInput, 'change', handleImageUpload)
+			globalInnerText(customFileInputTitle, fileName)
+		})
 	}
 
 	#gdprField = (field, dynamicFields, fieldInput) => {

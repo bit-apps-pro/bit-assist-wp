@@ -80,6 +80,8 @@ input[type='checkbox'] {
 		height: 100%;
 		padding: 6px;
 		cursor: pointer;
+		visibility: hidden;
+		pointer-events: none;
 	}
 }
 
@@ -98,6 +100,7 @@ input[type='checkbox'] {
 	color: var(--card-text-color);
 	padding: 5px 11px;
 	border: none;
+	cursor: pointer;
 }
 
 .cfit-title {
