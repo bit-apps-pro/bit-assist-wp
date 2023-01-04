@@ -1,10 +1,11 @@
 import './css/style.scss'
-import leftArrow from './public/images/left-circle-arrow.svg'
-import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
 import { mixinCommon } from './channels/common.js'
 import { mixinIframe } from './channels/render-iframe.js'
 import { mixinFaq } from './channels/render-faq.js'
+import { mixinForm } from './channels/render-form.js'
+import { mixinKnowledgeBase } from './channels/render-knowledge-base.js'
+import { mixinWpSearch } from './channels/render-wpsearch.js'
 import {
 	$,
 	createElm,
@@ -18,13 +19,12 @@ import {
 	globalInnerText,
 	globalPostMessage,
 	globalQuerySelectorAll,
-	globalSetAttribute,
 	globalSetProperty,
 } from './utils/Helpers.js'
 
 export default class Widget {
-	#apiEndPoint
-	#root
+	apiEndPoint
+	root
 	widgetData
 	#clientDomain
 	#widgetBubble
@@ -40,7 +40,7 @@ export default class Widget {
 	#card
 	#selectedFormBg
 	cardBody
-	#formBody
+	formBody
 	#delayExist
 	iFrameWrapper
 
@@ -48,7 +48,7 @@ export default class Widget {
 		this.#delayExist = true
 		this.#isOfficeHours = true
 		this.#isMobileDevice = false
-		this.#root = document.documentElement
+		this.root = document.documentElement
 		this.#clientDomain = config.clientDomain
 		this.contentWrapper = $('#contentWrapper')
 		this.#widgetWrapper = $('#widgetWrapper')
@@ -64,8 +64,20 @@ export default class Widget {
 			Object.assign(Widget.prototype, mixinIframe)
 		}
 
-		if (typeof mixinIframe !== 'undefined') {
+		if (typeof mixinFaq !== 'undefined') {
 			Object.assign(Widget.prototype, mixinFaq)
+		}
+
+		if (typeof mixinForm !== 'undefined') {
+			Object.assign(Widget.prototype, mixinForm)
+		}
+
+		if (typeof mixinKnowledgeBase !== 'undefined') {
+			Object.assign(Widget.prototype, mixinKnowledgeBase)
+		}
+
+		if (typeof mixinWpSearch !== 'undefined') {
+			Object.assign(Widget.prototype, mixinWpSearch)
 		}
 	}
 
@@ -98,7 +110,7 @@ export default class Widget {
 		globalClassListRemove(this.#widgetBubble, 'open')
 		globalClassListAdd(this.contentWrapper, 'hide')
 		this.widgetOpenActions(false)
-		globalSetProperty(this.#root.style, '--card-width', '330px')
+		globalSetProperty(this.root.style, '--card-width', '330px')
 	}
 
 	hideCard = () => {
@@ -115,7 +127,7 @@ export default class Widget {
 		globalClassListToggle(this.channels, 'show')
 
 		if (globalClassListContains(this.#card, 'show')) {
-			globalSetProperty(this.#root.style, '--card-width', '330px')
+			globalSetProperty(this.root.style, '--card-width', '330px')
 			this.hideCard()
 			this.resetClientWidgetSize()
 		} else if (typeof this.iFrameWrapper !== 'undefined') {
@@ -183,370 +195,20 @@ export default class Widget {
 		this.channelClickEventTrigger(channel_name, title, url)
 	}
 
-	renderWPSearch = config => {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(config)
-
-		const wpSearchBody = createElm('div', { id: 'wpSearchBody' })
-		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists', 'data-link_open_action': config.open_window_action })
-		const listSearch = createElm('input', {
-			type: 'text',
-			id: 'listSearch',
-			class: 'formControl',
-			placeholder: 'Search',
-		})
-		globalAppend(listWrapper, [lists, listSearch])
-		globalAppend(wpSearchBody, listWrapper)
-
-		globalInnerHTML(this.cardBody, '')
-		globalAppend(this.cardBody, wpSearchBody)
-
-		this.searchPostPage('')
-		globalEventListener(
-			listSearch,
-			'input',
-			this.debounce(e => this.searchPostPage(e.target.value), 600),
-		)
-	}
-
-	searchPostPage = async (value, page = 1) => {
-		const { data, pagination } = await this.fetchWPSearchData(value, page)
-
-		this.renderWPSearchItem(data)
-		if (pagination?.has_next || pagination?.has_previous) {
-			this.renderWPSearchPagination(pagination)
-		}
-
-		this.resetClientWidgetSize()
-	}
-
-	fetchWPSearchData = async (value, page) => {
-		const { data } = await fetch(`${this.#apiEndPoint}/wpSearch`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ search: value, page }),
-		}).then(res => res.json())
-
-		return data
-	}
-
-	renderWPSearchItem = items => {
-		const lists = $('#lists')
-		globalInnerHTML(lists, '')
-		const itemsObj = []
-
-		items?.forEach(item => {
-			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.guid })
-			const title = createElm('p', { class: 'title' })
-			const type = createElm('p', { class: 'type' })
-
-			globalAppend(listItem, listItemTitleWrapper)
-			globalAppend(listItemTitleWrapper, [title, type])
-			globalInnerText(title, item?.post_title || '(no title)')
-			globalInnerText(type, item?.post_type || '')
-			itemsObj.push(listItem)
-
-			globalEventListener(listItemTitleWrapper, 'click', () => {
-				const { link_open_action } = lists.dataset
-				if (link_open_action === 'new_window') {
-					window.open(item.guid, '_blank', 'popup')
-				} else {
-					window.open(item.guid, link_open_action)
-				}
-			})
-		})
-
-		globalAppend(lists, itemsObj)
-	}
-
-	renderWPSearchPagination = pagination => {
-		const paginationWrap = createElm('div', { class: 'pagination' })
-
-		const pageNumber = createElm('span', { class: 'pageNumber' })
-		globalInnerText(pageNumber, `${pagination?.current} / ${pagination?.total} page`)
-
-		const nextPage = createElm('button', { class: 'nextPage' })
-		globalInnerText(nextPage, 'Next')
-		if (!pagination?.has_next) {
-			globalSetAttribute(nextPage, 'disabled', '')
-		}
-		const prevPage = createElm('button', { class: 'prevPage' })
-		globalInnerText(prevPage, 'Prev')
-		if (!pagination?.has_previous) {
-			globalSetAttribute(prevPage, 'disabled', '')
-		}
-
-		const searchValue = $('#listSearch')?.value || ''
-		globalEventListener(nextPage, 'click', () => this.searchPostPage(searchValue, pagination?.next))
-		globalEventListener(prevPage, 'click', () => this.searchPostPage(searchValue, pagination?.previous))
-
-		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
-		globalAppend($('#lists'), paginationWrap)
-	}
-
 	setCardStyle = config => {
 		this.#selectedFormBg = config?.card_config?.card_bg_color?.str
 
 		globalInnerHTML($('#cardHeader>h4'), config?.title)
 
-		globalSetProperty(this.#root.style, '--card-theme-color', this.#selectedFormBg)
-		globalSetProperty(this.#root.style, '--card-text-color', config?.card_config?.card_text_color?.str)
+		globalSetProperty(this.root.style, '--card-theme-color', this.#selectedFormBg)
+		globalSetProperty(this.root.style, '--card-text-color', config?.card_config?.card_text_color?.str)
 	}
 
-	renderForm = widgetChannel => {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		// Render form
-		this.#formBody = createElm('form', { id: 'formBody', method: 'POST' })
-		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
-		const hiddenInput = createElm('input', {
-			type: 'hidden',
-			name: 'widget_channel_id',
-			value: widgetChannel.id,
-		})
-		const submitButton = createElm('button', { type: 'submit' })
-		globalInnerText(submitButton, cardConfig?.submit_button_text)
-
-		globalAppend(this.#formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
-
-		globalInnerHTML(this.cardBody, '')
-		globalAppend(this.cardBody, this.#formBody)
-
-		globalEventListener(this.#formBody, 'submit', this.formSubmitted)
-		this.createAllFields(cardConfig?.form_fields)
-	}
-
-	createAllFields = fields => {
-		const dynamicFields = $('#dynamicFields')
-
-		let flag = false
-		fields?.forEach(field => {
-			if (field.field_type === 'file' && !flag) {
-				globalSetAttribute($('#formBody'), 'enctype', 'multipart/form-data')
-				flag = true
-			}
-
-			if (field.field_type === 'rating') {
-				this.createRatingField(field, dynamicFields, 'rating')
-			} else if (field.field_type === 'feedback') {
-				this.createRatingField(field, dynamicFields, 'feedback')
-			} else {
-				this.createTextField(field, dynamicFields)
-			}
-		})
-	}
-
-	createRatingField = (field, dynamicFields, filedType) => {
-		const randomId = Math.floor(Math.random() * 100000000)
-		const name = field.label.toLowerCase().replace(/ /g, '_')
-		const wrapper = createElm('div', { class: filedType })
-
-		if (filedType === 'rating') {
-			globalClassListAdd(wrapper, field.rating_type)
-		}
-
-		let types = []
-		if (filedType === 'feedback') {
-			types = ['bug', 'suggest', 'love']
-		} else if (field.rating_type === 'star') {
-			types = ['5 star', '4 star', '3 star', '2 star', '1 star']
-		} else {
-			types = ['sad', 'confused', 'happy']
-		}
-
-		types.forEach(type => {
-			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
-
-			const inputElm = createElm('input', { type: 'radio', name: name, value: type, id: fieldId })
-			if (field.required) {
-				globalSetAttribute(inputElm, 'required', '')
-			}
-
-			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
-			if (filedType === 'feedback') {
-				globalInnerHTML(labelElm, `${type.charAt(0).toUpperCase() + type.slice(1)}`)
-				const feedbackIcon = createElm('div', { class: 'feedback-icon' })
-				labelElm.prepend(feedbackIcon)
-			}
-
-			globalAppend(wrapper, [inputElm, labelElm])
-		})
-		globalAppend(dynamicFields, wrapper)
-	}
-
-	createTextField = (field, dynamicFields) => {
-		const fieldInput = createElm(field.field_type === 'textarea' ? 'textarea' : 'input')
-
-		globalSetAttribute(
-			fieldInput,
-			'name',
-			`${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`,
-		)
-		globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
-		if (field.required) {
-			globalSetAttribute(fieldInput, 'required', '')
-		}
-
-		if (field.field_type === 'GDPR') {
-			this.gdprField(field, dynamicFields, fieldInput)
-			return
-		}
-
-		globalClassListAdd(fieldInput, 'formControl')
-		globalSetAttribute(fieldInput, 'type', field.field_type)
-
-		if (field.field_type === 'file') {
-			this.fileField(field, dynamicFields, fieldInput)
-			return
-		}
-		globalAppend(dynamicFields, fieldInput)
-	}
-
-	fileField = (field, dynamicFields, fieldInput) => {
-		if (!!field?.allow_multiple) {
-			globalSetAttribute(fieldInput, 'multiple', '')
-		}
-
-		const inputWrap = createElm('div', { class: 'formControl customFile' })
-
-		const customFileInput = createElm('div', { class: 'cfit' })
-		const customFileInputBtn = createElm('button', { class: 'cfit-btn', type: 'button' })
-		globalInnerText(customFileInputBtn, 'Attach File')
-		const customFileInputTitle = createElm('div', { class: 'cfit-title' })
-		globalInnerText(customFileInputTitle, 'No file chosen')
-
-		globalAppend(customFileInput, [customFileInputBtn, customFileInputTitle])
-		globalAppend(inputWrap, [customFileInput, fieldInput])
-		globalAppend(dynamicFields, inputWrap)
-
-		globalEventListener(customFileInputBtn, 'click', () => fieldInput.click())
-		globalEventListener(fieldInput, 'change', function (e) {
-			let fileName = 'No file chosen'
-			const fileLength = e.target.files.length
-			if (fileLength > 0) {
-				fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
-			}
-			globalInnerText(customFileInputTitle, fileName)
-		})
-	}
-
-	gdprField = (field, dynamicFields, fieldInput) => {
-		globalSetAttribute(fieldInput, 'type', 'checkbox')
-
-		const link = createElm('a', { target: '_blank' })
-		globalInnerHTML(link, field.label)
-		if (field?.url) {
-			link.href = field.url
-		}
-
-		const gdprContainer = createElm('div', { class: 'gdprContainer' })
-		globalAppend(gdprContainer, [fieldInput, link])
-		globalAppend(dynamicFields, gdprContainer)
-	}
+	//Form
 
 	// Faq
 
 	// Knowledge base
-	renderKnowledgeBase = widgetChannel => {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		const knowledgeBaseBody = createElm('div', { id: 'knowledgeBaseBody' })
-		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists' })
-		const listSearch = createElm('input', {
-			type: 'text',
-			id: 'listSearch',
-			class: 'formControl',
-			placeholder: 'Search',
-		})
-		globalAppend(listWrapper, [lists, listSearch])
-
-		const overlay = createElm('div', { class: 'overlay' })
-		const knowledgeBaseDescription = createElm('div', { id: 'knowledgeBaseDescription' })
-		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-		const p = createElm('p')
-		const modalActions = createElm('div', { class: 'modalActions' })
-
-		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
-		const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
-		globalAppend(prevKBBtn, prevKbImg)
-
-		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
-		const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
-		globalAppend(nextKBBtn, nextKbImg)
-
-		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
-		const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
-		globalAppend(closeKBBtn, closeKbImg)
-
-		globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])
-		globalAppend(descriptionTitle, [p, modalActions])
-
-		const content = createElm('div', { class: 'content' })
-		globalAppend(knowledgeBaseDescription, [descriptionTitle, content])
-		globalAppend(knowledgeBaseBody, [listWrapper, overlay, knowledgeBaseDescription])
-
-		globalInnerHTML(this.cardBody, '')
-		globalAppend(this.cardBody, knowledgeBaseBody)
-
-		globalEventListener(listSearch, 'input', this.searchList)
-		globalEventListener(closeKBBtn, 'click', this.knowledgeBaseDescToggle)
-		globalEventListener(prevKBBtn, 'click', () => this.gotoPrevNextKB('previousElementSibling'))
-		globalEventListener(nextKBBtn, 'click', () => this.gotoPrevNextKB('nextElementSibling'))
-
-		this.renderKnowledgeBaseItem(cardConfig?.knowledge_bases)
-	}
-
-	renderKnowledgeBaseItem = items => {
-		this.itemListAppend(items)
-		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => this.knowledgeBaseDescToggle(e, items))
-		})
-	}
-
-	gotoPrevNextKB = indicator => {
-		const item = $('.listItem.active')[indicator]
-		if (item) {
-			item.querySelector('.listItemTitleWrapper').click()
-		}
-	}
-
-	knowledgeBaseDescToggle = (e, knowledgeBases) => {
-		globalClassListRemove($('.listItem.active'), 'active')
-
-		const knowledgeBaseBody = $('#knowledgeBaseBody')
-		if (!knowledgeBases) {
-			globalClassListRemove(knowledgeBaseBody, 'openDesc')
-			globalSetProperty(this.#root.style, '--card-width', '330px')
-			this.resetClientWidgetSize()
-			return
-		}
-
-		globalClassListToggle(e.target.closest('.listItem'), 'active')
-		const knowledgeBase = knowledgeBases.find(
-			item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
-		)
-		if (!knowledgeBase) {
-			return
-		}
-
-		globalClassListAdd(knowledgeBaseBody, 'openDesc')
-		globalInnerHTML($('.descriptionTitle p'), knowledgeBase?.title || '')
-		globalInnerHTML($('.content'), knowledgeBase?.description || '')
-
-		globalSetProperty(this.#root.style, '--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
-		globalSetProperty(this.#root.style, '--card-width', '767px')
-		this.resetClientWidgetSize()
-	}
 
 	itemListAppend = items => {
 		const itemsObj = []
@@ -648,10 +310,10 @@ export default class Widget {
 	}
 
 	handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint }) => {
-		globalSetProperty(this.#root.style, '--client-win-width', winWidth + 'px')
-		globalSetProperty(this.#root.style, '--client-win-height', winHeight + 'px')
+		globalSetProperty(this.root.style, '--client-win-width', winWidth + 'px')
+		globalSetProperty(this.root.style, '--client-win-height', winHeight + 'px')
 		this.#scrollPercent = scrollPercent
-		this.#apiEndPoint = apiEndPoint
+		this.apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
 		this.#clientPageUrl = url.slice(this.#clientDomain.length + 1, url.length)
 
@@ -670,7 +332,7 @@ export default class Widget {
 	// =====================
 	fetchWidgetData = async () => {
 		try {
-			const { data } = await fetch(`${this.#apiEndPoint}/bitAssistWidget`, {
+			const { data } = await fetch(`${this.apiEndPoint}/bitAssistWidget`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ domain: this.#clientDomain }),
@@ -712,16 +374,16 @@ export default class Widget {
 		this.widgetShowAfterScroll()
 
 		if (this.widgetData.styles?.position?.indexOf('top') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.widgetData.styles?.top || 0) + 'px')
+			globalSetProperty(this.root.style, '--widget-minus-sizeY', (this.widgetData.styles?.top || 0) + 'px')
 		}
 		if (this.widgetData.styles?.position?.indexOf('bottom') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.widgetData.styles?.bottom || 0) + 'px')
+			globalSetProperty(this.root.style, '--widget-minus-sizeY', (this.widgetData.styles?.bottom || 0) + 'px')
 		}
 		if (this.widgetData.styles?.position?.indexOf('left') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.widgetData.styles?.left || 0) + 'px')
+			globalSetProperty(this.root.style, '--widget-minus-sizeX', (this.widgetData.styles?.left || 0) + 'px')
 		}
 		if (this.widgetData.styles?.position?.indexOf('right') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.widgetData.styles?.right || 0) + 'px')
+			globalSetProperty(this.root.style, '--widget-minus-sizeX', (this.widgetData.styles?.right || 0) + 'px')
 		}
 	}
 
@@ -877,7 +539,7 @@ export default class Widget {
 		try {
 			globalInnerText(submitBtn, 'Sending...')
 			globalClassListAdd(submitBtn, 'disabled')
-			const responseData = await fetch(`${this.#apiEndPoint}/responses`, {
+			const responseData = await fetch(`${this.apiEndPoint}/responses`, {
 				method: 'POST',
 				body: formData,
 			}).then(res => res.json())
@@ -907,7 +569,7 @@ export default class Widget {
 	}
 
 	showToast = async (type, message) => {
-		if (!this.cardBody.contains(this.#formBody)) {
+		if (!this.cardBody.contains(this.formBody)) {
 			return
 		}
 
@@ -926,22 +588,22 @@ export default class Widget {
 		globalAppend(toast, toastContent)
 
 		globalAppend(this.cardBody, toast)
-		globalClassListAdd(this.#formBody, 'hide')
+		globalClassListAdd(this.formBody, 'hide')
 
 		if (globalClassListContains(toast, 'success')) {
 			toastTextTitle.style.color = this.#selectedFormBg
 		}
 
 		await this.delay(2)
-		if (!globalClassListContains(this.#formBody, 'hide')) return
+		if (!globalClassListContains(this.formBody, 'hide')) return
 
 		this.cardBody.removeChild(toast)
-		globalClassListRemove(this.#formBody, 'hide')
+		globalClassListRemove(this.formBody, 'hide')
 	}
 
 	renderWidgetBubble = () => {
-		globalSetProperty(this.#root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
-		globalSetProperty(this.#root.style, '--widget-color', this.widgetData?.styles?.color?.str)
+		globalSetProperty(this.root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
+		globalSetProperty(this.root.style, '--widget-color', this.widgetData?.styles?.color?.str)
 
 		if (this.widgetData?.widget_behavior === 2) {
 			this.#widgetBubble.removeEventListener('click', this.onBubbleClick)
@@ -964,7 +626,7 @@ export default class Widget {
 				parseInt(this.widgetData?.styles?.color?.b, 10) * 114) /
 				1000,
 		)
-		globalSetProperty(this.#root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
+		globalSetProperty(this.root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}
 
 	widgetShowDelay = async () => {

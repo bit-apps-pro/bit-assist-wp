@@ -1,4 +1,4 @@
-import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
+import { $, createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
 
 export const mixinIframe = {
 	renderIframe(url, channelName, iframe = false) {
@@ -17,7 +17,7 @@ export const mixinIframe = {
 			globalAppend(this.iFrameWrapper, iframeElm)
 		}
 
-		globalAppend(this.contentWrapper, this.iFrameWrapper)
+		globalAppend($('#contentWrapper'), this.iFrameWrapper)
 		this.resetClientWidgetSize()
 	},
 }
