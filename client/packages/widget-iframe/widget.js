@@ -4,6 +4,7 @@ import rightArrow from './public/images/right-circle-arrow.svg'
 import closeIcon from './public/images/close-icon.svg'
 import { mixinCommon } from './channels/common.js'
 import { mixinIframe } from './channels/render-iframe.js'
+import { mixinFaq } from './channels/render-faq.js'
 import {
 	$,
 	createElm,
@@ -24,7 +25,7 @@ import {
 export default class Widget {
 	#apiEndPoint
 	#root
-	#widgetData
+	widgetData
 	#clientDomain
 	#widgetBubble
 	contentWrapper
@@ -38,7 +39,7 @@ export default class Widget {
 	#isOfficeHours
 	#card
 	#selectedFormBg
-	#cardBody
+	cardBody
 	#formBody
 	#delayExist
 	iFrameWrapper
@@ -61,6 +62,10 @@ export default class Widget {
 
 		if (typeof mixinIframe !== 'undefined') {
 			Object.assign(Widget.prototype, mixinIframe)
+		}
+
+		if (typeof mixinIframe !== 'undefined') {
+			Object.assign(Widget.prototype, mixinFaq)
 		}
 	}
 
@@ -150,7 +155,7 @@ export default class Widget {
 		const channel = e.target.closest('.channel')
 		const { id, url, channel_name, target } = channel.dataset || {}
 
-		const widgetChannel = this.#widgetData?.widget_channels.find(item => item.id === id)
+		const widgetChannel = this.widgetData?.widget_channels.find(item => item.id === id)
 		const { title, unique_id } = widgetChannel?.config || {}
 		const { isChatWidget } = widgetChannel?.config?.card_config || {}
 
@@ -195,8 +200,8 @@ export default class Widget {
 		globalAppend(listWrapper, [lists, listSearch])
 		globalAppend(wpSearchBody, listWrapper)
 
-		globalInnerHTML(this.#cardBody, '')
-		globalAppend(this.#cardBody, wpSearchBody)
+		globalInnerHTML(this.cardBody, '')
+		globalAppend(this.cardBody, wpSearchBody)
 
 		this.searchPostPage('')
 		globalEventListener(
@@ -310,8 +315,8 @@ export default class Widget {
 
 		globalAppend(this.#formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
-		globalInnerHTML(this.#cardBody, '')
-		globalAppend(this.#cardBody, this.#formBody)
+		globalInnerHTML(this.cardBody, '')
+		globalAppend(this.cardBody, this.#formBody)
 
 		globalEventListener(this.#formBody, 'submit', this.formSubmitted)
 		this.createAllFields(cardConfig?.form_fields)
@@ -446,75 +451,6 @@ export default class Widget {
 	}
 
 	// Faq
-	renderFaq = widgetChannel => {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		const faqBody = createElm('div', { id: 'faqBody' })
-		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists' })
-		const listSearch = createElm('input', {
-			type: 'text',
-			id: 'listSearch',
-			class: 'formControl',
-			placeholder: 'Search',
-		})
-		globalAppend(listWrapper, [lists, listSearch])
-
-		const faqDescription = createElm('div', { id: 'faqDescription' })
-		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-		const img = createElm('img', { src: leftArrow, alt: 'back' })
-		globalAppend(closeDescBtn, img)
-		const pElm = createElm('p')
-		globalAppend(descriptionTitle, [closeDescBtn, pElm])
-
-		const content = createElm('div', { class: 'content' })
-		globalAppend(faqDescription, [descriptionTitle, content])
-		globalAppend(faqBody, [listWrapper, faqDescription])
-
-		globalInnerHTML(this.#cardBody, '')
-		globalAppend(this.#cardBody, faqBody)
-
-		globalEventListener(listSearch, 'input', this.searchList)
-		globalEventListener(closeDescBtn, 'click', this.faqDescToggle)
-
-		this.renderFaqItem(cardConfig?.faqs)
-	}
-
-	renderFaqItem = items => {
-		this.itemListAppend(items)
-		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => this.faqDescToggle(e, items))
-		})
-	}
-
-	faqDescToggle = (e, faqs) => {
-		if (faqs) {
-			const faq = faqs.find(
-				item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
-			)
-			globalInnerHTML($('.descriptionTitle p'), faq?.title || '')
-			globalInnerHTML($('.content'), faq?.description || '')
-		}
-
-		const faqBody = $('#faqBody')
-		const isOpen = globalClassListToggle($('#faqBody'), 'openDesc')
-		if (isOpen) {
-			const descHeight = $('#faqDescription').scrollHeight
-			Object.assign(faqBody.style, {
-				height: descHeight > 400 ? '400px' : `${descHeight}px`,
-				overflow: descHeight > 400 ? 'auto' : 'initial',
-			})
-		} else {
-			faqBody.removeAttribute('style')
-		}
-
-		globalClassListToggle($('#listWrapper'), 'hide')
-		this.resetClientWidgetSize()
-	}
 
 	// Knowledge base
 	renderKnowledgeBase = widgetChannel => {
@@ -559,8 +495,8 @@ export default class Widget {
 		globalAppend(knowledgeBaseDescription, [descriptionTitle, content])
 		globalAppend(knowledgeBaseBody, [listWrapper, overlay, knowledgeBaseDescription])
 
-		globalInnerHTML(this.#cardBody, '')
-		globalAppend(this.#cardBody, knowledgeBaseBody)
+		globalInnerHTML(this.cardBody, '')
+		globalAppend(this.cardBody, knowledgeBaseBody)
 
 		globalEventListener(listSearch, 'input', this.searchList)
 		globalEventListener(closeKBBtn, 'click', this.knowledgeBaseDescToggle)
@@ -664,14 +600,14 @@ export default class Widget {
 			parent,
 			{
 				action: 'widgetLoaded',
-				height: (this.#widgetData?.styles?.size || 60) + 20,
-				width: (this.#widgetData?.styles?.size || 60) + 20,
-				position: this.#widgetData?.styles?.position,
-				top: this.#widgetData?.styles?.top || 0,
-				bottom: this.#widgetData?.styles?.bottom || 0,
-				left: this.#widgetData?.styles?.left || 0,
-				right: this.#widgetData?.styles?.right || 0,
-				pageScroll: this.#widgetData?.page_scroll,
+				height: (this.widgetData?.styles?.size || 60) + 20,
+				width: (this.widgetData?.styles?.size || 60) + 20,
+				position: this.widgetData?.styles?.position,
+				top: this.widgetData?.styles?.top || 0,
+				bottom: this.widgetData?.styles?.bottom || 0,
+				left: this.widgetData?.styles?.left || 0,
+				right: this.widgetData?.styles?.right || 0,
+				pageScroll: this.widgetData?.page_scroll,
 			},
 			`${this.#clientDomain}`,
 		)
@@ -724,7 +660,7 @@ export default class Widget {
 
 	handleScrollPercent = ({ scrollPercent }) => {
 		this.#scrollPercent = scrollPercent
-		if (this.#widgetData?.page_scroll > 0 && !this.#delayExist) {
+		if (this.widgetData?.page_scroll > 0 && !this.#delayExist) {
 			this.widgetShowAfterScroll()
 		}
 	}
@@ -740,10 +676,10 @@ export default class Widget {
 				body: JSON.stringify({ domain: this.#clientDomain }),
 			}).then(res => res.json())
 
-			this.#widgetData = data
+			this.widgetData = data
 
-			if (typeof this.#widgetData.id === 'undefined') {
-				console.error(this.#widgetData)
+			if (typeof this.widgetData.id === 'undefined') {
+				console.error(this.widgetData)
 				this.removeClientWidget()
 				return
 			}
@@ -761,7 +697,7 @@ export default class Widget {
 		}
 
 		this.renderWidgetConf()
-		if (this.#widgetData?.business_hours?.length && !this.checkBusinessHours()) {
+		if (this.widgetData?.business_hours?.length && !this.checkBusinessHours()) {
 			return
 		}
 
@@ -775,32 +711,32 @@ export default class Widget {
 		this.showCallToAction()
 		this.widgetShowAfterScroll()
 
-		if (this.#widgetData.styles?.position?.indexOf('top') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.top || 0) + 'px')
+		if (this.widgetData.styles?.position?.indexOf('top') > -1) {
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.widgetData.styles?.top || 0) + 'px')
 		}
-		if (this.#widgetData.styles?.position?.indexOf('bottom') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.#widgetData.styles?.bottom || 0) + 'px')
+		if (this.widgetData.styles?.position?.indexOf('bottom') > -1) {
+			globalSetProperty(this.#root.style, '--widget-minus-sizeY', (this.widgetData.styles?.bottom || 0) + 'px')
 		}
-		if (this.#widgetData.styles?.position?.indexOf('left') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.left || 0) + 'px')
+		if (this.widgetData.styles?.position?.indexOf('left') > -1) {
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.widgetData.styles?.left || 0) + 'px')
 		}
-		if (this.#widgetData.styles?.position?.indexOf('right') > -1) {
-			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.#widgetData.styles?.right || 0) + 'px')
+		if (this.widgetData.styles?.position?.indexOf('right') > -1) {
+			globalSetProperty(this.#root.style, '--widget-minus-sizeX', (this.widgetData.styles?.right || 0) + 'px')
 		}
 	}
 
 	hideCredit = () => {
-		if (this.#widgetData?.hide_credit) {
+		if (this.widgetData?.hide_credit) {
 			$('#credit')?.remove()
 		}
 	}
 
 	setWidgetVisibleOrNot = () => {
-		if (this.#widgetData?.exclude_pages?.length > 0) {
+		if (this.widgetData?.exclude_pages?.length > 0) {
 			let isExistAnyShowOn = false
 			let isThisPageVisible = false
 
-			const isPageExcluded = this.#widgetData?.exclude_pages.some(page => {
+			const isPageExcluded = this.widgetData?.exclude_pages.some(page => {
 				if (page.visibility === 'showOn') {
 					isExistAnyShowOn = true
 				}
@@ -836,7 +772,7 @@ export default class Widget {
 
 	checkBusinessHours = () => {
 		const date = new Date()
-		const toDay = this.#widgetData?.business_hours[date.getDay()]
+		const toDay = this.widgetData?.business_hours[date.getDay()]
 
 		if (!toDay || !toDay?.start || !toDay?.end) {
 			this.removeClientWidget()
@@ -847,7 +783,7 @@ export default class Widget {
 		const [endHour, endMinute] = toDay?.end.split(':').map(Number) || [0, 0]
 
 		// eslint-disable-next-line new-cap
-		const timezone = this.#widgetData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+		const timezone = this.widgetData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
 		const currentTime = date.toLocaleTimeString('en-US', { timeZone: timezone, hour12: false })
 		const [currentHour, currentMinute] = currentTime.split(':').map(Number)
 
@@ -864,16 +800,16 @@ export default class Widget {
 	}
 
 	addCustomStyles = () => {
-		if (this.#widgetData.custom_css?.length > 0) {
+		if (this.widgetData.custom_css?.length > 0) {
 			const styleElm = createElm('style')
-			globalAppend(styleElm, document.createTextNode(this.#widgetData.custom_css))
+			globalAppend(styleElm, document.createTextNode(this.widgetData.custom_css))
 			globalAppend(document.head, styleElm)
 		}
 	}
 
 	renderChannels = () => {
 		this.channels = createElm('div', { id: 'channels' })
-		const allChannels = this.#widgetData?.widget_channels
+		const allChannels = this.widgetData?.widget_channels
 			?.filter(
 				widgetChannel =>
 					((this.#isMobileDevice && widgetChannel.config?.channel_show_on.includes('mobile')) ||
@@ -924,8 +860,8 @@ export default class Widget {
 		)
 
 		globalAppend(cardHeader, [h4Elm, iconBtn])
-		this.#cardBody = createElm('div', { id: 'cardBody' })
-		globalAppend(this.#card, [cardHeader, this.#cardBody])
+		this.cardBody = createElm('div', { id: 'cardBody' })
+		globalAppend(this.#card, [cardHeader, this.cardBody])
 		globalAppend(this.contentWrapper, this.#card)
 
 		globalEventListener(iconBtn, 'click', this.closeWidget)
@@ -971,7 +907,7 @@ export default class Widget {
 	}
 
 	showToast = async (type, message) => {
-		if (!this.#cardBody.contains(this.#formBody)) {
+		if (!this.cardBody.contains(this.#formBody)) {
 			return
 		}
 
@@ -989,7 +925,7 @@ export default class Widget {
 		globalAppend(toastContent, toastText)
 		globalAppend(toast, toastContent)
 
-		globalAppend(this.#cardBody, toast)
+		globalAppend(this.cardBody, toast)
 		globalClassListAdd(this.#formBody, 'hide')
 
 		if (globalClassListContains(toast, 'success')) {
@@ -999,46 +935,46 @@ export default class Widget {
 		await this.delay(2)
 		if (!globalClassListContains(this.#formBody, 'hide')) return
 
-		this.#cardBody.removeChild(toast)
+		this.cardBody.removeChild(toast)
 		globalClassListRemove(this.#formBody, 'hide')
 	}
 
 	renderWidgetBubble = () => {
-		globalSetProperty(this.#root.style, '--widget-size', (this.#widgetData?.styles?.size || 60) + 'px')
-		globalSetProperty(this.#root.style, '--widget-color', this.#widgetData?.styles?.color?.str)
+		globalSetProperty(this.#root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
+		globalSetProperty(this.#root.style, '--widget-color', this.widgetData?.styles?.color?.str)
 
-		if (this.#widgetData?.widget_behavior === 2) {
+		if (this.widgetData?.widget_behavior === 2) {
 			this.#widgetBubble.removeEventListener('click', this.onBubbleClick)
 			globalEventListener(this.#widgetBubble, 'mouseenter', e => this.onBubbleClick(e, true))
 			globalEventListener(this.#widgetWrapper, 'mouseleave', this.onBubbleClick)
-		} else if (this.#widgetData?.widget_behavior === 3) {
+		} else if (this.widgetData?.widget_behavior === 3) {
 			this.onBubbleClick()
 		}
 
-		globalClassListAdd(this.#widgetBubble, this.#widgetData?.styles?.shape)
-		globalClassListAdd(this.#widgetWrapper, this.#widgetData?.styles?.position)
+		globalClassListAdd(this.#widgetBubble, this.widgetData?.styles?.shape)
+		globalClassListAdd(this.#widgetWrapper, this.widgetData?.styles?.position)
 
-		$('#widget-img').src = this.#widgetData?.styles?.customImage || this.#widgetData?.styles?.iconUrl
-		globalClassListAdd($('#widget-img'), this.#widgetData?.styles?.customImage ? 'image' : 'icon')
+		$('#widget-img').src = this.widgetData?.styles?.customImage || this.widgetData?.styles?.iconUrl
+		globalClassListAdd($('#widget-img'), this.widgetData?.styles?.customImage ? 'image' : 'icon')
 
 		// Change image color depend on background
 		const brightness = Math.round(
-			(parseInt(this.#widgetData?.styles?.color?.r, 10) * 299 +
-				parseInt(this.#widgetData?.styles?.color?.g, 10) * 587 +
-				parseInt(this.#widgetData?.styles?.color?.b, 10) * 114) /
+			(parseInt(this.widgetData?.styles?.color?.r, 10) * 299 +
+				parseInt(this.widgetData?.styles?.color?.g, 10) * 587 +
+				parseInt(this.widgetData?.styles?.color?.b, 10) * 114) /
 				1000,
 		)
 		globalSetProperty(this.#root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 	}
 
 	widgetShowDelay = async () => {
-		if (this.#widgetData?.initial_delay > 0) {
-			await this.delay(this.#widgetData.initial_delay)
+		if (this.widgetData?.initial_delay > 0) {
+			await this.delay(this.widgetData.initial_delay)
 		}
 	}
 
 	widgetShowAfterScroll = async () => {
-		if (this.#widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.#widgetData?.page_scroll) {
+		if (this.widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.widgetData?.page_scroll) {
 			globalClassListRemove(this.#widgetWrapper, 'hide')
 		} else {
 			globalClassListAdd(this.#widgetWrapper, 'hide')
@@ -1047,16 +983,16 @@ export default class Widget {
 	}
 
 	showCallToAction = async () => {
-		if (!this.#widgetData?.call_to_action?.text) {
+		if (!this.widgetData?.call_to_action?.text) {
 			return
 		}
 
-		if (this.#widgetData?.call_to_action?.delay > 0) {
-			await this.delay(this.#widgetData.call_to_action.delay)
+		if (this.widgetData?.call_to_action?.delay > 0) {
+			await this.delay(this.widgetData.call_to_action.delay)
 		}
 
 		this.#callToAction = createElm('div', { id: 'callToActionMsg' })
-		globalInnerHTML(this.#callToAction, this.#widgetData.call_to_action.text)
+		globalInnerHTML(this.#callToAction, this.widgetData.call_to_action.text)
 
 		const ctaImage = createElm('img', { src: closeIcon })
 		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
