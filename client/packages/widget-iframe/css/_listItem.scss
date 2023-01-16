@@ -129,8 +129,8 @@
 	align-items: center;
 	justify-content: center;
 
-	svg,
-	img {
+	img,
+	svg {
 		height: 100%;
 		width: 100%;
 	}
@@ -193,7 +193,8 @@
 		}
 		.closeKB {
 			background-color: rgba(#000000, 0.1);
-			img {
+			img,
+			svg {
 				padding: 7px;
 			}
 		}

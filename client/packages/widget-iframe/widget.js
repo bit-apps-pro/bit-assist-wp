@@ -1,11 +1,6 @@
 import './css/style.scss'
-import closeIcon from './public/images/close-icon.svg'
-import { mixinCommon } from './channels/common.js'
-import { mixinIframe } from './channels/render-iframe.js'
-import { mixinFaq } from './channels/render-faq.js'
-import { mixinForm } from './channels/render-form.js'
-import { mixinKnowledgeBase } from './channels/render-knowledge-base.js'
-import { mixinWpSearch } from './channels/render-wpsearch.js'
+import mixinCommon from './channels/common.js'
+import mixinCallToAction from './channels/call-to-action.js'
 import {
 	$,
 	createElm,
@@ -15,30 +10,28 @@ import {
 	globalClassListRemove,
 	globalClassListToggle,
 	globalEventListener,
-	globalInnerHTML,
 	globalInnerText,
 	globalPostMessage,
 	globalQuerySelectorAll,
 	globalSetProperty,
 } from './utils/Helpers.js'
-
 export default class Widget {
 	apiEndPoint
 	root
 	widgetData
-	#clientDomain
-	#widgetBubble
+	clientDomain
+	widgetBubble
 	contentWrapper
-	#widgetWrapper
+	widgetWrapper
 	channels
 	#isMobileDevice
 	#clientPageUrl
 	#scrollPercent
-	#callToAction
-	#closeCallToAction
+	callToAction
+	closeCallToAction
 	#isOfficeHours
-	#card
-	#selectedFormBg
+	card
+	selectedFormBg
 	cardBody
 	formBody
 	#delayExist
@@ -49,10 +42,10 @@ export default class Widget {
 		this.#isOfficeHours = true
 		this.#isMobileDevice = false
 		this.root = document.documentElement
-		this.#clientDomain = config.clientDomain
+		this.clientDomain = config.clientDomain
 		this.contentWrapper = $('#contentWrapper')
-		this.#widgetWrapper = $('#widgetWrapper')
-		this.#widgetBubble = $(config.widgetBubble)
+		this.widgetWrapper = $('#widgetWrapper')
+		this.widgetBubble = $(config.widgetBubble)
 		this.addEvents()
 		this.getClientInfo()
 
@@ -60,45 +53,19 @@ export default class Widget {
 			Object.assign(Widget.prototype, mixinCommon)
 		}
 
-		if (typeof mixinIframe !== 'undefined') {
-			Object.assign(Widget.prototype, mixinIframe)
-		}
-
-		if (typeof mixinFaq !== 'undefined') {
-			Object.assign(Widget.prototype, mixinFaq)
-		}
-
-		if (typeof mixinForm !== 'undefined') {
-			Object.assign(Widget.prototype, mixinForm)
-		}
-
-		if (typeof mixinKnowledgeBase !== 'undefined') {
-			Object.assign(Widget.prototype, mixinKnowledgeBase)
-		}
-
-		if (typeof mixinWpSearch !== 'undefined') {
-			Object.assign(Widget.prototype, mixinWpSearch)
+		if (typeof mixinCallToAction !== 'undefined') {
+			Object.assign(Widget.prototype, mixinCallToAction)
 		}
 	}
 
 	delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))
-
-	debounce = (callback, delay) => {
-		let debounceTimer
-		return function () {
-			const context = this
-			const args = arguments
-			clearTimeout(debounceTimer)
-			debounceTimer = setTimeout(() => callback.apply(context, args), delay)
-		}
-	}
 
 	// ====================
 	// Events
 	// ====================
 	addEvents = () => {
 		globalEventListener(window, 'message', this.onMessageReceived)
-		globalEventListener(this.#widgetBubble, 'click', this.onBubbleClick)
+		globalEventListener(this.widgetBubble, 'click', this.onBubbleClick)
 	}
 
 	closeWidget = () => {
@@ -107,26 +74,20 @@ export default class Widget {
 		if (typeof this.iFrameWrapper !== 'undefined') {
 			this.removeIframe()
 		}
-		globalClassListRemove(this.#widgetBubble, 'open')
+		globalClassListRemove(this.widgetBubble, 'open')
 		globalClassListAdd(this.contentWrapper, 'hide')
 		this.widgetOpenActions(false)
 		globalSetProperty(this.root.style, '--card-width', '330px')
 	}
 
-	hideCard = () => {
-		if (globalClassListContains(this.#card, 'show')) {
-			globalClassListRemove(this.#card, 'show')
-		}
-	}
-
 	onBubbleClick = (e, toggleIfNotExist = false) => {
-		if (toggleIfNotExist && globalClassListContains(this.channels, 'show')) {
+		if (toggleIfNotExist && globalClassListContains(this.widgetBubble, 'open')) {
 			return
 		}
 
 		globalClassListToggle(this.channels, 'show')
 
-		if (globalClassListContains(this.#card, 'show')) {
+		if (globalClassListContains(this.card, 'show')) {
 			globalSetProperty(this.root.style, '--card-width', '330px')
 			this.hideCard()
 			this.resetClientWidgetSize()
@@ -134,20 +95,14 @@ export default class Widget {
 			this.removeIframe()
 		} else {
 			globalClassListToggle(this.contentWrapper, 'hide')
-			const isWidgetOpen = globalClassListToggle(this.#widgetBubble, 'open')
+			const isWidgetOpen = globalClassListToggle(this.widgetBubble, 'open')
 			this.widgetOpenActions(isWidgetOpen)
 		}
 	}
 
-	removeIframe = () => {
-		this.iFrameWrapper.remove()
-		this.iFrameWrapper = undefined
-		this.resetClientWidgetSize()
-	}
-
 	widgetOpenActions = isWidgetOpen => {
 		this.openClientWidget(isWidgetOpen)
-		if (isWidgetOpen && !globalClassListContains(this.#callToAction, 'hide')) {
+		if (isWidgetOpen && !globalClassListContains(this.callToAction, 'hide')) {
 			this.callToActionHide()
 			return
 		}
@@ -156,8 +111,8 @@ export default class Widget {
 	}
 
 	callToActionHide = () => {
-		globalClassListAdd(this.#callToAction, 'hide')
-		globalClassListAdd(this.#closeCallToAction, 'hide')
+		globalClassListAdd(this.callToAction, 'hide')
+		globalClassListAdd(this.closeCallToAction, 'hide')
 
 		this.resetClientWidgetSize()
 	}
@@ -166,7 +121,6 @@ export default class Widget {
 		e.preventDefault()
 		const channel = e.target.closest('.channel')
 		const { id, url, channel_name, target } = channel.dataset || {}
-
 		const widgetChannel = this.widgetData?.widget_channels.find(item => item.id === id)
 		const { title, unique_id } = widgetChannel?.config || {}
 		const { isChatWidget } = widgetChannel?.config?.card_config || {}
@@ -195,66 +149,20 @@ export default class Widget {
 		this.channelClickEventTrigger(channel_name, title, url)
 	}
 
-	setCardStyle = config => {
-		this.#selectedFormBg = config?.card_config?.card_bg_color?.str
-
-		globalInnerHTML($('#cardHeader>h4'), config?.title)
-
-		globalSetProperty(this.root.style, '--card-theme-color', this.#selectedFormBg)
-		globalSetProperty(this.root.style, '--card-text-color', config?.card_config?.card_text_color?.str)
-	}
-
-	//Form
-
-	// Faq
-
-	// Knowledge base
-
-	itemListAppend = items => {
-		const itemsObj = []
-		items?.forEach(item => {
-			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', 'data-item_id': item.id })
-
-			const title = createElm('p', { class: 'title' })
-			globalInnerHTML(title, item?.title || '')
-
-			globalInnerHTML(
-				listItemTitleWrapper,
-				`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>`,
-			)
-			globalAppend(listItemTitleWrapper, title)
-
-			globalAppend(listItem, listItemTitleWrapper)
-			itemsObj.push(listItem)
-		})
-		globalAppend($('#lists'), itemsObj)
-	}
-
-	searchList = e => {
-		const search = e.target.value.toLowerCase()
-		globalQuerySelectorAll(document, '.listItem').forEach(item => {
-			if (item.querySelector('.title').innerText.toLowerCase().includes(search)) {
-				globalClassListRemove(item, 'hide')
-			} else {
-				globalClassListAdd(item, 'hide')
-			}
-		})
-	}
-
 	// =====================
 	// poseMessage to parent
 	// =====================
+
 	getClientInfo = () => {
-		globalPostMessage(parent, { action: 'getClientInfo' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'getClientInfo' }, `${this.clientDomain}`)
 	}
 
 	openClientWidget = isWidgetOpen => {
-		globalPostMessage(parent, { action: 'widgetOpen', isWidgetOpen }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'widgetOpen', isWidgetOpen }, `${this.clientDomain}`)
 	}
 
 	removeClientWidget = () => {
-		globalPostMessage(parent, { action: 'removeWidget' }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'removeWidget' }, `${this.clientDomain}`)
 	}
 
 	renderWidgetConf = () => {
@@ -271,27 +179,19 @@ export default class Widget {
 				right: this.widgetData?.styles?.right || 0,
 				pageScroll: this.widgetData?.page_scroll,
 			},
-			`${this.#clientDomain}`,
-		)
-	}
-
-	resetClientWidgetSize = () => {
-		globalPostMessage(
-			parent,
-			{ action: 'resetWidgetSize', height: this.#widgetWrapper.offsetHeight, width: this.#widgetWrapper.offsetWidth },
-			`${this.#clientDomain}`,
+			`${this.clientDomain}`,
 		)
 	}
 
 	chatWidgetClick = chatWidgetName => {
-		globalPostMessage(parent, { action: 'chatWidgetClick', chatWidgetName }, `${this.#clientDomain}`)
+		globalPostMessage(parent, { action: 'chatWidgetClick', chatWidgetName }, `${this.clientDomain}`)
 	}
 
 	channelClickEventTrigger = (channelType, channelName, channelUrl) => {
 		globalPostMessage(
 			parent,
 			{ action: 'bitAssistChannelClick', channelInfo: { channelType, channelName, channelUrl } },
-			`${this.#clientDomain}`,
+			`${this.clientDomain}`,
 		)
 	}
 
@@ -315,7 +215,7 @@ export default class Widget {
 		this.#scrollPercent = scrollPercent
 		this.apiEndPoint = apiEndPoint
 		this.#isMobileDevice = winWidth < 768
-		this.#clientPageUrl = url.slice(this.#clientDomain.length + 1, url.length)
+		this.#clientPageUrl = url.slice(this.clientDomain.length + 1, url.length)
 
 		this.fetchWidgetData()
 	}
@@ -335,7 +235,7 @@ export default class Widget {
 			const { data } = await fetch(`${this.apiEndPoint}/bitAssistWidget`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ domain: this.#clientDomain }),
+				body: JSON.stringify({ domain: this.clientDomain }),
 			}).then(res => res.json())
 
 			this.widgetData = data
@@ -345,6 +245,13 @@ export default class Widget {
 				this.removeClientWidget()
 				return
 			}
+
+			const getAllChannels = this.widgetData.channelNames.map(async channel => {
+				const mixinObj = await import(channel)
+				if (typeof mixinObj !== 'undefined') {
+					Object.assign(Widget.prototype, mixinObj.default)
+				}
+			})
 
 			this.widgetSetup()
 		} catch (err) {
@@ -505,116 +412,21 @@ export default class Widget {
 		})
 	}
 
-	renderCard = () => {
-		if ($('#card')) {
-			globalClassListAdd(this.#card, 'show')
-			return
-		}
-
-		this.#card = createElm('div', { id: 'card', class: 'show' })
-		const cardHeader = createElm('div', { id: 'cardHeader' })
-		const h4Elm = createElm('h4')
-		const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
-
-		globalInnerHTML(
-			iconBtn,
-			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`,
-		)
-
-		globalAppend(cardHeader, [h4Elm, iconBtn])
-		this.cardBody = createElm('div', { id: 'cardBody' })
-		globalAppend(this.#card, [cardHeader, this.cardBody])
-		globalAppend(this.contentWrapper, this.#card)
-
-		globalEventListener(iconBtn, 'click', this.closeWidget)
-	}
-
-	formSubmitted = async e => {
-		e.preventDefault()
-
-		const submitBtn = e.target.querySelector('[type="submit"]')
-		const oldText = submitBtn.innerText
-		const formData = new FormData(e.target)
-
-		try {
-			globalInnerText(submitBtn, 'Sending...')
-			globalClassListAdd(submitBtn, 'disabled')
-			const responseData = await fetch(`${this.apiEndPoint}/responses`, {
-				method: 'POST',
-				body: formData,
-			}).then(res => res.json())
-
-			if (responseData?.status === 'success') {
-				await this.showToast('success', responseData?.data)
-			} else {
-				await this.showToast('error', responseData?.data)
-			}
-
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		} catch (err) {
-			console.log(err)
-			await this.showToast('error')
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		}
-	}
-
-	showToast = async (type, message) => {
-		if (!this.cardBody.contains(this.formBody)) {
-			return
-		}
-
-		const toast = createElm('div', { class: `toast ${type}` })
-		const toastContent = createElm('div', { class: 'toast-content' })
-		const toastText = createElm('div', { class: 'toast-text' })
-
-		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
-		toastTextTitle.innerText = type === 'success' ? 'Success' : 'Error'
-
-		const toastTextBody = createElm('div', { class: 'toast-text-body' })
-		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
-
-		globalAppend(toastText, [toastTextTitle, toastTextBody])
-		globalAppend(toastContent, toastText)
-		globalAppend(toast, toastContent)
-
-		globalAppend(this.cardBody, toast)
-		globalClassListAdd(this.formBody, 'hide')
-
-		if (globalClassListContains(toast, 'success')) {
-			toastTextTitle.style.color = this.#selectedFormBg
-		}
-
-		await this.delay(2)
-		if (!globalClassListContains(this.formBody, 'hide')) return
-
-		this.cardBody.removeChild(toast)
-		globalClassListRemove(this.formBody, 'hide')
-	}
-
 	renderWidgetBubble = () => {
 		globalSetProperty(this.root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
 		globalSetProperty(this.root.style, '--widget-color', this.widgetData?.styles?.color?.str)
 
 		if (this.widgetData?.widget_behavior === 2) {
-			this.#widgetBubble.removeEventListener('click', this.onBubbleClick)
-			globalEventListener(this.#widgetBubble, 'mouseenter', e => this.onBubbleClick(e, true))
-			globalEventListener(this.#widgetWrapper, 'mouseleave', this.onBubbleClick)
+			// this.widgetBubble.removeEventListener('click', this.onBubbleClick)
+			globalEventListener(this.widgetBubble, 'mouseenter', e => this.onBubbleClick(e, true))
+
+			// globalEventListener(this.widgetWrapper, 'mouseleave', this.onBubbleClick)
 		} else if (this.widgetData?.widget_behavior === 3) {
 			this.onBubbleClick()
 		}
 
-		globalClassListAdd(this.#widgetBubble, this.widgetData?.styles?.shape)
-		globalClassListAdd(this.#widgetWrapper, this.widgetData?.styles?.position)
+		globalClassListAdd(this.widgetBubble, this.widgetData?.styles?.shape)
+		globalClassListAdd(this.widgetWrapper, this.widgetData?.styles?.position)
 
 		$('#widget-img').src = this.widgetData?.styles?.customImage || this.widgetData?.styles?.iconUrl
 		globalClassListAdd($('#widget-img'), this.widgetData?.styles?.customImage ? 'image' : 'icon')
@@ -637,37 +449,10 @@ export default class Widget {
 
 	widgetShowAfterScroll = async () => {
 		if (this.widgetData?.page_scroll <= 0 || this.#scrollPercent >= this.widgetData?.page_scroll) {
-			globalClassListRemove(this.#widgetWrapper, 'hide')
+			globalClassListRemove(this.widgetWrapper, 'hide')
 		} else {
-			globalClassListAdd(this.#widgetWrapper, 'hide')
+			globalClassListAdd(this.widgetWrapper, 'hide')
 		}
-		this.resetClientWidgetSize()
-	}
-
-	showCallToAction = async () => {
-		if (!this.widgetData?.call_to_action?.text) {
-			return
-		}
-
-		if (this.widgetData?.call_to_action?.delay > 0) {
-			await this.delay(this.widgetData.call_to_action.delay)
-		}
-
-		this.#callToAction = createElm('div', { id: 'callToActionMsg' })
-		globalInnerHTML(this.#callToAction, this.widgetData.call_to_action.text)
-
-		const ctaImage = createElm('img', { src: closeIcon })
-		this.#closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
-		globalAppend(this.#closeCallToAction, ctaImage)
-		globalEventListener(this.#closeCallToAction, 'click', this.callToActionHide)
-
-		$('#widgetBubbleRow').prepend(this.#closeCallToAction, this.#callToAction)
-
-		if (globalClassListContains(this.#widgetBubble, 'open')) {
-			this.callToActionHide()
-			return
-		}
-
 		this.resetClientWidgetSize()
 	}
 }

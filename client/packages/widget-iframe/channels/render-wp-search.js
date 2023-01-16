@@ -8,7 +8,7 @@ import {
 	globalSetAttribute,
 } from '../utils/Helpers.js'
 
-export const mixinWpSearch = {
+const mixinWpSearch = {
 	renderWPSearch(config) {
 		this.hideChannels()
 		this.renderCard()
@@ -113,3 +113,5 @@ export const mixinWpSearch = {
 		globalAppend($('#lists'), paginationWrap)
 	},
 }
+
+export default mixinWpSearch

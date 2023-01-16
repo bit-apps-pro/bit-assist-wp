@@ -29,7 +29,45 @@ final class ApiWidgetController
             return 'Widget channels not found';
         }
 
+        // $channels = $widget->widget_channels;
+        // $widget->channelProto = $channels;
+
         $widget->widget_channels = $widgetChannels;
+        $version = Config::VERSION;
+
+        $channelFiles = [];
+
+        foreach ($widget->widget_channels as $value) {
+            if ($value->channel_name === 'FAQ' ||
+                $value->channel_name === 'Knowledge-Base' ||
+                $value->channel_name === 'Custom-Form' ||
+                $value->channel_name === 'WP-Search') {
+                if (in_array('./channels/render-' . strtolower($value->channel_name) . ".js?ver={$version}", $channelFiles)) {
+                    continue;
+                }
+                array_push($channelFiles, './channels/render-' . strtolower($value->channel_name) . ".js?ver={$version}");
+            }
+
+            if ($value->channel_name === 'Google-Map' ||
+                $value->channel_name === 'Youtube' ||
+                $value->channel_name === 'Custom-Iframe'
+            ) {
+                if (in_array("./channels/render-custom-iframe.js?ver={$version}", $channelFiles)) {
+                    continue;
+                }
+
+                array_push($channelFiles, "./channels/render-custom-iframe.js?ver={$version}");
+            }
+        };
+
+        $widget->channelNames = $channelFiles;
+
+        // error_log(print_r($widget->channelName), true);
+        // $widget->channelName = $channelName;
+
+        // $rootURL = Config::get('ROOT_URI');
+
+        // $widget->file = file_get_contents($rootURL . '/client/packages/widget-iframe/channels/render-custom-form.js');
 
         return $widget;
     }

@@ -2,22 +2,27 @@ import {
 	$,
 	createElm,
 	globalAppend,
-	globalInnerHTML,
-	globalEventListener,
-	globalInnerText,
-	globalSetAttribute,
 	globalClassListAdd,
+	globalClassListRemove,
+	globalEventListener,
+	globalInnerHTML,
+	globalInnerText,
+	globalQuerySelectorAll,
+	globalSetAttribute,
+	globalClassListContains,
 } from '../utils/Helpers.js'
 
-export const mixinForm = {
+const mixinForm = {
 	renderForm(widgetChannel) {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(widgetChannel.config)
+		const widgetThis = this
+
+		widgetThis.hideChannels()
+		widgetThis.renderCard()
+		widgetThis.setCardStyle(widgetChannel.config)
 		const cardConfig = widgetChannel.config?.card_config
 
 		// Render form
-		this.formBody = createElm('form', { id: 'formBody', method: 'POST' })
+		widgetThis.formBody = createElm('form', { id: 'formBody', method: 'POST' })
 		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
 		const hiddenInput = createElm('input', {
 			type: 'hidden',
@@ -27,13 +32,13 @@ export const mixinForm = {
 		const submitButton = createElm('button', { type: 'submit' })
 		globalInnerText(submitButton, cardConfig?.submit_button_text)
 
-		globalAppend(this.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
+		globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
-		globalInnerHTML(this.cardBody, '')
-		globalAppend(this.cardBody, this.formBody)
+		globalInnerHTML(widgetThis.cardBody, '')
+		globalAppend(widgetThis.cardBody, widgetThis.formBody)
 
-		globalEventListener(this.formBody, 'submit', this.formSubmitted)
-		this.createAllFields(cardConfig?.form_fields)
+		globalEventListener(widgetThis.formBody, 'submit', e => mixinForm.formSubmitted(widgetThis, e))
+		widgetThis.createAllFields(cardConfig?.form_fields)
 	},
 
 	createAllFields(fields) {
@@ -47,11 +52,11 @@ export const mixinForm = {
 			}
 
 			if (field.field_type === 'rating') {
-				this.createRatingField(field, dynamicFields, 'rating')
+				mixinForm.createRatingField(field, dynamicFields, 'rating')
 			} else if (field.field_type === 'feedback') {
-				this.createRatingField(field, dynamicFields, 'feedback')
+				mixinForm.createRatingField(field, dynamicFields, 'feedback')
 			} else {
-				this.createTextField(field, dynamicFields)
+				mixinForm.createTextField(field, dynamicFields)
 			}
 		})
 	},
@@ -108,7 +113,7 @@ export const mixinForm = {
 		}
 
 		if (field.field_type === 'GDPR') {
-			this.gdprField(field, dynamicFields, fieldInput)
+			mixinForm.gdprField(field, dynamicFields, fieldInput)
 			return
 		}
 
@@ -116,7 +121,7 @@ export const mixinForm = {
 		globalSetAttribute(fieldInput, 'type', field.field_type)
 
 		if (field.field_type === 'file') {
-			this.fileField(field, dynamicFields, fieldInput)
+			mixinForm.fileField(field, dynamicFields, fieldInput)
 			return
 		}
 		globalAppend(dynamicFields, fieldInput)
@@ -163,4 +168,78 @@ export const mixinForm = {
 		globalAppend(gdprContainer, [fieldInput, link])
 		globalAppend(dynamicFields, gdprContainer)
 	},
+
+	async formSubmitted(widgetThis, e) {
+		e.preventDefault()
+
+		const submitBtn = e.target.querySelector('[type="submit"]')
+		const oldText = submitBtn.innerText
+		const formData = new FormData(e.target)
+
+		try {
+			globalInnerText(submitBtn, 'Sending...')
+			globalClassListAdd(submitBtn, 'disabled')
+			const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
+				method: 'POST',
+				body: formData,
+			}).then(res => res.json())
+
+			if (responseData?.status === 'success') {
+				await mixinForm.showToast(widgetThis, 'success', responseData?.data)
+			} else {
+				await mixinForm.showToast(widgetThis, 'error', responseData?.data)
+			}
+
+			e.target.reset()
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
+				globalInnerText(title, 'No file chosen')
+			})
+			globalClassListRemove(submitBtn, 'disabled')
+			globalInnerText(submitBtn, oldText)
+		} catch (err) {
+			console.log(err)
+			await mixinForm.showToast(widgetThis, 'error')
+			e.target.reset()
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
+				globalInnerText(title, 'No file chosen')
+			})
+			globalClassListRemove(submitBtn, 'disabled')
+			globalInnerText(submitBtn, oldText)
+		}
+	},
+
+	async showToast(widgetThis, type, message) {
+		if (!widgetThis.cardBody.contains(widgetThis.formBody)) {
+			return
+		}
+
+		const toast = createElm('div', { class: `toast ${type}` })
+		const toastContent = createElm('div', { class: 'toast-content' })
+		const toastText = createElm('div', { class: 'toast-text' })
+
+		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
+		toastTextTitle.innerText = type === 'success' ? 'Success' : 'Error'
+
+		const toastTextBody = createElm('div', { class: 'toast-text-body' })
+		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
+
+		globalAppend(toastText, [toastTextTitle, toastTextBody])
+		globalAppend(toastContent, toastText)
+		globalAppend(toast, toastContent)
+
+		globalAppend(widgetThis.cardBody, toast)
+		globalClassListAdd(widgetThis.formBody, 'hide')
+
+		if (globalClassListContains(toast, 'success')) {
+			toastTextTitle.style.color = widgetThis.selectedFormBg
+		}
+
+		await widgetThis.delay(2)
+		if (!globalClassListContains(widgetThis.formBody, 'hide')) return
+
+		widgetThis.cardBody.removeChild(toast)
+		globalClassListRemove(widgetThis.formBody, 'hide')
+	},
 }
+
+export default mixinForm

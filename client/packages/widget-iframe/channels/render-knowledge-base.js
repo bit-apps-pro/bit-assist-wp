@@ -1,6 +1,6 @@
-import leftArrow from '.././public/images/left-circle-arrow.svg'
-import rightArrow from '.././public/images/right-circle-arrow.svg'
-import closeIcon from '.././public/images/close-icon.svg'
+import leftArrow from '../icons/left-circle-arrow.js'
+import rightArrow from '../icons/right-circle-arrow.js'
+import closeIcon from '../icons/close-icon.js'
 import {
 	$,
 	createElm,
@@ -14,7 +14,7 @@ import {
 	globalSetProperty,
 } from '../utils/Helpers.js'
 
-export const mixinKnowledgeBase = {
+const mixinKnowledgeBase = {
 	renderKnowledgeBase(widgetChannel) {
 		const widgetThis = this
 
@@ -41,16 +41,16 @@ export const mixinKnowledgeBase = {
 		const modalActions = createElm('div', { class: 'modalActions' })
 
 		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
-		const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
-		globalAppend(prevKBBtn, prevKbImg)
+		// const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
+		globalInnerHTML(prevKBBtn, leftArrow)
 
 		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
-		const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
-		globalAppend(nextKBBtn, nextKbImg)
+		// const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
+		globalInnerHTML(nextKBBtn, rightArrow)
 
 		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
-		const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
-		globalAppend(closeKBBtn, closeKbImg)
+		// const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
+		globalInnerHTML(closeKBBtn, closeIcon)
 
 		globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])
 		globalAppend(descriptionTitle, [p, modalActions])
@@ -112,3 +112,5 @@ export const mixinKnowledgeBase = {
 		widgetThis.resetClientWidgetSize()
 	},
 }
+
+export default mixinKnowledgeBase

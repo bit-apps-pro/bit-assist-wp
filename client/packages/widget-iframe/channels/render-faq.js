@@ -1,4 +1,4 @@
-import leftArrow from '.././public/images/left-circle-arrow.svg'
+import leftArrow from '../icons/left-circle-arrow.js'
 import {
 	$,
 	createElm,
@@ -9,7 +9,7 @@ import {
 	globalQuerySelectorAll,
 } from '../utils/Helpers.js'
 
-export const mixinFaq = {
+const mixinFaq = {
 	renderFaq(widgetChannel) {
 		const widgetThis = this
 		widgetThis.hideChannels()
@@ -31,8 +31,8 @@ export const mixinFaq = {
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-		const img = createElm('img', { src: leftArrow, alt: 'back' })
-		globalAppend(closeDescBtn, img)
+		// const img = createElm('img', { src: leftArrow, alt: 'back' })
+		globalInnerHTML(closeDescBtn, leftArrow)
 		const pElm = createElm('p')
 		globalAppend(descriptionTitle, [closeDescBtn, pElm])
 
@@ -81,3 +81,5 @@ export const mixinFaq = {
 		widgetThis.resetClientWidgetSize()
 	},
 }
+
+export default mixinFaq
