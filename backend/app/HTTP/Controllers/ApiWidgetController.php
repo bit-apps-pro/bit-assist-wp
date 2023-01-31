@@ -7,6 +7,7 @@ use BitApps\Assist\Config;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
+use Error;
 
 final class ApiWidgetController
 {
@@ -20,54 +21,132 @@ final class ApiWidgetController
     public function bitAssistWidget(Request $request)
     {
         $widget = $this->getWidget($request->domain);
+
+        $version = Config::VERSION;
+        $baseURL = Config::get('BASEDIR_ROOT');
+
         if (!isset($widget->id)) {
+            $options_value = Config::getOption('channel_options');
+            $widget->channel_options = $options_value;
+
+            $options_value['channel_names'] = '';
+            $options_value['channel_status'] = 0;
+            Config::updateOption('channel_options', $options_value);
+
+            file_put_contents($baseURL . 'iframe/assets/channels/features.js', '');
+            file_put_contents($baseURL . 'client/packages/widget-iframe/channels/features.js', '');
+
             return 'Widget not found';
         }
 
         $widgetChannels = $this->getChannelsByWidget($widget->id);
         if (is_null($widgetChannels)) {
+            $options_value = Config::getOption('channel_options');
+            $widget->channel_options = $options_value;
+
+            $options_value['channel_names'] = '';
+            $options_value['channel_status'] = 0;
+            Config::updateOption('channel_options', $options_value);
+
+            file_put_contents($baseURL . 'iframe/assets/channels/features.js', '');
+            file_put_contents($baseURL . 'client/packages/widget-iframe/channels/features.js', '');
+
             return 'Widget channels not found';
         }
 
-        // $channels = $widget->widget_channels;
-        // $widget->channelProto = $channels;
-
         $widget->widget_channels = $widgetChannels;
-        $version = Config::VERSION;
-
         $channelFiles = [];
 
+        $options_value = Config::getOption('channel_options');
+        $widget->channel_options = $options_value;
+
+        $importJsFile = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
+        $importJsFileIframe = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
+
+        $importJsArray[] = $importJsFile;
+        $importJsIframe[] = $importJsFileIframe;
+
+        $outputFilePath = $baseURL . 'client/packages/widget-iframe/channels/features.js';
+        $outputFilePathIframe = $baseURL . 'iframe/assets/channels/features.js';
+
+        $channel_names = '';
+
         foreach ($widget->widget_channels as $value) {
-            if ($value->channel_name === 'FAQ' ||
-                $value->channel_name === 'Knowledge-Base' ||
-                $value->channel_name === 'Custom-Form' ||
-                $value->channel_name === 'WP-Search') {
-                if (in_array('./channels/render-' . strtolower($value->channel_name) . ".js?ver={$version}", $channelFiles)) {
-                    continue;
+            $channel_names .= $value->channel_name;
+        }
+
+        if ($options_value['channel_names'] != $channel_names) {
+            $options_value['channel_status'] = 0;
+            Config::updateOption('channel_options', $options_value);
+            $version = Config::VERSION . mt_rand();
+        }
+
+        if ($options_value['channel_status'] == 0) {
+            $importJsFile = '';
+            $importJsFileIframe = '';
+
+            $importArray = [];
+            $importJsIframe = [];
+
+            $importJsFile = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
+            $importJsFileIframe = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
+
+            $importArray[] = $importJsFile;
+            $importJsIframe[] = $importJsFileIframe;
+
+            foreach ($widget->widget_channels as $value) {
+                if ($value->channel_name === 'FAQ' ||
+                    $value->channel_name === 'Knowledge-Base' ||
+                    $value->channel_name === 'Custom-Form' ||
+                    $value->channel_name === 'WP-Search') {
+                    if (in_array($value->channel_name, $channelFiles)) {
+                        continue;
+                    }
+
+                    array_push($channelFiles, $value->channel_name);
+
+                    if (Config::isDev()) {
+                        array_push($importArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
+                        array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
+                    } else {
+                        array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
+                    }
                 }
-                array_push($channelFiles, './channels/render-' . strtolower($value->channel_name) . ".js?ver={$version}");
-            }
 
-            if ($value->channel_name === 'Google-Map' ||
-                $value->channel_name === 'Youtube' ||
-                $value->channel_name === 'Custom-Iframe'
-            ) {
-                if (in_array("./channels/render-custom-iframe.js?ver={$version}", $channelFiles)) {
-                    continue;
+                if ($value->channel_name === 'Google-Map' ||
+                    $value->channel_name === 'Youtube' ||
+                    $value->channel_name === 'Custom-Iframe'
+                ) {
+                    if (in_array('Google-Map', $channelFiles) || in_array('Youtube', $channelFiles) || in_array('Custom-Iframe', $channelFiles)) {
+                        continue;
+                    }
+
+                    array_push($channelFiles, $value->channel_name);
+
+                    if (Config::isDev()) {
+                        array_push($importArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/custom_iframe.js'));
+                        array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js'));
+                    } else {
+                        array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js'));
+                    }
                 }
+            };
 
-                array_push($channelFiles, "./channels/render-custom-iframe.js?ver={$version}");
+            if ($options_value['channel_names'] != $channel_names) {
+                $options_value['channel_status'] = 1;
+                $options_value['channel_names'] = $channel_names;
+                Config::updateOption('channel_options', $options_value);
+
+                if (Config::isDev()) {
+                    file_put_contents($outputFilePathIframe, implode('', $importJsIframe));
+                    file_put_contents($outputFilePath, implode('', $importArray));
+                } else {
+                    file_put_contents($outputFilePathIframe, implode('', $importJsIframe));
+                }
             }
-        };
+        }
 
-        $widget->channelNames = $channelFiles;
-
-        // error_log(print_r($widget->channelName), true);
-        // $widget->channelName = $channelName;
-
-        // $rootURL = Config::get('ROOT_URI');
-
-        // $widget->file = file_get_contents($rootURL . '/client/packages/widget-iframe/channels/render-custom-form.js');
+        $widget->featuresJsPath = "./channels/features.js?ver={$version}";
 
         return $widget;
     }

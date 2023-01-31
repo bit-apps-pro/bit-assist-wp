@@ -1,6 +1,8 @@
 import './css/style.scss'
-import mixinCommon from './channels/common.js'
-import mixinCallToAction from './channels/call-to-action.js'
+// import closeIcon from './icons/close-icon.js'
+import closeIcon from './public/images/close-icon.svg'
+// import mixinCommon from './channels/common.js'
+// import mixinCallToAction from './channels/call-to-action.js'
 import {
 	$,
 	createElm,
@@ -14,6 +16,7 @@ import {
 	globalPostMessage,
 	globalQuerySelectorAll,
 	globalSetProperty,
+	globalInnerHTML,
 } from './utils/Helpers.js'
 export default class Widget {
 	apiEndPoint
@@ -49,13 +52,13 @@ export default class Widget {
 		this.addEvents()
 		this.getClientInfo()
 
-		if (typeof mixinCommon !== 'undefined') {
-			Object.assign(Widget.prototype, mixinCommon)
-		}
+		// if (typeof mixinCommon !== 'undefined') {
+		// 	Object.assign(Widget.prototype, mixinCommon)
+		// }
 
-		if (typeof mixinCallToAction !== 'undefined') {
-			Object.assign(Widget.prototype, mixinCallToAction)
-		}
+		// if (typeof mixinCallToAction !== 'undefined') {
+		// 	Object.assign(Widget.prototype, mixinCallToAction)
+		// }
 	}
 
 	delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))
@@ -246,12 +249,12 @@ export default class Widget {
 				return
 			}
 
-			const getAllChannels = this.widgetData.channelNames.map(async channel => {
-				const mixinObj = await import(channel)
-				if (typeof mixinObj !== 'undefined') {
-					Object.assign(Widget.prototype, mixinObj.default)
-				}
-			})
+			const mixinObj = await import(this.widgetData.featuresJsPath)
+
+			if (typeof mixinObj !== 'undefined') {
+				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
+			}
+			console.log(this.widgetData.featuresJsPath)
 
 			this.widgetSetup()
 		} catch (err) {
@@ -453,6 +456,33 @@ export default class Widget {
 		} else {
 			globalClassListAdd(this.widgetWrapper, 'hide')
 		}
+		this.resetClientWidgetSize()
+	}
+
+	showCallToAction = async () => {
+		if (!this.widgetData?.call_to_action?.text) {
+			return
+		}
+
+		if (this.widgetData?.call_to_action?.delay > 0) {
+			await this.delay(this.widgetData.call_to_action.delay)
+		}
+
+		this.callToAction = createElm('div', { id: 'callToActionMsg' })
+		globalInnerHTML(this.callToAction, this.widgetData.call_to_action.text)
+
+		const ctaImage = createElm('img', { src: closeIcon })
+		this.closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
+		globalAppend(this.closeCallToAction, ctaImage)
+		globalEventListener(this.closeCallToAction, 'click', this.callToActionHide)
+
+		$('#widgetBubbleRow').prepend(this.closeCallToAction, this.callToAction)
+
+		if (globalClassListContains(this.widgetBubble, 'open')) {
+			this.callToActionHide()
+			return
+		}
+
 		this.resetClientWidgetSize()
 	}
 }

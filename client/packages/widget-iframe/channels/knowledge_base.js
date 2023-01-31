@@ -1,20 +1,8 @@
 import leftArrow from '../icons/left-circle-arrow.js'
 import rightArrow from '../icons/right-circle-arrow.js'
 import closeIcon from '../icons/close-icon.js'
-import {
-	$,
-	createElm,
-	globalAppend,
-	globalClassListAdd,
-	globalClassListRemove,
-	globalClassListToggle,
-	globalEventListener,
-	globalInnerHTML,
-	globalQuerySelectorAll,
-	globalSetProperty,
-} from '../utils/Helpers.js'
 
-const mixinKnowledgeBase = {
+export const knowledge_base = {
 	renderKnowledgeBase(widgetChannel) {
 		const widgetThis = this
 
@@ -63,7 +51,7 @@ const mixinKnowledgeBase = {
 		globalAppend(widgetThis.cardBody, knowledgeBaseBody)
 
 		globalEventListener(listSearch, 'input', widgetThis.searchList)
-		globalEventListener(closeKBBtn, 'click', () => mixinKnowledgeBase.knowledgeBaseDescToggle(widgetThis))
+		globalEventListener(closeKBBtn, 'click', () => knowledge_base.knowledgeBaseDescToggle(widgetThis))
 		globalEventListener(prevKBBtn, 'click', () => widgetThis.gotoPrevNextKB('previousElementSibling'))
 		globalEventListener(nextKBBtn, 'click', () => widgetThis.gotoPrevNextKB('nextElementSibling'))
 
@@ -73,7 +61,7 @@ const mixinKnowledgeBase = {
 	renderKnowledgeBaseItem(widgetThis, items) {
 		widgetThis.itemListAppend(items)
 		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => mixinKnowledgeBase.knowledgeBaseDescToggle(widgetThis, e, items))
+			globalEventListener(item, 'click', e => knowledge_base.knowledgeBaseDescToggle(widgetThis, e, items))
 		})
 	},
 
@@ -112,5 +100,3 @@ const mixinKnowledgeBase = {
 		widgetThis.resetClientWidgetSize()
 	},
 }
-
-export default mixinKnowledgeBase

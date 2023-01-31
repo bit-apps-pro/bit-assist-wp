@@ -1,15 +1,6 @@
 import leftArrow from '../icons/left-circle-arrow.js'
-import {
-	$,
-	createElm,
-	globalAppend,
-	globalInnerHTML,
-	globalEventListener,
-	globalClassListToggle,
-	globalQuerySelectorAll,
-} from '../utils/Helpers.js'
 
-const mixinFaq = {
+export const faq = {
 	renderFaq(widgetChannel) {
 		const widgetThis = this
 		widgetThis.hideChannels()
@@ -44,15 +35,15 @@ const mixinFaq = {
 		globalAppend(widgetThis.cardBody, faqBody)
 
 		globalEventListener(listSearch, 'input', widgetThis.searchList)
-		globalEventListener(closeDescBtn, 'click', e => mixinFaq.faqDescToggle(widgetThis, e))
+		globalEventListener(closeDescBtn, 'click', e => faq.faqDescToggle(widgetThis, e))
 
-		mixinFaq.renderFaqItem(widgetThis, cardConfig?.faqs)
+		faq.renderFaqItem(widgetThis, cardConfig?.faqs)
 	},
 
 	renderFaqItem(widgetThis, items) {
 		widgetThis.itemListAppend(items)
 		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => mixinFaq.faqDescToggle(widgetThis, e, items))
+			globalEventListener(item, 'click', e => faq.faqDescToggle(widgetThis, e, items))
 		})
 	},
 
@@ -81,5 +72,3 @@ const mixinFaq = {
 		widgetThis.resetClientWidgetSize()
 	},
 }
-
-export default mixinFaq

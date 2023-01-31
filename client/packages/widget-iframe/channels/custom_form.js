@@ -1,18 +1,4 @@
-import {
-	$,
-	createElm,
-	globalAppend,
-	globalClassListAdd,
-	globalClassListRemove,
-	globalEventListener,
-	globalInnerHTML,
-	globalInnerText,
-	globalQuerySelectorAll,
-	globalSetAttribute,
-	globalClassListContains,
-} from '../utils/Helpers.js'
-
-const mixinForm = {
+export const custom_form = {
 	renderForm(widgetChannel) {
 		const widgetThis = this
 
@@ -37,7 +23,7 @@ const mixinForm = {
 		globalInnerHTML(widgetThis.cardBody, '')
 		globalAppend(widgetThis.cardBody, widgetThis.formBody)
 
-		globalEventListener(widgetThis.formBody, 'submit', e => mixinForm.formSubmitted(widgetThis, e))
+		globalEventListener(widgetThis.formBody, 'submit', e => custom_form.formSubmitted(widgetThis, e))
 		widgetThis.createAllFields(cardConfig?.form_fields)
 	},
 
@@ -52,11 +38,11 @@ const mixinForm = {
 			}
 
 			if (field.field_type === 'rating') {
-				mixinForm.createRatingField(field, dynamicFields, 'rating')
+				custom_form.createRatingField(field, dynamicFields, 'rating')
 			} else if (field.field_type === 'feedback') {
-				mixinForm.createRatingField(field, dynamicFields, 'feedback')
+				custom_form.createRatingField(field, dynamicFields, 'feedback')
 			} else {
-				mixinForm.createTextField(field, dynamicFields)
+				custom_form.createTextField(field, dynamicFields)
 			}
 		})
 	},
@@ -113,7 +99,7 @@ const mixinForm = {
 		}
 
 		if (field.field_type === 'GDPR') {
-			mixinForm.gdprField(field, dynamicFields, fieldInput)
+			custom_form.gdprField(field, dynamicFields, fieldInput)
 			return
 		}
 
@@ -121,7 +107,7 @@ const mixinForm = {
 		globalSetAttribute(fieldInput, 'type', field.field_type)
 
 		if (field.field_type === 'file') {
-			mixinForm.fileField(field, dynamicFields, fieldInput)
+			custom_form.fileField(field, dynamicFields, fieldInput)
 			return
 		}
 		globalAppend(dynamicFields, fieldInput)
@@ -185,9 +171,9 @@ const mixinForm = {
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
-				await mixinForm.showToast(widgetThis, 'success', responseData?.data)
+				await custom_form.showToast(widgetThis, 'success', responseData?.data)
 			} else {
-				await mixinForm.showToast(widgetThis, 'error', responseData?.data)
+				await custom_form.showToast(widgetThis, 'error', responseData?.data)
 			}
 
 			e.target.reset()
@@ -198,7 +184,7 @@ const mixinForm = {
 			globalInnerText(submitBtn, oldText)
 		} catch (err) {
 			console.log(err)
-			await mixinForm.showToast(widgetThis, 'error')
+			await custom_form.showToast(widgetThis, 'error')
 			e.target.reset()
 			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
 				globalInnerText(title, 'No file chosen')
@@ -241,5 +227,3 @@ const mixinForm = {
 		globalClassListRemove(widgetThis.formBody, 'hide')
 	},
 }
-
-export default mixinForm

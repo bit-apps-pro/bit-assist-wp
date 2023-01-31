@@ -1,6 +1,4 @@
-import { $, createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
-
-const mixinIframe = {
+export const custom_frame = {
 	renderIframe(url, channelName, iframe = false) {
 		this.hideChannels()
 		this.iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
@@ -27,5 +25,3 @@ const mixinIframe = {
 		this.resetClientWidgetSize()
 	},
 }
-
-export default mixinIframe

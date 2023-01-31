@@ -1,4 +1,4 @@
-const mixinSetBusinessHour = {
+export const set_business_hour = {
 	checkBusinessHours() {
 		const date = new Date()
 		const toDay = this.widgetData?.business_hours[date.getDay()]
@@ -28,5 +28,3 @@ const mixinSetBusinessHour = {
 		return true
 	},
 }
-
-export default mixinSetBusinessHour

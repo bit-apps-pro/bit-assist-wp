@@ -1,8 +1,6 @@
 import closeIcon from '../icons/close-icon.js'
 
-import { $, createElm, globalInnerHTML, globalEventListener, globalClassListContains } from '../utils/Helpers.js'
-
-const mixinCallToAction = {
+export const call_to_action = {
 	async showCallToAction() {
 		if (!this.widgetData?.call_to_action?.text) {
 			return
@@ -29,5 +27,3 @@ const mixinCallToAction = {
 		this.resetClientWidgetSize()
 	},
 }
-
-export default mixinCallToAction

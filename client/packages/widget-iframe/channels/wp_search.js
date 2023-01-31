@@ -1,14 +1,4 @@
-import {
-	$,
-	createElm,
-	globalAppend,
-	globalEventListener,
-	globalInnerHTML,
-	globalInnerText,
-	globalSetAttribute,
-} from '../utils/Helpers.js'
-
-const mixinWpSearch = {
+export const wp_search = {
 	renderWPSearch(config) {
 		this.hideChannels()
 		this.renderCard()
@@ -113,5 +103,3 @@ const mixinWpSearch = {
 		globalAppend($('#lists'), paginationWrap)
 	},
 }
-
-export default mixinWpSearch

@@ -2,17 +2,20 @@ import {
 	$,
 	createElm,
 	globalAppend,
-	globalInnerHTML,
 	globalEventListener,
-	globalClassListAdd,
-	globalClassListContains,
-	globalClassListRemove,
 	globalSetProperty,
 	globalPostMessage,
+	globalInnerHTML,
+	globalInnerText,
+	globalSetAttribute,
+	globalClassListAdd,
+	globalClassListRemove,
 	globalQuerySelectorAll,
+	globalClassListContains,
+	globalClassListToggle,
 } from '../utils/Helpers.js'
 
-const mixinCommon = {
+export const common = {
 	hideChannels() {
 		if (globalClassListContains(this.channels, 'show')) {
 			globalClassListRemove(this.channels, 'show')
@@ -109,4 +112,19 @@ const mixinCommon = {
 	},
 }
 
-export default mixinCommon
+export {
+	$,
+	createElm,
+	globalAppend,
+	globalEventListener,
+	globalSetProperty,
+	globalPostMessage,
+	globalInnerHTML,
+	globalInnerText,
+	globalSetAttribute,
+	globalClassListAdd,
+	globalClassListRemove,
+	globalQuerySelectorAll,
+	globalClassListContains,
+	globalClassListToggle,
+}

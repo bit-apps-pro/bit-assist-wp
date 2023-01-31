@@ -4,15 +4,7 @@ import bundleSize from 'rollup-plugin-bundle-size'
 import resolve from '@rollup/plugin-node-resolve'
 
 export default function generateRollupConfig() {
-	const fileNames = [
-		'call-to-action',
-		'common',
-		'render-faq',
-		'render-custom-form',
-		'render-custom-iframe',
-		'render-knowledge-base',
-		'render-wp-search',
-	]
+	const fileNames = ['common', 'faq', 'custom_form', 'custom_iframe', 'knowledge_base', 'wp_search']
 
 	const external = ['window', 'document', ...fileNames]
 
@@ -26,17 +18,29 @@ export default function generateRollupConfig() {
 			exclude: 'node_modules/**',
 			babelHelpers: 'bundled',
 		}),
-		terser(),
 	]
+
+	const getTerserConfig = fileName => {
+		const terserOptions = {
+			mangle: {
+				reserved: fileNames,
+			},
+		}
+		if (fileName === 'common') {
+			terserOptions.mangle.keep_fnames = true
+		}
+		return terserOptions
+	}
 
 	const channels = fileNames.map(fileName => ({
 		external,
-		plugins,
+		plugins: [...plugins, terser(getTerserConfig(fileName))],
 		input: `${srcFolder}/${fileName}.js`,
 		output: [
 			{
 				file: `${distFolder}/${fileName}.js`,
 				name: fileName.replace(/-/g, '_'),
+				// name: `${fileName}_${Math.random().toString(36).substring(2, 15)}`,
 				// format: 'iife',
 				globals: {
 					document: 'document',
