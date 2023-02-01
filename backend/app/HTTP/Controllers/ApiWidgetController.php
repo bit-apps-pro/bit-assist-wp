@@ -20,10 +20,10 @@ final class ApiWidgetController
 
     public function bitAssistWidget(Request $request)
     {
-        $widget = $this->getWidget($request->domain);
-
         $version = Config::VERSION;
         $baseURL = Config::get('BASEDIR_ROOT');
+
+        $widget = $this->getWidget($request->domain);
 
         if (!isset($widget->id)) {
             $options_value = Config::getOption('channel_options');
@@ -40,6 +40,7 @@ final class ApiWidgetController
         }
 
         $widgetChannels = $this->getChannelsByWidget($widget->id);
+
         if (is_null($widgetChannels)) {
             $options_value = Config::getOption('channel_options');
             $widget->channel_options = $options_value;
@@ -60,11 +61,8 @@ final class ApiWidgetController
         $options_value = Config::getOption('channel_options');
         $widget->channel_options = $options_value;
 
-        $importJsFile = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
-        $importJsFileIframe = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
-
-        $importJsArray[] = $importJsFile;
-        $importJsIframe[] = $importJsFileIframe;
+        $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
+        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
 
         $outputFilePath = $baseURL . 'client/packages/widget-iframe/channels/features.js';
         $outputFilePathIframe = $baseURL . 'iframe/assets/channels/features.js';
@@ -77,22 +75,17 @@ final class ApiWidgetController
 
         if ($options_value['channel_names'] != $channel_names) {
             $options_value['channel_status'] = 0;
+            $options_value['version'] = $version . '.' . mt_rand();
+
             Config::updateOption('channel_options', $options_value);
-            $version = Config::VERSION . mt_rand();
         }
 
         if ($options_value['channel_status'] == 0) {
-            $importJsFile = '';
-            $importJsFileIframe = '';
-
             $importArray = [];
             $importJsIframe = [];
 
-            $importJsFile = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
-            $importJsFileIframe = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
-
-            $importArray[] = $importJsFile;
-            $importJsIframe[] = $importJsFileIframe;
+            $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
+            $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
 
             foreach ($widget->widget_channels as $value) {
                 if ($value->channel_name === 'FAQ' ||
@@ -146,7 +139,10 @@ final class ApiWidgetController
             }
         }
 
-        $widget->featuresJsPath = "./channels/features.js?ver={$version}";
+        $get_options_version = Config::getOption('channel_options');
+        $new_version = $get_options_version['version'];
+
+        $widget->featuresJsPath = "./channels/features.js?ver={$new_version}";
 
         return $widget;
     }

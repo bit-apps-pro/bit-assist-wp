@@ -40,7 +40,6 @@ export default function generateRollupConfig() {
 			{
 				file: `${distFolder}/${fileName}.js`,
 				name: fileName.replace(/-/g, '_'),
-				// name: `${fileName}_${Math.random().toString(36).substring(2, 15)}`,
 				// format: 'iife',
 				globals: {
 					document: 'document',
