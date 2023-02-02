@@ -1,8 +1,5 @@
 import './css/style.scss'
-// import closeIcon from './icons/close-icon.js'
 import closeIcon from './public/images/close-icon.svg'
-// import mixinCommon from './channels/common.js'
-// import mixinCallToAction from './channels/call-to-action.js'
 import {
 	$,
 	createElm,
@@ -51,14 +48,6 @@ export default class Widget {
 		this.widgetBubble = $(config.widgetBubble)
 		this.addEvents()
 		this.getClientInfo()
-
-		// if (typeof mixinCommon !== 'undefined') {
-		// 	Object.assign(Widget.prototype, mixinCommon)
-		// }
-
-		// if (typeof mixinCallToAction !== 'undefined') {
-		// 	Object.assign(Widget.prototype, mixinCallToAction)
-		// }
 	}
 
 	delay = n => new Promise(resolve => setTimeout(resolve, n * 1000))

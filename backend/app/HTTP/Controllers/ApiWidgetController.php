@@ -75,7 +75,7 @@ final class ApiWidgetController
 
         if ($options_value['channel_names'] != $channel_names) {
             $options_value['channel_status'] = 0;
-            $options_value['version'] = $version . '.' . mt_rand();
+            $options_value['version'] = $version . '.' . mt_rand() . strtotime('now');
 
             Config::updateOption('channel_options', $options_value);
         }
