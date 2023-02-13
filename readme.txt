@@ -105,6 +105,10 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
+= v1.1.1 (Feb 13, 2023) =
+* Feature: Js file is split by channel wise smaller part
+* Feature: Show channels on hover
+
 = v1.1.0 (Jan 1, 2023) =
 * HOT: WP Search channel
 * HOT: Custom iFrame channel

@@ -81,7 +81,7 @@ final class ApiWidgetController
         }
 
         if ($options_value['channel_status'] == 0) {
-            $importArray = [];
+            $importJsArray = [];
             $importJsIframe = [];
 
             $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
@@ -99,7 +99,7 @@ final class ApiWidgetController
                     array_push($channelFiles, $value->channel_name);
 
                     if (Config::isDev()) {
-                        array_push($importArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
+                        array_push($importJsArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
                         array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
                     } else {
                         array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $value->channel_name)) . '.js'));
@@ -117,7 +117,7 @@ final class ApiWidgetController
                     array_push($channelFiles, $value->channel_name);
 
                     if (Config::isDev()) {
-                        array_push($importArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/custom_iframe.js'));
+                        array_push($importJsArray, file_get_contents($baseURL . 'client/packages/widget-iframe/channels/custom_iframe.js'));
                         array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js'));
                     } else {
                         array_push($importJsIframe, file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js'));
@@ -132,7 +132,7 @@ final class ApiWidgetController
 
                 if (Config::isDev()) {
                     file_put_contents($outputFilePathIframe, implode('', $importJsIframe));
-                    file_put_contents($outputFilePath, implode('', $importArray));
+                    file_put_contents($outputFilePath, implode('', $importJsArray));
                 } else {
                     file_put_contents($outputFilePathIframe, implode('', $importJsIframe));
                 }

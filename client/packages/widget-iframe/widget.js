@@ -243,7 +243,6 @@ export default class Widget {
 			if (typeof mixinObj !== 'undefined') {
 				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
-			console.log(this.widgetData.featuresJsPath)
 
 			this.widgetSetup()
 		} catch (err) {
