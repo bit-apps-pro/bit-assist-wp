@@ -7,7 +7,6 @@ use BitApps\Assist\Config;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
-use Error;
 
 final class ApiWidgetController
 {
@@ -44,11 +43,11 @@ final class ApiWidgetController
 
     private function makeFilesAndDbOptionEmpty($baseURL)
     {
-        $activeChannelWPOptions = Config::getOption('channel_options');
+        $activeChannelWPOptions = Config::getOption('active_channels');
 
         $activeChannelWPOptions['channel_names'] = '';
         $activeChannelWPOptions['channel_status'] = 0;
-        Config::updateOption('channel_options', $activeChannelWPOptions);
+        Config::updateOption('active_channels', $activeChannelWPOptions);
 
         file_put_contents($baseURL . 'iframe/assets/channels/features.js', '');
         file_put_contents($baseURL . 'client/packages/widget-iframe/channels/features.js', '');
@@ -58,11 +57,11 @@ final class ApiWidgetController
     {
         $widget->widget_channels = $widgetChannels;
 
-        $activeChannelWPOptions = Config::getOption('channel_options');
+        $activeChannelWPOptions = Config::getOption('active_channels');
 
-        $this->getChannelsInDevOrProdMode($baseURL, $widget, $activeChannelWPOptions, $version);
+        $this->getChannels($baseURL, $widget, $activeChannelWPOptions, $version);
 
-        $get_options_version = Config::getOption('channel_options');
+        $get_options_version = Config::getOption('active_channels');
         $new_version = $get_options_version['version'];
 
         $widget->featuresJsPath = "./channels/features.js?ver={$new_version}";
@@ -70,7 +69,7 @@ final class ApiWidgetController
         return $widget;
     }
 
-    private function getChannelsInDevOrProdMode($baseURL, $widget, $activeChannelWPOptions, $version)
+    private function getChannels($baseURL, $widget, $activeChannelWPOptions, $version)
     {
         $activeChannels = [];
 
@@ -145,7 +144,7 @@ final class ApiWidgetController
             $activeChannelWPOptions['channel_status'] = 0;
             $activeChannelWPOptions['version'] = $version . '.' . mt_rand() . strtotime('now');
 
-            Config::updateOption('channel_options', $activeChannelWPOptions);
+            Config::updateOption('active_channels', $activeChannelWPOptions);
         }
 
         return $activeChannelWPOptions;
@@ -156,7 +155,7 @@ final class ApiWidgetController
         if ($activeChannelWPOptions['channel_names'] != $channel_names) {
             $activeChannelWPOptions['channel_status'] = 1;
             $activeChannelWPOptions['channel_names'] = $channel_names;
-            Config::updateOption('channel_options', $activeChannelWPOptions);
+            Config::updateOption('active_channels', $activeChannelWPOptions);
 
             if (Config::isDev()) {
                 file_put_contents($outputFilePathIframe, implode('', $importJsIframe));

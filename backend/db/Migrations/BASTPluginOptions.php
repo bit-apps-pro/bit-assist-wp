@@ -19,13 +19,13 @@ final class BASTPluginOptions extends Migration
             Config::addOption('version', Config::VERSION, true);
         }
 
-        if (Config::getOption('db_version', null) == '1.0.1') {
+        if (Config::getOption('active_channels') === false) {
             $options = [
                 'channel_names'  => '',
                 'channel_status' => 0
             ];
 
-            Config::addOption('channel_options', $options, true);
+            Config::addOption('active_channels', $options, true);
         }
     }
 
@@ -36,7 +36,7 @@ final class BASTPluginOptions extends Migration
             Config::withPrefix('db_version'),
             Config::withPrefix('installed'),
             Config::withPrefix('version'),
-            Config::withPrefix('channel_options'),
+            Config::withPrefix('active_channels'),
         ];
 
         DB::query(

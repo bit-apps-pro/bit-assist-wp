@@ -21,7 +21,7 @@ class Config
 
     const VERSION = '1.1.1';
 
-    const DB_VERSION = '1.0.2';
+    const DB_VERSION = '1.0.1';
 
     const REQUIRED_PHP_VERSION = '5.6.4';
 
