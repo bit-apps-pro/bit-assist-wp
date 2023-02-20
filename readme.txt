@@ -105,7 +105,7 @@ There are also some notable features which is very unique like Knowledgebase, Fr
 
 
 == Changelog ==
-= v1.1.1 (Feb 19, 2023) =
+= v1.1.1 (Feb 20, 2023) =
 * Feature: Js file size is reduced. Size will depend on your active channels' type.
 * Feature: Show channels on hover
 
