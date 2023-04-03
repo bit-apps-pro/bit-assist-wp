@@ -29,6 +29,7 @@ widgetContainer.id = 'bit-assist-widget-container'
 widgetContainer.classList.add('bit-assist-hide')
 
 const iframeElement = document.createElement('iframe')
+iframeElement.title = 'wp-bit-assist'
 iframeElement.src = `${iframeHost}${separator}clientDomain=${domain}`
 iframeElement.id = 'bit-assist-widget-iframe'
 iframeElement.setAttribute('allowfullscreen', '')
