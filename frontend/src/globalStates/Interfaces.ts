@@ -24,6 +24,8 @@ interface Styles {
   customImage?: string
   shape?: string
   size?: number
+  badge_active?: number
+  badge_color?: TColor
 }
 interface BusinessHours {
   day: string

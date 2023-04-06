@@ -21,6 +21,7 @@ export default class Widget {
 	widgetData
 	clientDomain
 	widgetBubble
+	widgetBubbleWrapper
 	contentWrapper
 	widgetWrapper
 	channels
@@ -45,6 +46,7 @@ export default class Widget {
 		this.clientDomain = config.clientDomain
 		this.contentWrapper = $('#contentWrapper')
 		this.widgetWrapper = $('#widgetWrapper')
+		this.widgetBubbleWrapper = $('#widgetBubbleWrapper')
 		this.widgetBubble = $(config.widgetBubble)
 		this.addEvents()
 		this.getClientInfo()
@@ -244,6 +246,8 @@ export default class Widget {
 				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
 
+			console.log(this.widgetData)
+
 			this.widgetSetup()
 		} catch (err) {
 			console.log(err)
@@ -406,6 +410,14 @@ export default class Widget {
 	renderWidgetBubble = () => {
 		globalSetProperty(this.root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
 		globalSetProperty(this.root.style, '--widget-color', this.widgetData?.styles?.color?.str)
+
+		const badgeActive = this.widgetData?.styles?.badge_active
+		if (badgeActive === 0) {
+			globalClassListRemove(this.widgetBubbleWrapper, 'active')
+		} else {
+			globalClassListAdd(this.widgetBubbleWrapper, 'active')
+			globalSetProperty(this.root.style, '--widget-notification-badge-color', this.widgetData?.styles?.badge_color?.str)
+		}
 
 		if (this.widgetData?.widget_behavior === 2) {
 			// this.widgetBubble.removeEventListener('click', this.onBubbleClick)

@@ -22,6 +22,8 @@ export const WidgetDefault = {
     position: undefined,
     icon: undefined,
     shape: undefined,
+    badge_active: 0,
+    badge_color: undefined,
   },
   domains: [],
   business_hours: [],

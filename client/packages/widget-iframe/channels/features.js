@@ -128,22 +128,15 @@ export {
 	globalClassListContains,
 	globalClassListToggle,
 }
-import leftArrow from '../icons/left-circle-arrow.js'
-import rightArrow from '../icons/right-circle-arrow.js'
-import closeIcon from '../icons/close-icon.js'
+export const wp_search = {
+	renderWPSearch(config) {
+		this.hideChannels()
+		this.renderCard()
+		this.setCardStyle(config)
 
-export const knowledge_base = {
-	renderKnowledgeBase(widgetChannel) {
-		const widgetThis = this
-
-		widgetThis.hideChannels()
-		widgetThis.renderCard()
-		widgetThis.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		const knowledgeBaseBody = createElm('div', { id: 'knowledgeBaseBody' })
+		const wpSearchBody = createElm('div', { id: 'wpSearchBody' })
 		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists' })
+		const lists = createElm('div', { id: 'lists', 'data-link_open_action': config.open_window_action })
 		const listSearch = createElm('input', {
 			type: 'text',
 			id: 'listSearch',
@@ -151,82 +144,92 @@ export const knowledge_base = {
 			placeholder: 'Search',
 		})
 		globalAppend(listWrapper, [lists, listSearch])
+		globalAppend(wpSearchBody, listWrapper)
 
-		const overlay = createElm('div', { class: 'overlay' })
-		const knowledgeBaseDescription = createElm('div', { id: 'knowledgeBaseDescription' })
-		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-		const p = createElm('p')
-		const modalActions = createElm('div', { class: 'modalActions' })
+		globalInnerHTML(this.cardBody, '')
+		globalAppend(this.cardBody, wpSearchBody)
 
-		const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
-		// const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
-		globalInnerHTML(prevKBBtn, leftArrow)
-
-		const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
-		// const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
-		globalInnerHTML(nextKBBtn, rightArrow)
-
-		const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
-		// const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
-		globalInnerHTML(closeKBBtn, closeIcon)
-
-		globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])
-		globalAppend(descriptionTitle, [p, modalActions])
-
-		const content = createElm('div', { class: 'content' })
-		globalAppend(knowledgeBaseDescription, [descriptionTitle, content])
-		globalAppend(knowledgeBaseBody, [listWrapper, overlay, knowledgeBaseDescription])
-
-		globalInnerHTML(widgetThis.cardBody, '')
-		globalAppend(widgetThis.cardBody, knowledgeBaseBody)
-
-		globalEventListener(listSearch, 'input', widgetThis.searchList)
-		globalEventListener(closeKBBtn, 'click', () => knowledge_base.knowledgeBaseDescToggle(widgetThis))
-		globalEventListener(prevKBBtn, 'click', () => widgetThis.gotoPrevNextKB('previousElementSibling'))
-		globalEventListener(nextKBBtn, 'click', () => widgetThis.gotoPrevNextKB('nextElementSibling'))
-
-		widgetThis.renderKnowledgeBaseItem(widgetThis, cardConfig?.knowledge_bases)
-	},
-
-	renderKnowledgeBaseItem(widgetThis, items) {
-		widgetThis.itemListAppend(items)
-		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => knowledge_base.knowledgeBaseDescToggle(widgetThis, e, items))
-		})
-	},
-
-	gotoPrevNextKB(indicator) {
-		const item = $('.listItem.active')[indicator]
-		if (item) {
-			item.querySelector('.listItemTitleWrapper').click()
-		}
-	},
-
-	knowledgeBaseDescToggle(widgetThis, e, knowledgeBases) {
-		globalClassListRemove($('.listItem.active'), 'active')
-
-		const knowledgeBaseBody = $('#knowledgeBaseBody')
-		if (!knowledgeBases) {
-			globalClassListRemove(knowledgeBaseBody, 'openDesc')
-			globalSetProperty(widgetThis.root.style, '--card-width', '330px')
-			widgetThis.resetClientWidgetSize()
-			return
-		}
-
-		globalClassListToggle(e.target.closest('.listItem'), 'active')
-		const knowledgeBase = knowledgeBases.find(
-			item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
+		this.searchPostPage('')
+		globalEventListener(
+			listSearch,
+			'input',
+			this.debounce(e => this.searchPostPage(e.target.value), 600),
 		)
-		if (!knowledgeBase) {
-			return
+	},
+
+	async searchPostPage(value, page = 1) {
+		const { data, pagination } = await this.fetchWPSearchData(value, page)
+
+		this.renderWPSearchItem(data)
+		if (pagination?.has_next || pagination?.has_previous) {
+			this.renderWPSearchPagination(pagination)
 		}
 
-		globalClassListAdd(knowledgeBaseBody, 'openDesc')
-		globalInnerHTML($('.descriptionTitle p'), knowledgeBase?.title || '')
-		globalInnerHTML($('.content'), knowledgeBase?.description || '')
+		this.resetClientWidgetSize()
+	},
 
-		globalSetProperty(widgetThis.root.style, '--modal-title-height', $('.descriptionTitle').offsetHeight + 'px')
-		globalSetProperty(widgetThis.root.style, '--card-width', '767px')
-		widgetThis.resetClientWidgetSize()
+	async fetchWPSearchData(value, page) {
+		const { data } = await fetch(`${this.apiEndPoint}/wpSearch`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ search: value, page }),
+		}).then(res => res.json())
+
+		return data
+	},
+
+	renderWPSearchItem(items) {
+		const lists = $('#lists')
+		globalInnerHTML(lists, '')
+		const itemsObj = []
+
+		items?.forEach(item => {
+			const listItem = createElm('div', { class: 'listItem' })
+			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.guid })
+			const title = createElm('p', { class: 'title' })
+			const type = createElm('p', { class: 'type' })
+
+			globalAppend(listItem, listItemTitleWrapper)
+			globalAppend(listItemTitleWrapper, [title, type])
+			globalInnerText(title, item?.post_title || '(no title)')
+			globalInnerText(type, item?.post_type || '')
+			itemsObj.push(listItem)
+
+			globalEventListener(listItemTitleWrapper, 'click', () => {
+				const { link_open_action } = lists.dataset
+				if (link_open_action === 'new_window') {
+					window.open(item.guid, '_blank', 'popup')
+				} else {
+					window.open(item.guid, link_open_action)
+				}
+			})
+		})
+
+		globalAppend(lists, itemsObj)
+	},
+
+	renderWPSearchPagination(pagination) {
+		const paginationWrap = createElm('div', { class: 'pagination' })
+
+		const pageNumber = createElm('span', { class: 'pageNumber' })
+		globalInnerText(pageNumber, `${pagination?.current} / ${pagination?.total} page`)
+
+		const nextPage = createElm('button', { class: 'nextPage' })
+		globalInnerText(nextPage, 'Next')
+		if (!pagination?.has_next) {
+			globalSetAttribute(nextPage, 'disabled', '')
+		}
+		const prevPage = createElm('button', { class: 'prevPage' })
+		globalInnerText(prevPage, 'Prev')
+		if (!pagination?.has_previous) {
+			globalSetAttribute(prevPage, 'disabled', '')
+		}
+
+		const searchValue = $('#listSearch')?.value || ''
+		globalEventListener(nextPage, 'click', () => this.searchPostPage(searchValue, pagination?.next))
+		globalEventListener(prevPage, 'click', () => this.searchPostPage(searchValue, pagination?.previous))
+
+		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
+		globalAppend($('#lists'), paginationWrap)
 	},
 }
