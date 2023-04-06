@@ -246,8 +246,6 @@ export default class Widget {
 				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
 
-			console.log(this.widgetData)
-
 			this.widgetSetup()
 		} catch (err) {
 			console.log(err)
@@ -416,7 +414,7 @@ export default class Widget {
 			globalClassListRemove(this.widgetBubbleWrapper, 'active')
 		} else {
 			globalClassListAdd(this.widgetBubbleWrapper, 'active')
-			globalSetProperty(this.root.style, '--widget-notification-badge-color', this.widgetData?.styles?.badge_color?.str)
+			globalSetProperty(this.root.style, '--widget-active-badge-color', this.widgetData?.styles?.badge_color?.str)
 		}
 
 		if (this.widgetData?.widget_behavior === 2) {
