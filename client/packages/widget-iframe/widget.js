@@ -410,10 +410,12 @@ export default class Widget {
 		globalSetProperty(this.root.style, '--widget-color', this.widgetData?.styles?.color?.str)
 
 		const badgeActive = this.widgetData?.styles?.badge_active
+		const widgetShape = this.widgetData?.styles?.shape
+
 		if (badgeActive === 0) {
-			globalClassListRemove(this.widgetBubbleWrapper, 'active')
+			globalClassListRemove(this.widgetBubbleWrapper, `active-${widgetShape}`)
 		} else {
-			globalClassListAdd(this.widgetBubbleWrapper, 'active')
+			globalClassListAdd(this.widgetBubbleWrapper, `active-${widgetShape}`)
 			globalSetProperty(this.root.style, '--widget-active-badge-color', this.widgetData?.styles?.badge_color?.str)
 		}
 
@@ -440,7 +442,20 @@ export default class Widget {
 				1000,
 		)
 		globalSetProperty(this.root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
+
+		// globalEventListener('animationend', this.restartAnimation)
 	}
+
+	// restartAnimation() {
+	// 	// Remove the animation class
+	// 	globalClassListRemove(this.widgetBubbleWrapper, '--attention-animation')
+	// 	// Trigger a reflow
+	// 	void this.widgetBubbleWrapper.offsetWidth
+	// 	// Add the animation class back after a delay of 30 seconds
+	// 	setTimeout(() => {
+	// 		globalClassListAdd(this.widgetBubbleWrapper, '--attention-animation')
+	// 	}, 30000)
+	// }
 
 	widgetShowDelay = async () => {
 		if (this.widgetData?.initial_delay > 0) {

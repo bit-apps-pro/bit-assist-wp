@@ -13,15 +13,52 @@
 	filter: drop-shadow(0 1px 4px #00000018) drop-shadow(0 2px 12px #00000016);
 }
 
-#widgetBubbleWrapper.active::after {
+#widgetBubbleWrapper.active-circle::after {
 	content: '';
 	position: absolute;
-	top: 2px;
-	right: 2px;
-	width: 12px;
-	height: 12px;
+	top: 3px;
+	right: 3px;
+	width: 8px;
+	height: 8px;
 	background-color: var(--widget-active-badge-color);
 	border-radius: 50%;
+	border: 1px solid #fff;
+}
+
+#widgetBubbleWrapper.active-semiRounded::after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	width: 8px;
+	height: 8px;
+	background-color: var(--widget-active-badge-color);
+	border-radius: 50%;
+	border: 1px solid #fff;
+}
+
+#widgetBubbleWrapper.active-rounded::after {
+	content: '';
+	position: absolute;
+	top: -3px;
+	right: -3px;
+	width: 8px;
+	height: 8px;
+	background-color: var(--widget-active-badge-color);
+	border-radius: 50%;
+	border: 1px solid #fff;
+}
+
+#widgetBubbleWrapper.active-square::after {
+	content: '';
+	position: absolute;
+	top: -3px;
+	right: -3px;
+	width: 8px;
+	height: 8px;
+	background-color: var(--widget-active-badge-color);
+	border-radius: 50%;
+	border: 1px solid #fff;
 }
 
 #widgetBubble {
