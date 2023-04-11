@@ -443,19 +443,26 @@ export default class Widget {
 		)
 		globalSetProperty(this.root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 
-		// globalEventListener('animationend', this.restartAnimation)
-	}
+		// Attention Animation
+		const animationActive = this.widgetData?.styles?.animation_active
+		const animationType = this.widgetData?.styles?.animation_type
 
-	// restartAnimation() {
-	// 	// Remove the animation class
-	// 	globalClassListRemove(this.widgetBubbleWrapper, '--attention-animation')
-	// 	// Trigger a reflow
-	// 	void this.widgetBubbleWrapper.offsetWidth
-	// 	// Add the animation class back after a delay of 30 seconds
-	// 	setTimeout(() => {
-	// 		globalClassListAdd(this.widgetBubbleWrapper, '--attention-animation')
-	// 	}, 30000)
-	// }
+		if (animationActive === 1) {
+			globalSetProperty(this.root.style, '--animation-delay', this.widgetData?.styles?.animation_delay?.delay + 's')
+
+			if (animationType === 1) {
+				globalClassListAdd(this.widgetBubbleWrapper, '--wiggle-animation')
+			} else if (animationType === 2) {
+				globalClassListAdd(this.widgetBubbleWrapper, '--jump-animation')
+			} else if (animationType === 3) {
+				globalClassListAdd(this.widgetBubbleWrapper, '--shockwave-animation')
+			} else if (animationType === 4) {
+				globalClassListAdd(this.widgetBubbleWrapper, '--glow-animation')
+			}
+		} else {
+			globalClassListRemove(this.widgetBubbleWrapper, '--wiggle-animation')
+		}
+	}
 
 	widgetShowDelay = async () => {
 		if (this.widgetData?.initial_delay > 0) {

@@ -5,6 +5,7 @@ import BusinessHours from '@components/settings/BusinessHours'
 import WidgetBehavior from '@components/settings/WidgetBehavior'
 import CallToAction from '@components/settings/CallToAction'
 import WidgetActiveBadge from '@components/settings/WidgetActiveBadge'
+import AttentionAnimation from '@components/settings/AttentionAnimation'
 // import FontFamily from '@components/settings/FontFamily'
 // import Responses from '@components/settings/Responses'
 
@@ -17,6 +18,7 @@ function Settings() {
       <Trigger />
       <CallToAction />
       <WidgetBehavior />
+      <AttentionAnimation />
       {/* <FontFamily /> */}
       {/* <Responses /> */}
     </Stack>

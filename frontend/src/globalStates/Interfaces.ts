@@ -11,6 +11,11 @@ export interface UserStateType {
   _id?: string
 }
 
+interface AnimationDelay {
+  text?: string
+  delay?: number
+}
+
 // widget interfaces
 interface Styles {
   color?: TColor
@@ -26,6 +31,9 @@ interface Styles {
   size?: number
   badge_active?: number
   badge_color?: TColor
+  animation_active?: number
+  animation_type?: number
+  animation_delay?: AnimationDelay | null
 }
 interface BusinessHours {
   day: string

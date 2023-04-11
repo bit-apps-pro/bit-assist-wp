@@ -36,19 +36,21 @@ final class WidgetController
         $newWidget = [
             'name'   => trim($request->name),
             'styles' => [
-                'size'        => 60,
-                'shape'       => 'semiRounded',
-                'color'       => $request->color,
-                'icon'        => 'widget-icon-1',
-                'iconUrl'     => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.svg',
-                'position'    => 'bottom-right',
-                'top'         => 10,
-                'bottom'      => 10,
-                'let'         => 10,
-                'right'       => 10,
-                'badge_active'=> 0,
-                'badge_color' => ['b'=>0, 'g'=>220, 'h'=>120, 'hex'=>'00dc00', 'r'=>0, 's'=>100, 'str'=>'#00dc00', 'v'=>86]
-            ]
+                'size'             => 60,
+                'shape'            => 'semiRounded',
+                'color'            => $request->color,
+                'icon'             => 'widget-icon-1',
+                'iconUrl'          => Config::get('ROOT_URI') . '/img/widget/widgetIcon1.svg',
+                'position'         => 'bottom-right',
+                'top'              => 10,
+                'bottom'           => 10,
+                'let'              => 10,
+                'right'            => 10,
+                'badge_active'     => 0,
+                'badge_color'      => ['b'=> 0, 'g'=> 220, 'h'=> 120, 'hex'=> '00dc00', 'r'=> 0, 's'=> 100, 'str'=> '#00dc00', 'v'=> 86],
+                'animation_active' => 0,
+                'animation_type'   => 1,
+            ],
         ];
 
         $activeWidget = Config::getOption('widget_active');

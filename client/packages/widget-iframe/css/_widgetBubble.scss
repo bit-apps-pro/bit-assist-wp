@@ -10,7 +10,7 @@
 	min-width: var(--widget-size);
 	height: var(--widget-size);
 	min-height: var(--widget-size);
-	filter: drop-shadow(0 1px 4px #00000018) drop-shadow(0 2px 12px #00000016);
+	filter: drop-shadow(0 1px 2px #00000018) drop-shadow(0 2px 6px #00000016);
 }
 
 #widgetBubbleWrapper.active-circle::after {
@@ -154,5 +154,131 @@
 
 	&::selection {
 		background: transparent;
+	}
+}
+
+// Wiggle
+.--wiggle-animation {
+	animation: 1s wiggle ease infinite;
+	animation-delay: var(--animation-delay);
+}
+
+@keyframes wiggle {
+	0% {
+		transform: rotate(-3deg);
+		// box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	}
+	20% {
+		transform: rotate(20deg);
+	}
+	40% {
+		transform: rotate(-15deg);
+	}
+	60% {
+		transform: rotate(5deg);
+	}
+	90% {
+		transform: rotate(-1deg);
+	}
+	100% {
+		transform: rotate(0);
+		// box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+	}
+}
+
+// JUMP
+.--jump-animation {
+	animation: 0.4s jump ease infinite alternate;
+	animation-delay: var(--animation-delay);
+}
+
+@keyframes jump {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+		border-radius: 50%;
+	}
+	100% {
+		transform: scale(1.05);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		border-radius: 50%;
+	}
+}
+
+// Shockwave
+.--shockwave-animation {
+	animation: shockwaveJump 1s ease-out infinite;
+	animation-delay: var(--animation-delay);
+
+	&:after {
+		animation: shockwave 1s 0.65s ease-out infinite;
+	}
+
+	&:before {
+		animation: shockwave 1s 0.5s ease-out infinite;
+	}
+}
+
+@keyframes shockwaveJump {
+	0% {
+		transform: scale(1);
+	}
+	40% {
+		transform: scale(1.08);
+	}
+	50% {
+		transform: scale(0.98);
+	}
+	55% {
+		transform: scale(1.02);
+	}
+	60% {
+		transform: scale(0.98);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes shockwave {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.15), inset 0 0 1px rgba(0, 0, 0, 0.15);
+	}
+	95% {
+		box-shadow: 0 0 50px rgba(0, 0, 0, 0), inset 0 0 30px rgba(0, 0, 0, 0);
+	}
+	100% {
+		transform: scale(2.25);
+	}
+}
+
+//Glow
+
+.--glow-animation {
+	animation: glowing 4s ease-out infinite;
+	animation-delay: var(--animation-delay);
+}
+
+@keyframes glowing {
+	0% {
+		background-color: var(--widget-color);
+		box-shadow: 0 0 -10px var(--widget-color);
+		border-radius: 50%;
+	}
+	40% {
+		background-color: var(--widget-color);
+		box-shadow: 0 0 20px var(--widget-color);
+		border-radius: 50%;
+	}
+	60% {
+		background-color: var(--widget-color);
+		box-shadow: 0 0 20px var(--widget-color);
+		border-radius: 50%;
+	}
+	100% {
+		background-color: var(--widget-color);
+		box-shadow: 0 0 -10px var(--widget-color);
+		border-radius: 50%;
 	}
 }

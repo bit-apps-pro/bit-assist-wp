@@ -92,10 +92,6 @@ function WidgetActiveBadge() {
         <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
       </Title>
 
-      {/* <FormControl display="flex" alignItems="center">
-        <FormLabel mb="0">Enable Notification Badge</FormLabel>
-      </FormControl> */}
-
       {isEnabled && (
         <Box mt={4}>
           <Text mb={1}>Choose Badge Color</Text>
