@@ -134,7 +134,6 @@ function AttentionAnimation() {
             <option value={1}>Wiggle</option>
             <option value={2}>Jump</option>
             <option value={3}>Shock Wave</option>
-            <option value={4}>Glow</option>
           </Select>
 
           <Text>Animation Delay: {widget.styles?.animation_delay?.delay ?? 0} seconds.</Text>

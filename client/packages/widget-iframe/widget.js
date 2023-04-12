@@ -37,6 +37,7 @@ export default class Widget {
 	formBody
 	#delayExist
 	iFrameWrapper
+	animationName
 
 	constructor(config) {
 		this.#delayExist = true
@@ -72,6 +73,8 @@ export default class Widget {
 		globalClassListAdd(this.contentWrapper, 'hide')
 		this.widgetOpenActions(false)
 		globalSetProperty(this.root.style, '--card-width', '330px')
+		this.showActiveBadge()
+		this.enableAnimation()
 	}
 
 	onBubbleClick = (e, toggleIfNotExist = false) => {
@@ -91,6 +94,13 @@ export default class Widget {
 			globalClassListToggle(this.contentWrapper, 'hide')
 			const isWidgetOpen = globalClassListToggle(this.widgetBubble, 'open')
 			this.widgetOpenActions(isWidgetOpen)
+		}
+		if (globalClassListContains(this.contentWrapper, 'hide')) {
+			this.showActiveBadge()
+			this.enableAnimation()
+		} else {
+			this.hideActiveBadge()
+			this.disableAnimation()
 		}
 	}
 
@@ -409,16 +419,6 @@ export default class Widget {
 		globalSetProperty(this.root.style, '--widget-size', (this.widgetData?.styles?.size || 60) + 'px')
 		globalSetProperty(this.root.style, '--widget-color', this.widgetData?.styles?.color?.str)
 
-		const badgeActive = this.widgetData?.styles?.badge_active
-		const widgetShape = this.widgetData?.styles?.shape
-
-		if (badgeActive === 0) {
-			globalClassListRemove(this.widgetBubbleWrapper, `active-${widgetShape}`)
-		} else {
-			globalClassListAdd(this.widgetBubbleWrapper, `active-${widgetShape}`)
-			globalSetProperty(this.root.style, '--widget-active-badge-color', this.widgetData?.styles?.badge_color?.str)
-		}
-
 		if (this.widgetData?.widget_behavior === 2) {
 			// this.widgetBubble.removeEventListener('click', this.onBubbleClick)
 			globalEventListener(this.widgetBubble, 'mouseenter', e => this.onBubbleClick(e, true))
@@ -443,25 +443,55 @@ export default class Widget {
 		)
 		globalSetProperty(this.root.style, '--widget-bubble-icon-color', brightness > 125 ? 'invert(0)' : 'invert(1)')
 
-		// Attention Animation
-		const animationActive = this.widgetData?.styles?.animation_active
+		// Active Badge & Attention Animation
+		this.showActiveBadge()
+		this.enableAnimation()
+		if (globalClassListContains(this.channels, 'show')) {
+			this.hideActiveBadge()
+			this.disableAnimation()
+		}
+	}
+
+	showActiveBadge = () => {
+		const widgetShape = this.widgetData?.styles?.shape
+
+		if (this.widgetData?.styles?.badge_active === 0) {
+			globalClassListRemove(this.widgetBubble, `active-${widgetShape}`)
+		} else {
+			globalClassListAdd(this.widgetBubble, `active-${widgetShape}`)
+			globalSetProperty(this.root.style, '--widget-active-badge-color', this.widgetData?.styles?.badge_color?.str)
+		}
+
+		this.resetClientWidgetSize()
+	}
+
+	hideActiveBadge = () => {
+		globalClassListRemove(this.widgetBubble, `active-${this.widgetData?.styles?.shape}`)
+	}
+
+	enableAnimation = () => {
 		const animationType = this.widgetData?.styles?.animation_type
 
-		if (animationActive === 1) {
+		if (this.widgetData?.styles?.animation_active === 1) {
 			globalSetProperty(this.root.style, '--animation-delay', this.widgetData?.styles?.animation_delay?.delay + 's')
 
 			if (animationType === 1) {
-				globalClassListAdd(this.widgetBubbleWrapper, '--wiggle-animation')
+				this.animationName = '--wiggle-animation'
+				globalClassListAdd(this.widgetBubble, this.animationName)
 			} else if (animationType === 2) {
-				globalClassListAdd(this.widgetBubbleWrapper, '--jump-animation')
+				this.animationName = '--jump-animation'
+				globalClassListAdd(this.widgetBubble, this.animationName)
 			} else if (animationType === 3) {
-				globalClassListAdd(this.widgetBubbleWrapper, '--shockwave-animation')
-			} else if (animationType === 4) {
-				globalClassListAdd(this.widgetBubbleWrapper, '--glow-animation')
+				this.animationName = '--shockwave-animation'
+				globalClassListAdd(this.widgetBubble, this.animationName)
 			}
-		} else {
-			globalClassListRemove(this.widgetBubbleWrapper, '--wiggle-animation')
 		}
+
+		this.resetClientWidgetSize()
+	}
+
+	disableAnimation = () => {
+		globalClassListRemove(this.widgetBubble, this.animationName)
 	}
 
 	widgetShowDelay = async () => {
