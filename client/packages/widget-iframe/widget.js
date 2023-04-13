@@ -456,9 +456,9 @@ export default class Widget {
 		const widgetShape = this.widgetData?.styles?.shape
 
 		if (this.widgetData?.styles?.badge_active === 0) {
-			globalClassListRemove(this.widgetBubble, `active-${widgetShape}`)
+			globalClassListRemove(this.widgetBubbleWrapper, `active-${widgetShape}`)
 		} else {
-			globalClassListAdd(this.widgetBubble, `active-${widgetShape}`)
+			globalClassListAdd(this.widgetBubbleWrapper, `active-${widgetShape}`)
 			globalSetProperty(this.root.style, '--widget-active-badge-color', this.widgetData?.styles?.badge_color?.str)
 		}
 
@@ -466,7 +466,7 @@ export default class Widget {
 	}
 
 	hideActiveBadge = () => {
-		globalClassListRemove(this.widgetBubble, `active-${this.widgetData?.styles?.shape}`)
+		globalClassListRemove(this.widgetBubbleWrapper, `active-${this.widgetData?.styles?.shape}`)
 	}
 
 	enableAnimation = () => {
@@ -477,13 +477,13 @@ export default class Widget {
 
 			if (animationType === 1) {
 				this.animationName = '--wiggle-animation'
-				globalClassListAdd(this.widgetBubble, this.animationName)
+				globalClassListAdd(this.widgetBubbleWrapper, this.animationName)
 			} else if (animationType === 2) {
 				this.animationName = '--jump-animation'
-				globalClassListAdd(this.widgetBubble, this.animationName)
+				globalClassListAdd(this.widgetBubbleWrapper, this.animationName)
 			} else if (animationType === 3) {
 				this.animationName = '--shockwave-animation'
-				globalClassListAdd(this.widgetBubble, this.animationName)
+				globalClassListAdd(this.widgetBubbleWrapper, this.animationName)
 			}
 		}
 
@@ -491,7 +491,7 @@ export default class Widget {
 	}
 
 	disableAnimation = () => {
-		globalClassListRemove(this.widgetBubble, this.animationName)
+		globalClassListRemove(this.widgetBubbleWrapper, this.animationName)
 	}
 
 	widgetShowDelay = async () => {

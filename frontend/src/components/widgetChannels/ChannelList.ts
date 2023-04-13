@@ -98,6 +98,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/whatsapp.svg`,
   },
   {
+    name: 'WooCommerce',
+    icon: `${config.ROOT_URL}/img/channel/woocommerce.svg`,
+  },
+  {
     name: 'WP-Search',
     icon: `${config.ROOT_URL}/img/channel/wp-search.svg`,
   },

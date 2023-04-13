@@ -42,6 +42,7 @@ import config from '@config/config'
 import ProWrapper from '@components/global/ProWrapper'
 import CustomChannelIcon from '@components/widgetChannels/channels/Fields/CustomChannelIcon'
 import WPSearch from '@components/widgetChannels/channels/WPSearch'
+import WooCommerce from '@components/widgetChannels/channels/WooCommerce'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -106,6 +107,8 @@ function ChannelSettings() {
         return <Instagram />
       case 'telegram':
         return <Telegram />
+      case 'woocommerce':
+        return <WooCommerce />
       default:
         return null
     }
