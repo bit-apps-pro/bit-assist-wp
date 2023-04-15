@@ -133,6 +133,8 @@ export default class Widget {
 			this.renderFaq(widgetChannel)
 		} else if (channel_name === 'custom-form') {
 			this.renderForm(widgetChannel)
+		} else if (channel_name === 'woocommerce') {
+			this.renderWooCommerce(widgetChannel)
 		} else if (channel_name === 'knowledge-base') {
 			this.renderKnowledgeBase(widgetChannel)
 		} else if (channel_name === 'wp-search') {

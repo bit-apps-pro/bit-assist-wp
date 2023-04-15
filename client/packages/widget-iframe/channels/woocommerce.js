@@ -1,5 +1,5 @@
 export const woocommerce = {
-	renderForm(widgetChannel) {
+	renderWooCommerce(widgetChannel) {
 		const widgetThis = this
 
 		widgetThis.hideChannels()

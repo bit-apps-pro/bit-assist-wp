@@ -174,4 +174,9 @@ export type SelectSearchOption = {
   [key: string]: any
 }
 
+export interface Option {
+  label: string
+  value: string
+}
+
 export type SelectedOptionValue = string | number

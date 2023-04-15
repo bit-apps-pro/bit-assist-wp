@@ -11,7 +11,7 @@ use BitApps\Assist\Model\WidgetChannel;
 final class ApiWidgetController
 {
     private $isPro = false;
-    private $allDifferentChannels = ['FAQ', 'Knowledge-Base', 'Custom-Form', 'WP-Search'];
+    private $allDifferentChannels = ['FAQ', 'Knowledge-Base', 'Custom-Form', 'WP-Search', 'WooCommerce'];
     private $allSimilarChannels = ['Google-Map', 'Youtube', 'Custom-Iframe'];
 
     public function __construct()

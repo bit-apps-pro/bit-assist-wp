@@ -13,7 +13,11 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  Checkbox,
+  CheckboxGroup,
+  Stack,
 } from '@chakra-ui/react'
+import { Option } from '@globalStates/Interfaces'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -43,6 +47,8 @@ export default function WooCommerce() {
   const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
   const { onOpen, onClose, isOpen } = useDisclosure()
+
+  const [checkedItems, setCheckedItems] = useState<string[]>([])
 
   useEffect(() => {
     if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
@@ -103,6 +109,32 @@ export default function WooCommerce() {
     })
   }
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
+    const { checked } = e.target
+    setCheckedItems((prev: any) => {
+      if (checked) {
+        return [...prev, value]
+      }
+      return prev.filter((item: any) => item !== value)
+    })
+  }
+
+  const handleCheckAllBox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target
+    setCheckedItems(() => {
+      if (checked) {
+        return options?.map((item: Option) => item.value)
+      }
+      return []
+    })
+  }
+
+  const options = [
+    { label: 'Shipping Status', value: 'shipping_status' },
+    { label: 'Total Item', value: 'total_item' },
+    { label: 'Total Amount', value: 'total_amount' },
+  ]
+
   return (
     <>
       {/* Customer's Fields */}
@@ -158,58 +190,30 @@ export default function WooCommerce() {
         </Popover>
       </VStack>
 
-      {/* Customer Can See
-      <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
-        {flow.config?.card_config?.form_fields && (
-          <DndContext
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
-          >
-            <SortableContext
-              items={flow.config.card_config.form_fields.map((item) => item.id)}
-              strategy={verticalListSortingStrategy}
+      <Stack spacing={[1, 10]} direction={['column', 'row']}>
+        <Checkbox
+          colorScheme="purple"
+          isChecked={!!options.length && options.length === checkedItems?.length}
+          isIndeterminate={!!(checkedItems?.length && checkedItems.length < options?.length)}
+          onChange={handleCheckAllBox}
+          aria-label="select all"
+        >
+          All
+        </Checkbox>
+
+        {Array.isArray(options) &&
+          options.map(({ label, value }) => (
+            <Checkbox
+              colorScheme="purple"
+              isChecked={!!checkedItems.includes(value)}
+              onChange={(e) => handleCheckboxChange(e, value)}
+              aria-label="select single checkbox"
+              key={value}
             >
-              <VStack w="full" spacing="3">
-                {flow.config.card_config.form_fields.map((field, index) => (
-                  <CustomFormField key={field.id} id={index} field={field} />
-                ))}
-
-                {activeId ? (
-                  <DragOverlay style={{ marginTop: 0 }}>
-                    <CustomFormField
-                      cursor="grabbing"
-                      bg={bgColorToggle}
-                      id={activeId}
-                      field={flow.config?.card_config?.form_fields?.find((item) => +item.id === activeId)}
-                    />
-                  </DragOverlay>
-                ) : null}
-              </VStack>
-            </SortableContext>
-          </DndContext>
-        )}
-
-        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-          <PopoverTrigger>
-            <Button rightIcon={<FiPlus />}>Customer's Field</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverBody>
-              <SimpleGrid columns={3} gap={1}>
-                <Button onClick={() => handleAddField('text')}>First Name</Button>
-                <Button onClick={() => handleAddField('text')}>Last Name</Button>
-                <Button onClick={() => handleAddField('number')}>Order No</Button>
-                <Button onClick={() => handleAddField('email')}>Email</Button>
-                <Button onClick={() => handleAddField('email')}>Phone</Button>
-              </SimpleGrid>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-      </VStack> */}
+              {label}
+            </Checkbox>
+          ))}
+      </Stack>
 
       <FormControl>
         <FormLabel>Button Text</FormLabel>

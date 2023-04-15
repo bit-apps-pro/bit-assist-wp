@@ -4,7 +4,7 @@ import bundleSize from 'rollup-plugin-bundle-size'
 import resolve from '@rollup/plugin-node-resolve'
 
 export default function generateRollupConfig() {
-	const fileNames = ['common', 'faq', 'custom_form', 'custom_iframe', 'knowledge_base', 'wp_search']
+	const fileNames = ['common', 'faq', 'custom_form', 'custom_iframe', 'knowledge_base', 'wp_search', 'woocommerce']
 
 	const external = ['window', 'document', ...fileNames]
 
