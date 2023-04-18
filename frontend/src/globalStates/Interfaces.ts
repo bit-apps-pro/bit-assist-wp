@@ -102,7 +102,9 @@ export interface WidgetChannelConfig {
   open_window_action?: string
   hide_after_office_hours?: boolean
   store_responses?: boolean
+  order_details?: (string | number)[]
 }
+
 export interface CardConfig {
   maxId?: number
   card_bg_color?: TColor
@@ -136,6 +138,12 @@ export interface KnowledgeBase {
   id: number
   title: string
   description?: string
+}
+
+export interface OrderDetails {
+  shipping_status?: string
+  total_item?: number
+  total_amount?: number
 }
 export interface WidgetChannelType {
   id: number

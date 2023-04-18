@@ -258,6 +258,8 @@ export default class Widget {
 				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
 
+			console.log(this.widgetData?.widget_channels)
+
 			this.widgetSetup()
 		} catch (err) {
 			console.log(err)

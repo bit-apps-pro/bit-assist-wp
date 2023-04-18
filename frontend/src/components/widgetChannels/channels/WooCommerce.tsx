@@ -16,6 +16,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Stack,
+  HStack,
 } from '@chakra-ui/react'
 import { Option } from '@globalStates/Interfaces'
 import { flowAtom } from '@globalStates/atoms'
@@ -36,19 +37,15 @@ import {
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { FiPlus } from 'react-icons/fi'
-import StoreResponses from '@components/widgetChannels/StoreResponses'
-import ProWrapper from '@components/global/ProWrapper'
-import config from '@config/config'
 import CardColors from './common/CardColors'
-import Title from '@components/global/Title'
 
 export default function WooCommerce() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [activeId, setActiveId] = useState<number>(0)
   const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
   const { onOpen, onClose, isOpen } = useDisclosure()
-
   const [checkedItems, setCheckedItems] = useState<string[]>([])
+  let checkedValue: any = []
 
   useEffect(() => {
     if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
@@ -100,7 +97,6 @@ export default function WooCommerce() {
         required: true,
       })
     })
-    onClose()
   }
 
   const handleFormChange = (value: string | number | boolean, key: string) => {
@@ -109,35 +105,60 @@ export default function WooCommerce() {
     })
   }
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    const { checked } = e.target
-    setCheckedItems((prev: any) => {
-      if (checked) {
-        return [...prev, value]
-      }
-      return prev.filter((item: any) => item !== value)
+  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
+  //   const { checked } = e.target
+
+  //   setCheckedItems((prev: any) => {
+  //     if (checked) {
+  //       checkedValue = [...prev, value]
+  //       return checkedValue
+  //     }
+  //     return prev.filter((item: any) => item !== value)
+  //   })
+
+  //   setFlow((prev) => {
+  //     if (typeof prev.config?.card_config?.order_details === 'undefined') {
+  //       prev.config.card_config = { ...prev.config.card_config, order_details: {} }
+  //     }
+  //     prev.config.card_config.order_details = { ...prev.config.card_config.order_details, ...checkedValue }
+  //   })
+  // }
+
+  // const handleSelectAllCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { checked } = e.target
+
+  //   setCheckedItems(() => {
+  //     if (checked) {
+  //       checkedValue = options?.map((item: Option) => item.value)
+  //       return checkedValue
+  //     }
+  //     return []
+  //   })
+
+  //   setFlow((prev) => {
+  //     if (typeof prev.config?.card_config?.order_details === 'undefined') {
+  //       prev.config.card_config = { ...prev.config.card_config, order_details: {} }
+  //     }
+  //     prev.config.card_config.order_details = { ...prev.config.card_config.order_details, ...checkedValue }
+  //   })
+  // }
+
+  // const options = [
+  //   { label: 'Shipping Status', value: 'shipping_status' },
+  //   { label: 'Total Item', value: 'total_item' },
+  //   { label: 'Total Amount', value: 'total_amount' },
+  // ]
+
+  const handleChanges = (value: string | number | boolean | (string | number)[], key: string) => {
+    setFlow((prev) => {
+      prev.config = { ...prev.config, [key]: value }
     })
   }
 
-  const handleCheckAllBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target
-    setCheckedItems(() => {
-      if (checked) {
-        return options?.map((item: Option) => item.value)
-      }
-      return []
-    })
-  }
-
-  const options = [
-    { label: 'Shipping Status', value: 'shipping_status' },
-    { label: 'Total Item', value: 'total_item' },
-    { label: 'Total Amount', value: 'total_amount' },
-  ]
+  console.log(flow.config.order_details)
 
   return (
     <>
-      {/* Customer's Fields */}
       <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
         {flow.config?.card_config?.form_fields && (
           <DndContext
@@ -179,23 +200,21 @@ export default function WooCommerce() {
             <PopoverArrow />
             <PopoverBody>
               <SimpleGrid columns={3} gap={1}>
-                <Button onClick={() => handleAddField('text')}>First Name</Button>
-                <Button onClick={() => handleAddField('text')}>Last Name</Button>
-                <Button onClick={() => handleAddField('order')}>Order No</Button>
+                <Button onClick={() => handleAddField('text')}>Text</Button>
+                <Button onClick={() => handleAddField('number')}>Number</Button>
                 <Button onClick={() => handleAddField('email')}>Email</Button>
-                <Button onClick={() => handleAddField('phone')}>Phone</Button>
               </SimpleGrid>
             </PopoverBody>
           </PopoverContent>
         </Popover>
       </VStack>
 
-      <Stack spacing={[1, 10]} direction={['column', 'row']}>
+      {/* <Stack spacing={[1, 10]} direction={['column', 'row']}>
         <Checkbox
           colorScheme="purple"
           isChecked={!!options.length && options.length === checkedItems?.length}
           isIndeterminate={!!(checkedItems?.length && checkedItems.length < options?.length)}
-          onChange={handleCheckAllBox}
+          onChange={handleSelectAllCheckbox}
           aria-label="select all"
         >
           All
@@ -213,7 +232,26 @@ export default function WooCommerce() {
               {label}
             </Checkbox>
           ))}
-      </Stack>
+      </Stack> */}
+
+      <FormLabel display="inline-block">Show Order Details</FormLabel>
+      <CheckboxGroup
+        onChange={(val) => handleChanges(val, 'order_details')}
+        colorScheme="purple"
+        value={flow.config?.order_details ?? []}
+      >
+        <HStack spacing={10}>
+          <Checkbox size="md" value="shipping_status" aria-label="shipping status">
+            Shipping Status
+          </Checkbox>
+          <Checkbox size="md" value="total_items" aria-label="total items">
+            Total Items
+          </Checkbox>
+          <Checkbox size="md" value="total_amount" aria-label="total amount">
+            Total Amount
+          </Checkbox>
+        </HStack>
+      </CheckboxGroup>
 
       <FormControl>
         <FormLabel>Button Text</FormLabel>
