@@ -75,10 +75,18 @@ export const common = {
 		const itemsObj = []
 		items?.forEach(item => {
 			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', 'data-item_id': item.id })
+			const listItemTitleWrapper = createElm('button', {
+				class: 'listItemTitleWrapper',
+				'data-item_id': item.id ? item.id : item.order_id,
+			})
 
 			const title = createElm('p', { class: 'title' })
-			globalInnerHTML(title, item?.title || '')
+			globalInnerHTML(
+				title,
+				item.title
+					? item.title
+					: (item.order_id ? 'Order Id: ' + item.order_id + ` (${item.shipping_status})` : '') || '',
+			)
 
 			globalInnerHTML(
 				listItemTitleWrapper,

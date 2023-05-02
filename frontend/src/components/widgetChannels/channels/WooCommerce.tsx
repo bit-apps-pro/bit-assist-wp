@@ -1,52 +1,25 @@
 import {
-  Button,
   FormControl,
   FormLabel,
   Input,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  SimpleGrid,
-  Text,
   useColorModeValue,
-  useDisclosure,
   VStack,
   Checkbox,
   CheckboxGroup,
-  Stack,
   HStack,
+  Switch,
+  Text,
+  Box,
+  Flex,
 } from '@chakra-ui/react'
-import { Option } from '@globalStates/Interfaces'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import { useEffect, useState } from 'react'
-import CustomFormField from '@components/widgetChannels/channels/Fields/CustomFormField'
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { FiPlus } from 'react-icons/fi'
+import { useEffect } from 'react'
 import CardColors from './common/CardColors'
 
 export default function WooCommerce() {
   const [flow, setFlow] = useAtom(flowAtom)
-  const [activeId, setActiveId] = useState<number>(0)
-  const bgColorToggle = useColorModeValue('gray.100', 'gray.500')
-  const { onOpen, onClose, isOpen } = useDisclosure()
-  const [checkedItems, setCheckedItems] = useState<string[]>([])
-  let checkedValue: any = []
-
+  const channelColorToggle = useColorModeValue('white', 'gray.700')
   useEffect(() => {
     if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
     setFlow((prev) => {
@@ -58,32 +31,8 @@ export default function WooCommerce() {
     })
   }, [])
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
-  )
-
-  const handleDragStart = (e: DragStartEvent) => {
-    const { id } = e.active
-    setActiveId(+id)
-  }
-
-  const handleDragEnd = (e: DragEndEvent) => {
-    setActiveId(0)
-    if (e.active.id !== e.over?.id) {
-      const oldIndex = flow.config?.card_config?.form_fields?.findIndex((item) => item?.id === e.active.id) || 0
-      const newIndex = flow.config?.card_config?.form_fields?.findIndex((item) => item?.id === e.over?.id) || 0
-      const newWidgetChannels = arrayMove(flow.config?.card_config?.form_fields || [], oldIndex, newIndex)
-      setFlow((prev) => {
-        prev.config.card_config = { ...prev.config.card_config, form_fields: newWidgetChannels }
-      })
-    }
-  }
-
-  const handleAddField = (value: string) => {
+  const handleAddField = (value: string, label: string) => {
     if (value === '') return
-
-    const fieldCount = flow.config?.card_config?.form_fields?.filter((item) => item.field_type === value)?.length || 0
 
     setFlow((prev) => {
       if (typeof prev.config?.card_config?.form_fields === 'undefined') {
@@ -92,10 +41,23 @@ export default function WooCommerce() {
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
       prev.config.card_config?.form_fields?.push({
         id: prev.config.card_config.maxId || 0,
-        label: `${value.charAt(0).toUpperCase() + value.slice(1)}${fieldCount == 0 ? '' : ` ${fieldCount + 1}`}`,
+        label: `${label}`,
         field_type: value,
         required: true,
       })
+    })
+  }
+
+  if (typeof flow.config?.card_config?.form_fields === 'undefined') {
+    handleAddField('number', 'Order Id')
+    handleAddField('email', 'Billing Email')
+  }
+
+  const handleChange = (value: string | boolean | number, key: string, index: number) => {
+    setFlow((prev) => {
+      const newFields = [...(prev.config?.card_config?.form_fields || [])]
+      newFields[index] = { ...newFields[index], [key]: value }
+      prev.config.card_config = { ...prev.config.card_config, form_fields: newFields }
     })
   }
 
@@ -105,153 +67,84 @@ export default function WooCommerce() {
     })
   }
 
-  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
-  //   const { checked } = e.target
-
-  //   setCheckedItems((prev: any) => {
-  //     if (checked) {
-  //       checkedValue = [...prev, value]
-  //       return checkedValue
-  //     }
-  //     return prev.filter((item: any) => item !== value)
-  //   })
-
-  //   setFlow((prev) => {
-  //     if (typeof prev.config?.card_config?.order_details === 'undefined') {
-  //       prev.config.card_config = { ...prev.config.card_config, order_details: {} }
-  //     }
-  //     prev.config.card_config.order_details = { ...prev.config.card_config.order_details, ...checkedValue }
-  //   })
-  // }
-
-  // const handleSelectAllCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { checked } = e.target
-
-  //   setCheckedItems(() => {
-  //     if (checked) {
-  //       checkedValue = options?.map((item: Option) => item.value)
-  //       return checkedValue
-  //     }
-  //     return []
-  //   })
-
-  //   setFlow((prev) => {
-  //     if (typeof prev.config?.card_config?.order_details === 'undefined') {
-  //       prev.config.card_config = { ...prev.config.card_config, order_details: {} }
-  //     }
-  //     prev.config.card_config.order_details = { ...prev.config.card_config.order_details, ...checkedValue }
-  //   })
-  // }
-
-  // const options = [
-  //   { label: 'Shipping Status', value: 'shipping_status' },
-  //   { label: 'Total Item', value: 'total_item' },
-  //   { label: 'Total Amount', value: 'total_amount' },
-  // ]
-
-  const handleChanges = (value: string | number | boolean | (string | number)[], key: string) => {
+  const handleCheckBoxes = (value: string | number | boolean | (string | number)[], key: string) => {
     setFlow((prev) => {
       prev.config = { ...prev.config, [key]: value }
     })
   }
 
-  console.log(flow.config.order_details)
-
   return (
     <>
       <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
         {flow.config?.card_config?.form_fields && (
-          <DndContext
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
-          >
-            <SortableContext
-              items={flow.config.card_config.form_fields.map((item) => item.id)}
-              strategy={verticalListSortingStrategy}
-            >
-              <VStack w="full" spacing="3">
-                {flow.config.card_config.form_fields.map((field, index) => (
-                  <CustomFormField key={field.id} id={index} field={field} />
-                ))}
+          <VStack w="full" spacing="3">
+            {flow.config.card_config.form_fields.map((field, id) => (
+              <HStack w="full" key={field.id}>
+                <HStack w="full" borderWidth={1} shadow="base" p="2" rounded="md" bg={channelColorToggle}>
+                  <Flex rounded="sm" justifyContent="center" alignItems="center" w={6} h={8}></Flex>
+                  <Box w="full">
+                    <HStack alignItems="flex-start" justifyContent="space-between">
+                      <Text fontWeight={500} mb="2">
+                        {field?.field_type &&
+                          `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
+                        Field
+                        {!field?.required && (
+                          <Text display="inline" color="gray.400">
+                            &nbsp;&nbsp;(Optional)
+                          </Text>
+                        )}
+                      </Text>
 
-                {activeId ? (
-                  <DragOverlay style={{ marginTop: 0 }}>
-                    <CustomFormField
-                      cursor="grabbing"
-                      bg={bgColorToggle}
-                      id={activeId}
-                      field={flow.config?.card_config?.form_fields?.find((item) => +item.id === activeId)}
-                    />
-                  </DragOverlay>
-                ) : null}
-              </VStack>
-            </SortableContext>
-          </DndContext>
+                      <HStack alignItems="center">
+                        <Text>Required</Text>
+                        <Switch
+                          colorScheme="purple"
+                          isChecked={field?.required || false}
+                          onChange={(e) => handleChange(e.target.checked, 'required', id)}
+                        />
+                      </HStack>
+                    </HStack>
+                    <VStack alignItems="flex-start">
+                      <Input
+                        value={field?.label}
+                        onChange={(e) => handleChange(e.target.value, 'label', id)}
+                        placeholder="label"
+                      />
+                    </VStack>
+                  </Box>
+                </HStack>
+              </HStack>
+            ))}
+          </VStack>
         )}
-
-        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-          <PopoverTrigger>
-            <Button rightIcon={<FiPlus />}>Customer's Field</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverArrow />
-            <PopoverBody>
-              <SimpleGrid columns={3} gap={1}>
-                <Button onClick={() => handleAddField('text')}>Text</Button>
-                <Button onClick={() => handleAddField('number')}>Number</Button>
-                <Button onClick={() => handleAddField('email')}>Email</Button>
-              </SimpleGrid>
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
       </VStack>
 
-      {/* <Stack spacing={[1, 10]} direction={['column', 'row']}>
-        <Checkbox
+      <FormControl>
+        <FormLabel display="inline-block">Show Order Details</FormLabel>
+        <CheckboxGroup
+          onChange={(value) => handleCheckBoxes(value, 'order_details')}
           colorScheme="purple"
-          isChecked={!!options.length && options.length === checkedItems?.length}
-          isIndeterminate={!!(checkedItems?.length && checkedItems.length < options?.length)}
-          onChange={handleSelectAllCheckbox}
-          aria-label="select all"
+          value={flow.config?.order_details ?? []}
         >
-          All
-        </Checkbox>
-
-        {Array.isArray(options) &&
-          options.map(({ label, value }) => (
-            <Checkbox
-              colorScheme="purple"
-              isChecked={!!checkedItems.includes(value)}
-              onChange={(e) => handleCheckboxChange(e, value)}
-              aria-label="select single checkbox"
-              key={value}
-            >
-              {label}
+          <HStack spacing={4}>
+            <Checkbox size="md" value="shipping_status" aria-label="shipping status">
+              Shipping Status
             </Checkbox>
-          ))}
-      </Stack> */}
-
-      <FormLabel display="inline-block">Show Order Details</FormLabel>
-      <CheckboxGroup
-        onChange={(val) => handleChanges(val, 'order_details')}
-        colorScheme="purple"
-        value={flow.config?.order_details ?? []}
-      >
-        <HStack spacing={10}>
-          <Checkbox size="md" value="shipping_status" aria-label="shipping status">
-            Shipping Status
-          </Checkbox>
-          <Checkbox size="md" value="total_items" aria-label="total items">
-            Total Items
-          </Checkbox>
-          <Checkbox size="md" value="total_amount" aria-label="total amount">
-            Total Amount
-          </Checkbox>
-        </HStack>
-      </CheckboxGroup>
+            <Checkbox size="md" value="total_items" aria-label="total items">
+              Total Items
+            </Checkbox>
+            <Checkbox size="md" value="total_amount" aria-label="total amount">
+              Total Amount
+            </Checkbox>
+            <Checkbox size="md" value="billing_name" aria-label="total amount">
+              Billing Name
+            </Checkbox>
+            <Checkbox size="md" value="shipping_name" aria-label="total amount">
+              Shipping Name
+            </Checkbox>
+          </HStack>
+        </CheckboxGroup>
+      </FormControl>
 
       <FormControl>
         <FormLabel>Button Text</FormLabel>
@@ -261,16 +154,7 @@ export default function WooCommerce() {
         />
       </FormControl>
 
-      <FormControl>
-        <FormLabel>Success Message</FormLabel>
-        <Input
-          value={flow.config?.card_config?.success_message}
-          placeholder="Submitted successfully"
-          onChange={(e) => handleFormChange(e.target.value, 'success_message')}
-        />
-      </FormControl>
-
-      <CardColors bg="#0038FF" color="#fff" />
+      <CardColors bg="#a63492" color="#fff" />
     </>
   )
 }

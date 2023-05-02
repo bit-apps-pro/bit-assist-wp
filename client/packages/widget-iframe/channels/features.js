@@ -75,10 +75,18 @@ export const common = {
 		const itemsObj = []
 		items?.forEach(item => {
 			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', 'data-item_id': item.id })
+			const listItemTitleWrapper = createElm('button', {
+				class: 'listItemTitleWrapper',
+				'data-item_id': item.id ? item.id : item.order_id,
+			})
 
 			const title = createElm('p', { class: 'title' })
-			globalInnerHTML(title, item?.title || '')
+			globalInnerHTML(
+				title,
+				item.title
+					? item.title
+					: (item.order_id ? 'Order Id: ' + item.order_id + ` (${item.shipping_status})` : '') || '',
+			)
 
 			globalInnerHTML(
 				listItemTitleWrapper,
@@ -128,87 +136,261 @@ export {
 	globalClassListContains,
 	globalClassListToggle,
 }
-export const wp_search = {
-	renderWPSearch(config) {
-		this.hideChannels()
-		this.renderCard()
-		this.setCardStyle(config)
+import leftArrow from '../icons/left-circle-arrow.js'
 
-		const wpSearchBody = createElm('div', { id: 'wpSearchBody' })
-		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists', 'data-link_open_action': config.open_window_action })
-		const listSearch = createElm('input', {
-			type: 'text',
-			id: 'listSearch',
-			class: 'formControl',
-			placeholder: 'Search',
+export const woocommerce = {
+	renderWooCommerce(widgetChannel) {
+		const widgetThis = this
+
+		widgetThis.hideChannels()
+		widgetThis.renderCard()
+		widgetThis.setCardStyle(widgetChannel.config)
+		const cardConfig = widgetChannel.config?.card_config
+
+		widgetThis.formBody = createElm('form', { id: 'formBody', method: 'POST' })
+		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
+		const hiddenInput = createElm('input', {
+			type: 'hidden',
+			name: 'widget_channel_id',
+			value: widgetChannel.id,
 		})
-		globalAppend(listWrapper, [lists, listSearch])
-		globalAppend(wpSearchBody, listWrapper)
+		const submitButton = createElm('button', { type: 'submit' })
+		globalInnerText(submitButton, cardConfig?.submit_button_text)
 
-		globalInnerHTML(this.cardBody, '')
-		globalAppend(this.cardBody, wpSearchBody)
+		globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
-		this.searchPostPage('')
-		globalEventListener(
-			listSearch,
-			'input',
-			this.debounce(e => this.searchPostPage(e.target.value), 600),
-		)
+		globalInnerHTML(widgetThis.cardBody, '')
+		globalAppend(widgetThis.cardBody, widgetThis.formBody)
+
+		globalEventListener(widgetThis.formBody, 'submit', e => woocommerce.formSubmitted(widgetThis, e, widgetChannel))
+		widgetThis.createAllFields(cardConfig?.form_fields)
 	},
 
-	async searchPostPage(value, page = 1) {
-		const { data, pagination } = await this.fetchWPSearchData(value, page)
+	createAllFields(fields) {
+		const dynamicFields = $('#dynamicFields')
 
-		this.renderWPSearchItem(data)
-		if (pagination?.has_next || pagination?.has_previous) {
-			this.renderWPSearchPagination(pagination)
+		let flag = false
+		fields?.forEach(field => {
+			woocommerce.createTextField(field, dynamicFields)
+		})
+	},
+
+	createTextField(field, dynamicFields) {
+		const fieldInput = createElm('input')
+		const fieldType = field.field_type
+		const newFieldType = fieldType.includes('_') ? fieldType.split('_')[1] : fieldType
+
+		globalSetAttribute(fieldInput, 'name', `${newFieldType}`)
+
+		globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
+		if (field.required) {
+			globalSetAttribute(fieldInput, 'required', '')
 		}
 
-		this.resetClientWidgetSize()
+		globalClassListAdd(fieldInput, 'formControl')
+		globalSetAttribute(fieldInput, 'type', fieldType)
+		globalAppend(dynamicFields, fieldInput)
 	},
 
-	async fetchWPSearchData(value, page) {
-		const { data } = await fetch(`${this.apiEndPoint}/wpSearch`, {
+	async formSubmitted(widgetThis, e, widgetChannel) {
+		e.preventDefault()
+
+		const submitBtn = e.target.querySelector('[type="submit"]')
+		const oldText = submitBtn.innerText
+		const formData = new FormData(e.target)
+
+		try {
+			globalInnerText(submitBtn, 'Sending...')
+			globalClassListAdd(submitBtn, 'disabled')
+
+			const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
+				method: 'POST',
+				body: formData,
+			}).then(res => res.json())
+
+			if (responseData?.status === 'success') {
+				this.formSubmittedData(widgetThis, formData, widgetChannel)
+			} else {
+				await woocommerce.showToast(widgetThis, 'error', responseData?.data, widgetChannel)
+			}
+
+			e.target.reset()
+			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
+				globalInnerText(title, 'No file chosen')
+			})
+			globalClassListRemove(submitBtn, 'disabled')
+			globalInnerText(submitBtn, oldText)
+		} catch (err) {
+			console.log(err)
+			await woocommerce.showToast(widgetThis, 'error')
+
+			globalClassListRemove(submitBtn, 'disabled')
+			globalInnerText(submitBtn, oldText)
+		}
+	},
+
+	async formSubmittedData(widgetThis, formData, widgetChannel, page = 1) {
+		formData.set('page', page)
+		const orderDetails = await fetch(`${widgetThis.apiEndPoint}/orderDetails`, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ search: value, page }),
+			body: formData,
 		}).then(res => res.json())
 
-		return data
+		if (orderDetails.status === 'success') {
+			await woocommerce.showToast(widgetThis, 'success', orderDetails?.data, widgetChannel, formData)
+		}
 	},
 
-	renderWPSearchItem(items) {
-		const lists = $('#lists')
-		globalInnerHTML(lists, '')
-		const itemsObj = []
+	async showToast(widgetThis, type, data, widgetChannel, formData) {
+		if (data?.status_code === 200) {
+			this.orderDetailsItems(widgetThis, data, widgetChannel)
 
-		items?.forEach(item => {
-			const listItem = createElm('div', { class: 'listItem' })
-			const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.guid })
-			const title = createElm('p', { class: 'title' })
-			const type = createElm('p', { class: 'type' })
+			if (data?.pagination?.has_next || data?.pagination?.has_previous) {
+				this.renderOrderDetailsPagination(widgetThis, data?.pagination, formData, widgetChannel)
+			}
+			return
+		}
 
-			globalAppend(listItem, listItemTitleWrapper)
-			globalAppend(listItemTitleWrapper, [title, type])
-			globalInnerText(title, item?.post_title || '(no title)')
-			globalInnerText(type, item?.post_type || '')
-			itemsObj.push(listItem)
+		const toast = createElm('div', { class: `toast ${type}` })
+		const toastContent = createElm('div', { class: 'toast-content' })
+		const toastText = createElm('div', { class: 'toast-text' })
 
-			globalEventListener(listItemTitleWrapper, 'click', () => {
-				const { link_open_action } = lists.dataset
-				if (link_open_action === 'new_window') {
-					window.open(item.guid, '_blank', 'popup')
-				} else {
-					window.open(item.guid, link_open_action)
-				}
+		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
+		toastTextTitle.innerText = type === 'success' ? '404' : 'Error'
+
+		const toastTextBody = createElm('div', { class: 'toast-text-body' })
+		toastTextBody.innerText = type === 'success' ? data?.message : 'Something went wrong'
+
+		globalAppend(toastText, [toastTextTitle, toastTextBody])
+		globalAppend(toastContent, toastText)
+		globalAppend(toast, toastContent)
+
+		globalAppend(widgetThis.cardBody, toast)
+		globalClassListAdd(widgetThis.formBody, 'hide')
+
+		if (globalClassListContains(toast, 'success')) {
+			toastTextTitle.style.color = widgetThis.selectedFormBg
+		}
+
+		await widgetThis.delay(2)
+		if (!globalClassListContains(widgetThis.formBody, 'hide')) return
+
+		widgetThis.cardBody.removeChild(toast)
+		globalClassListRemove(widgetThis.formBody, 'hide')
+	},
+
+	orderDetailsItems(widgetThis, data, widgetChannel) {
+		const orderDetailsBody = createElm('div', { id: 'orderDetailsBody' })
+		const listWrapper = createElm('div', { id: 'listWrapper' })
+		const lists = createElm('div', { id: 'lists' })
+
+		globalAppend(listWrapper, lists)
+
+		const orderDetailsDescription = createElm('div', { id: 'orderDetailsDescription' })
+		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
+		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
+		globalInnerHTML(closeDescBtn, leftArrow)
+		const pElm = createElm('p')
+		globalAppend(descriptionTitle, [closeDescBtn, pElm])
+
+		const content = createElm('div', { class: 'content' })
+		globalAppend(orderDetailsDescription, [descriptionTitle, content])
+		globalAppend(orderDetailsBody, [listWrapper, orderDetailsDescription])
+
+		globalInnerHTML(widgetThis.cardBody, '')
+		globalAppend(widgetThis.cardBody, orderDetailsBody)
+
+		const orderDetails = widgetChannel?.config?.order_details
+		if (data.items.length === 1) {
+			woocommerce.singleItemContentShow(widgetThis, orderDetails, data)
+			return
+		}
+
+		globalEventListener(closeDescBtn, 'click', e => woocommerce.orderDetailsDescToggle(widgetThis, e))
+		woocommerce.renderWooCommerceItem(widgetThis, data, orderDetails)
+	},
+
+	singleItemContentShow(widgetThis, orderDetails, data) {
+		const item = data.items[0]
+
+		const orderDetailsBody = $('#orderDetailsBody')
+		orderDetailsBody.removeChild($('#listWrapper'))
+		orderDetailsBody.removeChild($('#orderDetailsDescription'))
+
+		const singleItemContent = createElm('div', { id: 'singleItemContent' })
+
+		const itemTitle = createElm('p', { class: 'descriptionTitle title' })
+		globalInnerHTML(itemTitle, item.order_id ? 'Order Id: ' + item.order_id + ` (${item.shipping_status})` : '')
+		const itemContent = createElm('div', { class: 'content' })
+		globalAppend(singleItemContent, [itemTitle, itemContent])
+		globalAppend(orderDetailsBody, singleItemContent)
+
+		woocommerce.showContent(orderDetails, item)
+		widgetThis.resetClientWidgetSize()
+	},
+
+	renderWooCommerceItem(widgetThis, data, orderDetails) {
+		widgetThis.itemListAppend(data.items)
+		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
+			globalEventListener(item, 'click', e => {
+				woocommerce.orderDetailsDescToggle(widgetThis, e, data, orderDetails)
 			})
 		})
-
-		globalAppend(lists, itemsObj)
+		widgetThis.resetClientWidgetSize()
 	},
 
-	renderWPSearchPagination(pagination) {
+	orderDetailsDescToggle(widgetThis, e, data, orderDetails) {
+		if (data) {
+			const item = data.items.find(
+				item => Number(item.order_id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
+			)
+			globalInnerHTML($('.descriptionTitle p'), 'Order Id: ' + item?.order_id || '')
+			woocommerce.showContent(orderDetails, item)
+		}
+
+		const orderDetailsBody = $('#orderDetailsBody')
+		const isOpen = globalClassListToggle($('#orderDetailsBody'), 'openDesc')
+		if (isOpen) {
+			const descHeight = $('#orderDetailsDescription').scrollHeight
+			Object.assign(orderDetailsBody.style, {
+				height: descHeight > 400 ? '400px' : `${descHeight}px`,
+				overflow: descHeight > 400 ? 'auto' : 'initial',
+			})
+		} else {
+			orderDetailsBody.removeAttribute('style')
+		}
+
+		globalClassListToggle($('#listWrapper'), 'hide')
+		widgetThis.resetClientWidgetSize()
+	},
+
+	showContent(orderDetails, item) {
+		let content = ''
+
+		orderDetails?.filter(Boolean).forEach(key => {
+			const formattedKey = key
+				.split('_')
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+				.join(' ')
+
+			let formattedValue = item[key]
+			if (typeof formattedValue === 'string') {
+				formattedValue = formattedValue
+					.split('-')
+					.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+					.join(' ')
+			}
+
+			content += `${formattedKey}: ${formattedValue}<br>`
+		})
+
+		globalInnerHTML($('.content'), content)
+
+		$('.content').style.fontSize = '1rem'
+		$('.content').style.lineHeight = '2'
+	},
+
+	renderOrderDetailsPagination(widgetThis, pagination, formData, widgetChannel) {
 		const paginationWrap = createElm('div', { class: 'pagination' })
 
 		const pageNumber = createElm('span', { class: 'pageNumber' })
@@ -225,469 +407,16 @@ export const wp_search = {
 			globalSetAttribute(prevPage, 'disabled', '')
 		}
 
-		const searchValue = $('#listSearch')?.value || ''
-		globalEventListener(nextPage, 'click', () => this.searchPostPage(searchValue, pagination?.next))
-		globalEventListener(prevPage, 'click', () => this.searchPostPage(searchValue, pagination?.previous))
+		globalEventListener(nextPage, 'click', () =>
+			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.next),
+		)
+		globalEventListener(prevPage, 'click', () =>
+			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.previous),
+		)
 
 		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
 		globalAppend($('#lists'), paginationWrap)
-	},
-}
-export const custom_form = {
-	renderForm(widgetChannel) {
-		const widgetThis = this
 
-		widgetThis.hideChannels()
-		widgetThis.renderCard()
-		widgetThis.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		// Render form
-		widgetThis.formBody = createElm('form', { id: 'formBody', method: 'POST' })
-		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
-		const hiddenInput = createElm('input', {
-			type: 'hidden',
-			name: 'widget_channel_id',
-			value: widgetChannel.id,
-		})
-		const submitButton = createElm('button', { type: 'submit' })
-		globalInnerText(submitButton, cardConfig?.submit_button_text)
-
-		globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
-
-		globalInnerHTML(widgetThis.cardBody, '')
-		globalAppend(widgetThis.cardBody, widgetThis.formBody)
-
-		globalEventListener(widgetThis.formBody, 'submit', e => custom_form.formSubmitted(widgetThis, e))
-		widgetThis.createAllFields(cardConfig?.form_fields)
-	},
-
-	createAllFields(fields) {
-		const dynamicFields = $('#dynamicFields')
-
-		let flag = false
-		fields?.forEach(field => {
-			if (field.field_type === 'file' && !flag) {
-				globalSetAttribute($('#formBody'), 'enctype', 'multipart/form-data')
-				flag = true
-			}
-
-			if (field.field_type === 'rating') {
-				custom_form.createRatingField(field, dynamicFields, 'rating')
-			} else if (field.field_type === 'feedback') {
-				custom_form.createRatingField(field, dynamicFields, 'feedback')
-			} else {
-				custom_form.createTextField(field, dynamicFields)
-			}
-		})
-	},
-
-	createRatingField(field, dynamicFields, filedType) {
-		const randomId = Math.floor(Math.random() * 100000000)
-		const name = field.label.toLowerCase().replace(/ /g, '_')
-		const wrapper = createElm('div', { class: filedType })
-
-		if (filedType === 'rating') {
-			globalClassListAdd(wrapper, field.rating_type)
-		}
-
-		let types = []
-		if (filedType === 'feedback') {
-			types = ['bug', 'suggest', 'love']
-		} else if (field.rating_type === 'star') {
-			types = ['5 star', '4 star', '3 star', '2 star', '1 star']
-		} else {
-			types = ['sad', 'confused', 'happy']
-		}
-
-		types.forEach(type => {
-			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
-
-			const inputElm = createElm('input', { type: 'radio', name: name, value: type, id: fieldId })
-			if (field.required) {
-				globalSetAttribute(inputElm, 'required', '')
-			}
-
-			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
-			if (filedType === 'feedback') {
-				globalInnerHTML(labelElm, `${type.charAt(0).toUpperCase() + type.slice(1)}`)
-				const feedbackIcon = createElm('div', { class: 'feedback-icon' })
-				labelElm.prepend(feedbackIcon)
-			}
-
-			globalAppend(wrapper, [inputElm, labelElm])
-		})
-		globalAppend(dynamicFields, wrapper)
-	},
-
-	createTextField(field, dynamicFields) {
-		const fieldInput = createElm(field.field_type === 'textarea' ? 'textarea' : 'input')
-
-		globalSetAttribute(
-			fieldInput,
-			'name',
-			`${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`,
-		)
-		globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
-		if (field.required) {
-			globalSetAttribute(fieldInput, 'required', '')
-		}
-
-		if (field.field_type === 'GDPR') {
-			custom_form.gdprField(field, dynamicFields, fieldInput)
-			return
-		}
-
-		globalClassListAdd(fieldInput, 'formControl')
-		globalSetAttribute(fieldInput, 'type', field.field_type)
-
-		if (field.field_type === 'file') {
-			custom_form.fileField(field, dynamicFields, fieldInput)
-			return
-		}
-		globalAppend(dynamicFields, fieldInput)
-	},
-
-	fileField(field, dynamicFields, fieldInput) {
-		if (!!field?.allow_multiple) {
-			globalSetAttribute(fieldInput, 'multiple', '')
-		}
-
-		const inputWrap = createElm('div', { class: 'formControl customFile' })
-
-		const customFileInput = createElm('div', { class: 'cfit' })
-		const customFileInputBtn = createElm('button', { class: 'cfit-btn', type: 'button' })
-		globalInnerText(customFileInputBtn, 'Attach File')
-		const customFileInputTitle = createElm('div', { class: 'cfit-title' })
-		globalInnerText(customFileInputTitle, 'No file chosen')
-
-		globalAppend(customFileInput, [customFileInputBtn, customFileInputTitle])
-		globalAppend(inputWrap, [customFileInput, fieldInput])
-		globalAppend(dynamicFields, inputWrap)
-
-		globalEventListener(customFileInputBtn, 'click', () => fieldInput.click())
-		globalEventListener(fieldInput, 'change', function (e) {
-			let fileName = 'No file chosen'
-			const fileLength = e.target.files.length
-			if (fileLength > 0) {
-				fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
-			}
-			globalInnerText(customFileInputTitle, fileName)
-		})
-	},
-
-	gdprField(field, dynamicFields, fieldInput) {
-		globalSetAttribute(fieldInput, 'type', 'checkbox')
-
-		const link = createElm('a', { target: '_blank' })
-		globalInnerHTML(link, field.label)
-		if (field?.url) {
-			link.href = field.url
-		}
-
-		const gdprContainer = createElm('div', { class: 'gdprContainer' })
-		globalAppend(gdprContainer, [fieldInput, link])
-		globalAppend(dynamicFields, gdprContainer)
-	},
-
-	async formSubmitted(widgetThis, e) {
-		e.preventDefault()
-
-		const submitBtn = e.target.querySelector('[type="submit"]')
-		const oldText = submitBtn.innerText
-		const formData = new FormData(e.target)
-
-		try {
-			globalInnerText(submitBtn, 'Sending...')
-			globalClassListAdd(submitBtn, 'disabled')
-			const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
-				method: 'POST',
-				body: formData,
-			}).then(res => res.json())
-
-			if (responseData?.status === 'success') {
-				await custom_form.showToast(widgetThis, 'success', responseData?.data)
-			} else {
-				await custom_form.showToast(widgetThis, 'error', responseData?.data)
-			}
-
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		} catch (err) {
-			console.log(err)
-			await custom_form.showToast(widgetThis, 'error')
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		}
-	},
-
-	async showToast(widgetThis, type, message) {
-		if (!widgetThis.cardBody.contains(widgetThis.formBody)) {
-			return
-		}
-
-		const toast = createElm('div', { class: `toast ${type}` })
-		const toastContent = createElm('div', { class: 'toast-content' })
-		const toastText = createElm('div', { class: 'toast-text' })
-
-		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
-		toastTextTitle.innerText = type === 'success' ? 'Success' : 'Error'
-
-		const toastTextBody = createElm('div', { class: 'toast-text-body' })
-		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
-
-		globalAppend(toastText, [toastTextTitle, toastTextBody])
-		globalAppend(toastContent, toastText)
-		globalAppend(toast, toastContent)
-
-		globalAppend(widgetThis.cardBody, toast)
-		globalClassListAdd(widgetThis.formBody, 'hide')
-
-		if (globalClassListContains(toast, 'success')) {
-			toastTextTitle.style.color = widgetThis.selectedFormBg
-		}
-
-		await widgetThis.delay(2)
-		if (!globalClassListContains(widgetThis.formBody, 'hide')) return
-
-		widgetThis.cardBody.removeChild(toast)
-		globalClassListRemove(widgetThis.formBody, 'hide')
-	},
-}
-export const woocommerce = {
-	renderWooCommerce(widgetChannel) {
-		const widgetThis = this
-
-		widgetThis.hideChannels()
-		widgetThis.renderCard()
-		widgetThis.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		// Render form
-		widgetThis.formBody = createElm('form', { id: 'formBody', method: 'POST' })
-		const dynamicFieldsDiv = createElm('div', { id: 'dynamicFields' })
-		const hiddenInput = createElm('input', {
-			type: 'hidden',
-			name: 'widget_channel_id',
-			value: widgetChannel.id,
-		})
-		const submitButton = createElm('button', { type: 'submit' })
-		globalInnerText(submitButton, cardConfig?.submit_button_text)
-
-		globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
-
-		globalInnerHTML(widgetThis.cardBody, '')
-		globalAppend(widgetThis.cardBody, widgetThis.formBody)
-
-		globalEventListener(widgetThis.formBody, 'submit', e => woocommerce.formSubmitted(widgetThis, e))
-		widgetThis.createAllFields(cardConfig?.form_fields)
-	},
-
-	createAllFields(fields) {
-		const dynamicFields = $('#dynamicFields')
-
-		let flag = false
-		fields?.forEach(field => {
-			if (field.field_type === 'file' && !flag) {
-				globalSetAttribute($('#formBody'), 'enctype', 'multipart/form-data')
-				flag = true
-			}
-
-			if (field.field_type === 'rating') {
-				woocommerce.createRatingField(field, dynamicFields, 'rating')
-			} else if (field.field_type === 'feedback') {
-				woocommerce.createRatingField(field, dynamicFields, 'feedback')
-			} else {
-				woocommerce.createTextField(field, dynamicFields)
-			}
-		})
-	},
-
-	createRatingField(field, dynamicFields, filedType) {
-		const randomId = Math.floor(Math.random() * 100000000)
-		const name = field.label.toLowerCase().replace(/ /g, '_')
-		const wrapper = createElm('div', { class: filedType })
-
-		if (filedType === 'rating') {
-			globalClassListAdd(wrapper, field.rating_type)
-		}
-
-		let types = []
-		if (filedType === 'feedback') {
-			types = ['bug', 'suggest', 'love']
-		} else if (field.rating_type === 'star') {
-			types = ['5 star', '4 star', '3 star', '2 star', '1 star']
-		} else {
-			types = ['sad', 'confused', 'happy']
-		}
-
-		types.forEach(type => {
-			const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
-
-			const inputElm = createElm('input', { type: 'radio', name: name, value: type, id: fieldId })
-			if (field.required) {
-				globalSetAttribute(inputElm, 'required', '')
-			}
-
-			const labelElm = createElm('label', { title: type, for: fieldId, class: type })
-			if (filedType === 'feedback') {
-				globalInnerHTML(labelElm, `${type.charAt(0).toUpperCase() + type.slice(1)}`)
-				const feedbackIcon = createElm('div', { class: 'feedback-icon' })
-				labelElm.prepend(feedbackIcon)
-			}
-
-			globalAppend(wrapper, [inputElm, labelElm])
-		})
-		globalAppend(dynamicFields, wrapper)
-	},
-
-	createTextField(field, dynamicFields) {
-		const fieldInput = createElm(field.field_type === 'textarea' ? 'textarea' : 'input')
-
-		globalSetAttribute(
-			fieldInput,
-			'name',
-			`${field.label.toLowerCase().replace(/ /g, '_')}${!!field?.allow_multiple ? '[]' : ''}`,
-		)
-		globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
-		if (field.required) {
-			globalSetAttribute(fieldInput, 'required', '')
-		}
-
-		if (field.field_type === 'GDPR') {
-			woocommerce.gdprField(field, dynamicFields, fieldInput)
-			return
-		}
-
-		globalClassListAdd(fieldInput, 'formControl')
-		globalSetAttribute(fieldInput, 'type', field.field_type)
-
-		if (field.field_type === 'file') {
-			woocommerce.fileField(field, dynamicFields, fieldInput)
-			return
-		}
-		globalAppend(dynamicFields, fieldInput)
-	},
-
-	fileField(field, dynamicFields, fieldInput) {
-		if (!!field?.allow_multiple) {
-			globalSetAttribute(fieldInput, 'multiple', '')
-		}
-
-		const inputWrap = createElm('div', { class: 'formControl customFile' })
-
-		const customFileInput = createElm('div', { class: 'cfit' })
-		const customFileInputBtn = createElm('button', { class: 'cfit-btn', type: 'button' })
-		globalInnerText(customFileInputBtn, 'Attach File')
-		const customFileInputTitle = createElm('div', { class: 'cfit-title' })
-		globalInnerText(customFileInputTitle, 'No file chosen')
-
-		globalAppend(customFileInput, [customFileInputBtn, customFileInputTitle])
-		globalAppend(inputWrap, [customFileInput, fieldInput])
-		globalAppend(dynamicFields, inputWrap)
-
-		globalEventListener(customFileInputBtn, 'click', () => fieldInput.click())
-		globalEventListener(fieldInput, 'change', function (e) {
-			let fileName = 'No file chosen'
-			const fileLength = e.target.files.length
-			if (fileLength > 0) {
-				fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
-			}
-			globalInnerText(customFileInputTitle, fileName)
-		})
-	},
-
-	gdprField(field, dynamicFields, fieldInput) {
-		globalSetAttribute(fieldInput, 'type', 'checkbox')
-
-		const link = createElm('a', { target: '_blank' })
-		globalInnerHTML(link, field.label)
-		if (field?.url) {
-			link.href = field.url
-		}
-
-		const gdprContainer = createElm('div', { class: 'gdprContainer' })
-		globalAppend(gdprContainer, [fieldInput, link])
-		globalAppend(dynamicFields, gdprContainer)
-	},
-
-	async formSubmitted(widgetThis, e) {
-		e.preventDefault()
-
-		const submitBtn = e.target.querySelector('[type="submit"]')
-		const oldText = submitBtn.innerText
-		const formData = new FormData(e.target)
-
-		try {
-			globalInnerText(submitBtn, 'Sending...')
-			globalClassListAdd(submitBtn, 'disabled')
-			const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
-				method: 'POST',
-				body: formData,
-			}).then(res => res.json())
-
-			if (responseData?.status === 'success') {
-				await woocommerce.showToast(widgetThis, 'success', responseData?.data)
-			} else {
-				await woocommerce.showToast(widgetThis, 'error', responseData?.data)
-			}
-
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		} catch (err) {
-			console.log(err)
-			await woocommerce.showToast(widgetThis, 'error')
-			e.target.reset()
-			globalQuerySelectorAll(e.target, '.cfit-title').forEach(title => {
-				globalInnerText(title, 'No file chosen')
-			})
-			globalClassListRemove(submitBtn, 'disabled')
-			globalInnerText(submitBtn, oldText)
-		}
-	},
-
-	async showToast(widgetThis, type, message) {
-		if (!widgetThis.cardBody.contains(widgetThis.formBody)) {
-			return
-		}
-
-		const toast = createElm('div', { class: `toast ${type}` })
-		const toastContent = createElm('div', { class: 'toast-content' })
-		const toastText = createElm('div', { class: 'toast-text' })
-
-		const toastTextTitle = createElm('div', { class: 'toast-text-title' })
-		toastTextTitle.innerText = type === 'success' ? 'Success' : 'Error'
-
-		const toastTextBody = createElm('div', { class: 'toast-text-body' })
-		toastTextBody.innerText = type === 'success' ? message : 'Something went wrong'
-
-		globalAppend(toastText, [toastTextTitle, toastTextBody])
-		globalAppend(toastContent, toastText)
-		globalAppend(toast, toastContent)
-
-		globalAppend(widgetThis.cardBody, toast)
-		globalClassListAdd(widgetThis.formBody, 'hide')
-
-		if (globalClassListContains(toast, 'success')) {
-			toastTextTitle.style.color = widgetThis.selectedFormBg
-		}
-
-		await widgetThis.delay(2)
-		if (!globalClassListContains(widgetThis.formBody, 'hide')) return
-
-		widgetThis.cardBody.removeChild(toast)
-		globalClassListRemove(widgetThis.formBody, 'hide')
+		widgetThis.resetClientWidgetSize()
 	},
 }

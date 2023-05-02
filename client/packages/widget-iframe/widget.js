@@ -38,6 +38,7 @@ export default class Widget {
 	#delayExist
 	iFrameWrapper
 	animationName
+	formData
 
 	constructor(config) {
 		this.#delayExist = true
@@ -257,8 +258,6 @@ export default class Widget {
 			if (typeof mixinObj !== 'undefined') {
 				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
-
-			console.log(this.widgetData?.widget_channels)
 
 			this.widgetSetup()
 		} catch (err) {

@@ -22,7 +22,6 @@ export const faq = {
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-		// const img = createElm('img', { src: leftArrow, alt: 'back' })
 		globalInnerHTML(closeDescBtn, leftArrow)
 		const pElm = createElm('p')
 		globalAppend(descriptionTitle, [closeDescBtn, pElm])
