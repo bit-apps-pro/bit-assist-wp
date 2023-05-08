@@ -11,15 +11,19 @@ import {
   Text,
   Box,
   Flex,
+  Button,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
 import CardColors from './common/CardColors'
 
 export default function WooCommerce() {
   const [flow, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
+  const [isButtonHide, setIsButtonHide] = useState(false)
+
   useEffect(() => {
     if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
     setFlow((prev) => {
@@ -48,9 +52,12 @@ export default function WooCommerce() {
     })
   }
 
-  if (typeof flow.config?.card_config?.form_fields === 'undefined') {
-    handleAddField('number', 'Order Id')
-    handleAddField('email', 'Billing Email')
+  const handleAddFieldActive = () => {
+    if (typeof flow.config?.card_config?.form_fields === 'undefined') {
+      handleAddField('number', 'Order Id')
+      handleAddField('email', 'Billing Email')
+      setIsButtonHide(!isButtonHide)
+    }
   }
 
   const handleChange = (value: string | boolean | number, key: string, index: number) => {
@@ -76,6 +83,12 @@ export default function WooCommerce() {
   return (
     <>
       <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
+        {!isButtonHide && (
+          <Button rightIcon={<FiPlus />} onClick={handleAddFieldActive}>
+            Add Fields
+          </Button>
+        )}
+
         {flow.config?.card_config?.form_fields && (
           <VStack w="full" spacing="3">
             {flow.config.card_config.form_fields.map((field, id) => (
