@@ -15,6 +15,8 @@ import { useAtom } from 'jotai'
 
 import Whatsapp from '@components/widgetChannels/channels/Whatsapp'
 import Messenger from '@components/widgetChannels/channels/Messenger'
+import Pinterest from '@components/widgetChannels/channels/Pinterest'
+import Signal from '@components/widgetChannels/channels/Signal'
 import Twitter from '@components/widgetChannels/channels/Twitter'
 import Instagram from '@components/widgetChannels/channels/Instagram'
 import Telegram from '@components/widgetChannels/channels/Telegram'
@@ -97,10 +99,14 @@ function ChannelSettings() {
         return <Call />
       case 'skype':
         return <Skype />
+      case 'signal':
+        return <Signal />
       case 'whatsapp':
         return <Whatsapp />
       case 'messenger':
         return <Messenger />
+      case 'pinterest':
+        return <Pinterest />
       case 'twitter':
         return <Twitter />
       case 'instagram':

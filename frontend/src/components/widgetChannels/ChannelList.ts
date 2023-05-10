@@ -50,8 +50,16 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/messenger.svg`,
   },
   {
+    name: 'Pinterest',
+    icon: `${config.ROOT_URL}/img/channel/pinterest.svg`,
+  },
+  {
     name: 'Skype',
     icon: `${config.ROOT_URL}/img/channel/skype.svg`,
+  },
+  {
+    name: 'Signal',
+    icon: `${config.ROOT_URL}/img/channel/signal.svg`,
   },
   {
     name: 'Slack',
