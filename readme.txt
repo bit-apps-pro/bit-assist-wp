@@ -2,7 +2,7 @@
 Contributors: bitpressadmin
 Tags: chat, whatsapp, messenger, facebook, telegram, call, sms, chat widget, wechat, linkedin, instagram, snapchat.
 Requires at least: 5.0
-Tested up to: 6.1.1
+Tested up to: 6.2
 Requires PHP: 5.6
 Stable tag: 1.1.2
 License: GPLv2 or later
