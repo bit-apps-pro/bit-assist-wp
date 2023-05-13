@@ -34,6 +34,7 @@ interface Styles {
   animation_active?: number
   animation_type?: number
   animation_delay?: AnimationDelay | null
+  widget_show_on?: (string | number)[]
 }
 interface BusinessHours {
   day: string

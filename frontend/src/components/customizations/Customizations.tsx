@@ -7,6 +7,7 @@ import WidgetShape from '@components/customizations/WidgetShape'
 import CustomCSS from '@components/customizations/CustomCSS'
 import WidgetPositions from '@components/customizations/WidgetPositions'
 import WidgetCredit from '@components/customizations/WidgetCredit'
+import { WidgetShowOn } from '@components/customizations/WidgetShowOn'
 
 function Customizations() {
   return (
@@ -18,6 +19,7 @@ function Customizations() {
       <WidgetSize />
       <WidgetShape />
       <CustomCSS />
+      <WidgetShowOn />
       <WidgetCredit />
     </Stack>
   )

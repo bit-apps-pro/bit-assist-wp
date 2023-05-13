@@ -267,6 +267,22 @@ export default class Widget {
 	}
 
 	widgetSetup = async () => {
+		const showOn = this.widgetData?.styles?.widget_show_on
+
+		if (showOn !== undefined) {
+			if (showOn.length === 0) {
+				return
+			}
+
+			if (this.#isMobileDevice && !showOn.includes('mobile')) {
+				return
+			}
+
+			if (!this.#isMobileDevice && !showOn.includes('desktop')) {
+				return
+			}
+		}
+
 		if (!this.setWidgetVisibleOrNot()) {
 			return
 		}
