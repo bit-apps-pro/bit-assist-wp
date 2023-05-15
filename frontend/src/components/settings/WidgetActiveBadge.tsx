@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Box, Switch, Text } from '@chakra-ui/react'
+import { Box, FormControl, Switch, Text } from '@chakra-ui/react'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
@@ -87,13 +87,15 @@ function WidgetActiveBadge() {
 
   return (
     <Box>
-      <Title>
-        Enable Widget Active Badge
-        <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
-      </Title>
+      <Box display="flex" alignItems="center" mb={-3}>
+        <Title>
+          Enable Widget Active Badge
+          <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
+        </Title>
+      </Box>
 
       {isEnabled && (
-        <Box mt={4}>
+        <Box mt={2}>
           <Text mb={1}>Choose Badge Color</Text>
           <ColorPickerWrap
             color={widget.styles?.badge_color ? widget.styles?.badge_color : str2Color('#05f609')}

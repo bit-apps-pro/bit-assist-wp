@@ -8,11 +8,13 @@ import CustomCSS from '@components/customizations/CustomCSS'
 import WidgetPositions from '@components/customizations/WidgetPositions'
 import WidgetCredit from '@components/customizations/WidgetCredit'
 import { WidgetShowOn } from '@components/customizations/WidgetShowOn'
+import { WidgetStyle } from './WidgetStyle'
 
 function Customizations() {
   return (
     <Stack gap={[5, 6]}>
       <WidgetName />
+      <WidgetStyle />
       <WidgetColor />
       <WidgetIcons />
       <WidgetPositions />

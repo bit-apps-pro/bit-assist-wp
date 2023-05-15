@@ -50,7 +50,8 @@ final class WidgetController
                 'badge_color'      => ['b'=> 0, 'g'=> 220, 'h'=> 120, 'hex'=> '00dc00', 'r'=> 0, 's'=> 100, 'str'=> '#00dc00', 'v'=> 86],
                 'animation_active' => 0,
                 'animation_type'   => 1,
-                'widget_show_on'   => ['desktop', 'mobile']
+                'widget_show_on'   => ['desktop', 'mobile'],
+                'widget_style'     => 'widget_transparent'
             ],
         ];
 

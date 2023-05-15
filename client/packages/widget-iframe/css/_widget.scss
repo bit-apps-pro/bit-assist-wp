@@ -107,6 +107,9 @@
 				margin-top: 0;
 			}
 		}
+		.channel:hover {
+			background-color: #f1f1f1;
+		}
 	}
 
 	#widgetBubbleRow {
@@ -149,6 +152,12 @@
 
 #contentWrapper {
 	max-width: 100%;
+	&.widget-box {
+		border-radius: 12px;
+		background-color: #fff;
+		box-shadow: rgb(0 0 0 / 13%) 0px 5px 8px 0px;
+		animation: fadeInFromBottom var(--transition-duration) ease-in-out;
+	}
 }
 
 #credit {
@@ -162,3 +171,14 @@
 	display: none;
 	white-space: nowrap;
 }
+
+// #contentWrapper {
+// 	max-width: 100%;
+// 	// box-sizing: border-box;
+// 	// border: 2px solid rgb(255, 255, 255);
+// 	border-radius: 12px;
+// 	background-color: #fff;
+// 	// line-height: 1;
+// 	box-shadow: rgb(0 0 0 / 13%) 0px 5px 8px 0px;
+// 	animation: fadeInFromBottom var(--transition-duration) ease-in-out;
+// }

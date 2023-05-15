@@ -83,6 +83,10 @@ export default class Widget {
 			return
 		}
 
+		if (this.widgetData?.styles?.widget_style === 'widget_box') {
+			globalClassListAdd(this.contentWrapper, 'widget-box')
+		}
+
 		globalClassListToggle(this.channels, 'show')
 
 		if (globalClassListContains(this.card, 'show')) {
@@ -124,7 +128,12 @@ export default class Widget {
 
 	onChannelClick = e => {
 		e.preventDefault()
-		const channel = e.target.closest('.channel')
+		let channel = e.target.closest('.channel')
+
+		if (this.widgetData?.styles?.widget_style === 'widget_box') {
+			globalClassListRemove(this.contentWrapper, 'widget-box')
+			channel = e.target.closest('.channel-widget-box')
+		}
 		const { id, url, channel_name, target } = channel.dataset || {}
 		const widgetChannel = this.widgetData?.widget_channels.find(item => item.id === id)
 		const { title, unique_id } = widgetChannel?.config || {}
@@ -399,7 +408,13 @@ export default class Widget {
 	}
 
 	renderChannels = () => {
+		const widgetBox = this.widgetData?.styles?.widget_style
 		this.channels = createElm('div', { id: 'channels' })
+
+		if (widgetBox === 'widget_box') {
+			globalClassListAdd(this.channels, 'channel-padding')
+		}
+
 		const allChannels = this.widgetData?.widget_channels
 			?.filter(
 				widgetChannel =>
@@ -409,7 +424,7 @@ export default class Widget {
 			)
 			.map(widgetChannel => {
 				const channelBtn = createElm('button', {
-					class: 'channel',
+					class: widgetBox === 'widget_box' ? 'channel-widget-box' : 'channel',
 					'data-id': widgetChannel.id,
 					'data-channel_name': widgetChannel.channel_name.toLowerCase(),
 					'data-url': widgetChannel.config?.url || '#',
@@ -428,10 +443,14 @@ export default class Widget {
 
 		globalAppend(this.channels, allChannels)
 		globalAppend(this.contentWrapper, this.channels)
-
-		globalQuerySelectorAll(document, '.channel').forEach(channel => {
-			globalEventListener(channel, 'click', this.onChannelClick)
-		})
+		if (widgetBox === 'widget_box') {
+			globalClassListAdd(this.contentWrapper, 'widget-box')
+		}
+		globalQuerySelectorAll(document, widgetBox === 'widget_box' ? '.channel-widget-box' : '.channel').forEach(
+			channel => {
+				globalEventListener(channel, 'click', this.onChannelClick)
+			},
+		)
 	}
 
 	renderWidgetBubble = () => {
