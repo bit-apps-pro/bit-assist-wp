@@ -83,7 +83,7 @@ final class ApiWidgetController
         $channel_names = $this->getActiveChannelsNameString($widget, $activeChannelWPOptions, $version);
         $activeChannelWPOptions = $this->updateOptionOnChannelChange($activeChannelWPOptions, $channel_names, $version);
 
-        if ($activeChannelWPOptions['channel_status'] == 0) {
+        if ($activeChannelWPOptions['channel_status'] == 0 || !file_exists($outputFilePathIframe)) {
             $importJsArray = [];
             $importJsIframe = [];
 
@@ -153,7 +153,7 @@ final class ApiWidgetController
 
     private function writeActiveChannelsJS($activeChannelWPOptions, $channel_names, $outputFilePathIframe, $importJsIframe, $outputFilePath, $importJsArray)
     {
-        if ($activeChannelWPOptions['channel_names'] != $channel_names) {
+        if ($activeChannelWPOptions['channel_names'] != $channel_names || !file_exists($outputFilePathIframe)) {
             $activeChannelWPOptions['channel_status'] = 1;
             $activeChannelWPOptions['channel_names'] = $channel_names;
             Config::updateOption('active_channels', $activeChannelWPOptions);
