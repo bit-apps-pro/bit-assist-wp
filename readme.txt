@@ -335,7 +335,7 @@ Yes, there is. You can use Tawk [livechat](https://docs.bit-assist.bitapps.pro/t
 * Hot: Pinterest Channel
 * Hot: Signal Channel
 * Feature: Widget Style
-* Feature: Widget Show/Hide On (Desktop or Mobile)
+* Feature: Widget Show On (Desktop or Mobile)
 
 = v1.1.2 (May 08, 2023) =
 * HOT: WooCommerce Channel
