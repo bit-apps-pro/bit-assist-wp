@@ -331,7 +331,7 @@ After creating a [widget](https://docs.bit-assist.bitapps.pro/) click on the thr
 Yes, there is. You can use Tawk [livechat](https://docs.bit-assist.bitapps.pro/tawk) or live [chat button](https://www.bitapps.pro/bit-assist) to communicate with your visitors. You can add the Tawk (tawk.to) channel to your [chat widget](https://docs.bit-assist.bitapps.pro/) and enable [live chat](https://docs.bit-assist.bitapps.pro/tawk) ([livechat](https://docs.bit-assist.bitapps.pro/tawk)) with your website visitors. By adding this channel, you can engage in [livechat](https://docs.bit-assist.bitapps.pro/tawk) or ([live chat](https://docs.bit-assist.bitapps.pro/tawk)) sessions with your visitors, answering their queries in real-time and providing them with the best customer [support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) experience possible.
 
 == Changelog ==
-= v1.1.3 (May 15, 2023) =
+= v1.1.3 (May 16, 2023) =
 * Hot: Pinterest Channel
 * Hot: Signal Channel
 * Feature: Widget Style

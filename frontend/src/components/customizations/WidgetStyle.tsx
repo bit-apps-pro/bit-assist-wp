@@ -69,7 +69,7 @@ export const WidgetStyle = () => {
 
   return (
     <Box>
-      <Title>WidgetStyle</Title>
+      <Title>Widget Style</Title>
       <HStack flexWrap="wrap" gap={4} spacing={0} maxH={400}>
         <Box
           sx={styles}
