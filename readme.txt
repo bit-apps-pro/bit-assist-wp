@@ -88,7 +88,7 @@ Don't miss out on potential customers who prefer to [chat](https://www.bitapps.p
 
 27. WooCommerce - [WooCommerce](https://www.youtube.com/watch?v=oymiguCozg8) [Button](https://www.youtube.com/watch?v=oymiguCozg8) [YouTube Tutorial](https://www.youtube.com/watch?v=oymiguCozg8)
 28. Pinterest
-29. Signal - [Signal](https://www.youtube.com/watch?v=tNiqiylU_Zw) [Button](https://www.youtube.com/watch?v=tNiqiylU_Zw) [YouTube Tutorial] (https://www.youtube.com/watch?v=tNiqiylU_Zw)
+29. Signal - [Signal](https://www.youtube.com/watch?v=tNiqiylU_Zw) [Button](https://www.youtube.com/watch?v=tNiqiylU_Zw) [YouTube Tutorial](https://www.youtube.com/watch?v=tNiqiylU_Zw)
  
 ## Free version features:
  1. In [Bit Assist](https://docs.bit-assist.bitapps.pro) free version you can have one widget activated at a time.
