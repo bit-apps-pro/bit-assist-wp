@@ -16,10 +16,10 @@ final class IframeController
 
         $version = Config::VERSION;
         $assetBase = Config::get('ROOT_URI') . '/iframe';
-        $frameAncestor = Config::get('SITE_URL');
-        if ($request->clientDomain !== $frameAncestor) {
-            $frameAncestor .= ' ' . $request->clientDomain;
-        }
+        // $frameAncestor = Config::get('SITE_URL');
+        // if ($request->clientDomain !== $frameAncestor) {
+        //     $frameAncestor .= ' ' . $request->clientDomain;
+        // }
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -47,7 +47,8 @@ HTML;
 
         status_header(200);
         header('Content-Type: text/html');
-        header('Content-Security-Policy: frame-ancestors ' . $frameAncestor);
+        header('Content-Security-Policy: frame-ancestors *');
+        // header('Content-Security-Policy: frame-ancestors ' . $frameAncestor);
         exit();
     }
 }
