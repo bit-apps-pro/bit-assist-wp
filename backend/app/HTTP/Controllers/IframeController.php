@@ -14,12 +14,17 @@ final class IframeController
             exit();
         }
 
+        $urlParts = explode('-protocol-bit-assist-', $request->clientDomain);
+        $protocol = $urlParts[0] === 'i' ? 'http://' : 'https://';
+        $domain = $urlParts[1];
+        $clientDomain = $protocol . $domain;
+
         $version = Config::VERSION;
         $assetBase = Config::get('ROOT_URI') . '/iframe';
-        // $frameAncestor = Config::get('SITE_URL');
-        // if ($request->clientDomain !== $frameAncestor) {
-        //     $frameAncestor .= ' ' . $request->clientDomain;
-        // }
+        $frameAncestor = Config::get('SITE_URL');
+        if ($clientDomain !== $frameAncestor) {
+            $frameAncestor .= ' ' . $clientDomain;
+        }
 
         echo <<<HTML
 <!DOCTYPE html>
@@ -47,8 +52,7 @@ HTML;
 
         status_header(200);
         header('Content-Type: text/html');
-        header('Content-Security-Policy: frame-ancestors *');
-        // header('Content-Security-Policy: frame-ancestors ' . $frameAncestor);
+        header('Content-Security-Policy: frame-ancestors ' . $frameAncestor);
         exit();
     }
 }
