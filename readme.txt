@@ -1,10 +1,10 @@
-=== Chat through WhatsApp Chat, Facebook Messenger Chat, Telegram Chat, Call, SMS, Line, Instagram, WeChat, Tawk, Linkedin, Discord, Pinterest for Customer Support with Smart Floating Chat Widget or Chat Button - Bit Assist ===
+=== Chat through WhatsApp Chat, Facebook Messenger Chat, Telegram, Chat, Call, SMS, Line, Instagram, WeChat, Tawk, Linkedin, Discord, Pinterest for Customer Support with Smart Floating Chat Widget or Chat Button - Bit Assist ===
 Contributors: bitpressadmin
 Tags: whatsapp, facebook, messenger, chat, telegram, call, whatsapp chat, chat widget, instagram, sms, wechat, snapchat.
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 
 Bit Assist helps to Chat via Whatsapp, Facebook, Messenger, Telegram, Chat, Call, SMS, WeChat, Instagram, Linkedin, Snapchat, Line, Twitter and more.
@@ -331,6 +331,9 @@ After creating a [widget](https://docs.bit-assist.bitapps.pro/) click on the thr
 Yes, there is. You can use Tawk [livechat](https://docs.bit-assist.bitapps.pro/tawk) or live [chat button](https://www.bitapps.pro/bit-assist) to communicate with your visitors. You can add the Tawk (tawk.to) channel to your [chat](https://docs.bit-assist.bitapps.pro/) [widget](https://docs.bit-assist.bitapps.pro/) and enable [live chat](https://docs.bit-assist.bitapps.pro/tawk) ([livechat](https://docs.bit-assist.bitapps.pro/tawk)) with your website visitors. By adding this channel, you can engage in [livechat](https://docs.bit-assist.bitapps.pro/tawk) or ([live chat](https://docs.bit-assist.bitapps.pro/tawk)) sessions with your visitors, answering their queries in real-time and providing them with the best customer [support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) experience possible.
 
 == Changelog ==
+= v1.1.5 (May 28, 2023) =
+* Fixed: Knowledge Base Image Upload
+
 = v1.1.4 (May 28, 2023) =
 * Fixed: Server Blocking Request With WPML
 

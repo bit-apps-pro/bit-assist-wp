@@ -52,7 +52,14 @@ function AddChannel() {
         Add Channel
       </Button>
 
-      <Modal scrollBehavior="inside" size="3xl" closeOnOverlayClick={false} isOpen={isOpen} onClose={onModalClose}>
+      <Modal
+        trapFocus={false}
+        scrollBehavior="inside"
+        size="3xl"
+        closeOnOverlayClick={false}
+        isOpen={isOpen}
+        onClose={onModalClose}
+      >
         <ModalOverlay />
         <ModalContent pb="4">
           <ModalHeader mr="6">
