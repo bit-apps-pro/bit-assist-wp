@@ -5,6 +5,7 @@ namespace BitApps\Assist\HTTP\Controllers;
 use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Config;
 use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Core\Http\Response;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 use WP_Query;
@@ -218,6 +219,13 @@ final class ApiWidgetController
 
     public function wpSearch(Request $request)
     {
+        $validate = $request->validate([
+            'search' => 'string'
+        ]);
+        if (!empty($validate)) {
+            return ['message' => 'Search query is not a valid string.', 'status_code' => 404];
+        }
+
         return $this->getPageAndPosts($request->search, $request->page);
     }
 
@@ -249,16 +257,15 @@ final class ApiWidgetController
 
     public function orderDetails(Request $request)
     {
-        global $wpdb;
+        if (!class_exists('WooCommerce')) {
+            return ['message' => 'WooCommerce not installed or active.', 'status_code' => 404];
+        }
 
         $order_id = $request['number'];
         $billing_email = $request['email'];
-
         $allOrders = [];
 
-        if (!class_exists('WooCommerce')) {
-            include_once ABSPATH . 'wp-content/plugins/woocommerce/woocommerce.php';
-        }
+        global $wpdb;
 
         if ($order_id && $billing_email) {
             if (!empty(wc_get_order($order_id)) && $billing_email === wc_get_order($order_id)->get_billing_email()) {
@@ -269,19 +276,21 @@ final class ApiWidgetController
             }
         } elseif ($order_id && !empty(wc_get_order($order_id))) {
             $item = $this->getOrderWithIdAndMail($order_id);
-
             return ['items' => $item, 'status_code' => 200];
         } elseif ($billing_email) {
-            $orders = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_key = '_billing_email' AND meta_value = '$billing_email'");
+            $query = $wpdb->prepare(
+                "SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s",
+                ['_billing_email', $billing_email]
+            );
+
+            $orders = $wpdb->get_results($query);
 
             if ($orders) {
                 foreach ($orders as $order) {
                     $order_details = wc_get_order($order->post_id);
                     $allOrders[] = $order_details;
                 }
-
                 $data = $this->allOrderWithPagination($request, $allOrders);
-
                 return $data;
             } else {
                 return ['message' => 'No order found', 'status_code' => 404];
