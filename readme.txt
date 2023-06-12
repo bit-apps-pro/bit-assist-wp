@@ -1,10 +1,10 @@
-=== Chat through WhatsApp Chat, Facebook Messenger Chat, Telegram, Chat, Call, SMS, Line, Instagram, WeChat, Tawk, Linkedin, Discord, Pinterest for Customer Support with Smart Floating Chat Widget or Chat Button - Bit Assist ===
+=== Chat through WhatsApp Chat, Facebook Messenger Chat, Telegram Chat, Call, SMS, Line, Instagram, WeChat, Tawk, Linkedin, Discord, Pinterest for Customer Support with Smart Floating Chat Widget or Chat Button - Bit Assist ===
 Contributors: bitpressadmin
 Tags: whatsapp, facebook, messenger, chat, telegram, call, whatsapp chat, chat widget, instagram, sms, wechat, snapchat.
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 
 Bit Assist helps to Chat via Whatsapp, Facebook, Messenger, Telegram, Chat, Call, SMS, WeChat, Instagram, Linkedin, Snapchat, Line, Twitter and more.
@@ -283,13 +283,13 @@ A nice alternative to BOEI in the form of a WordPress plugin.
 ## FAQ
 
 = What is Bit Assist? =
-[Bit Assist](https://docs.bit-assist.bitapps.pro) is a [WordPress](https://wordpress.org/plugins/bit-assist/) plugin that allows you to communicate with your website visitors through their favourite [chat](https://www.bitapps.pro/bit-assist) platforms like [whatsapp](https://www.whatsapp.com/), [facebook](https://www.facebook.com/), [messenger](https://www.messenger.com/), [chat](https://www.bitapps.pro/bit-assist), [call](https://docs.bit-assist.bitapps.pro/call), [sms](https://docs.bit-assist.bitapps.pro/sms), [telegram](https://telegram.org/), [chat](https://www.bitapps.pro/bit-assist), [wechat](https://www.wechat.com/), [instagram](https://www.instagram.com/), [linkedin](https://www.linkedin.com/), [line](https://docs.bit-assist.bitapps.pro/line), [snapchat](https://www.snapchat.com/), [LiveChat](https://docs.bit-assist.bitapps.pro/tawk) via [Tawk](https://www.tawk.to/), [Discord](https://discord.com/). You can consider it as a helping [chat](https://docs.bit-assist.bitapps.pro/) [bot](https://docs.bit-assist.bitapps.pro/) or [chatbot](https://docs.bit-assist.bitapps.pro/).
+[Bit Assist](https://docs.bit-assist.bitapps.pro) is a [WordPress](https://wordpress.org/plugins/bit-assist/) plugin that allows you to communicate with your website visitors through their favorite [chat](https://www.bitapps.pro/bit-assist) platforms like [whatsapp](https://www.whatsapp.com/), [facebook](https://www.facebook.com/), [messenger](https://www.messenger.com/), [chat](https://www.bitapps.pro/bit-assist), [call](https://docs.bit-assist.bitapps.pro/call), [sms](https://docs.bit-assist.bitapps.pro/sms), [telegram](https://telegram.org/), [chat](https://www.bitapps.pro/bit-assist), [wechat](https://www.wechat.com/), [instagram](https://www.instagram.com/), [linkedin](https://www.linkedin.com/), [line](https://docs.bit-assist.bitapps.pro/line), [snapchat](https://www.snapchat.com/), [LiveChat](https://docs.bit-assist.bitapps.pro/tawk) via [Tawk](https://www.tawk.to/), [Discord](https://discord.com/). You can consider it as a helping [chat](https://docs.bit-assist.bitapps.pro/) [bot](https://docs.bit-assist.bitapps.pro/) or [chatbot](https://docs.bit-assist.bitapps.pro/).
 
 = How many Widgets can I create in the free version? =
 You can create only one [Widget](https://docs.bit-assist.bitapps.pro/) in the free version.
 
 = How many channels can I create in the free version? =
-You can create any of 2 channels at a time in the free version. For example, you can add ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Line](https://docs.bit-assist.bitapps.pro/line)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Wechat](https://docs.bit-assist.bitapps.pro/wechat)), or ([Wechat](https://docs.bit-assist.bitapps.pro/wechat) and [Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger)), or ([Telegram](https://docs.bit-assist.bitapps.pro/telegram) and [Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [SMS](https://docs.bit-assist.bitapps.pro/sms)), or ([Call](https://docs.bit-assist.bitapps.pro/call) and [WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp)), or ([Custom Form](https://docs.bit-assist.bitapps.pro/custom-form) and [WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp)), or ([Snapchat](https://docs.bit-assist.bitapps.pro/snapchat) and [WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp)), or ([Telegram](https://docs.bit-assist.bitapps.pro/telegram) and [WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp)) or ([Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger) and [WooCommerce](https://woocommerce.com/)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and  [Knowledge base](https://docs.bit-assist.bitapps.pro/knowledge-base)) or ([Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger) and [FAQ](https://docs.bit-assist.bitapps.pro/faq)), or ([Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger) and [Instagram](https://docs.bit-assist.bitapps.pro/instagram)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Discord](https://docs.bit-assist.bitapps.pro/discord)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Instagram](https://docs.bit-assist.bitapps.pro/instagram)) etc.
+You can create any of 2 channels at a time in the free version. For example, you can add like ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Facebook](https://docs.bit-assist.bitapps.pro/messenger) [Messenger](https://docs.bit-assist.bitapps.pro/messenger)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Line](https://docs.bit-assist.bitapps.pro/line)), or ([WhatsApp](https://docs.bit-assist.bitapps.pro/whatsapp) and [Instagram](https://docs.bit-assist.bitapps.pro/instagram)) etc.
 
 = What is the procedure of activate the pro version? =
 Please visit this [Bit Assist Pro](https://www.bitapps.pro/bit-assist#pricing) and choose your plan.
@@ -331,6 +331,9 @@ After creating a [widget](https://docs.bit-assist.bitapps.pro/) click on the thr
 Yes, there is. You can use Tawk [livechat](https://docs.bit-assist.bitapps.pro/tawk) or live [chat button](https://www.bitapps.pro/bit-assist) to communicate with your visitors. You can add the Tawk (tawk.to) channel to your [chat](https://docs.bit-assist.bitapps.pro/) [widget](https://docs.bit-assist.bitapps.pro/) and enable [live chat](https://docs.bit-assist.bitapps.pro/tawk) ([livechat](https://docs.bit-assist.bitapps.pro/tawk)) with your website visitors. By adding this channel, you can engage in [livechat](https://docs.bit-assist.bitapps.pro/tawk) or ([live chat](https://docs.bit-assist.bitapps.pro/tawk)) sessions with your visitors, answering their queries in real-time and providing them with the best customer [support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) experience possible.
 
 == Changelog ==
+= v1.1.6 (June 11, 2023) =
+* Fixed: TinyMCE removes domain name from image upload url
+
 = v1.1.5 (June 05, 2023) =
 * Fixed: Knowledge Base Image Upload
 
