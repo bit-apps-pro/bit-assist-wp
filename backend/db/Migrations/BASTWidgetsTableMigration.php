@@ -30,6 +30,7 @@ final class BASTWidgetsTableMigration extends Migration
             $table->longtext('integrations')->nullable();
             $table->boolean('status')->defaultValue(1);
             $table->boolean('active')->defaultValue(0);
+            $table->boolean('hide_credit')->defaultValue(0);
             $table->timestamps();
         });
     }

@@ -94,6 +94,9 @@ function FaqField({ id, field, cursor = 'grab', bg = 'none' }: FaqFieldProps) {
                 skin: colorMode === 'dark' ? 'oxide-dark' : 'oxide',
                 content_css: colorMode === 'dark' ? 'dark' : 'default',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                relative_urls: false,
+                remove_script_host: false,
+                document_base_url: config.ROOT_URL,
               }}
             />
           )}
