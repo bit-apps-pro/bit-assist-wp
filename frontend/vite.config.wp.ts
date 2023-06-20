@@ -4,7 +4,7 @@ import { Alias, defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import * as tsconfig from './tsconfig.json'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+// import reactRefresh from '@vitejs/plugin-react-refresh'
 
 export default defineConfig({
   // config
@@ -35,27 +35,24 @@ export default defineConfig({
     port: 3000,
     hmr: {
       host: 'localhost',
-    }
+    },
   },
 })
 
 function readAliasFromTsConfig(): Alias[] {
   // eslint-disable-next-line prefer-regex-literals
   const pathReplaceRegex = new RegExp(/\/\*$/, '')
-  return Object.entries(tsconfig.compilerOptions.paths).reduce(
-    (aliases, [fromPaths, toPaths]) => {
-      const find = fromPaths.replace(pathReplaceRegex, '')
-      const toPath = toPaths[0].replace(pathReplaceRegex, '')
-      const replacement = path.resolve(__dirname, toPath)
-      aliases.push({ find, replacement })
-      return aliases
-    },
-    [] as Alias[],
-  )
+  return Object.entries(tsconfig.compilerOptions.paths).reduce((aliases, [fromPaths, toPaths]) => {
+    const find = fromPaths.replace(pathReplaceRegex, '')
+    const toPath = toPaths[0].replace(pathReplaceRegex, '')
+    const replacement = path.resolve(__dirname, toPath)
+    aliases.push({ find, replacement })
+    return aliases
+  }, [] as Alias[])
 }
 
 function PwaConfig() {
-  return ({
+  return {
     manifest: {
       name: 'App Name',
       short_name: 'App Name',
@@ -82,5 +79,5 @@ function PwaConfig() {
         },
       ],
     },
-  })
+  }
 }

@@ -1,8 +1,8 @@
 {
-  "name": "Zoho CRM for WPForms",
+  "name": "Bit Assist",
   "version": "1.0.0",
   "short_name": "CF7-Zoho CRM",
-  "description": "Sends WPForms entries to Zoho CRM",
+  "description": "Bit Assist",
   "icons": [
     {
       "src": "../img/logo.svg",

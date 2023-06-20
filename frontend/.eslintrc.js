@@ -100,12 +100,7 @@ module.exports = {
         ignoreChainWithDepth: 4,
       },
     ],
-    'import/no-extraneous-dependencies': [
-      2,
-      {
-        devDependencies: ['**/test.tsx', '**/test.ts'],
-      },
-    ],
+    'import/no-extraneous-dependencies': 'error',
     '@typescript-eslint/indent': [2, 2],
     '@typescript-eslint/semi': 'off',
   },

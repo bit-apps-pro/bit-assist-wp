@@ -257,17 +257,6 @@ final class ApiWidgetController
 
     public function orderDetails(Request $request)
     {
-        // $validate = $request->validate([
-        //     'number' => ['nullable', 'numeric'],
-        //     'email'  => ['nullable', 'email'],
-        // ]);
-
-        // error_log(print_r($validate, true));
-
-        // if (!empty($validate)) {
-        //     return ['message' => 'Given Information Is Not Valid!', 'status_code' => 404];
-        // }
-
         if (!class_exists('WooCommerce')) {
             return ['message' => 'WooCommerce not installed or active.', 'status_code' => 404];
         }

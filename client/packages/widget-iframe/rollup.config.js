@@ -2,8 +2,12 @@ import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 import resolve from '@rollup/plugin-node-resolve'
+import scss from 'rollup-plugin-scss'
+import image from '@rollup/plugin-image'
 
-export default function generateRollupConfig() {
+export default function generateRollupConfig({ watch }) {
+	const isDev = watch
+
 	const fileNames = ['common', 'faq', 'custom_form', 'custom_iframe', 'knowledge_base', 'wp_search', 'woocommerce']
 
 	const external = ['window', 'document', ...fileNames]
@@ -33,14 +37,14 @@ export default function generateRollupConfig() {
 	}
 
 	const channels = fileNames.map(fileName => ({
+		input: `${srcFolder}/${fileName}.js`,
 		external,
 		plugins: [...plugins, terser(getTerserConfig(fileName))],
-		input: `${srcFolder}/${fileName}.js`,
 		output: [
 			{
 				file: `${distFolder}/${fileName}.js`,
 				name: fileName.replace(/-/g, '_'),
-				// format: 'iife',
+				// format: 'umd',
 				globals: {
 					document: 'document',
 					window: 'window',
@@ -48,6 +52,23 @@ export default function generateRollupConfig() {
 			},
 		],
 	}))
+
+	channels.push({
+		input: `index.js`,
+		external,
+		plugins: [scss(), image(), ...plugins, ...[!isDev && terser(getTerserConfig())]],
+		output: [
+			{
+				file: '../../../iframe/assets/index.js',
+				name: 'index.js',
+				format: 'iife',
+				globals: {
+					document: 'document',
+					window: 'window',
+				},
+			},
+		],
+	})
 
 	return channels
 }

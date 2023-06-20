@@ -33,7 +33,7 @@ final class IframeController
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Bit Assist Widget</title>
-        <script type="module" crossorigin src="{$assetBase}/assets/index.js?ver={$version}"></script>
+        <script crossorigin src="{$assetBase}/assets/index.js?ver={$version}"></script>
         <link rel="stylesheet" href="{$assetBase}/assets/index.css?ver={$version}">
     </head>
     <body>
