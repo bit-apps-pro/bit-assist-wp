@@ -66,7 +66,7 @@ final class ApiWidgetController
         $get_options_version = Config::getOption('active_channels');
         $new_version = $get_options_version['version'];
 
-        $widget->featuresJsPath = "./channels/features.js?ver={$new_version}";
+        $widget->featuresJsPath = Config::isDev() ? './channels/features.js?ver={$new_version}' : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
 
         return $widget;
     }
@@ -223,7 +223,7 @@ final class ApiWidgetController
             'search' => 'string'
         ]);
         if (!empty($validate)) {
-            return ['message' => 'Search query is not a valid string.', 'status_code' => 404];
+            return ['message' => 'Search query is not a valid string!', 'status_code' => 404];
         }
 
         return $this->getPageAndPosts($request->search, $request->page);
@@ -257,6 +257,17 @@ final class ApiWidgetController
 
     public function orderDetails(Request $request)
     {
+        // $validate = $request->validate([
+        //     'number' => ['nullable', 'numeric'],
+        //     'email'  => ['nullable', 'email'],
+        // ]);
+
+        // error_log(print_r($validate, true));
+
+        // if (!empty($validate)) {
+        //     return ['message' => 'Given Information Is Not Valid!', 'status_code' => 404];
+        // }
+
         if (!class_exists('WooCommerce')) {
             return ['message' => 'WooCommerce not installed or active.', 'status_code' => 404];
         }
