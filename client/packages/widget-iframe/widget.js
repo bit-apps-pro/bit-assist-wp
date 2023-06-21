@@ -49,7 +49,7 @@ export default class Widget {
 		this.contentWrapper = $('#contentWrapper')
 		this.widgetWrapper = $('#widgetWrapper')
 		this.widgetBubbleWrapper = $('#widgetBubbleWrapper')
-		this.widgetBubble = $(config.widgetBubble)
+		this.widgetBubble = $('#widgetBubble')
 		this.addEvents()
 		this.getClientInfo()
 	}

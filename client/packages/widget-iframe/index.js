@@ -11,7 +11,6 @@ const clientDomain = protocol + domain
 
 window.addEventListener('load', function () {
 	new Widget({
-		widgetBubble: '#widgetBubble',
 		clientDomain,
 	})
 })
