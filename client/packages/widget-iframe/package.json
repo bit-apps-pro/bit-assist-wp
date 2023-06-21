@@ -4,9 +4,8 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "rollup -c -w",
-		"dev:vite": "vite dev",
-		"build": "rollup -c"
+		"dev": "vite dev && rollup -c -w",
+		"build": "vite build && rollup -c"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.18.10",
