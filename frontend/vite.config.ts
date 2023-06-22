@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 import { esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 import react from '@vitejs/plugin-react'
 import path from 'path'

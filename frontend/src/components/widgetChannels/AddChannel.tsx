@@ -30,7 +30,7 @@ function AddChannel() {
 
   const onModalClose = () => {
     onClose()
-    resetFlow()
+    resetFlow('')
   }
 
   const saveFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

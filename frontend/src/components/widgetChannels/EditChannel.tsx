@@ -37,7 +37,7 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
 
   const onModalClose = () => {
     onClose()
-    resetFlow()
+    resetFlow('')
     resetEditWidgetChannelId()
   }
 

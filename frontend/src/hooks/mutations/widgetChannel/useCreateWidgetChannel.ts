@@ -10,15 +10,12 @@ export default function useCreateWidgetChannel() {
   const queryClient = useQueryClient()
   const { widgetId } = useParams()
 
-  const { mutateAsync, isLoading } = useMutation(
-    async (flow: Flow) => request('widgetChannels', flow),
-    {
-      onSuccess: () => {
-        resetFlow()
-        queryClient.invalidateQueries(['widget/widgetChannels', widgetId])
-      },
+  const { mutateAsync, isLoading } = useMutation(async (flow: Flow) => request('widgetChannels', flow), {
+    onSuccess: () => {
+      resetFlow('')
+      queryClient.invalidateQueries(['widget/widgetChannels', widgetId])
     },
-  )
+  })
 
   return {
     createWidgetChannel: (flow: Flow) => mutateAsync(flow),
