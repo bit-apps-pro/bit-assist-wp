@@ -1,4 +1,4 @@
-=== Chat Button: WhatsApp Chat, Facebook Messenger Chat, Telegram Chat, WeChat, Line Chat, Discord for Customer Support Chat with floating Chat Widget - Bit Assist ===
+=== Chat Button: WhatsApp Chat, Facebook Messenger, Telegram Chat, WeChat, Line Chat, Discord for Customer Support Chat with floating Chat Widget - Bit Assist ===
 
 Contributors: bitpressadmin
 Tags: chat, whatsapp, whatsapp chat, facebook chat, telegram, support chat, messenger, chat widget, chat button, instagram, wechat, snapchat
@@ -8,7 +8,7 @@ Requires PHP: 5.6
 Stable tag: 1.1.8
 License: GPLv2 or later
 
-Chat via Whatsapp,Facebook Messenger,Telegram,WeChat,Discord,Linkedin,Snapchat,Line,Twitter & more with a floating customer support chat button widget
+Chat via Whatsapp, Facebook Messenger, Telegram, WeChat, Discord, Snapchat, Line, Twitter & more with a floating customer support chat button widget
 
 == Description ==
 
