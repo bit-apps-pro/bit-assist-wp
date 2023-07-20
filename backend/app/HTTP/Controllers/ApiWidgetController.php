@@ -7,6 +7,7 @@ use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 use BitApps\AssistPro\Config as ProConfig;
+use stdClass;
 use WP_Query;
 
 final class ApiWidgetController
@@ -284,7 +285,62 @@ final class ApiWidgetController
             $widgetChannels[$key]->channel_icon = $rootURL . '/img/channel/' . strtolower($value->channel_name) . '.svg';
         }
 
+        foreach ($widgetChannels as $channel) {
+            $channel = $this->escapeAll($channel);
+        }
+
         return $widgetChannels;
+    }
+
+    private function escapeAll($channel)
+    {
+        if ($channel->channel_name === 'Custom-Channel') {
+            $channel->config->unique_id = esc_url($channel->config->unique_id);
+            $channel->config->url       = esc_url($channel->config->url);
+        }
+
+        if ($channel->channel_name === 'Google-Map') {
+            $channel = $this->sanitizeIframe($channel);
+        }
+
+        if ($channel->channel_name === 'Custom-Iframe') {
+            $channel->config->unique_id = esc_url($channel->config->unique_id);
+            $channel->config->url       = esc_url($channel->config->url);
+        }
+
+        if ($channel->channel_name === 'FAQ' || $channel->channel_name === 'Knowledge-Base') {
+            $channel = $this->escapeTitle($channel);
+        }
+
+        return $channel;
+    }
+
+    private function escapeTitle($channel)
+    {
+        $channel->config->title = esc_html($channel->config->title);
+
+        $faqs  = new stdClass();
+        $kbs   = new stdClass();
+
+        if ($channel->channel_name === 'FAQ') {
+            $faqs = &$channel->config->card_config->faqs;
+
+            foreach ($faqs as &$faq) {
+                if (isset($faq->title)) {
+                    $faq->title = esc_html($faq->title);
+                }
+            }
+        } else {
+            $kbs = &$channel->config->card_config->knowledge_bases;
+
+            foreach ($kbs as &$kb) {
+                if (isset($kb->title)) {
+                    $kb->title = esc_html($kb->title);
+                }
+            }
+        }
+
+        return $channel;
     }
 
     private function getPageAndPosts($search, $page)
