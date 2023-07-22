@@ -178,8 +178,8 @@ final class WidgetChannelController
     {
         $validated['config']['title'] = sanitize_text_field($validated['config']['title']);
 
-        $faqs  = [];
-        $kbs   = [];
+        $faqs = [];
+        $kbs  = [];
 
         if ($channelName === 'FAQ') {
             $faqs = &$validated['config']['card_config']['faqs'];

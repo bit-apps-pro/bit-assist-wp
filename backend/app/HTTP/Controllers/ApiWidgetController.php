@@ -315,6 +315,29 @@ final class ApiWidgetController
         return $channel;
     }
 
+    private function sanitizeIframe($channel)
+    {
+        $allowedAttributes = [
+            'iframe' => [
+                'src'             => [],
+                'width'           => [],
+                'height'          => [],
+                'style'           => [],
+                'allowfullscreen' => [],
+                'loading'         => [],
+                'referrerpolicy'  => [],
+            ],
+        ];
+
+        if (\is_object($channel)) {
+            $channel->config->unique_id = wp_kses($channel->config->unique_id, $allowedAttributes);
+        } else {
+            $channel['config']['unique_id'] = wp_kses($channel['config']['unique_id'], $allowedAttributes);
+        }
+
+        return $channel;
+    }
+
     private function escapeTitle($channel)
     {
         $channel->config->title = esc_html($channel->config->title);
