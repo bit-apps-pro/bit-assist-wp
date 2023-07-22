@@ -19,7 +19,7 @@ class Config
 
     const VAR_PREFIX = 'bit_assist_';
 
-    const VERSION = '1.1.8';
+    const VERSION = '1.1.9';
 
     const DB_VERSION = '1.0.1';
 
@@ -58,13 +58,14 @@ class Config
 
             case 'SITE_URL':
                 $parsedUrl = parse_url(get_admin_url());
-                $siteUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+                $siteUrl   = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
                 $siteUrl .= empty($parsedUrl['port']) ? null : ':' . $parsedUrl['port'];
 
                 return $siteUrl;
 
             case 'SITE_DOMAIN':
                 $parsedUrl = parse_url(get_admin_url());
+
                 return $parsedUrl['host'];
 
             case 'ADMIN_URL':

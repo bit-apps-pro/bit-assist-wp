@@ -1,14 +1,14 @@
-=== Chat Button: WhatsApp Chat, Facebook Messenger, Telegram Chat, WeChat, Line Chat, Discord for Customer Support Chat with floating Chat Widget - Bit Assist ===
+=== Chat Button: WhatsApp Chat, Facebook Messenger, Telegram Chat, WeChat, Line Chat, Discord Chat for Customer Support Chat with floating Chat Widget ===
 
 Contributors: bitpressadmin
-Tags: chat, whatsapp, whatsapp chat, facebook chat, telegram, support chat, messenger, chat widget, chat button, instagram, wechat, snapchat
+Tags: chat, whatsapp, whatsapp chat, facebook chat, telegram, support chat, messenger, chat widget, chat button, customer support, wechat, snapchat
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPLv2 or later
 
-Chat via Whatsapp, Facebook Messenger, Telegram, WeChat, Discord, Snapchat, Line, Twitter & more with a floating customer support chat button widget
+Chat via Whatsapp, Facebook Messenger, Telegram, WeChat, Discord, Snapchat, Line, Twitter & more with a floating customer support chat widget button.
 
 == Description ==
 
@@ -360,6 +360,9 @@ After creating a widget click on the three dots and go to the edit option, you w
 Yes, there is. You can use Tawk livechat or live chat button to communicate with your visitors. You can add the Tawk (tawk.to) channel to your chat widget and enable live chat (livechat) with your website visitors. By adding this channel, you can engage in livechat or (live chat) sessions with your visitors, answering their queries in real-time and providing them with the best customer support chat experience possible.
 
 == Changelog ==
+= v1.1.9 (July 22, 2023) =
+* Fixed: Addressed the issue of vulnerability & security of the Bit Assist to XSS attacks
+
 = v1.1.8 (June 22, 2023) =
 * Fixed: Chat Widget not showing when active SG Optimizer combine js option
 
