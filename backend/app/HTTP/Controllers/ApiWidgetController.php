@@ -31,7 +31,7 @@ final class ApiWidgetController
         $widget = $this->getWidget($request->domain);
 
         if (!isset($widget->id)) {
-            $this->makeFilesAndDbOptionEmpty($widget, $baseURL);
+            $this->makeFilesAndDbOptionEmpty($baseURL);
 
             return 'Widget not found';
         }
@@ -39,7 +39,7 @@ final class ApiWidgetController
         $widgetChannels = $this->getChannelsByWidget($widget->id);
 
         if (\is_null($widgetChannels)) {
-            $this->makeFilesAndDbOptionEmpty($widget, $baseURL);
+            $this->makeFilesAndDbOptionEmpty($baseURL);
 
             return 'Widget channels not found';
         }
@@ -50,7 +50,7 @@ final class ApiWidgetController
     public function wpSearch(Request $request)
     {
         $validate = $request->validate([
-            'search' => 'string'
+            'search' => ['string']
         ]);
         if (!empty($validate)) {
             return ['message' => 'Search query is not a valid string!', 'status_code' => 404];
@@ -116,6 +116,7 @@ final class ApiWidgetController
         Config::updateOption('active_channels', $activeChannelWPOptions);
 
         file_put_contents($baseURL . 'iframe/assets/channels/features.js', '');
+
         if (Config::isDev()) {
             file_put_contents($baseURL . 'client/packages/widget-iframe/channels/features.js', '');
         }
@@ -140,6 +141,7 @@ final class ApiWidgetController
     private function getChannels($baseURL, $widget, $activeChannelWPOptions, $version)
     {
         $activeChannels = [];
+        $outputFilePath = '';
 
         if (Config::isDev()) {
             $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
