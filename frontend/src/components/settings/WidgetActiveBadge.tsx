@@ -87,7 +87,7 @@ function WidgetActiveBadge() {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" mb={-3}>
+      <Box display="flex" alignItems="center" mb={-10}>
         <Title>
           Enable Widget Active Badge
           <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />

@@ -129,18 +129,22 @@ function BusinessHours() {
     }, 1000),
   ).current
 
-  useEffect(() => () => {
-    debounceUpdateWidget.cancel()
-  }, [debounceUpdateWidget])
+  useEffect(
+    () => () => {
+      debounceUpdateWidget.cancel()
+    },
+    [debounceUpdateWidget],
+  )
 
   return (
     <Box>
-      <Title>Business Hours</Title>
-
-      <FormControl display="flex" alignItems="center">
-        <FormLabel mb="0">Enable Business Hours</FormLabel>
-        <Switch isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
-      </FormControl>
+      <Box display="flex" alignItems="center" mb={-10}>
+        <Title>
+          Enable Business Hours
+          {/* <FormLabel mb="0">Enable Business Hours</FormLabel> */}
+          <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
+        </Title>
+      </Box>
 
       {isEnabled && (
         <ProWrapper>
