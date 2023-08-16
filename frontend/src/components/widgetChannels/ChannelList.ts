@@ -58,6 +58,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/skype.svg`,
   },
   {
+    name: 'WP-Shortcode',
+    icon: `${config.ROOT_URL}/img/channel/wp-shortcode.svg`,
+  },
+  {
     name: 'Signal',
     icon: `${config.ROOT_URL}/img/channel/signal.svg`,
   },

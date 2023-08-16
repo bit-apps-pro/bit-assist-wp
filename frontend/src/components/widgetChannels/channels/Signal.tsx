@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
+import OpenWindowAction from './OpenWindowAction'
 
 export default function Signal() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -13,9 +14,12 @@ export default function Signal() {
   }
 
   return (
-    <FormControl>
-      <FormLabel>Phone number</FormLabel>
-      <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
-    </FormControl>
+    <>
+      <FormControl>
+        <FormLabel>Phone number</FormLabel>
+        <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
+      </FormControl>
+      <OpenWindowAction />
+    </>
   )
 }
