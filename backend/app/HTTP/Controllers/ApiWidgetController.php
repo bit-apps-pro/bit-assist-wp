@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use AllowDynamicProperties;
 use BitApps\Assist\Config;
 use BitApps\Assist\Core\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
@@ -10,6 +11,7 @@ use BitApps\AssistPro\Config as ProConfig;
 use stdClass;
 use WP_Query;
 
+#[AllowDynamicProperties]
 final class ApiWidgetController
 {
     private $isPro = false;
@@ -86,7 +88,7 @@ final class ApiWidgetController
         } elseif ($billing_email) {
             $query = $wpdb->prepare(
                 "SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s",
-                ['_billing_email', $billing_email]
+                '_billing_email', $billing_email
             );
 
             $orders = $wpdb->get_results($query);
@@ -133,7 +135,7 @@ final class ApiWidgetController
         $get_options_version = Config::getOption('active_channels');
         $new_version         = $get_options_version['version'];
 
-        $widget->featuresJsPath = Config::isDev() ? './channels/features.js?ver={$new_version}' : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
+        $widget->featuresJsPath = Config::isDev() ? "./channels/features.js?ver={$new_version}" : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
 
         return $widget;
     }
@@ -216,7 +218,7 @@ final class ApiWidgetController
     {
         if ($activeChannelWPOptions['channel_names'] != $channel_names) {
             $activeChannelWPOptions['channel_status'] = 0;
-            $activeChannelWPOptions['version']        = $version . '.' . mt_rand() . strtotime('now');
+            $activeChannelWPOptions['version']        = $version . '.' . wp_rand(10000, 9999999) . strtotime('now');
 
             Config::updateOption('active_channels', $activeChannelWPOptions);
         }
@@ -288,6 +290,7 @@ final class ApiWidgetController
         }
 
         foreach ($widgetChannels as $channel) {
+            $channel->config->title = esc_html($channel->config->title);
             $channel = $this->escapeAll($channel);
         }
 
@@ -342,7 +345,6 @@ final class ApiWidgetController
 
     private function escapeTitle($channel)
     {
-        $channel->config->title = esc_html($channel->config->title);
 
         $faqs  = new stdClass();
         $kbs   = new stdClass();

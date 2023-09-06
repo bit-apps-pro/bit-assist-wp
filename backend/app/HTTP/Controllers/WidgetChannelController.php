@@ -61,7 +61,7 @@ final class WidgetChannelController
     {
         $validated = $this->sanitizeRequest($request->all());
 
-        $isPro     = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
 
         if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
             unset($validated['config']['hide_after_office_hours']);
@@ -128,8 +128,10 @@ final class WidgetChannelController
         return $newWidgetChannel;
     }
 
-    private function sanitizeRequest($validated)
+    private function sanitizeRequest($channelDetails)
     {
+        $validated = $this->sanitizeChannelTitle($channelDetails);
+
         if ($validated['channel_name'] === 'Google-Map') {
             return $this->sanitizeIframe($validated);
         } elseif ($validated['channel_name'] === 'Custom-Channel') {
@@ -137,7 +139,7 @@ final class WidgetChannelController
         } elseif ($validated['channel_name'] === 'Custom-Iframe') {
             return $this->sanitizeUrl($validated);
         } elseif ($validated['channel_name'] === 'FAQ' || $validated['channel_name'] === 'Knowledge-Base') {
-            return $this->sanitizeTitle($validated, $validated['channel_name']);
+            return $this->sanitizeFieldTitle($validated, $validated['channel_name']);
         }
 
         return $validated;
@@ -174,9 +176,14 @@ final class WidgetChannelController
         return $validated;
     }
 
-    private function sanitizeTitle($validated, $channelName)
+    private function sanitizeChannelTitle($validated)
     {
         $validated['config']['title'] = sanitize_text_field($validated['config']['title']);
+        return $validated;
+    }
+
+    private function sanitizeFieldTitle($validated, $channelName)
+    {
 
         $faqs = [];
         $kbs  = [];

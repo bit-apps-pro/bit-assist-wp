@@ -35,7 +35,7 @@ final class WidgetController
         }
 
         $newWidget = [
-            'name'   => trim($request->name),
+            'name'   => sanitize_text_field(trim($request->name)),
             'styles' => [
                 'size'             => 60,
                 'shape'            => 'semiRounded',
@@ -72,7 +72,7 @@ final class WidgetController
 
     public function update(WidgetUpdateRequest $request, Widget $widget)
     {
-        error_log(json_encode($request->all(), JSON_PRETTY_PRINT));
+        $request->name = sanitize_text_field(trim($request->name));
         $widget->update($request->all());
 
         if ($widget->save()) {
