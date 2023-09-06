@@ -18,7 +18,7 @@ const css = `
 #bit-assist-widget-container.bottom-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
 #bit-assist-widget-container.top-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
 #bit-assist-widget-container.top-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
-#bit-assist-widget-iframe{width:100%;height:100%;border:none;position:absolute}
+#bit-assist-widget-iframe{width:100%;height:100%;border:none;}
 .bit-assist-hide{visibility:hidden;pointer-events:none}
 `
 
