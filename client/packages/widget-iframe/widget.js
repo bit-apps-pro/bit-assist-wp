@@ -131,7 +131,6 @@ export default class Widget {
 		let channel = e.target.closest('.channel')
 
 		if (this.widgetData?.styles?.widget_style === 'widget_box') {
-			globalClassListRemove(this.contentWrapper, 'widget-box')
 			channel = e.target.closest('.channel-widget-box')
 		}
 		const { id, url, channel_name, target } = channel.dataset || {}
