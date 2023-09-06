@@ -57,10 +57,10 @@ const channelList = [
     name: 'Skype',
     icon: `${config.ROOT_URL}/img/channel/skype.svg`,
   },
-  {
-    name: 'WP-Shortcode',
-    icon: `${config.ROOT_URL}/img/channel/wp-shortcode.svg`,
-  },
+  // {
+  //   name: 'WP-Shortcode',
+  //   icon: `${config.ROOT_URL}/img/channel/wp-shortcode.svg`,
+  // },
   {
     name: 'Signal',
     icon: `${config.ROOT_URL}/img/channel/signal.svg`,
@@ -120,6 +120,10 @@ const channelList = [
   {
     name: 'Youtube',
     icon: `${config.ROOT_URL}/img/channel/youtube.svg`,
+  },
+  {
+    name: 'Calendly',
+    icon: `${config.ROOT_URL}/img/channel/calendly.svg`,
   },
 ]
 
