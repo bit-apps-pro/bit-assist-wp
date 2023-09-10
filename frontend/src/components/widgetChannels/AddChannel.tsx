@@ -9,7 +9,6 @@ import {
   useDisclosure,
   Text,
   HStack,
-  Box,
 } from '@chakra-ui/react'
 import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
@@ -62,7 +61,7 @@ function AddChannel() {
       >
         <ModalOverlay />
         <ModalContent pb="4">
-          <ModalHeader mr="6">
+          <ModalHeader mr="6" pb="0">
             <HStack justifyContent="space-between">
               <HStack>
                 {flow.step > 1 && (

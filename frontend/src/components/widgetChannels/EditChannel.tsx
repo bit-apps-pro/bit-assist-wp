@@ -76,7 +76,7 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
     >
       <ModalOverlay />
       <ModalContent pb="4">
-        <ModalHeader mr="6">
+        <ModalHeader mr="6" pb={0}>
           <HStack justifyContent="space-between">
             <Text>Edit Channel</Text>
             <Button
