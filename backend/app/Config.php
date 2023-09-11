@@ -19,7 +19,7 @@ class Config
 
     const VAR_PREFIX = 'bit_assist_';
 
-    const VERSION = '1.1.9';
+    const VERSION = '1.2';
 
     const DB_VERSION = '1.0.1';
 
