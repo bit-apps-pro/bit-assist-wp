@@ -1,5 +1,5 @@
 export const custom_frame = {
-	renderIframe(url, channelName, iframe = false) {
+	renderIframe(url, channelName, config, iframe = false) {
 		this.hideChannels()
 		this.iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
 
@@ -13,6 +13,13 @@ export const custom_frame = {
 				allowfullscreen: '',
 			})
 			globalAppend(this.iFrameWrapper, iframeElm)
+		}
+
+		if(config?.iframe_size?.aspect_ratio === 'custom'){
+			globalSetProperty(this.root.style, '--iframe-height', config.iframe_size?.width + 'px')
+			globalSetProperty(this.root.style, '--iframe-height', config.iframe_size?.height + 'px')
+		}else{
+			globalSetProperty(this.root.style, '--iframe-aspect-ration', config.iframe_size?.aspect_ratio)
 		}
 
 		globalAppend($('#contentWrapper'), this.iFrameWrapper)
