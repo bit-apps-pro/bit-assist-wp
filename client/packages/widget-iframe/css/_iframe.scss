@@ -12,12 +12,20 @@
 		background-color: #000;
 	}
 
-	&.google-map,
-	&.custom-iframe {
+	&.google-map{
 		width: 540px;
-		--webkit-aspect-ratio: 3 / 2;
-		aspect-ratio: 3 / 2;
+		--webkit-aspect-ratio: 3/2;
+		aspect-ratio: 3/2;
 		background-color: #fff;
+		border: 1px solid #777777;
+	}
+
+	&.custom-iframe {
+		width: var(--iframe-width);
+		--webkit-aspect-ratio: var(--iframe-aspect-ration);
+		aspect-ratio: var(--iframe-aspect-ration);
+		background-color: #fff;
+		height: var(--iframe-height);
 	}
 
 	iframe {
