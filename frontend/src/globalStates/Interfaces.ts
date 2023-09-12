@@ -105,13 +105,14 @@ export interface WidgetChannelConfig {
   hide_after_office_hours?: boolean
   store_responses?: boolean
   order_details?: (string | number)[]
-  iframe_size?: IframeSizeType
+  iframe_options?: IframeOptionsType
 }
 
-export interface IframeSizeType {
+export interface IframeOptionsType {
   aspect_ratio?: string
   width?: string
   height?: string
+  scrollbar?: boolean
 }
 
 export interface CardConfig {

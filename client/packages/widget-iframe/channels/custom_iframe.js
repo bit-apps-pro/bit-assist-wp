@@ -1,5 +1,5 @@
 export const custom_frame = {
-	renderIframe(url, channelName, config, iframe = false) {
+	renderIframe(url, channelName, iframe = false, iframeOptions = false) {
 		this.hideChannels()
 		this.iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
 
@@ -7,7 +7,7 @@ export const custom_frame = {
 			globalInnerHTML(this.iFrameWrapper, iframe)
 		} else {
 			const iframeElm = createElm('iframe', {
-				scrolling: 'no',
+				scrolling: iframeOptions?.scrollbar === true ? 'yes' : 'no',
 				src: url,
 				allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
 				allowfullscreen: '',
@@ -15,11 +15,16 @@ export const custom_frame = {
 			globalAppend(this.iFrameWrapper, iframeElm)
 		}
 
-		if(config?.iframe_size?.aspect_ratio === 'custom'){
-			globalSetProperty(this.root.style, '--iframe-height', config.iframe_size?.width + 'px')
-			globalSetProperty(this.root.style, '--iframe-height', config.iframe_size?.height + 'px')
-		}else{
-			globalSetProperty(this.root.style, '--iframe-aspect-ration', config.iframe_size?.aspect_ratio)
+		if(iframeOptions){
+			const { aspect_ratio, width, height } = iframeOptions
+
+			if(aspect_ratio === 'custom'){
+				globalSetProperty(this.root.style, '--iframe-height', width + 'px')
+				globalSetProperty(this.root.style, '--iframe-height', height + 'px')
+			}
+
+			globalSetProperty(this.root.style, '--iframe-aspect-ratio', aspect_ratio)
+			
 		}
 
 		globalAppend($('#contentWrapper'), this.iFrameWrapper)

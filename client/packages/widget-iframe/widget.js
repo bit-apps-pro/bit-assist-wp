@@ -151,7 +151,7 @@ export default class Widget {
 		} else if (channel_name === 'google-map') {
 			this.renderIframe(url, channel_name, unique_id)
 		} else if (channel_name === 'youtube' || channel_name === 'custom-iframe') {
-			this.renderIframe(url, channel_name, widgetChannel?.config, false)
+			this.renderIframe(url, channel_name, false, widgetChannel?.config?.iframe_options)
 		} else if (isChatWidget) {
 			this.chatWidgetClick(channel_name)
 		} else if (target === 'new_window' && url !== '#') {

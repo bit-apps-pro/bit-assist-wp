@@ -10,6 +10,7 @@ import {
   RadioGroup,
   Text,
   Stack,
+  Switch,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
@@ -20,13 +21,14 @@ export default function CustomIframe() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   useEffect(() => {
-    if (!flow?.config?.iframe_size) {
+    if (!flow?.config?.iframe_options) {
       setFlow(
         produce((draft) => {
-          draft.config.iframe_size = {
+          draft.config.iframe_options = {
             aspect_ratio: '3/2',
             width: '540',
             height: '360',
+            scrollbar: false,
           }
         }),
       )
@@ -50,7 +52,7 @@ export default function CustomIframe() {
     const { name } = e.target
     setFlow(
       produce((draft) => {
-        draft.config.iframe_size[name] = value
+        draft.config.iframe_options[name] = value
       }),
     )
   }
@@ -59,9 +61,17 @@ export default function CustomIframe() {
     const { value } = e.target
     setFlow(
       produce((draft) => {
-        draft.config.iframe_size.aspect_ratio = value
+        draft.config.iframe_options.aspect_ratio = value
       }),
     )
+  }
+
+  const handleSwitchEnable = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlow((draft) => {
+      if (draft.config.iframe_options !== undefined) {
+        draft.config.iframe_options.scrollbar = e.target.checked
+      }
+    })
   }
 
   return (
@@ -81,7 +91,7 @@ export default function CustomIframe() {
 
       <FormControl>
         <FormLabel>Aspect Ratio</FormLabel>
-        <RadioGroup my="6" value={flow?.config?.iframe_size?.aspect_ratio} defaultValue="3/2">
+        <RadioGroup my="6" value={flow?.config?.iframe_options?.aspect_ratio} defaultValue="3/2">
           <HStack spacing={4}>
             <Radio value="custom" onChange={(e) => handelCustom(e)}>
               Custom
@@ -110,14 +120,14 @@ export default function CustomIframe() {
               name="width"
               min="0"
               w="28"
-              value={flow?.config?.iframe_size?.width || ''}
+              value={flow?.config?.iframe_options?.width || ''}
               onChange={(e) => handleHeightWidth(e)}
               placeholder="540"
               required
             />
             <InputRightAddon children="px" />
           </InputGroup>
-          {flow?.config?.iframe_size?.aspect_ratio === 'custom' && (
+          {flow?.config?.iframe_options?.aspect_ratio === 'custom' && (
             <>
               <InputGroup>
                 <Text w="20" fontWeight={'normal'} fontSize={'14'}>
@@ -127,7 +137,7 @@ export default function CustomIframe() {
                   name="height"
                   min="0"
                   w="28"
-                  value={flow?.config?.iframe_size?.height || ''}
+                  value={flow?.config?.iframe_options?.height || ''}
                   onChange={(e) => handleHeightWidth(e)}
                   placeholder="360"
                   required
@@ -136,6 +146,17 @@ export default function CustomIframe() {
               </InputGroup>
             </>
           )}
+
+          <HStack>
+            <Text mr={3} fontWeight={'medium'} fontSize={'md'} whiteSpace="nowrap">
+              iFrame Scrollbar
+            </Text>
+            <Switch
+              isChecked={!!flow?.config?.iframe_options?.scrollbar}
+              colorScheme="purple"
+              onChange={handleSwitchEnable}
+            />
+          </HStack>
         </Stack>
       </FormControl>
     </>
