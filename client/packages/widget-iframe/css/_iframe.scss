@@ -22,8 +22,8 @@
 
 	&.custom-iframe {
 		width: var(--iframe-width);
-		--webkit-aspect-ratio: var(--iframe-aspect-ration);
-		aspect-ratio: var(--iframe-aspect-ration);
+		--webkit-aspect-ratio: var(--iframe-aspect-ratio);
+		aspect-ratio: var(--iframe-aspect-ratio);
 		background-color: #fff;
 		height: var(--iframe-height);
 	}
