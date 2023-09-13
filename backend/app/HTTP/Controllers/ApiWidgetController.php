@@ -233,7 +233,6 @@ final class ApiWidgetController
             $activeChannelWPOptions['channel_names']  = $channel_names;
             Config::updateOption('active_channels', $activeChannelWPOptions);
 
-            error_log(json_encode($importJsArray, JSON_PRETTY_PRINT));
             if (Config::isDev()) {
                 file_put_contents($outputFilePathIframe, implode(PHP_EOL, $importJsIframe));
                 file_put_contents($outputFilePath, implode(PHP_EOL, $importJsArray));
