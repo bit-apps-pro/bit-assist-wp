@@ -1,19 +1,19 @@
-=== Chat Button: WhatsApp Chat Button, Facebook Messenger Chat, Telegram Chat, WeChat, Line Chat, Discord Chat for Customer Support Chat with floating Chat Widget ===
+=== Chat Button: WhatsApp, Facebook Messenger Chat, Telegram Chat, WeChat, Line Chat, Discord Chat for Customer Support Chat with floating Chat Widget ===
 
 Contributors: bitpressadmin
-Tags: whatsapp, whatsapp chat, chat, facebook chat, telegram, support chat, messenger, chat widget, chat button, customer support, wechat, snapchat
+Tags: whatsapp, whatsapp chat, whatsapp widget, facebook messenger, telegram, messenger, chat widget, chat button, customer support, contact button, wechat, facebook chat
 Requires at least: 5.1
 Tested up to: 6.3.1
 Requires PHP: 7.4
 Stable tag: 1.2
 License: GPLv2 or later
 
-Whatsapp,Facebook Messenger, Telegram,WeChat,Discord, Snapchat, Line, Twitter, Linkedin, Call, SMS & more floating customer support chat widget button
+Whatsapp,Facebook Messenger, Telegram,WeChat,Discord, Snapchat, Line, Twitter, Linkedin, Call, SMS & 29+ floating customer support chat widget button.
 
 == Description ==
 
-<strong>Easiest customer support chat, whatsapp chat plugin for WordPress.</strong>
-[**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simplest chat plugin for WordPress which enables you to chat with your website visitors through their preferred chat channels such as WhatsApp, Facebook, messenger, telegram, call, sms, WeChat, Instagram, LinkedIn, line, Snapchat, LiveChat via Tawk, Discord, Pinterest, Signal etc. Also featuring a custom Contact Form, FAQ section, and WebHook. Use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers.
+<strong>Easiest customer support chat plugin for WordPress with 29+ widget button.</strong>
+[**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simplest chat plugin for WordPress which enables you to chat with your website visitors through their preferred chat channels such as WhatsApp chat button, Facebook, messenger, telegram, call, sms, WeChat, Instagram, LinkedIn, line, Snapchat, LiveChat via Tawk, Discord, Pinterest, Signal etc. Also featuring a custom Contact Form, FAQ section, and WebHook. Use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers. 
 
 * Smart floating widget chat plugin for WordPress with chat icons for Whatsapp chat, Facebook, Messenger, Instagram, Telegram, WeChat, Viber, Slack, TikTok, Discord, LiveChat via Tawk and more
 * Knowledge base and Frequently Asked Questions (FAQ) sections to help answering common inquiries.
@@ -422,16 +422,17 @@ After creating a widget click on the three dots and go to the edit option, you w
 Yes, there is. You can use Tawk livechat or live chat button to communicate with your visitors. You can add the Tawk (tawk.to) channel to your chat widget and enable live chat (livechat) with your website visitors. By adding this channel, you can engage in livechat or (live chat) sessions with your visitors, answering their queries in real-time and providing them with the best customer support chat experience possible.
 
 == Changelog ==
-= v1.2 (Sep 12, 2023) =
+= v1.2 (Sep 13, 2023) =
 * Hot: Calendly Channel
 * Feature: Hide credit on by default
-* Feature: Aspect ration on custom iframe channel
+* Feature: Aspect ratio & height, width customization on custom iframe channel
 * Feature: Scrollbar on custom iframe channel
 * Fixed: Vulnerability & security issues when creating, updating channel
 * Fixed: Call to action message misplacing the widget position
 * Fixed: Widget style (Box-style) break issue
 * Fixed: Branding(hide credit) text cropped issue
 * Fixed: PHP 8.2 compatibility
+* Others: Tutorial, Documentation and Review link on dashboard
 
 = v1.1.9 (July 22, 2023) =
 * Fixed: Addressed the issue of vulnerability & security of the Bit Assist to XSS attacks
