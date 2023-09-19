@@ -124,6 +124,8 @@ abstract class Model implements ArrayAccess, JsonSerializable
                 ),
                 '_'
             ) . 's';
+        } else {
+            $this->_tableWithoutPrefix = $this->table;
         }
 
         $this->table = $this->prefix . $this->_tableWithoutPrefix;
