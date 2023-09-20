@@ -9,15 +9,16 @@ class Analytics extends Model
     protected $table = 'analytics';
     
     protected $casts = [
-        'widget_id'   => 'int',
-        'channel_id'  => 'int',
-        'isVisited'   => 'int',
+        'id'         => 'int',
+        'widget_id'  => 'int',
+        'channel_id' => 'int',
+        'is_clicked' => 'int',
     ];
 
     protected $fillable = [
         'widget_id',
         'channel_id',
-        'isVisited',
+        'is_clicked',
     ];
 
     public function widget()
