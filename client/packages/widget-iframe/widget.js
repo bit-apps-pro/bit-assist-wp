@@ -39,8 +39,12 @@ export default class Widget {
 	iFrameWrapper
 	animationName
 	formData
+	clickTrack
 
 	constructor(config) {
+		this.clickTrack = {
+			isWidgetClicked: false,
+		}
 		this.#delayExist = true
 		this.#isOfficeHours = true
 		this.#isMobileDevice = false
@@ -78,7 +82,23 @@ export default class Widget {
 		this.enableAnimation()
 	}
 
-	onBubbleClick = (e, toggleIfNotExist = false) => {
+	widgetClickRequest = async () => {
+		if(globalClassListContains(this.channels, 'show') && !this.clickTrack.isWidgetClicked) {
+			this.clickTrack.isWidgetClicked = true
+			try {
+				const data = await fetch(`${this.apiEndPoint}/analytics`, {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({widget_id: this.widgetData.id, is_clicked: 1})
+				}).then(res => res.json())
+			} catch(err) {
+				console.log(err)
+			}
+				
+		}
+	}
+
+	onBubbleClick =  (e, toggleIfNotExist = false) => {
 		if (toggleIfNotExist && globalClassListContains(this.widgetBubble, 'open')) {
 			return
 		}
@@ -87,7 +107,13 @@ export default class Widget {
 			globalClassListAdd(this.contentWrapper, 'widget-box')
 		}
 
-		globalClassListToggle(this.channels, 'show')
+		if(this.widgetData?.isAnalyticsActivate === 1){
+			globalClassListToggle(this.channels, 'show')
+		}
+
+		if(this.widgetData?.isAnalyticsActivate){
+			this.widgetClickRequest()
+		}
 
 		if (globalClassListContains(this.card, 'show')) {
 			globalSetProperty(this.root.style, '--card-width', '330px')
@@ -126,6 +152,22 @@ export default class Widget {
 		this.resetClientWidgetSize()
 	}
 
+	channelClickRequest = async (channel_name, id) =>{
+		if(channel_name !== undefined && !this.clickTrack.hasOwnProperty(channel_name)) {
+			this.clickTrack[channel_name] = true
+			try {
+				const data = await fetch(`${this.apiEndPoint}/analytics`, {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({widget_id: this.widgetData.id, channel_id: id, is_clicked: 1})
+				}).then(res => res.json())
+			} catch(err) {
+				console.log(err)
+			}
+				
+		}
+	}
+
 	onChannelClick = e => {
 		e.preventDefault()
 		let channel = e.target.closest('.channel')
@@ -137,6 +179,10 @@ export default class Widget {
 		const widgetChannel = this.widgetData?.widget_channels.find(item => item.id === id)
 		const { title, unique_id } = widgetChannel?.config || {}
 		const { isChatWidget } = widgetChannel?.config?.card_config || {}
+
+		if(this.widgetData?.isAnalyticsActivate === 1){
+			this.channelClickRequest(channel_name, id)
+		}
 
 		if (channel_name === 'faq') {
 			this.renderFaq(widgetChannel)
@@ -161,7 +207,10 @@ export default class Widget {
 		}
 
 		this.resetClientWidgetSize()
-		this.channelClickEventTrigger(channel_name, title, url)
+		
+		if(this.widgetData?.styles?.google_analytics === 1){
+			this.channelClickEventTrigger(channel_name, title, url)
+		}
 	}
 
 	// =====================
@@ -321,6 +370,15 @@ export default class Widget {
 		}
 		if (this.widgetData.styles?.position?.indexOf('right') > -1) {
 			globalSetProperty(this.root.style, '--widget-minus-sizeX', (this.widgetData.styles?.right || 0) + 'px')
+		}
+
+
+		if(this.widgetData?.isAnalyticsActivate && this.widgetData.id !== 'undefined' && this.widgetData.widget_channels.length !== 0){
+			const data = await fetch(`${this.apiEndPoint}/analytics`, {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({widget_id: this.widgetData.id})
+			}).then(res => res.json())
 		}
 	}
 
