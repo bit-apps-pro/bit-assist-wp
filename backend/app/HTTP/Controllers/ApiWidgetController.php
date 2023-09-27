@@ -137,6 +137,8 @@ final class ApiWidgetController
 
         $widget->featuresJsPath = Config::isDev() ? "./channels/features.js?ver={$new_version}" : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
 
+        $widget->isAnalyticsActivate = (int)Config::getOption('analytics_activate');
+
         return $widget;
     }
 
