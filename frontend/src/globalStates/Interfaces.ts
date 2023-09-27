@@ -36,7 +36,9 @@ interface Styles {
   animation_delay?: AnimationDelay | null
   widget_show_on?: (string | number)[]
   widget_style?: string | number
+  google_analytics?: number
 }
+
 interface BusinessHours {
   day: string
   start?: string
@@ -195,6 +197,11 @@ export type SelectSearchOption = {
 export interface Option {
   label: string
   value: string
+}
+
+export interface AnalyticsType {
+  widget_analytics: number
+  channel_analytics: number
 }
 
 export type SelectedOptionValue = string | number

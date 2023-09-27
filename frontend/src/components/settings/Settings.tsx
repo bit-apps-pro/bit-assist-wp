@@ -6,6 +6,7 @@ import WidgetBehavior from '@components/settings/WidgetBehavior'
 import CallToAction from '@components/settings/CallToAction'
 import WidgetActiveBadge from '@components/settings/WidgetActiveBadge'
 import AttentionAnimation from '@components/settings/AttentionAnimation'
+import GoogleAnalytics from './GoogleAnalytics'
 // import FontFamily from '@components/settings/FontFamily'
 // import Responses from '@components/settings/Responses'
 
@@ -16,6 +17,7 @@ function Settings() {
       <WidgetActiveBadge />
       <PageFilters />
       <Trigger />
+      <GoogleAnalytics />
       <CallToAction />
       <WidgetBehavior />
       <AttentionAnimation />

@@ -52,7 +52,8 @@ final class WidgetController
                 'animation_active' => 0,
                 'animation_type'   => 1,
                 'widget_show_on'   => ['desktop', 'mobile'],
-                'widget_style'     => 'widget_transparent'
+                'widget_style'     => 'widget_transparent',
+                'google_analytics' => 0,
             ],
             'hide_credit' => 1
         ];
