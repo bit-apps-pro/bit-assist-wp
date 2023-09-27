@@ -1,6 +1,7 @@
 <?php
 
 use BitApps\Assist\Core\Http\Router\Route;
+use BitApps\Assist\HTTP\Controllers\AnalyticsController;
 use BitApps\Assist\HTTP\Controllers\ChannelController;
 use BitApps\Assist\HTTP\Controllers\DownloadController;
 use BitApps\Assist\HTTP\Controllers\ResponseController;
@@ -48,6 +49,9 @@ Route::group(function () {
     Route::get('responses/{widgetChannelId}/{page}/{limit}', [ResponseController::class, 'index']);
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('responsesDelete', [ResponseController::class, 'destroy']);
+
+    Route::get('isAnalyticsActive', [AnalyticsController::class, 'isAnalyticsActive']);
+    Route::post('toggleAnalyticsOption', [AnalyticsController::class, 'toggleAnalyticsOption']);
 
     Route::get('downloadResponseFile', [DownloadController::class, 'downloadResponseFile']);
 })->middleware('nonce');
