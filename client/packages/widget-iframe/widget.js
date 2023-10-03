@@ -107,11 +107,9 @@ export default class Widget {
 			globalClassListAdd(this.contentWrapper, 'widget-box')
 		}
 
-		if(this.widgetData?.isAnalyticsActivate === 1){
-			globalClassListToggle(this.channels, 'show')
-		}
+		globalClassListToggle(this.channels, 'show')
 
-		if(this.widgetData?.isAnalyticsActivate){
+		if(this.widgetData?.isAnalyticsActivate === 1){
 			this.widgetClickRequest()
 		}
 
@@ -152,14 +150,14 @@ export default class Widget {
 		this.resetClientWidgetSize()
 	}
 
-	channelClickRequest = async (channel_name, id) =>{
-		if(channel_name !== undefined && !this.clickTrack.hasOwnProperty(channel_name)) {
-			this.clickTrack[channel_name] = true
+	channelClickRequest = async (channel_id) => {
+		if(channel_id !== undefined && !this.clickTrack.hasOwnProperty(channel_id)) {
+			this.clickTrack[channel_id] = true
 			try {
 				const data = await fetch(`${this.apiEndPoint}/analytics`, {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify({widget_id: this.widgetData.id, channel_id: id, is_clicked: 1})
+					body: JSON.stringify({widget_id: this.widgetData.id, channel_id: channel_id, is_clicked: 1})
 				}).then(res => res.json())
 			} catch(err) {
 				console.log(err)
@@ -181,7 +179,7 @@ export default class Widget {
 		const { isChatWidget } = widgetChannel?.config?.card_config || {}
 
 		if(this.widgetData?.isAnalyticsActivate === 1){
-			this.channelClickRequest(channel_name, id)
+			this.channelClickRequest(id)
 		}
 
 		if (channel_name === 'faq') {
@@ -374,7 +372,7 @@ export default class Widget {
 
 
 		if(this.widgetData?.isAnalyticsActivate && this.widgetData.id !== 'undefined' && this.widgetData.widget_channels.length !== 0){
-			const data = await fetch(`${this.apiEndPoint}/analytics`, {
+			const data = await fetch(`${this.apiEndPoint}/analyticsStore`, {
 				method: 'POST',
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify({widget_id: this.widgetData.id})

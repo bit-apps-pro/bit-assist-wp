@@ -11,7 +11,7 @@ class Analytics extends Model
     protected $casts = [
         'id'         => 'int',
         'widget_id'  => 'int',
-        'channel_id' => 'int',
+        // 'channel_id' => 'int',
         'is_clicked' => 'int',
     ];
 

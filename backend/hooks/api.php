@@ -15,7 +15,7 @@ Route::noAuth()->group(function () {
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('wpSearch', [ApiWidgetController::class, 'wpSearch']);
     Route::post('orderDetails', [ApiWidgetController::class, 'orderDetails']);
-    Route::post('analytics', [AnalyticsController::class, 'analytics']);
+    Route::post('analyticsStore', [AnalyticsController::class, 'store']);
 
     Route::get('iframe', [IframeController::class, 'iframe']);
 });
