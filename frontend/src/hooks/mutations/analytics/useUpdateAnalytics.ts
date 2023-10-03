@@ -1,4 +1,3 @@
-import { Flow } from '@globalStates/Interfaces'
 import request from '@utils/request'
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -11,7 +10,7 @@ export default function useUpdateAnalytics() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (requestData: ReqProps) => request('toggleAnalyticsOption', requestData),
+    async (requestData: ReqProps) => request('analytics/toggle', requestData),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('analytics')
