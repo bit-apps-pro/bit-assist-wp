@@ -11,6 +11,7 @@ export default function useDeleteWidgetChannel() {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['widget/widgetChannels', widgetId])
+        queryClient.invalidateQueries('channel_analytics')
       },
     },
   )

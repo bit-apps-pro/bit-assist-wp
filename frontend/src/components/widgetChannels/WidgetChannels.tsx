@@ -13,9 +13,11 @@ function Channels() {
 
   return (
     <Box>
-      {(!config.IS_PRO && widgetChannelCount >= freeLimit.channel)
-        ? <ProModal type="channel" number={freeLimit.channel} text="Add Channel" icon={<HiPlus />} />
-        : <AddChannel />}
+      {!config.IS_PRO && widgetChannelCount >= freeLimit.channel ? (
+        <ProModal type="channel" number={freeLimit.channel} text="Add Channel" icon={<HiPlus />} />
+      ) : (
+        <AddChannel />
+      )}
       <WidgetChannelsList />
     </Box>
   )
