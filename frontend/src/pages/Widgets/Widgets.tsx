@@ -44,6 +44,7 @@ import { useAtom } from 'jotai'
 import { freeLimitsAtom } from '@globalStates/atoms'
 import config from '@config/config'
 import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
+import WidgetAnalytics from '@components/global/WidgetAnalytics'
 
 function Widgets() {
   const { widgets, isWidgetFetching } = useFetchWidgets()
@@ -199,6 +200,8 @@ function Widgets() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {widgets?.length !== 0 && <WidgetAnalytics />}
     </>
   )
 }
