@@ -3,6 +3,7 @@ import Layout from '@pages/Layout'
 import { useEffect, lazy, Suspense } from 'react'
 import Loading from '@components/global/Loading'
 import Widgets from '@pages/Widgets'
+import { Provider } from 'jotai'
 
 const WidgetDetails = lazy(() => import('@pages/WidgetDetails'))
 const Responses = lazy(() => import('@pages/Responses'))
@@ -17,23 +18,34 @@ export default function AppRoutes() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Widgets />} />
 
-          <Route path="/widgets/:widgetId" element={(
-            <Suspense fallback={<Loading />}>
-              <WidgetDetails />
-            </Suspense>
-          )} />
+          <Route
+            path="/widgets/:widgetId"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Provider>
+                  <WidgetDetails />
+                </Provider>
+              </Suspense>
+            }
+          />
 
-          <Route path="/responses/:widgetChannelId" element={(
-            <Suspense fallback={<Loading />}>
-              <Responses />
-            </Suspense>
-          )} />
+          <Route
+            path="/responses/:widgetChannelId"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Responses />
+              </Suspense>
+            }
+          />
 
-          <Route path="*" element={(
-            <Suspense fallback={<Loading />}>
-              <Error404 />
-            </Suspense>
-          )} />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Error404 />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </HashRouter>

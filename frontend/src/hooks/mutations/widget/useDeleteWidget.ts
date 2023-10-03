@@ -7,6 +7,7 @@ export default function useDeleteWidget() {
   const { mutateAsync, isLoading } = useMutation(async (widgetId: string) => request(`widgets/${widgetId}/destroy`), {
     onSuccess: () => {
       queryClient.invalidateQueries('widgets')
+      queryClient.invalidateQueries('analytics')
     },
   })
 
