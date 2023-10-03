@@ -1,8 +1,7 @@
 import { Button, ButtonGroup, Container, Divider, Flex, Heading, Stack } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import DarkModeSwitch from './DarkModeSwitch'
-import { FiStar } from 'react-icons/fi'
-import { FaGrinStars, FaRegStar, FaStar } from 'react-icons/fa'
+import { FaStar } from 'react-icons/fa'
 
 import Logo from '@icons/Logo'
 import DocTutorials from './DocTutorials'
@@ -29,7 +28,6 @@ function Navbar() {
             tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5"
             docLink="https://bitapps.pro/docs/bit-assist/"
           />
-          {/* <Divider orientation="vertical" borderColor="gray.500" height="32px" /> */}
           <Button
             as="a"
             href={'https://wordpress.org/support/plugin/bit-assist/reviews/#new-post'}

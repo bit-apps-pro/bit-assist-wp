@@ -48,8 +48,3 @@ export const WidgetDefault = {
   integrations: [],
   created_at: '',
 }
-
-export const Analytics = {
-  widget_analytics: 0,
-  channel_analytics: 0
-}

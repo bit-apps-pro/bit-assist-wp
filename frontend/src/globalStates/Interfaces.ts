@@ -199,9 +199,4 @@ export interface Option {
   value: string
 }
 
-export interface AnalyticsType {
-  widget_analytics: number
-  channel_analytics: number
-}
-
 export type SelectedOptionValue = string | number
