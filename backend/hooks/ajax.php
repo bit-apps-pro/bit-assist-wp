@@ -50,9 +50,10 @@ Route::group(function () {
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('responsesDelete', [ResponseController::class, 'destroy']);
 
-    Route::get('analytics', [AnalyticsController::class, 'getAnalyticsData']);
+    Route::get('analytics/active', [AnalyticsController::class, 'isAnalyticsActive']);
+    Route::get('analytics/widget/{filterValue}', [AnalyticsController::class, 'getWidgetAnalytics']);
     Route::post('analytics/toggle', [AnalyticsController::class, 'toggleAnalytics']);
-    Route::get('analytics/channel/{widget_id}', [AnalyticsController::class, 'getChannelAnalytics']);
+    Route::post('analytics/channel', [AnalyticsController::class, 'getChannelAnalytics']);
     Route::post('analytics/destroy', [AnalyticsController::class, 'destroy']);
 
     Route::get('downloadResponseFile', [DownloadController::class, 'downloadResponseFile']);
