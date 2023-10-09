@@ -11,21 +11,14 @@ use BitApps\Assist\Model\Analytics;
 #[AllowDynamicProperties]
 final class AnalyticsController
 {
-    private function getAnalyticsData()
+    public function isAnalyticsActive()
     {
         $analyticsOption = Config::getOption('analytics_activate');
 
-        if((int)$analyticsOption === 1){
-            $widgetAnalyticsData = $this->getWidgetAnalytics();
-
-            return ['widget_analytics' => (int)$analyticsOption, 'data' => $widgetAnalyticsData];
-        }
-
-        return ['widget_analytics' => (int)$analyticsOption];
+        return $analyticsOption ? (int)$analyticsOption : 0;
     }
 
-    private function store(Request $request){
-        error_log(json_encode($request, JSON_PRETTY_PRINT));
+    public function store(Request $request){
         $validated = [
             'widget_id' => $request->widget_id,
             'is_clicked' => $request->is_clicked,
@@ -40,9 +33,8 @@ final class AnalyticsController
         return 'success';
     }
 
-    private function toggleAnalytics(Request $request)
+    public function toggleAnalytics(Request $request)
     {
-
         Config::updateOption('analytics_activate', $request->widget_analytics);
 
         $analyticsOption = Config::getOption('analytics_activate');
@@ -51,9 +43,38 @@ final class AnalyticsController
 
     }
 
-    private function getWidgetAnalytics()
+    public function getWidgetAnalytics($filterValue)
     {
         global $wpdb;
+
+        $datePattern = '/\d{4}-\d{2}-\d{2}/';
+        $isDate      = preg_match($datePattern, $filterValue) === 1;
+
+        $startDate = date('Y-m-d');
+        $endDate   = date('Y-m-d');
+        $dateRange = [];
+
+        if($isDate){
+            $dateRange = explode(",", $filterValue);
+        }
+
+        $dateCondition = "";
+        if ($filterValue === "7days") {
+            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+        } elseif ($filterValue === "30days") {
+            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
+        } elseif ($filterValue === "today") {
+            $dateCondition = "DATE(analytics.created_at) = CURDATE()";
+        } elseif ($isDate && isset($dateRange[0]) && isset($dateRange[1])){
+            $startDate = $dateRange[0];
+            $endDate = $dateRange[1];
+            $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
+        } elseif ($isDate && count($dateRange) !== 2){
+            $startDate = $dateRange[0];
+            $dateCondition = "DATE(analytics.created_at) = %s";
+        } else {
+            $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
+        }
 
         $sql = $wpdb->prepare(
                 "SELECT
@@ -65,41 +86,68 @@ final class AnalyticsController
                     INNER JOIN 
                         {$wpdb->prefix}bit_assist_widgets widgets ON analytics.widget_id = widgets.id
                     WHERE 
-                        analytics.channel_id IS NULL AND (analytics.is_clicked = %d OR analytics.is_clicked = %d)
+                        (analytics.channel_id IS NULL AND (analytics.is_clicked = %d OR analytics.is_clicked = %d))
+                    AND
+                        $dateCondition
                     GROUP BY 
-                        analytics.widget_id, widgets.name", [0, 1, 0, 1, 1, 0, 0, 1]);
+                        analytics.widget_id, widgets.name", [0, 1, 0, 1, 1, 0, 0, 1, $startDate, $endDate]);
 
-        $results = $wpdb->get_results($sql);
+        $widgetAnalyticsData = $wpdb->get_results($sql);
 
-        return $results;
+        return ['data' => $widgetAnalyticsData];
     }
 
-    public function getChannelAnalytics($widget_id)
+    public function getChannelAnalytics(Request $request)
     {
         global $wpdb;
 
-        $widgetChannel = $wpdb->prefix . 'bit_assist_widget_channels';
-        $analytics = $wpdb->prefix . 'bit_assist_analytics';
+        $widget_id   = $request->widget_id;
+        $filterValue = $request->filter;
+        $datePattern = '/\d{4}-\d{2}-\d{2}/';
+        $isDate      = is_array($filterValue) ? preg_match($datePattern, $filterValue[0]) === 1 : false;
+
+        $startDate = date('Y-m-d');
+        $endDate   = date('Y-m-d');
+
+        $dateCondition = "";
+        if ($filterValue === "7days") {
+            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+        } elseif ($filterValue === "30days") {
+            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
+        } elseif ($filterValue === "today") {
+            $dateCondition = "DATE(analytics.created_at) = CURDATE()";
+        } elseif ($isDate && isset($filterValue[0]) && isset($filterValue[1])){
+            $startDate = $filterValue[0];
+            $endDate = $filterValue[1];
+            $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
+        } elseif ($isDate && count($filterValue) !== 2){
+            $startDate = $filterValue[0];
+            $dateCondition = "DATE(analytics.created_at) = %s";
+        } else {
+            $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
+        }
 
         $sql = $wpdb->prepare(
             "SELECT
                 c.id AS channel_id,
                 JSON_UNQUOTE(JSON_EXTRACT(c.config, '$.title')) AS title,
-                SUM(CASE WHEN a.channel_id IS NULL AND a.created_at >= c.created_at THEN %d ELSE %d END) AS visitor_count,
-                SUM(CASE WHEN a.channel_id = c.id THEN %d ELSE %d END) AS click_count
+                SUM(CASE WHEN analytics.channel_id IS NULL AND analytics.created_at >= c.created_at THEN %d ELSE %d END) AS visitor_count,
+                SUM(CASE WHEN analytics.channel_id = c.id THEN %d ELSE %d END) AS click_count
                 FROM
                     {$wpdb->prefix}bit_assist_widget_channels AS c
                 LEFT JOIN
-                    {$wpdb->prefix}bit_assist_analytics AS a
+                    {$wpdb->prefix}bit_assist_analytics AS analytics
                 ON
-                    c.widget_id = a.widget_id
+                    c.widget_id = analytics.widget_id
                 WHERE
                     c.widget_id = %d
                 AND
-                    a.is_clicked = %d
+                    analytics.is_clicked = %d
+                AND
+                    $dateCondition
                 GROUP BY
                     c.id"
-            , [1, 0, 1, 0, $widget_id, 1]);
+            , [1, 0, 1, 0, $widget_id, 1, $startDate, $endDate]);
 
         $results = $wpdb->get_results($sql);
 
@@ -108,9 +156,7 @@ final class AnalyticsController
 
     public function destroy()
     {
-        $deleteResponse = Analytics::delete();
-        error_log(json_encode('=========================', JSON_PRETTY_PRINT));
-        error_log(json_encode($deleteResponse, JSON_PRETTY_PRINT));
+        Analytics::delete();
         return Response::success('Analytics removed!');
     }
 

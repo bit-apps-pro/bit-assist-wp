@@ -83,10 +83,11 @@ export default class Widget {
 	}
 
 	widgetClickRequest = async () => {
+
 		if(globalClassListContains(this.channels, 'show') && !this.clickTrack.isWidgetClicked) {
 			this.clickTrack.isWidgetClicked = true
 			try {
-				const data = await fetch(`${this.apiEndPoint}/analytics`, {
+				const data = await fetch(`${this.apiEndPoint}/analyticsStore`, {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({widget_id: this.widgetData.id, is_clicked: 1})
@@ -154,7 +155,7 @@ export default class Widget {
 		if(channel_id !== undefined && !this.clickTrack.hasOwnProperty(channel_id)) {
 			this.clickTrack[channel_id] = true
 			try {
-				const data = await fetch(`${this.apiEndPoint}/analytics`, {
+				const data = await fetch(`${this.apiEndPoint}/analyticsStore`, {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({widget_id: this.widgetData.id, channel_id: channel_id, is_clicked: 1})

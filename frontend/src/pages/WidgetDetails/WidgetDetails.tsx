@@ -5,12 +5,12 @@ import WidgetChannels from '@components/widgetChannels/WidgetChannels'
 import Settings from '@components/settings/Settings'
 import useFetchWidget from '@hooks/queries/widget/useFetchWidget'
 import ChannelAnalytics from '@components/global/ChannelAnalytics'
-import useFetchAnalytics from '@hooks/queries/analytics/useFetchAnalytics'
+import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
 
 function WidgetDetails() {
   useFetchWidget()
   const tabColorMode = useColorModeValue('rgba(255, 255, 255, 0.75)', 'rgba(26,32,44,0.75)')
-  const analyticsActive = useFetchAnalytics()
+  const { isAnalyticsActive } = useFetchIsAnalyticsActive()
 
   return (
     <Tabs variant="solid-rounded" colorScheme="purple">
@@ -25,14 +25,14 @@ function WidgetDetails() {
         bg={tabColorMode}
         backdropFilter="blur(10px)"
       >
-        {analyticsActive?.analytics?.widget_analytics === 1 && <Tab rounded="md">Analytics</Tab>}
+        {isAnalyticsActive === 1 && <Tab rounded="md">Analytics</Tab>}
         <Tab rounded="md">Channels</Tab>
         <Tab rounded="md">Customizations</Tab>
         <Tab rounded="md">Settings</Tab>
         <Tab rounded="md">External publish</Tab>
       </TabList>
       <TabPanels mx="auto" borderWidth="1px" rounded="lg" shadow="md" mt="2" p={[0, 4]}>
-        {analyticsActive?.analytics?.widget_analytics === 1 && (
+        {isAnalyticsActive === 1 && (
           <TabPanel>
             <ChannelAnalytics />
           </TabPanel>

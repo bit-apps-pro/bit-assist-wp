@@ -1,19 +1,15 @@
 import request from '@utils/request'
 import { useMutation, useQueryClient } from 'react-query'
 
-interface ReqProps {
-  widget_analytics: number
-//   status: boolean
-}
-
 export default function useUpdateAnalytics() {
   const queryClient = useQueryClient()
 
   const { mutateAsync, isLoading } = useMutation(
-    async (requestData: ReqProps) => request('analytics/toggle', requestData),
+    async (requestData: {widget_analytics: number}) => request('analytics/toggle', requestData),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('analytics')
+        // queryClient.invalidateQueries('widget_analytics')
+        queryClient.invalidateQueries('isAnalyticsActive')
       },
     },
   )
