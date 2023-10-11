@@ -7,7 +7,7 @@
  * Author:      Chat Widget Button - Bit Assist
  * Author URI:  https://bitapps.pro
  * Text Domain: bit-assist
- * Requires PHP: 7.4
+ * Requires PHP: 7.0
  * Requires WP: 5.1
  * Domain Path: /languages
  * License: gpl2+
