@@ -81,11 +81,11 @@ Do not miss out on potential customers who prefer to chat with businesses via me
 
 23. [Waze](https://bitapps.pro/docs/bit-assist/all-channels/waze)
 
-24. Custom Channel - [Watch Video](https://www.youtube.com/watch?v=qw1nA8k1pjc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=18)
+24. [Custom Channel](https://bitapps.pro/docs/bit-assist/all-channels/custom-channel/) - [Watch Video](https://www.youtube.com/watch?v=qw1nA8k1pjc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=18)
 
-25. WpSearch - [Watch Video](https://www.youtube.com/watch?v=HRaoM3sDrKc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=16)
+25. [WpSearch](https://bitapps.pro/docs/bit-assist/all-channels/wp-search/) - [Watch Video](https://www.youtube.com/watch?v=AyZy6u8lFAc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=30)
 
-26. Custom iFrame - [Watch Video](https://www.youtube.com/watch?v=llHYHzUZXnY)
+26. [Custom iFrame](https://bitapps.pro/docs/bit-assist/all-channels/custom-iframe/) - [Watch Video](https://www.youtube.com/watch?v=llHYHzUZXnY) 
 
 27. WooCommerce - [Watch Video](https://www.youtube.com/watch?v=tNiqiylU_Zw)
 
@@ -93,7 +93,7 @@ Do not miss out on potential customers who prefer to chat with businesses via me
 
 29. Signal - [Watch Video](https://www.youtube.com/watch?v=tNiqiylU_Zw&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=26)
 
-30. Calendly
+30. [Calendly](https://bitapps.pro/docs/bit-assist/all-channels/calendly/) - [Watch Video](https://www.youtube.com/watch?v=gb_bfzPP_3U&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=29)
  
 ## Free version features:
  1. In [Bit Assist](https://docs.bit-assist.bitapps.pro) free version you can have one widget activated at a time.
@@ -427,6 +427,7 @@ We are sorry that you have purchase the pro version to use the Widget Analytics 
 
 == Changelog ==
 = v1.3 (Oct 11, 2023) =
+* Important: 🔥 Free Unlimited Channels 🔥
 * Free Channels: Use 25 channels including WhatsApp, Facebook Messenger, Telegram, Instagram simultaneously in free version
 * Pro Channels: FAQ, Knowledge Base, WooCommerce (Shipping Status), WP Search, Custom Iframe are now in pro version
 * Feature: Widget Analytics - Track your widget click, channel click, visitor count and click ratio
