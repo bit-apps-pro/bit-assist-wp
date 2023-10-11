@@ -9,6 +9,8 @@ import {
   useDisclosure,
   Text,
   HStack,
+  Box,
+  Link,
 } from '@chakra-ui/react'
 import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
@@ -19,6 +21,8 @@ import { MdArrowBackIosNew } from 'react-icons/md'
 import useToaster from '@hooks/useToaster'
 import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
 import { widgetChannelValidate } from '@utils/validation'
+import config from '@config/config'
+import ProWrapper from '@components/global/ProWrapper'
 
 function AddChannel() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -44,6 +48,8 @@ function AddChannel() {
     toaster(status, data)
     if (status === 'success') onModalClose()
   }
+
+  const proChannels = ['FAQ', 'Knowledge-Base', 'WooCommerce', 'WP-Search', 'Custom-Iframe']
 
   return (
     <>
@@ -71,17 +77,33 @@ function AddChannel() {
                 )}
                 <Text>Create New Channel</Text>
               </HStack>
-              {flow.step === 2 && (
-                <Button
-                  form="createNewChannelForm"
-                  type="submit"
-                  colorScheme="purple"
-                  loadingText="Saving..."
-                  spinnerPlacement="start"
-                  isLoading={isWidgetChannelCreating}
-                >
-                  Save
-                </Button>
+              {flow.step === 2 && config.IS_PRO ? (
+                <Link href="https://bitapps.pro/bit-assist" target="_blank">
+                  <Button
+                    form="createNewChannelForm"
+                    type="submit"
+                    colorScheme="purple"
+                    loadingText="Saving..."
+                    spinnerPlacement="start"
+                    isLoading={isWidgetChannelCreating}
+                  >
+                    Save
+                  </Button>
+                </Link>
+              ) : (
+                flow.step === 2 &&
+                !proChannels.includes(flow?.channel_name) && (
+                  <Button
+                    form="createNewChannelForm"
+                    type="submit"
+                    colorScheme="purple"
+                    loadingText="Saving..."
+                    spinnerPlacement="start"
+                    isLoading={isWidgetChannelCreating}
+                  >
+                    Save
+                  </Button>
+                )
               )}
             </HStack>
           </ModalHeader>
@@ -89,9 +111,19 @@ function AddChannel() {
           <ModalBody>
             {flow.step === 1 && <ChannelSelect />}
             {flow.step === 2 && (
-              <form onSubmit={saveFormSubmit} id="createNewChannelForm">
-                <ChannelSettings />
-              </form>
+              <>
+                {!config.IS_PRO && proChannels.includes(flow?.channel_name) ? (
+                  <ProWrapper>
+                    <form onSubmit={saveFormSubmit} id="createNewChannelForm">
+                      <ChannelSettings />
+                    </form>
+                  </ProWrapper>
+                ) : (
+                  <form onSubmit={saveFormSubmit} id="createNewChannelForm">
+                    <ChannelSettings />
+                  </form>
+                )}
+              </>
             )}
           </ModalBody>
         </ModalContent>
