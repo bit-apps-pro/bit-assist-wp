@@ -1,21 +1,20 @@
-=== Chat Button: WhatsApp, Facebook Messenger Chat, Telegram Chat, WeChat, Line Chat, Discord Chat for Customer Support Chat with floating Chat Widget ===
+=== Chat Button: WhatsApp, Facebook Messenger Chat, Telegram Chat, WeChat, Line Messenger, Discord Chat for Customer Support Chat with floating Chat Widget ===
 
 Contributors: bitpressadmin
-Tags: whatsapp, whatsapp chat, whatsapp widget, facebook messenger, telegram, messenger, chat widget, chat button, customer support, contact button, wechat, facebook chat
+Tags: chat, whatsapp, whatsapp chat, facebook messenger, telegram, messenger, chat widget, chat button, customer support, telegram chat, wechat, facebook chat
 Requires at least: 5.1
 Tested up to: 6.3.1
-Requires PHP: 7.4
-Stable tag: 1.2
+Requires PHP: 7.0
+Stable tag: 1.3
 License: GPLv2 or later
 
-Whatsapp,Facebook Messenger, Telegram,WeChat,Discord, Snapchat, Line, Twitter, Linkedin, Call, SMS & 29+ floating customer support chat widget button.
+Whatsapp,Facebook Messenger chat,Telegram,WeChat,Discord, Snapchat,Line,Twitter,Linkedin,Call, SMS & 29+ floating customer support chat widget button.
 
 == Description ==
 
-<strong>Easiest customer support chat plugin for WordPress with 29+ widget button.</strong>
-[**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simplest chat plugin for WordPress which enables you to chat with your website visitors through their preferred chat channels such as WhatsApp chat button, Facebook, messenger, telegram, call, sms, WeChat, Instagram, LinkedIn, line, Snapchat, LiveChat via Tawk, Discord, Pinterest, Signal etc. Also featuring a custom Contact Form, FAQ section, and WebHook. Use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers. 
+<strong>Easiest customer support chat plugin for WordPress with 29+ channels with a WhatsApp chat button.</strong> [**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simplest chat plugin for WordPress which enables you to chat with your website visitors through their preferred chat channels such as WhatsApp chat, Facebook messenger, telegram, call, sms, WeChat, Instagram, LinkedIn, line, Snapchat, LiveChat via Tawk, Discord, Pinterest, Signal etc. Also featuring a custom Contact Form, FAQ section, and WebHook. Use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers. 
 
-* Smart floating widget chat plugin for WordPress with chat icons for Whatsapp chat, Facebook, Messenger, Instagram, Telegram, WeChat, Viber, Slack, TikTok, Discord, LiveChat via Tawk and more
+* Smart floating widget chat plugin for WordPress with chat icons for Whatsapp chat, Facebook Messenger, Instagram, Telegram, WeChat, Viber, Slack, TikTok, Discord, LiveChat via Tawk and more
 * Knowledge base and Frequently Asked Questions (FAQ) sections to help answering common inquiries.
 * Custom Form or Contact Form for customer support and further communication.
 * Enhance your customer support by utilizing our floating chat assistant.
@@ -24,7 +23,7 @@ Whatsapp,Facebook Messenger, Telegram,WeChat,Discord, Snapchat, Line, Twitter, L
 
 https://youtu.be/atVwkzFNnmM
 
-[Documentation](https://docs.bit-assist.bitapps.pro/) | [Premium](https://www.bitapps.pro/bit-assist#pricing) | [Support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e) | [Facebook Community](https://www.facebook.com/groups/bitapps) | [YouTube Channel](https://www.youtube.com/@bit-apps)
+[Documentation](https://docs.bit-assist.bitapps.pro/) | [Premium](https://www.bitapps.pro/bit-assist#pricing) | [Support](https://bitapps.pro/contact/) | [Facebook Community](https://www.facebook.com/groups/bitapps) | [YouTube Channel](https://www.youtube.com/@bit-apps)
 
 ## 👥 USE BIT ASSIST TO COMMUNICATE WITH CUSTOMERS ON WHATSAPP, MESSENGER AND MORE CHAT CHANNELS
 
@@ -32,7 +31,7 @@ Do you want to make it easy for your website visitors to chat with you via their
 
 Bit Assist (WordPress chat plugin) offers a variety of chat channels to help you connect with your visitors including call button, Whatsapp button, Telegram button, Line Messenger button, WeChat button, Messenger button, SMS button, TikTok button, Google Map button, Viber button, Discord button and more. With Bit Assist (WordPress chat plugin), you can even create a custom form or contact form to collect inquiries and support requests, besides, you will get WpSearch and WooCommerce button to search WordPress pages and posts and check WooCommerce order information respectively. It can be considered like a chatbot with multiple chat platform
 
-Don’t miss out on potential customers who prefer to chat with businesses via messaging and chat apps like Whatsapp, Facebook Messenger, Telegram, SMS, Twitter, LiveChat through Tawk, Instagram, Wechat, Linkedin, Line, Snapchat, Discord, Viber, Slack, Pinterest, and Signal. Install Bit Assist (WordPress chat plugin) today and start chatting with your visitors easily and if you need more advanced features, check out our premium plans [**Bit Assist Pro**](https://www.bitapps.pro/bit-assist#pricing)
+Do not miss out on potential customers who prefer to chat with businesses via messaging and chat apps like Whatsapp, Facebook Messenger, Telegram, SMS, Twitter, LiveChat through Tawk, Instagram, Wechat, Linkedin, Line, Snapchat, Discord, Viber, Slack, Pinterest, and Signal. Install Bit Assist (WordPress chat plugin) today and start chatting with your visitors easily and if you need more advanced features, check out our premium plans [**Bit Assist Pro**](https://www.bitapps.pro/bit-assist#pricing)
 
 ### ✔ Available Channels:
 
@@ -99,13 +98,13 @@ Don’t miss out on potential customers who prefer to chat with businesses via m
 ## Free version features:
  1. In [Bit Assist](https://docs.bit-assist.bitapps.pro) free version you can have one widget activated at a time.
 
- 2. You can choose any of two channels from 29+ chat channels to activate and use on your website.
+ 2. You can choose any of 25 channels from 29+ chat channels to activate and use on your website along with a whatsapp chat button.
 
  3. You can access a variety of chat channels such as WhatsApp, Facebook Messenger, Telegram, Viber, Call, SMS, Wechat, Linkedin, Line, Snapchat, LiveChat through Tawk, Slack, Twitter, Discord and many more.
 
  4. With our chat widget or WordPress chat plugin, you have the option to add a personalized Call-To-Action message next to it. This message can be customized according to your needs and you can also choose when it will be displayed to your website visitors. This feature helps to further engage your audience and increase conversions.
 
- 5. You have the option to choose where to display the chat widget on your website by using our WordPress chat plugin and it can be positioned at the top left, top right, bottom left, or bottom right corner of the screen. You can also customize the widget’s appearance to fit your website’s design and style.
+ 5. You have the option to choose where to display the chat widget on your website by using our WordPress chat plugin and it can be positioned at the top left, top right, bottom left, or bottom right corner of the screen. You can also customize the widget’s appearance to fit your website’s design and style. You can test it by installing the WordPress plugin and activating the WhatsApp channel.
 
  6. Widget Trigger Options – Customize the behavior of your chat widget with Bit Assist‘s (WordPress chat plugin) widget trigger options. You can choose when the widget will appear for the first time, such as after a few seconds or on a page scroll.
 
@@ -152,11 +151,11 @@ Don’t miss out on potential customers who prefer to chat with businesses via m
 
 📢 [Pro version features](https://www.bitapps.pro/bit-assist):
 
-1. The chat widget features that are included in the Free version of Bit Assist (WordPress chat plugin) are also included in the Pro version. You won’t miss out on any of the functionalities if you upgrade to the Bit Assist Pro plan.
+1. The chat widget features that are included in the Free version of Bit Assist (WordPress chat plugin) are also included in the Pro version. You will not miss out on any of the functionalities if you upgrade to the Bit Assist Pro plan.
 
 2. Unlimited Widgets: In the pro version of Bit Assist (WordPress chat plugin), users can create and use an unlimited number of chat widget. This means that you can easily customize and create multiple chat widget to better engage with your visitors and offer useful support across different websites. With an unlimited chat widget, you can optimize your chat support to cater to the unique needs of your business and chat with multiple visitors simultaneously.
 
-3. With our pro version chat widget, you have the flexibility to display up to 25+ different chat button for various channels, allowing your website visitors to engage with you via their preferred chat platform. Whether it’s WhatsApp, Facebook Messenger, chat, Instagram, Telegram, chat, WeChat, Viber, Slack, TikTok, Twitter, Snapchat or any other supported chat button, you can showcase them all simultaneously in our widget. With this feature, you can maximize your chat outreach and improve your overall customer engagement through chat.
+3. With our pro version chat widget, you have the flexibility to display up to 29+ different chat button for various channels, allowing your website visitors to engage with you via their preferred chat platform. Whether it’s WhatsApp, Facebook Messenger, Instagram, Telegram Chat, WeChat, Viber, Slack, TikTok, Twitter, Snapchat or any other supported chat button, you can showcase them all simultaneously in our widget. With this feature, you can maximize your chat outreach and improve your overall customer engagement through chat.
 
 4. Webhook: Bit Assist (WordPress chat plugin) offers a WebHook URL feature in the custom form that allows users to send data through a WebHook. It’s a simple process – just insert the WebHook URL, and the submitted form data from the customer will be sent through that URL. With this feature, you can integrate your chat widget‘s form data from a custom form or contact form with other platforms and applications to automate tasks or improve your workflow.
 
@@ -168,9 +167,11 @@ Don’t miss out on potential customers who prefer to chat with businesses via m
 
 8. Custom CSS: Bit Assist (WordPress chat plugin) allows you to customize your chat widget by adding your own custom CSS. This means you can tailor the appearance of your chat widget to fit easily with your website’s design and branding. By utilizing this feature, you can make your chat widget stand out and attract the attention of your website visitors. With the ability to add your own CSS, you can create a unique and eye-catching button that enhances your customer’s chat experience. Bit Assist (WordPress chat plugin) gives you the flexibility to customize your chat widget and make it truly your own.
 
-9. Copy or duplicate chat widget: With Bit Assist‘s widget duplication feature, you can easily create multiple chat widget that contain WhatsApp, Facebook Messenger, chat, Instagram, Telegram, chat, Snapchat, Call, SMS or any other channel. with the same chat button and settings as your existing widget. This is a great time-saving tool for those who want to have multiple chat widget with identical configurations. Simply duplicate your existing chat widget and customize it to suit your needs. By using this feature, you can easily add chat functionality to multiple websites and provide better customer service to your website visitors. But you can not use multiple widget on the same website right now.
+9. Copy or duplicate chat widget: With Bit Assist‘s widget duplication feature, you can easily create multiple chat widget that contain WhatsApp, Facebook Messenger, Instagram, Telegram, Snapchat, Call, SMS or any other channel. with the same chat button and settings as your existing widget. This is a great time-saving tool for those who want to have multiple chat widget with identical configurations. Simply duplicate your existing chat widget and customize it to suit your needs. By using this feature, you can easily add chat functionality to multiple websites and provide better customer service to your website visitors. But you can not use multiple widget on the same website right now.
 
-10. More Coming Soon
+10. Google Analytics (GTM: click track): With this feature, you can track the click details with Google Tag Manager. You have to activate the feature and configure the Google Tag Manager to track your website.
+
+11. Widget Analytics: Dedicated analytics feature of Bit Assist, by which you can track the visitor count, click count and also the click rate that will help you to decide which channel is getting more leads and will help you to make decisions about selecting a perfect channel for your website and attracting more customers. For example, you have created multiple channels like Whatsapp, Facebook Messenger, Telegram etc. Now, with the help of our analytics feature, you can track the number of users who visit the website but never click the WhatsApp or Messenger channel or how many times they click.
 
 ## 🌐 DESCRIPTION OF ALL CHANNELS:
 
@@ -336,7 +337,7 @@ Bit Assist seems to be a complete and very easy-to-use plugin to communicate wit
 
 `A great BOEI Alternative specific to WordPress`
 
-Great for businesses that are active in multiple channels. This customer support widget sits on your site like a chatbot. Visitors can just click the widget and choose their convenient platform to connect with the business owner/[support](https://tawk.to/chat/60eac4b6d6e7610a49aab375/1faah0r3e).
+Great for businesses that are active in multiple channels. This customer support widget sits on your site like a chatbot. Visitors can just click the widget and choose their convenient platform to connect with the business owner/[support](https://bitapps.pro/contact/).
 
 A nice alternative to BOEI in the form of a WordPress plugin.
 
@@ -374,7 +375,7 @@ A nice alternative to BOEI in the form of a WordPress plugin.
 ## FAQ
 
 = What is Bit Assist? =
-Bit Assist is a WordPress chat plugin that allows you to communicate with your website visitors through their favourite chat platforms like WhatsApp, Facebook, messenger, Chat, Call, SMS, Telegram chat, WeChat, Instagram, LinkedIn, line, Snapchat, LiveChat via Tawk, Discord. You can consider it as a helping chat bot or chatbot.
+Bit Assist is a WordPress chat plugin that allows you to communicate with your website visitors through their favourite chat platforms like WhatsApp Chat, Facebook messenger chat, Call, SMS, Telegram chat, WeChat, Instagram, LinkedIn, Line Messenger, Snapchat, LiveChat via Tawk, Discord. You can consider it as a helping chat bot or chatbot.
 
 = How many Widgets can I create in the free version? =
 You can create only one Widget in the free version
@@ -404,7 +405,7 @@ Select the WooCommerce channel and click on the “Add Field” button. Two fiel
 Yes, you can add them both. Just create the channels and provide your [phone](https://docs.bit-assist.bitapps.pro/call) number.
 
 = How many channels are available in Bit Assist? =
-27 channels are available, for example: Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, chat, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS, Snapchat, Tawk, Telegram, chat, TikTok, Twitter, Viber, Waze, WeChat, WhatsApp, WooCommerce, Pinterest, Signal, Wp Search and YouTube. You can use this plugin as an individual whatsapp chat plugin for WordPress.
+27 channels are available, for example: Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS, Snapchat, Tawk, Telegram, TikTok, Twitter, Viber, Waze, WeChat, WhatsApp, WooCommerce, Pinterest, Signal, Wp Search and YouTube. You can use this plugin as an individual whatsapp chat plugin for WordPress.
 
 = Why don’t I see the Widget on my website? =
 To visible the chat widget you have to create a widget and add at least one channel to that chat widget.
@@ -416,12 +417,21 @@ Yes, it is. Bit Assist (WordPress chat plugin) is a great alternative to Chaty, 
 After installing the plugin click Bit Assist (WordPress chat plugin) or Bit Assist Pro. Then Click on the “Add Widget” button on the right of the page. A pop-up modal will show. In the modal set your widget name and hit the create button and the widget will be created.
 
 = How can I create a channel? =
-After creating a widget click on the three dots and go to the edit option, you will find the Add Channel button. Click on the button and choose your favourite channel like Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, chat, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS, Snapchat, Tawk, Telegram, chat, TikTok, Twitter, Viber, Waze, Wechat, WhatsApp, WooCommerce Pinterest, Signal, Wp Search and YouTube and create the channel.
+After creating a widget click on the three dots and go to the edit option, you will find the Add Channel button. Click on the button and choose your favourite channel like Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS, Snapchat, Tawk, Telegram, TikTok, Twitter, Viber, Waze, Wechat, WhatsApp, WooCommerce Pinterest, Signal, Wp Search and YouTube and create the channel.
 
 = Is there any livechat (live chat) channel in Bit Assist? =
 Yes, there is. You can use Tawk livechat or live chat button to communicate with your visitors. You can add the Tawk (tawk.to) channel to your chat widget and enable live chat (livechat) with your website visitors. By adding this channel, you can engage in livechat or (live chat) sessions with your visitors, answering their queries in real-time and providing them with the best customer support chat experience possible.
 
+= Can I use analytics in Free version? =
+We are sorry that you have purchase the pro version to use the Widget Analytics and Google Analytics (GTM click track). You can track all your visitors count, click count and click ratio with our Widget Analytics feature such as how many visitor click the WhatsApp channel or Facebook Messenger Channel or Telegram Channel etc.
+
 == Changelog ==
+= v1.3 (Oct 11, 2023) =
+* Free Channels: Use 25 channels including WhatsApp, Facebook Messenger, Telegram, Instagram simultaneously in free version
+* Pro Channels: FAQ, Knowledge Base, WooCommerce (Shipping Status), WP Search, Custom Iframe are now in pro version
+* Feature: Widget Analytics - Track your widget click, channel click, visitor count and click ratio
+* Feature: Google Analytics (GTM click)
+
 = v1.2 (Sep 13, 2023) =
 * Hot: Calendly Channel
 * Feature: Hide credit on by default
