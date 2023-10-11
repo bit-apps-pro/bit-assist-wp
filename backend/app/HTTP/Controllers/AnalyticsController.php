@@ -58,6 +58,8 @@ final class AnalyticsController
             $dateRange = explode(",", $filterValue);
         }
 
+        $placeHolder = [0, 1, 0, 1, 1, 0, 0, 1];
+
         $dateCondition = "";
         if ($filterValue === "7days") {
             $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
@@ -66,11 +68,14 @@ final class AnalyticsController
         } elseif ($filterValue === "today") {
             $dateCondition = "DATE(analytics.created_at) = CURDATE()";
         } elseif ($isDate && isset($dateRange[0]) && isset($dateRange[1])){
-            $startDate = $dateRange[0];
-            $endDate = $dateRange[1];
+            $startDate     = $dateRange[0];
+            $endDate       = $dateRange[1];
+            $placeHolder[] = $startDate;
+            $placeHolder[] = $endDate;
             $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
         } elseif ($isDate && count($dateRange) !== 2){
-            $startDate = $dateRange[0];
+            $startDate     = $dateRange[0];
+            $placeHolder[] = $startDate;
             $dateCondition = "DATE(analytics.created_at) = %s";
         } else {
             $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
@@ -90,7 +95,7 @@ final class AnalyticsController
                     AND
                         $dateCondition
                     GROUP BY 
-                        analytics.widget_id, widgets.name", [0, 1, 0, 1, 1, 0, 0, 1, $startDate, $endDate]);
+                        analytics.widget_id, widgets.name", $placeHolder);
 
         $widgetAnalyticsData = $wpdb->get_results($sql);
 
@@ -109,6 +114,8 @@ final class AnalyticsController
         $startDate = date('Y-m-d');
         $endDate   = date('Y-m-d');
 
+        $placeHolder = [1, 0, 1, 0, $widget_id, 1];
+
         $dateCondition = "";
         if ($filterValue === "7days") {
             $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
@@ -119,9 +126,12 @@ final class AnalyticsController
         } elseif ($isDate && isset($filterValue[0]) && isset($filterValue[1])){
             $startDate = $filterValue[0];
             $endDate = $filterValue[1];
+            $placeHolder[] = $startDate;
+            $placeHolder[] = $endDate;
             $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
         } elseif ($isDate && count($filterValue) !== 2){
             $startDate = $filterValue[0];
+            $placeHolder[] = $startDate;
             $dateCondition = "DATE(analytics.created_at) = %s";
         } else {
             $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
@@ -147,7 +157,7 @@ final class AnalyticsController
                     $dateCondition
                 GROUP BY
                     c.id"
-            , [1, 0, 1, 0, $widget_id, 1, $startDate, $endDate]);
+            , $placeHolder);
 
         $results = $wpdb->get_results($sql);
 
