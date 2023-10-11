@@ -322,55 +322,76 @@ function ChannelSettings() {
     }
   }
 
+  const proChannels = ['FAQ', 'Knowledge-Base', 'WooCommerce', 'WP-Search', 'Custom-Iframe']
+
   return (
-    <VStack alignItems="flex-start" spacing="6">
-      <ButtonGroup alignItems="center">{renderLink(flow.channel_name.toLowerCase())}</ButtonGroup>
+    <>
+      <VStack alignItems="flex-start" spacing="6">
+        <ButtonGroup alignItems="center">{renderLink(flow.channel_name.toLowerCase())}</ButtonGroup>
 
-      <FormControl isRequired>
-        <FormLabel>Title</FormLabel>
-        <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
-        <FormHelperText>Descriptive text for visitors.</FormHelperText>
-      </FormControl>
-
-      <CustomChannelIcon />
-
-      {renderSelectedChannelSettings(flow.channel_name.toLowerCase())}
-
-      <ProWrapper>
-        <FormControl>
-          <Flex alignItems="center">
-            <FormLabel mb="0">Hide after office hours</FormLabel>
-            <Switch
-              ml="2"
-              colorScheme="purple"
-              aria-label="hide after office hours"
-              isChecked={flow.config?.hide_after_office_hours || false}
-              onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
-              tabIndex={config.IS_PRO ? 0 : -1}
-            />
-          </Flex>
-          <FormHelperText>Hide this channel after office time.</FormHelperText>
+        <FormControl isRequired>
+          <FormLabel>Title</FormLabel>
+          <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
+          <FormHelperText>Descriptive text for visitors.</FormHelperText>
         </FormControl>
-      </ProWrapper>
 
-      <FormControl>
-        <FormLabel display="inline-block">Channel show on</FormLabel>
-        <CheckboxGroup
-          onChange={(val) => handleChanges(val, 'channel_show_on')}
-          colorScheme="purple"
-          value={flow.config?.channel_show_on ?? []}
-        >
-          <HStack spacing={4}>
-            <Checkbox size="lg" value="desktop" aria-label="show on desktop">
-              Desktop
-            </Checkbox>
-            <Checkbox size="lg" value="mobile" aria-label="show on mobile">
-              Mobile
-            </Checkbox>
-          </HStack>
-        </CheckboxGroup>
-      </FormControl>
-    </VStack>
+        <CustomChannelIcon />
+
+        {renderSelectedChannelSettings(flow.channel_name.toLowerCase())}
+
+        {proChannels.includes(flow?.channel_name) ? (
+          <FormControl>
+            <Flex alignItems="center">
+              <FormLabel mb="0">Hide after office hours</FormLabel>
+              <Switch
+                ml="2"
+                colorScheme="purple"
+                aria-label="hide after office hours"
+                isChecked={flow.config?.hide_after_office_hours || false}
+                onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
+                tabIndex={config.IS_PRO ? 0 : -1}
+              />
+            </Flex>
+            <FormHelperText>Hide this channel after office time.</FormHelperText>
+          </FormControl>
+        ) : (
+          <ProWrapper>
+            <FormControl>
+              <Flex alignItems="center">
+                <FormLabel mb="0">Hide after office hours</FormLabel>
+                <Switch
+                  ml="2"
+                  colorScheme="purple"
+                  aria-label="hide after office hours"
+                  isChecked={flow.config?.hide_after_office_hours || false}
+                  onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
+                  tabIndex={config.IS_PRO ? 0 : -1}
+                />
+              </Flex>
+              <FormHelperText>Hide this channel after office time.</FormHelperText>
+            </FormControl>
+          </ProWrapper>
+        )}
+
+        <FormControl>
+          <FormLabel display="inline-block">Channel show on</FormLabel>
+          <CheckboxGroup
+            onChange={(val) => handleChanges(val, 'channel_show_on')}
+            colorScheme="purple"
+            value={flow.config?.channel_show_on ?? []}
+          >
+            <HStack spacing={4}>
+              <Checkbox size="lg" value="desktop" aria-label="show on desktop">
+                Desktop
+              </Checkbox>
+              <Checkbox size="lg" value="mobile" aria-label="show on mobile">
+                Mobile
+              </Checkbox>
+            </HStack>
+          </CheckboxGroup>
+        </FormControl>
+      </VStack>
+    </>
   )
 }
 

@@ -201,7 +201,7 @@ function Widgets() {
         </ModalContent>
       </Modal>
 
-      {widgets?.length !== 0 && <WidgetAnalytics />}
+      <WidgetAnalytics widgetLength={widgets?.length} />
     </>
   )
 }

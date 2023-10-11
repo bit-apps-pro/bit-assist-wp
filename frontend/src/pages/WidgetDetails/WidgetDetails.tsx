@@ -6,6 +6,7 @@ import Settings from '@components/settings/Settings'
 import useFetchWidget from '@hooks/queries/widget/useFetchWidget'
 import ChannelAnalytics from '@components/global/ChannelAnalytics'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
+import config from '@config/config'
 
 function WidgetDetails() {
   useFetchWidget()
@@ -25,14 +26,14 @@ function WidgetDetails() {
         bg={tabColorMode}
         backdropFilter="blur(10px)"
       >
-        {isAnalyticsActive === 1 && <Tab rounded="md">Analytics</Tab>}
+        {isAnalyticsActive === 1 && config.IS_PRO && <Tab rounded="md">Analytics</Tab>}
         <Tab rounded="md">Channels</Tab>
         <Tab rounded="md">Customizations</Tab>
         <Tab rounded="md">Settings</Tab>
         <Tab rounded="md">External publish</Tab>
       </TabList>
       <TabPanels mx="auto" borderWidth="1px" rounded="lg" shadow="md" mt="2" p={[0, 4]}>
-        {isAnalyticsActive === 1 && (
+        {isAnalyticsActive === 1 && config.IS_PRO && (
           <TabPanel>
             <ChannelAnalytics />
           </TabPanel>
