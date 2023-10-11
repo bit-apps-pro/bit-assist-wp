@@ -38,9 +38,6 @@ final class WidgetChannelController
 
         $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
 
-        if (!$isPro && WidgetChannel::where('widget_id', $validated['widget_id'])->count() >= 2) {
-            return Response::error('You can use 2 channel in free version.');
-        }
         if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
             unset($validated['config']['hide_after_office_hours']);
         }
