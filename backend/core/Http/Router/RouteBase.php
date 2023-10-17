@@ -4,6 +4,7 @@ namespace BitApps\Assist\Core\Http\Router;
 
 use Closure;
 use RuntimeException;
+use AllowDynamicProperties;
 
 /**
  * Base class for route
@@ -32,6 +33,7 @@ use RuntimeException;
  * @method static RouteRegistrar setRequest(Request $request)
  * @method static RouteRegistrar getRequest()
  */
+#[AllowDynamicProperties]
 final class RouteBase
 {
     private $_prefix;
