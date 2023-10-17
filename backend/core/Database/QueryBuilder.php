@@ -1011,7 +1011,11 @@ class QueryBuilder
             $sql = $this->{'prepare' . $this->_method}();
         }
 
-        return Connection::prepare($sql, $this->bindings);
+        if (strpos($sql, "%")) {
+            return Connection::prepare($sql, $this->bindings);
+        }
+
+        return $sql;
     }
 
     /**
