@@ -2,7 +2,17 @@ import { Spinner, Text, useColorModeValue, VStack } from '@chakra-ui/react'
 import { WidgetChannelType } from '@globalStates/Interfaces'
 import useFetchWidgetChannels from '@hooks/queries/widgetChannel/useFetchWidgetChannels'
 import WidgetChanel from '@components/widgetChannels/WidgetChannel'
-import { closestCenter, DndContext, DragEndEvent, DragOverlay, DragStartEvent, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
@@ -66,7 +76,10 @@ function ChannelsList() {
           onDragEnd={handleDragEnd}
           onDragStart={handleDragStart}
         >
-          <SortableContext items={widgetChannels.map((item: WidgetChannelType) => item.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={widgetChannels.map((item: WidgetChannelType) => item.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <VStack>
               {widgetChannels?.map((widgetChannel: WidgetChannelType) => (
                 <WidgetChanel key={widgetChannel.id} widgetChannel={widgetChannel} />

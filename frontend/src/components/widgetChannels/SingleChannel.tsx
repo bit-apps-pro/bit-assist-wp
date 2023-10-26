@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { GridItem, Image, Text } from '@chakra-ui/react'
+import { Box, GridItem, Image, Text } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { Channel } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
-import { flow } from 'lodash'
 import { useParams } from 'react-router-dom'
+import config from '@config/config'
 
 function SingleChannel({ channel }: { channel: Channel }) {
   const { widgetId } = useParams()
@@ -29,6 +29,17 @@ function SingleChannel({ channel }: { channel: Channel }) {
     }))
   }
 
+  const proChannels = [
+    'FAQ',
+    'Knowledge-Base',
+    'WooCommerce',
+    'WP-Search',
+    'Custom-Iframe',
+    'Crisp',
+    'Tawk',
+    'Live-Chat-Messenger',
+  ]
+
   return (
     <GridItem
       py="2.5"
@@ -46,7 +57,27 @@ function SingleChannel({ channel }: { channel: Channel }) {
       onKeyDown={(e) => {
         if (e.key === 'Enter') onSelectChannel(channel.name)
       }}
+      position="relative"
     >
+      {proChannels.includes(channel.name) && (
+        <Box
+          background="#00ff9c"
+          borderRadius="1rem"
+          position="absolute"
+          top="0"
+          right="0"
+          fontWeight="semibold"
+          fontSize="xs"
+          color="#000"
+          px="1"
+          mt="1"
+          mr="1"
+          minWidth="20px"
+          textAlign="center"
+        >
+          Pro
+        </Box>
+      )}
       <>
         <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
         <Text marginTop="2" lineHeight="1">

@@ -48,201 +48,8 @@ import WPSearch from '@components/widgetChannels/channels/WPSearch'
 import WooCommerce from '@components/widgetChannels/channels/WooCommerce'
 import WPShortCode from './channels/WPShortCode'
 import Calendly from './channels/Calendly'
-import DocTutorials from '@components/global/DocTutorials'
-
-const renderLink = (channelName: string) => {
-  switch (channelName) {
-    case 'custom-channel':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=J3Eykpv3HeE&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=28" />
-      )
-    case 'custom-iframe':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=llHYHzUZXnY&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=21" />
-      )
-    case 'call':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=vOnLBrrV160&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=12"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/call/"
-        />
-      )
-    case 'custom-form':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=ReVUlPqT_1c&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=19"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/custom-form/"
-        />
-      )
-    case 'discord':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=QoObRkkkH4E&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=6"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/discord/"
-        />
-      )
-    case 'faq':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=KOiZzurMsTw&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=10"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/faq/"
-        />
-      )
-    case 'google-map':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=jwR9Wrt8Cbw&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=9"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/google-map/"
-        />
-      )
-    case 'instagram':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=H0hNuM9Aguo&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=12"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/instagram/"
-        />
-      )
-    case 'knowledge-base':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=J1sEym-nQl0&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=19"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/knowledge-base/"
-        />
-      )
-    case 'line':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=jz6KJXdk9kc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=4"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/line/"
-        />
-      )
-    case 'linkedin':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=OYq4e1M9sMU&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=15"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/linkedin/"
-        />
-      )
-    case 'messenger':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=1"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/messenger/"
-        />
-      )
-    case 'pinterest':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=jD76l_0jJIA&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=27" />
-      )
-    case 'skype':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=c5b3YEtJM9A&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=2"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/skype/"
-        />
-      )
-    case 'signal':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=tNiqiylU_Zw&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=26" />
-      )
-    case 'slack':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=ev5id6N1eVA&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=17"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/slack/"
-        />
-      )
-    case 'sms':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=yjGOqcmfIhI&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=22"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/sms/"
-        />
-      )
-    case 'snapchat':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=RlJs4BZDXHs&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=20"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/snapchat/"
-        />
-      )
-    case 'tawk':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=MjRePkAati0&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=8"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/tawk/"
-        />
-      )
-    case 'telegram':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=0fzK7He51_4&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=7"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/telegram/"
-        />
-      )
-    case 'tiktok':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=Vyvu_JJKoOo&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=13"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/tiktok/"
-        />
-      )
-    case 'twitter':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=c5b3YEtJM9A&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=2"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/twitter/"
-        />
-      )
-    case 'viber':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=NDdqhDuMqUI&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=14"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/viber/"
-        />
-      )
-    case 'waze':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=ocxUI_Zsd7I&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=23"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/waze/"
-        />
-      )
-    case 'wechat':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=Y_U4dj3bwfQ&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=5"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/wechat/"
-        />
-      )
-    case 'whatsapp':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=KFUa8jTvgkc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=3"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/whatsapp/"
-        />
-      )
-    case 'woocommerce':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=oymiguCozg8&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=25" />
-      )
-
-    case 'wp-search':
-      return (
-        <DocTutorials tutorial="https://www.youtube.com/watch?v=HRaoM3sDrKc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=16" />
-      )
-    case 'youtube':
-      return (
-        <DocTutorials
-          tutorial="https://www.youtube.com/watch?v=YYQvO8gVols&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=24"
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/youtube/"
-        />
-      )
-
-    default:
-      return null
-  }
-}
+import MessengerLive from './channels/MessengerLive'
+import Crisp from './channels/Crisp'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -303,6 +110,8 @@ function ChannelSettings() {
         return <Whatsapp />
       case 'messenger':
         return <Messenger />
+      case 'live-chat-messenger':
+        return <MessengerLive />
       case 'pinterest':
         return <Pinterest />
       case 'twitter':
@@ -317,18 +126,27 @@ function ChannelSettings() {
       //   return <WPShortCode />
       case 'calendly':
         return <Calendly />
+      case 'crisp':
+        return <Crisp />
       default:
         return null
     }
   }
 
-  const proChannels = ['FAQ', 'Knowledge-Base', 'WooCommerce', 'WP-Search', 'Custom-Iframe']
+  const proChannels = [
+    'FAQ',
+    'Knowledge-Base',
+    'WooCommerce',
+    'WP-Search',
+    'Custom-Iframe',
+    'Crisp',
+    'Tawk',
+    'Live-Chat-Messenger',
+  ]
 
   return (
     <>
       <VStack alignItems="flex-start" spacing="6">
-        <ButtonGroup alignItems="center">{renderLink(flow.channel_name.toLowerCase())}</ButtonGroup>
-
         <FormControl isRequired>
           <FormLabel>Title</FormLabel>
           <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />

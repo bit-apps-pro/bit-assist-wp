@@ -14,6 +14,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/call.svg`,
   },
   {
+    name: 'Crisp',
+    icon: `${config.ROOT_URL}/img/channel/crisp.svg`,
+  },
+  {
     name: 'Custom-Form',
     icon: `${config.ROOT_URL}/img/channel/custom-form.svg`,
   },
@@ -44,6 +48,10 @@ const channelList = [
   {
     name: 'Linkedin',
     icon: `${config.ROOT_URL}/img/channel/linkedin.svg`,
+  },
+  {
+    name: 'Live-Chat-Messenger',
+    icon: `${config.ROOT_URL}/img/channel/live-chat-messenger.svg`,
   },
   {
     name: 'Messenger',
