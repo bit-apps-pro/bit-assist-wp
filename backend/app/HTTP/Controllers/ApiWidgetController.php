@@ -61,6 +61,47 @@ final class ApiWidgetController
         return $this->getPageAndPosts($request->search, $request->page);
     }
 
+    private function getPageAndPosts($search, $page)
+    {
+        $paged = !empty($page) ? $page : 1;
+        $args  = [
+            'post_type'      => ['page', 'post'],
+            'post_status'    => 'publish',
+            'posts_per_page' => 10,
+            's'              => $search,
+            'orderby'        => 'title',
+            'order'          => 'ASC',
+            'paged'          => $paged,
+            'fields'         => 'ids'
+        ];
+
+        $query = new WP_Query($args);
+
+        $results = [];
+        foreach ($query->posts as $post_id) {
+            $post = get_post($post_id);
+
+            $result = [
+                'guid'       => get_permalink($post_id),
+                'post_title' => $post->post_title,
+                'post_type'  => $post->post_type,
+            ];
+
+            $results[] = $result;
+        }
+
+        $query->pagination = [
+            'total'        => $query->max_num_pages,
+            'current'      => $paged,
+            'next'         => $paged + 1,
+            'previous'     => $paged - 1,
+            'has_next'     => $paged < $query->max_num_pages,
+            'has_previous' => $paged > 1,
+        ];
+        
+        return ['data' => $results, 'pagination' => $query->pagination];
+    }
+
     public function orderDetails(Request $request)
     {
         if (!class_exists('WooCommerce')) {
@@ -370,32 +411,6 @@ final class ApiWidgetController
         }
 
         return $channel;
-    }
-
-    private function getPageAndPosts($search, $page)
-    {
-        $paged = !empty($page) ? $page : 1;
-        $args  = [
-            'post_type'      => ['page', 'post'],
-            'post_status'    => 'publish',
-            'posts_per_page' => 10,
-            's'              => $search,
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-            'paged'          => $paged,
-        ];
-
-        $query             = new WP_Query($args);
-        $query->pagination = [
-            'total'        => $query->max_num_pages,
-            'current'      => $paged,
-            'next'         => $paged + 1,
-            'previous'     => $paged - 1,
-            'has_next'     => $paged < $query->max_num_pages,
-            'has_previous' => $paged > 1,
-        ];
-
-        return ['data' => $query->posts, 'pagination' => $query->pagination];
     }
 
     private function getOrderWithIdAndMail($order_id)
