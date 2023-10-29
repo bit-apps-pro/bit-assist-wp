@@ -38,6 +38,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/instagram.svg`,
   },
   {
+    name: 'Intercom',
+    icon: `${config.ROOT_URL}/img/channel/intercom.svg`,
+  },
+  {
     name: 'Knowledge-Base',
     icon: `${config.ROOT_URL}/img/channel/knowledge-base.svg`,
   },

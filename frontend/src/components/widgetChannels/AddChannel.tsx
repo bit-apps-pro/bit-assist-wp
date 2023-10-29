@@ -254,6 +254,7 @@ function AddChannel() {
     'Crisp',
     'Tawk',
     'Live-Chat-Messenger',
+    'Intercom',
   ]
 
   return (

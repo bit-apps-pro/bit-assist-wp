@@ -38,6 +38,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
     'Crisp',
     'Tawk',
     'Live-Chat-Messenger',
+    'Intercom',
   ]
 
   return (

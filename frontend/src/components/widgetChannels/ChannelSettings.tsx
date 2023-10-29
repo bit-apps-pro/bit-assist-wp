@@ -50,6 +50,7 @@ import WPShortCode from './channels/WPShortCode'
 import Calendly from './channels/Calendly'
 import MessengerLive from './channels/MessengerLive'
 import Crisp from './channels/Crisp'
+import Intercom from './channels/Intercom'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -128,6 +129,8 @@ function ChannelSettings() {
         return <Calendly />
       case 'crisp':
         return <Crisp />
+      case 'intercom':
+        return <Intercom />
       default:
         return null
     }
@@ -142,6 +145,7 @@ function ChannelSettings() {
     'Crisp',
     'Tawk',
     'Live-Chat-Messenger',
+    'Intercom',
   ]
 
   return (
