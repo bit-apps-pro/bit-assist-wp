@@ -51,6 +51,7 @@ import Calendly from './channels/Calendly'
 import MessengerLive from './channels/MessengerLive'
 import Crisp from './channels/Crisp'
 import Intercom from './channels/Intercom'
+import Tidio from './channels/Tidio'
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -131,6 +132,8 @@ function ChannelSettings() {
         return <Crisp />
       case 'intercom':
         return <Intercom />
+      case 'tidio':
+        return <Tidio />
       default:
         return null
     }
@@ -146,6 +149,7 @@ function ChannelSettings() {
     'Tawk',
     'Live-Chat-Messenger',
     'Intercom',
+    'Tidio',
   ]
 
   return (

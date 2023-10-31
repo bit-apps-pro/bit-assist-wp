@@ -255,6 +255,7 @@ function AddChannel() {
     'Tawk',
     'Live-Chat-Messenger',
     'Intercom',
+    'Tidio',
   ]
 
   return (

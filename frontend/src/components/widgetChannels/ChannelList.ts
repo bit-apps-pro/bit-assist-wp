@@ -98,6 +98,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/telegram.svg`,
   },
   {
+    name: 'Tidio',
+    icon: `${config.ROOT_URL}/img/channel/tidio.svg`,
+  },
+  {
     name: 'TikTok',
     icon: `${config.ROOT_URL}/img/channel/tiktok.svg`,
   },
