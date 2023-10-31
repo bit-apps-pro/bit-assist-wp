@@ -13,21 +13,21 @@ let defaultWidth = '100px'
 let currentScrollPercent = 0
 
 const css = `
-#bit-assist-widget-container{--ba-top:auto;--ba-left:auto;--ba-bottom:10;--ba-right:10;position:fixed;z-index:9999999;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
-#bit-assist-widget-container.bottom-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
-#bit-assist-widget-container.bottom-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
-#bit-assist-widget-container.top-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
-#bit-assist-widget-container.top-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
-#bit-assist-widget-iframe{width:100%;height:100%;border:none;}
-.bit-assist-hide{visibility:hidden;pointer-events:none}
-`
+	#bit-assist-widget-container{--ba-top:auto;--ba-left:auto;--ba-bottom:10;--ba-right:10;position:fixed;z-index:2147483646;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
+	#bit-assist-widget-container.bottom-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+	#bit-assist-widget-container.bottom-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+	#bit-assist-widget-container.top-right{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+	#bit-assist-widget-container.top-left{left:var(--ba-left);right:var(--ba-right);top:var(--ba-top);bottom:var(--ba-bottom)}
+	#bit-assist-widget-iframe{width:100%;height:100%;border:none;}
+	.bit-assist-hide{visibility:hidden;pointer-events:none}
+	`
 
 const styleElement = document.createElement('style')
 styleElement.appendChild(document.createTextNode(css))
 
 const widgetContainer = document.createElement('div')
 widgetContainer.id = 'bit-assist-widget-container'
-widgetContainer.classList.add('bit-assist-hide')
+hideWidget()
 
 const iframeElement = document.createElement('iframe')
 iframeElement.title = 'wp-bit-assist'
@@ -73,6 +73,7 @@ window.addEventListener('message', e => {
 	if (e.origin !== iframeDomain) return
 
 	const { action } = e.data
+
 	if (action === 'getClientInfo') {
 		const scrollPercent = windowScrollPercentage()
 		iframeElement.contentWindow.postMessage(
@@ -90,6 +91,7 @@ window.addEventListener('message', e => {
 			window.addEventListener('scroll', e => windowScrollPercentage(e, pageScroll))
 		}
 	} else if (action === 'widgetOpen') {
+		if (isLoadedTawkTo() && Tawk_API?.isChatMaximized() == true) Tawk_API?.minimize()
 		const { isWidgetOpen } = e.data
 		widgetContainer.classList.toggle('bit-assist-open', isWidgetOpen)
 	} else if (action === 'removeWidget') {
@@ -133,59 +135,235 @@ function resetWidgetSize(width, height) {
 }
 
 function openChatWidget(chatWidgetName) {
+	hideAllChatBots()
 	if (chatWidgetName === 'tawk') {
 		openTawkTo()
+	}
+	if (chatWidgetName === 'live-chat-messenger') {
+		openMessenger()
+	}
+	if (chatWidgetName === 'crisp') {
+		openCrispChat()
+	}
+	if (chatWidgetName === 'intercom') {
+		openIntercom()
+	}
+	if (chatWidgetName === 'tidio') {
+		openTidio()
+	}
+}
+
+window.addEventListener('load', () => {
+	if (isLoadedMessenger()) handleMessenger()
+	if (isLoadedTawkTo()) handleTawkTo()
+	if (isLoadedCrisp()) handleCrisp()
+	if (isLoadedIntercom()) handleIntercom()
+	if (isLoadedTidio()) handleTidio()
+})
+
+var isTawkClickable = false
+var isMessengerClickable = false
+var isTidioClickable = false
+var isCrispClickable = false
+var isIntercomClickable = false
+
+// Tawk Channel Starts
+function handleTawkTo() {
+	Tawk_API = Tawk_API || {}
+
+	Tawk_API.onLoad = function () {
+		isTawkClickable = true
+		Tawk_API.hideWidget()
+	}
+	Tawk_API.onChatMinimized = function () {
+		Tawk_API.hideWidget()
+		showWidget()
+	}
+}
+
+function openTawkTo() {
+	if (!isTawkClickable) return alertMessage('Tawk'), null
+	try {
+		Tawk_API = Tawk_API || {}
+		Tawk_API.showWidget()
+		Tawk_API.toggle()
+		hideWidget()
+	} catch (e) {
+		alertMessage('Tawk')
+		showWidget()
 	}
 }
 
 function isLoadedTawkTo() {
 	return typeof Tawk_API !== 'undefined'
 }
+// Tawk Channel Ends
 
-function openTawkTo() {
-	if (!isLoadedTawkTo()) return alert('Sorry, Tawk not loaded yet.'), null
+// Messenger Channel Starts
+function handleMessenger() {
+	const FbWidget = window.FB?.CustomerChat || {}
+
+	FbWidget.hide()
+	FB.Event.subscribe('customerchat.load', function () {
+		isMessengerClickable = true
+		FbWidget.hide()
+	})
+
+	FB.Event.subscribe('customerchat.show', function () {
+		hideWidget()
+	})
+
+	FB.Event.subscribe('customerchat.hide', function () {
+		showWidget()
+	})
+
+	FB.Event.subscribe('customerchat.dialogShow', function () {
+		hideWidget()
+	})
+
+	FB.Event.subscribe('customerchat.dialogHide', function () {
+		FbWidget.hide()
+	})
+}
+
+function openMessenger() {
+	if (!isMessengerClickable) return alertMessage('Messenger'), null
+
 	try {
-		Tawk_API = Tawk_API || {}
-		Tawk_API.showWidget()
-		Tawk_API.toggle()
-		widgetContainer.classList.add('bit-assist-hide')
+		const FB = window.FB || {}
+		FB.CustomerChat.showDialog()
+		hideWidget()
 	} catch (e) {
-		alert('Sorry, Tawk not loaded yet.')
-		widgetContainer.classList.remove('bit-assist-hide')
+		alertMessage('Messenger')
+		showWidget()
 	}
 }
 
-window.addEventListener('load', () => {
-	hideTawkTo()
-})
+function isLoadedMessenger() {
+	return typeof window.FB !== 'undefined'
+}
+// Messenger Channel Ends
 
-function hideTawkTo() {
-	if (!isLoadedTawkTo()) return false
-	Tawk_API = Tawk_API || {}
-	Tawk_API.onLoad = function () {
-		Tawk_API.hideWidget()
+// Crisp Channel Starts
+function handleCrisp() {
+	const CRISP = window.$crisp || {}
+	isCrispClickable = true
+	CRISP.push(['do', 'chat:hide'])
+
+	CRISP.push([
+		'on',
+		'chat:closed',
+		function () {
+			CRISP.push(['do', 'chat:hide'])
+			showWidget()
+		},
+	])
+}
+
+function openCrispChat() {
+	if (!isCrispClickable) return alertMessage('Crisp'), null
+
+	try {
+		const CRISP = window.$crisp || {}
+		CRISP.push(['do', 'chat:show'])
+		CRISP.push(['do', 'chat:toggle'])
+		hideWidget()
+	} catch {
+		alertMessage('Crisp')
+		showWidget()
 	}
-	Tawk_API.onChatStarted = function () {
-		Tawk_API.showWidget()
-		widgetContainer.classList.add('bit-assist-hide')
+}
+
+function isLoadedCrisp() {
+	return typeof $crisp !== 'undefined'
+}
+// Crisp Chanel Ends
+
+// Intercom Channel Starts
+
+function handleIntercom() {
+	isIntercomClickable = true
+	Intercom('update', {
+		hide_default_launcher: true,
+	})
+
+	Intercom('onShow', function () {
+		hideWidget()
+	})
+
+	Intercom('onHide', function () {
+		showWidget()
+	})
+}
+
+function openIntercom() {
+	if (!isIntercomClickable) return alertMessage('Intercom'), null
+	try {
+		Intercom = Intercom || {}
+		Intercom('show')
+		hideWidget()
+	} catch (e) {
+		alertMessage('Intercom')
+		showWidget()
 	}
-	Tawk_API.onChatMessageAgent = function () {
-		Tawk_API.showWidget()
-		widgetContainer.classList.add('bit-assist-hide')
+}
+
+function isLoadedIntercom() {
+	return typeof Intercom !== 'undefined'
+}
+// Intercom Channel Ends
+
+// Tidio Channel Starts
+function handleTidio() {
+	tidioChatApi.hide()
+
+	tidioChatApi.on('ready', function () {
+		isTidioClickable = true
+		tidioChatApi.hide()
+	})
+
+	tidioChatApi.on('close', function () {
+		showWidget()
+		tidioChatApi.hide()
+	})
+}
+
+function openTidio() {
+	if (!isTidioClickable) return alertMessage('Tidio'), null
+	try {
+		tidioChatApi = tidioChatApi || {}
+		tidioChatApi.open()
+		tidioChatApi.show()
+		hideWidget()
+	} catch (e) {
+		alertMessage('Tawk')
+		showWidget()
 	}
-	Tawk_API.onChatMessageSystem = function () {
-		Tawk_API.showWidget()
-		widgetContainer.classList.add('bit-assist-hide')
-	}
-	Tawk_API.onChatEnded = function () {
-		Tawk_API.hideWidget()
-		widgetContainer.classList.remove('bit-assist-hide')
-	}
-	Tawk_API.onChatMinimized = function () {
-		Tawk_API.hideWidget()
-		widgetContainer.classList.remove('bit-assist-hide')
-	}
-	Tawk_API.onStatusChange = function () {
-		Tawk_API.hideWidget()
-	}
+}
+
+function isLoadedTidio() {
+	return typeof tidioChatApi !== 'undefined'
+}
+// Tidio Channel Ends
+
+// ============= Common Functions ============== //
+function showWidget() {
+	widgetContainer.classList.remove('bit-assist-hide')
+	hideAllChatBots()
+}
+
+function hideAllChatBots() {
+	if (isLoadedTawkTo()) Tawk_API?.minimize()
+	if (isLoadedMessenger()) FB?.CustomerChat?.hide()
+	if (isLoadedCrisp()) $crisp?.push(['do', 'chat:hide'])
+	if (isLoadedIntercom()) Intercom('hide')
+	if (isLoadedTidio()) tidioChatApi.hide()
+}
+
+function hideWidget() {
+	widgetContainer.classList.add('bit-assist-hide')
+}
+
+function alertMessage(channel) {
+	return alert(`Sorry, ${channel} is not loaded yet!`)
 }
