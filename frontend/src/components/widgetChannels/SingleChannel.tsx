@@ -39,6 +39,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
     'Tawk',
     'Live-Chat-Messenger',
     'Intercom',
+    'Tidio',
   ]
 
   return (
