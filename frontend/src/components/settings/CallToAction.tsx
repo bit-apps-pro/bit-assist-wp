@@ -1,4 +1,16 @@
-import { Box, Input, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, Textarea, Tooltip, useColorModeValue, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Input,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Text,
+  Textarea,
+  Tooltip,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
@@ -49,22 +61,19 @@ function CallToAction() {
     }, 1000),
   ).current
 
-  useEffect(() => () => {
-    debounceUpdateWidget.cancel()
-  }, [debounceUpdateWidget])
+  useEffect(
+    () => () => {
+      debounceUpdateWidget.cancel()
+    },
+    [debounceUpdateWidget],
+  )
 
   return (
     <Box>
       <Title>Call To Action</Title>
 
       <VStack spacing="4" alignItems="flex-start" w="lg" maxW="full">
-        <Text>
-          Display a call to action message next to widget after
-          {' '}
-          {widget.call_to_action?.delay ?? 0}
-          {' '}
-          seconds.
-        </Text>
+        <Text>Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0} seconds.</Text>
         <Slider
           defaultValue={0}
           value={widget.call_to_action?.delay}
