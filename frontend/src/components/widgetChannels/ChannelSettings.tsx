@@ -46,7 +46,6 @@ import ProWrapper from '@components/global/ProWrapper'
 import CustomChannelIcon from '@components/widgetChannels/channels/Fields/CustomChannelIcon'
 import WPSearch from '@components/widgetChannels/channels/WPSearch'
 import WooCommerce from '@components/widgetChannels/channels/WooCommerce'
-import WPShortCode from './channels/WPShortCode'
 import Calendly from './channels/Calendly'
 import MessengerLive from './channels/MessengerLive'
 import Crisp from './channels/Crisp'
@@ -124,8 +123,6 @@ function ChannelSettings() {
         return <Telegram />
       case 'woocommerce':
         return <WooCommerce />
-      // case 'wp-shortcode':
-      //   return <WPShortCode />
       case 'calendly':
         return <Calendly />
       case 'crisp':
