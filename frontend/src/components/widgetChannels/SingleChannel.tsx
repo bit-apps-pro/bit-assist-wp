@@ -61,7 +61,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
       }}
       position="relative"
     >
-      {proChannels.includes(channel.name) && (
+      {!config.IS_PRO && proChannels.includes(channel.name) && (
         <Box
           background="#00ff9c"
           borderRadius="1rem"
