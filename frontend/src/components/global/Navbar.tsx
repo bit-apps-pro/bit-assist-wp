@@ -33,6 +33,7 @@ function Navbar() {
             <Tooltip
               label="Thank you for purchasing Bit Assist. To get $10 cashback: give us a review on WordPress by clicking the button and send an email with the review link to support@bitapps.pro"
               aria-label="Tooltip"
+              placement="bottom"
             >
               <Button
                 as="a"
@@ -40,9 +41,11 @@ function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 background="#00FFA3"
+                colorScheme="purple"
+                color="#000"
                 size="sm"
                 borderRadius="full"
-                _hover={{ background: '#00d680' }}
+                _hover={{ background: '#00d680', color: '#000' }}
               >
                 Get $10 Cashback
               </Button>
