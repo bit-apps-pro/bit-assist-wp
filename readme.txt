@@ -3,9 +3,9 @@
 Contributors: bitpressadmin
 Tags: chat, whatsapp, messenger, telegram, whatsapp chat, live chat, Facebook Messenger, chat widget, chat button, customer support, messenger chat, facebook chat
 Requires at least: 5.1
-Tested up to: 6.3.2
+Tested up to: 6.4.1
 Requires PHP: 7.0
-Stable tag: 1.4
+Stable tag: 1.4.1
 License: GPLv2 or later
 
 WhatsApp,Facebook Messenger chat, Telegram,Live Chat,WeChat,Discord, Snapchat,Line,Twitter & more floating customer support chat widget sticky button.
@@ -463,6 +463,9 @@ Yes, you can use Facebook Chat Plugin – Live Chat Plugin for WordPress, Tawk.T
 We are sorry that you have purchase the pro version to use the Widget Analytics and Google Analytics (GTM click track). You can track all your visitors count, click count and click ratio with our Widget Analytics feature such as how many visitor click the WhatsApp channel or Facebook Messenger Channel or Telegram Channel etc.
 
 == Changelog ==
+= v1.4.1 (Nov 11, 2023) =
+* Tested with WordPress Version 6.4.1
+
 = v1.4 (Nov 04, 2023) =
 * Hot: Live Chat Messenger
 * Hot: Tidio Live Chat
