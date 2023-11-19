@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Bit Assist
  * Plugin URI:  https://bitapps.pro/bit-assist
- * Description: Chat via Whatsapp, Facebook Messenger, Telegram, Live Chat, Twitter, WeChat & more social chat button to provide customer support with Bit Assist floating chat widget button and connect your website visitor easily.
+ * Description: WhatsApp,Facebook Messenger chat, Live Chat Widget,Call button & 30+ social chat support button for customer support with sticky chat button
  * Version:     1.4
- * Author:      Chat Widget Button - Bit Assist
+ * Author:      Chat Widget,WhatsApp,Messenger Live Chat Support Chat Button
  * Author URI:  https://bitapps.pro
  * Text Domain: bit-assist
  * Requires PHP: 7.0
