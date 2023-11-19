@@ -3,9 +3,9 @@
 Contributors: bitpressadmin
 Tags: chat, whatsapp, messenger, telegram, whatsapp chat, live chat, Facebook Messenger, chat widget, chat button, customer support, messenger chat, facebook chat
 Requires at least: 5.1
-Tested up to: 6.3.2
+Tested up to: 6.4.1
 Requires PHP: 7.0
-Stable tag: 1.4
+Stable tag: 1.4.2
 License: GPLv2 or later
 
 WhatsApp Chat Widget,Telegram, Messenger live chat support chat button,SMS,call button,WeChat,Discord chat, Line & customer support chat sticky button
@@ -456,6 +456,9 @@ Yes, you can use Facebook Chat Plugin – Live Chat Plugin for WordPress, Tawk.T
 Yes, you can use standalone form using Bit Assist‘s custom ifram channel which is a pro feature. You can show wordpress standalone form with this channel by providing the link from dedicated standalone form. For example, there are several form builder plugin which have standalone form feature like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
+= v1.4.1 (Nov 11, 2023) =
+* Tested with WordPress Version 6.4.1
+
 = v1.4 (Nov 04, 2023) =
 * Hot: Live Chat Messenger
 * Hot: Tidio Live Chat
