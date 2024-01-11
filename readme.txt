@@ -1,11 +1,11 @@
-=== Chat Widget: WhatsApp Chat, Facebook Messenger Chat, Telegram Chat Bubble, Line Messenger, Live Chat Support Chat Button, WeChat, SMS, Call Button, Customer Support Button with floating Chat Widget ===
+=== Chat Widget: Customer Support Button with floating Chat, SMS, Call Button, Live Chat Support Chat Button - Bit Assist ===
 
 Contributors: bitpressadmin
 Tags: chat, whatsapp, messenger, telegram, whatsapp chat, live chat, Facebook Messenger, chat widget, chat button, customer support, messenger chat, facebook chat
 Requires at least: 5.1
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 7.0
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 
 WhatsApp Chat Widget,Telegram, Messenger live chat support chat button,SMS,call button,WeChat,Discord chat, Line & customer support chat sticky button
