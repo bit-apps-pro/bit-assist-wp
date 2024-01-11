@@ -2,7 +2,6 @@
 
 use BitApps\Assist\Core\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\AnalyticsController;
-use BitApps\Assist\HTTP\Controllers\ChannelController;
 use BitApps\Assist\HTTP\Controllers\DownloadController;
 use BitApps\Assist\HTTP\Controllers\ResponseController;
 use BitApps\Assist\HTTP\Controllers\WidgetChannelController;
@@ -33,9 +32,6 @@ Route::group(function () {
     Route::post('widgets/{widget}/destroy', [WidgetController::class, 'destroy']);
     Route::post('widgets/{widget}/changeStatus', [WidgetController::class, 'changeStatus']);
     Route::get('copyWidget/{widget}', [WidgetController::class, 'copy']);
-
-    Route::get('channels', [ChannelController::class, 'index']);
-    Route::get('channels/{channel}', [ChannelController::class, 'show']);
 
     Route::get('widgets/{widgetId}/widgetChannels', [WidgetChannelController::class, 'index']);
     Route::get('widgetChannels/{widgetChannel}', [WidgetChannelController::class, 'show']);
