@@ -33,7 +33,7 @@ export default function CustomWidgetIcon() {
     toaster(status, data)
   }
 
-  const setChannelImg = () => {
+  const setWidgetImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
         title: 'Media',
@@ -58,7 +58,7 @@ export default function CustomWidgetIcon() {
     <Box mt="6">
       <Flex gap="4" alignItems="center">
         <CustomImagePreview customImage={widget.styles?.customImage} removeImage={handleChange} />
-        <Button onClick={setChannelImg} leftIcon={<FiUpload />}>
+        <Button onClick={setWidgetImg} leftIcon={<FiUpload />}>
           Browse
         </Button>
       </Flex>
