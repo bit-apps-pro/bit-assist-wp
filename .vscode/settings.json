@@ -7,7 +7,7 @@
   "search.useGlobalIgnoreFiles": false,
   "search.useParentIgnoreFiles": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript"],
   "prettier.semi": false,

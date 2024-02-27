@@ -7,10 +7,17 @@ const protocol = window.location.protocol === 'http:' ? 'i' : 's'
 const domain = window.location.hostname === 'localhost' ? window.location.host : window.location.hostname
 const url = window.location.href
 const winWidth = document.documentElement.offsetWidth
-const winHeight = window.innerHeight
+// const winHeight = window.innerHeight
+const winHeight = document.documentElement.clientHeight
 let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
+
+if (navigator.userAgent.indexOf('iPhone') > -1) {
+	document
+		.querySelector('[name=viewport]')
+		.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1')
+}
 
 const css = `
 	#bit-assist-widget-container{--ba-top:auto;--ba-left:auto;--ba-bottom:10;--ba-right:10;position:fixed;z-index:2147483646;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}

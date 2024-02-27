@@ -9,6 +9,12 @@ const domain = urlParts[1]
 
 const clientDomain = protocol + domain
 
+if (navigator.userAgent.indexOf('iPhone') > -1) {
+	document
+		.querySelector('[name=viewport]')
+		.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1')
+}
+
 window.addEventListener('load', function () {
 	new Widget({
 		clientDomain,
