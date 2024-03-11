@@ -343,8 +343,8 @@ final class ApiWidgetController
     private function escapeAll($channel)
     {
         if ($channel->channel_name === 'Custom-Channel') {
-            $channel->config->unique_id = esc_url($channel->config->unique_id);
-            $channel->config->url       = esc_url($channel->config->url);
+            $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
+            $channel->config->url       = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'Google-Map') {
@@ -352,8 +352,8 @@ final class ApiWidgetController
         }
 
         if ($channel->channel_name === 'Custom-Iframe') {
-            $channel->config->unique_id = esc_url($channel->config->unique_id);
-            $channel->config->url       = esc_url($channel->config->url);
+            $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
+            $channel->config->url       = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'FAQ' || $channel->channel_name === 'Knowledge-Base') {

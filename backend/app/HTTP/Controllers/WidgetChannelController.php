@@ -17,7 +17,7 @@ final class WidgetChannelController
         $widgetChannels = WidgetChannel::where('widget_id', $request->widgetId)->orderBy('sequence')->get();
 
         foreach ($widgetChannels as $channel) {
-            $channel = $this->escapeAll($channel);
+            $widgetChannel = $this->escapeAll($channel);
         }
 
         return $widgetChannels;
@@ -209,8 +209,8 @@ final class WidgetChannelController
     private function escapeAll($channel)
     {
         if ($channel->channel_name === 'Custom-Channel') {
-            $channel->config->unique_id = esc_url($channel->config->unique_id);
-            $channel->config->url       = esc_url($channel->config->url);
+            $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
+            $channel->config->url       = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'Google-Map') {
@@ -218,8 +218,8 @@ final class WidgetChannelController
         }
 
         if ($channel->channel_name === 'Custom-Iframe') {
-            $channel->config->unique_id = esc_url($channel->config->unique_id);
-            $channel->config->url       = esc_url($channel->config->url);
+            $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
+            $channel->config->url       = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'FAQ' || $channel->channel_name === 'Knowledge-Base') {
