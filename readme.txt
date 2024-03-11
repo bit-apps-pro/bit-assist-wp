@@ -5,14 +5,14 @@ Tags: chat, whatsapp chat, click to chat, chat button, customer support
 Requires at least: 5.1
 Tested up to: 6.4.3
 Requires PHP: 7.0
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 
 WhatsApp Chat Widget, Click to Chat Simple chat Messenger live chat support chat button, SMS, call button, Line & customer support chat sticky button.
 
 == Description ==
 
-<strong>Click to chat button with  WhatsApp, Facebook Messenger Simple Chat Button, Telegram Chat, Line Messenger, Live Chat Support Chat Button, WeChat, Discord Chat, Twitter, LinkedIn, TikTok, Snapchat, Viber Chat, Tidio Live Chat, Tawk Live Chat, Intercom Live Chat, Crisp Live Chat and Chatbot, Signal Chat, Slack Chat, Skype chat, Instagram Chat, Social Support Social Chat Bubble, Calendly, Pinterest, Social Support Live Support Customer Support Button with floating Chat Widget & sticky chat widget plugin.</strong>
+<strong>Click to chat widget with  WhatsApp, Facebook Messenger Simple Chat Button, Telegram Chat, Line Messenger, Live Chat Support Chat Button, WeChat, Discord Chat, Twitter, LinkedIn, TikTok, Snapchat, Viber Chat, Tidio Live Chat, Tawk Live Chat, Intercom Live Chat, Crisp Live Chat and Chatbot, Signal Chat, Slack Chat, Skype chat, Instagram Chat, Social Support Social Chat Bubble, Calendly, Pinterest, Social Support Live Support Customer Support Button with floating Chat Widget & sticky chat widget plugin.</strong>
 
 Although it is not a live chat plugin but help you to connect with multiple social support and social chat platform as well as live chat platform. It has also some unique feature like a Custom Contact Form, FAQ, Knowledge Base, WooCommerce order details, WP Search,  and WebHook. You can use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace by External Publish feature to get closer to your customers.
 
@@ -318,6 +318,12 @@ Note: You can not use Zoho SalesIQ – Live chat, chatbots, and visitor tracking
 Yes, you can use standalone form using Bit Assist‘s custom ifram channel which is a pro feature. You can show wordpress standalone form with this channel by providing the link from dedicated standalone form. For example, there are several form builder plugin which have standalone form feature like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
+= v1.4.6 (Mar 11, 2024) =
+* Fixed: unwanted code replaced issue in Custom Channel and Custom Iframe
+* Twitter logo replace by X logo
+* Unnecessary links removed
+* Tested with WordPress Version 6.4.3
+
 = v1.4.1 (Nov 11, 2023) =
 * Tested with WordPress Version 6.4.1
 
