@@ -42,7 +42,7 @@ final class IframeController
             <div id="widgetBubbleRow">
                 <div id="widgetBubbleWrapper">
                     <button id="widgetBubble"><img alt="Widget Icon" id="widget-img" /></button>
-                    <span id="credit"><a href="https://www.bitapps.pro/bit-assist" target="_blank">by Bit Assist</a></span>
+                    <span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">by Bit Assist</a></span>
                 </div>
             </div>
         </div>
