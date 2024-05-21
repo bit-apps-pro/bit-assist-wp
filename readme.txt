@@ -321,6 +321,7 @@ Yes, you can use standalone form using Bit Assist‘s custom ifram channel which
 = v1.4.7 (May 21, 2024) =
 * Disabled facebook live chat channel because Facebook officially stopped the support for the chat plugin!
 * Fixed and improved latest php errors and warnings
+* Added wp-telemetry package to collect some insides from users
 * Tested with WordPress Version 6.5.3
 
 = v1.4.6 (Mar 11, 2024) =
