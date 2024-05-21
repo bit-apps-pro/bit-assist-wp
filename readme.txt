@@ -137,10 +137,6 @@ Bit Assist has around 24 free chat channel and 10 premium channel! Custom Iframe
 
 * **Chat Widget Button Visibility:** You have the flexibility to choose whether you want to display the chat widget on mobile devices, desktops, or both.
 
-* **Widget Customization:** Customize the chat widget to display different chat button based on the device.
-
-* **Hide Credit:** Bit Assist hides the "by Bit Assist" credit line for a professional chat widget appearance, enhancing engagement and conversions. Explore this feature for customization.
-
 * **WhatsApp Message:** Save time for visitors using Bit Assist's WhatsApp channel and add a preset message to the chat button, allowing quick communication without typing.
 
 * **WooCommerce Floating Chat Widget Button:** Bit Assist now supports WooCommerce chat button for shipping status and order details.
@@ -177,7 +173,7 @@ The chat widget features that are included in the Free version of Bit Assist are
 
 ## 🗬 BIT ASSIST VS OTHER SOCIAL SUPPORT SOCIAL CHAT LIVE CHAT PLUGIN
 
-**Bit Assist is not a live chat plugin but you can use multiple live chat platform.** It has not a dedicated live chat social support or social chat button but you can integrate Tidio live chat, Tawk Live Chat, Crisp Live Chat, Intercom Live Chat, Line Messenger and Multiple Live Chat Channel.
+**Bit Assist is not a live chat plugin but you can use multiple live chat platform.** It has not a dedicated live chat social support but you can integrate Tidio live chat, Tawk Live Chat, Crisp Live Chat, Intercom Live Chat, Line Messenger and Multiple Live Chat Channel.
 
 ## ▶️ ADD YOUTUBE VIDEO TO YOUR WIDGET
 
@@ -199,7 +195,7 @@ https://youtu.be/J1sEym-nQl0
 
 ## 💬 ADD WHATSAPP, FACEBOOK MESSENGER CHAT BUTTON AND MORE CHAT CHANNELS
 
-With Bit Assist you have the flexibility to add WhatsApp, Facebook Messenger, Telegram, Line Messenger, Pinterest, Signal, Twitter, Discord, Live Chat Button: Crisp, Intercom, Tidio, Tawk etc. Setting up a WhatsApp channel is quick and straightforward – simply select the WhatsApp channel and input your WhatsApp number.
+With Bit Assist you have the flexibility to add WhatsApp, Facebook Messenger, Telegram, Line Messenger, Pinterest, Signal, Twitter, Discord, Live Chat Button: Crisp, Intercom, Tidio, Tawk etc.
 
 https://youtu.be/c5b3YEtJM9A
 
@@ -247,6 +243,11 @@ A nice alternative to BOEI in the form of a WordPress plugin.
 
 **[Bit Assist Website](https://www.bitapps.pro/bit-assist/)**
 
+= Telemetry Data =
+
+Bit Assist uses [wp-telemetry](https://packagist.org/packages/bitapps/wp-telemetry) to collect some telemetry data upon user’s confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gather basic telemetry data when a user allows it. We collect the data to ensure great user experience for all our users.
 
 == Installation ==
 
