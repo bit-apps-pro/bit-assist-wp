@@ -5,6 +5,7 @@ import { Channel } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
 import { useParams } from 'react-router-dom'
 import config from '@config/config'
+import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons'
 
 function SingleChannel({ channel }: { channel: Channel }) {
   const { widgetId } = useParams()
@@ -37,7 +38,6 @@ function SingleChannel({ channel }: { channel: Channel }) {
     'Custom-Iframe',
     'Crisp',
     'Tawk',
-    'Live-Chat-Messenger',
     'Intercom',
     'Tidio',
   ]
@@ -80,8 +80,22 @@ function SingleChannel({ channel }: { channel: Channel }) {
           Pro
         </Box>
       )}
+
+      {channel.name === 'Live-Chat-Messenger' && (
+        <Box position="absolute" top="0" right="0" color="#000" mt="0.5" mr="1">
+          <WarningTwoIcon w={4} h={4} color="red.500" />
+        </Box>
+      )}
+
       <>
-        <Image src={channel.icon} alt={channel.name} w="10" h="10" mx="auto" />
+        <Image
+          src={channel.icon}
+          alt={channel.name}
+          w="10"
+          h="10"
+          mx="auto"
+          filter={channel.name === 'Live-Chat-Messenger' ? 'grayscale(100%)' : 'none'}
+        />
         <Text marginTop="2" lineHeight="1">
           {channel.name.replace(/-/g, ' ')}
         </Text>

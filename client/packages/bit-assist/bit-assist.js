@@ -12,7 +12,6 @@ let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
 
-// TODO: in iphone design break sometimes
 // const winHeight = document.documentElement.clientHeight
 
 // if (navigator.userAgent.indexOf('iPhone') > -1) {
@@ -148,9 +147,10 @@ function openChatWidget(chatWidgetName) {
 	if (chatWidgetName === 'tawk') {
 		openTawkTo()
 	}
-	if (chatWidgetName === 'live-chat-messenger') {
-		openMessenger()
-	}
+	// Facebook chat plugin disabled by facebook officially!
+	// if (chatWidgetName === 'live-chat-messenger') {
+	// 	openMessenger()
+	// }
 	if (chatWidgetName === 'crisp') {
 		openCrispChat()
 	}
@@ -163,7 +163,7 @@ function openChatWidget(chatWidgetName) {
 }
 
 window.addEventListener('load', () => {
-	if (isLoadedMessenger()) handleMessenger()
+	// if (isLoadedMessenger()) handleMessenger()
 	if (isLoadedTawkTo()) handleTawkTo()
 	if (isLoadedCrisp()) handleCrisp()
 	if (isLoadedIntercom()) handleIntercom()
@@ -209,44 +209,44 @@ function isLoadedTawkTo() {
 // Tawk Channel Ends
 
 // Messenger Channel Starts
-function handleMessenger() {
-	const FbWidget = window.FB?.CustomerChat || {}
+// function handleMessenger() {
+// 	const FbWidget = window.FB?.CustomerChat || {}
 
-	FbWidget.hide()
-	FB.Event.subscribe('customerchat.load', function () {
-		isMessengerClickable = true
-		FbWidget.hide()
-	})
+// 	FbWidget.hide()
+// 	FB.Event.subscribe('customerchat.load', function () {
+// 		isMessengerClickable = true
+// 		FbWidget.hide()
+// 	})
 
-	FB.Event.subscribe('customerchat.show', function () {
-		hideWidget()
-	})
+// 	FB.Event.subscribe('customerchat.show', function () {
+// 		hideWidget()
+// 	})
 
-	FB.Event.subscribe('customerchat.hide', function () {
-		showWidget()
-	})
+// 	FB.Event.subscribe('customerchat.hide', function () {
+// 		showWidget()
+// 	})
 
-	FB.Event.subscribe('customerchat.dialogShow', function () {
-		hideWidget()
-	})
+// 	FB.Event.subscribe('customerchat.dialogShow', function () {
+// 		hideWidget()
+// 	})
 
-	FB.Event.subscribe('customerchat.dialogHide', function () {
-		FbWidget.hide()
-	})
-}
+// 	FB.Event.subscribe('customerchat.dialogHide', function () {
+// 		FbWidget.hide()
+// 	})
+// }
 
-function openMessenger() {
-	if (!isMessengerClickable) return alertMessage('Messenger'), null
+// function openMessenger() {
+// 	if (!isMessengerClickable) return alertMessage('Messenger'), null
 
-	try {
-		const FB = window.FB || {}
-		FB.CustomerChat.showDialog()
-		hideWidget()
-	} catch (e) {
-		alertMessage('Messenger')
-		showWidget()
-	}
-}
+// 	try {
+// 		const FB = window.FB || {}
+// 		FB.CustomerChat.showDialog()
+// 		hideWidget()
+// 	} catch (e) {
+// 		alertMessage('Messenger')
+// 		showWidget()
+// 	}
+// }
 
 function isLoadedMessenger() {
 	return typeof window.FB !== 'undefined'

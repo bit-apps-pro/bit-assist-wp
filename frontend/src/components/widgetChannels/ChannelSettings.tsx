@@ -10,6 +10,7 @@ import {
   HStack,
   Flex,
   ButtonGroup,
+  Text,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
@@ -144,7 +145,6 @@ function ChannelSettings() {
     'Custom-Iframe',
     'Crisp',
     'Tawk',
-    'Live-Chat-Messenger',
     'Intercom',
     'Tidio',
   ]
@@ -152,67 +152,90 @@ function ChannelSettings() {
   return (
     <>
       <VStack alignItems="flex-start" spacing="6">
-        <FormControl isRequired>
-          <FormLabel>Title</FormLabel>
-          <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
-          <FormHelperText>Descriptive text for visitors.</FormHelperText>
-        </FormControl>
-
-        <CustomChannelIcon />
-
-        {renderSelectedChannelSettings(flow.channel_name.toLowerCase())}
-
-        {proChannels.includes(flow?.channel_name) ? (
-          <FormControl>
-            <Flex alignItems="center">
-              <FormLabel mb="0">Hide after office hours</FormLabel>
-              <Switch
-                ml="2"
-                colorScheme="purple"
-                aria-label="hide after office hours"
-                isChecked={flow.config?.hide_after_office_hours || false}
-                onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
-                tabIndex={config.IS_PRO ? 0 : -1}
-              />
-            </Flex>
-            <FormHelperText>Hide this channel after office time.</FormHelperText>
-          </FormControl>
+        {flow.channel_name.toLowerCase() === 'live-chat-messenger' ? (
+          <>
+            <Text p={3} mt={-6} color="red.500">
+              On May 9, 2024, you will no longer be able to access any of the functionality of the Chat Plugin.
+              Effective immediately, Chat Plugin in guest mode is no longer available. Other features like m.me links
+              will still be available for you to use.
+            </Text>
+            <Text p={3} mt={-12}>
+              This notice is provided by the Facebook officially! Now you can not use the chat plugin rather you can use
+              our Messenger or Custom channel to connect user through Facebook Messenger!
+            </Text>
+          </>
         ) : (
-          <ProWrapper>
-            <FormControl>
-              <Flex alignItems="center">
-                <FormLabel mb="0">Hide after office hours</FormLabel>
-                <Switch
-                  ml="2"
-                  colorScheme="purple"
-                  aria-label="hide after office hours"
-                  isChecked={flow.config?.hide_after_office_hours || false}
-                  onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
-                  tabIndex={config.IS_PRO ? 0 : -1}
-                />
-              </Flex>
-              <FormHelperText>Hide this channel after office time.</FormHelperText>
+          <>
+            <FormControl isRequired>
+              <FormLabel>Title</FormLabel>
+              <Input value={flow.config.title} onChange={(e) => handleChanges(e.target.value, 'title')} />
+              <FormHelperText>Descriptive text for visitors.</FormHelperText>
             </FormControl>
-          </ProWrapper>
-        )}
 
-        <FormControl>
-          <FormLabel display="inline-block">Channel show on</FormLabel>
-          <CheckboxGroup
-            onChange={(val) => handleChanges(val, 'channel_show_on')}
-            colorScheme="purple"
-            value={flow.config?.channel_show_on ?? []}
-          >
-            <HStack spacing={4}>
-              <Checkbox size="lg" value="desktop" aria-label="show on desktop">
-                Desktop
-              </Checkbox>
-              <Checkbox size="lg" value="mobile" aria-label="show on mobile">
-                Mobile
-              </Checkbox>
-            </HStack>
-          </CheckboxGroup>
-        </FormControl>
+            <CustomChannelIcon />
+
+            {renderSelectedChannelSettings(flow.channel_name.toLowerCase())}
+
+            {proChannels.includes(flow?.channel_name) ? (
+              <>
+                {flow.channel_name.toLowerCase() !== 'live-chat-messenger' && (
+                  <FormControl>
+                    <Flex alignItems="center">
+                      <FormLabel mb="0">Hide after office hours</FormLabel>
+                      <Switch
+                        ml="2"
+                        colorScheme="purple"
+                        aria-label="hide after office hours"
+                        isChecked={flow.config?.hide_after_office_hours || false}
+                        onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
+                        tabIndex={config.IS_PRO ? 0 : -1}
+                      />
+                    </Flex>
+
+                    <FormHelperText>Hide this channel after office time.</FormHelperText>
+                  </FormControl>
+                )}
+              </>
+            ) : (
+              <ProWrapper>
+                <FormControl>
+                  <Flex alignItems="center">
+                    <FormLabel mb="0">Hide after office hours</FormLabel>
+                    <Switch
+                      ml="2"
+                      colorScheme="purple"
+                      aria-label="hide after office hours"
+                      isChecked={flow.config?.hide_after_office_hours || false}
+                      onChange={(e) => handleChanges(e.target.checked, 'hide_after_office_hours')}
+                      tabIndex={config.IS_PRO ? 0 : -1}
+                    />
+                  </Flex>
+                  <FormHelperText>Hide this channel after office time.</FormHelperText>
+                </FormControl>
+              </ProWrapper>
+            )}
+
+            {flow.channel_name.toLowerCase() !== 'live-chat-messenger' && (
+              <FormControl>
+                <FormLabel display="inline-block">Channel show on</FormLabel>
+                <CheckboxGroup
+                  onChange={(val) => handleChanges(val, 'channel_show_on')}
+                  colorScheme="purple"
+                  value={flow.config?.channel_show_on ?? []}
+                >
+                  <HStack spacing={4}>
+                    <Checkbox size="lg" value="desktop" aria-label="show on desktop">
+                      Desktop
+                    </Checkbox>
+                    <Checkbox size="lg" value="mobile" aria-label="show on mobile">
+                      Mobile
+                    </Checkbox>
+                  </HStack>
+                </CheckboxGroup>
+              </FormControl>
+            )}
+          </>
+        )}
       </VStack>
     </>
   )
