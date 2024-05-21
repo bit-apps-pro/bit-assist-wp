@@ -12,6 +12,9 @@ use BitApps\Assist\Core\Database\Operator as DBOperator;
 use BitApps\Assist\Core\Hooks\Hooks;
 use BitApps\Assist\Core\Http\RequestType;
 use BitApps\Assist\Core\Utils\Capabilities;
+use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
+use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
+use BitApps\Assist\HTTP\Controllers\BitAssistAnalyticsController;
 use BitApps\Assist\HTTP\Middleware\NonceCheckerMiddleware;
 use BitApps\Assist\Providers\HookProvider;
 use BitApps\Assist\Providers\InstallerProvider;
@@ -38,6 +41,10 @@ final class Plugin
     {
         $this->registerInstaller();
         Hooks::addAction('plugins_loaded', [$this, 'loaded']);
+
+        Hooks::addFilter(Config::withPrefix('telemetry_additional_data'), [new BitAssistAnalyticsController(), 'filterTrackingData']);
+
+        $this->initWPTelemetry();
     }
 
     public function registerInstaller()
@@ -55,6 +62,22 @@ final class Plugin
         Hooks::addAction('init', [$this, 'registerProviders']);
         Hooks::addFilter('plugin_action_links_' . Config::get('BASENAME'), [$this, 'actionLinks']);
         $this->maybeMigrateDB();
+    }
+
+    public function initWPTelemetry()
+    {
+        TelemetryConfig::setSlug(Config::SLUG);
+        TelemetryConfig::setTitle(Config::TITLE);
+        TelemetryConfig::setVersion(Config::VERSION);
+        TelemetryConfig::setPrefix(Config::VAR_PREFIX);
+
+        TelemetryConfig::setServerBaseUrl('https://wp-api.bitapps.pro/public/');
+
+        TelemetryConfig::setTermsUrl('https://bitapps.pro/terms-of-service/');
+        TelemetryConfig::setPolicyUrl('https://bitapps.pro/refund-policy/');
+
+        Telemetry::report()->init();
+        Telemetry::feedback()->init();
     }
 
     public function middlewares()

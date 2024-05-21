@@ -22,7 +22,17 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "typisttech/imposter-plugin": true
         }
+    },
+    "require": {
+        "typisttech/imposter-plugin": "*",
+        "bitapps/wp-telemetry": "^0.0.6"
+    },
+    "extra": {
+    "imposter": {
+      "namespace": "BitApps\\Assist\\Deps\\"
     }
+  }
 }
