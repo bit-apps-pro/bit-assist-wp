@@ -1,9 +1,9 @@
 === Chat Widget: Customer Support Button with SMS Call Button, Click to Chat Messenger, Live Chat Support Chat Button - Bit Assist ===
 
-Contributors: bitpressadmin
+Contributors: bitpressadmin, shuvomohajan, shimulckbt
 Tags: chat, chat widget, whatsapp chat, click to chat, chat button
 Requires at least: 5.1
-Tested up to: 6.5.3
+Tested up to: 6.6.1
 Requires PHP: 7.0
 Stable tag: 1.4.7
 License: GPLv2 or later
@@ -26,7 +26,7 @@ Although it is not a live chat plugin but help you to connect with multiple soci
 
 https://youtu.be/atVwkzFNnmM
 
-🚀 [Documentation](https://docs.bit-assist.bitapps.pro/) | 🚀 [Premium](https://www.bitapps.pro/bit-assist#pricing) | 🚀 [Support](https://bitapps.pro/contact/) | 🚀 [Facebook Community](https://www.facebook.com/groups/bitapps) | 🚀 [YouTube Channel](https://www.youtube.com/@bit-apps)
+🚀 [Documentation](https://bitapps.pro/docs/bit-assist/) | 🚀 [Premium](https://www.bitapps.pro/bit-assist#pricing) | 🚀 [Support](https://bitapps.pro/contact/) | 🚀 [Facebook Community](https://www.facebook.com/groups/bitapps) | 🚀 [YouTube Channel](https://www.youtube.com/@bit-apps)
 
 ## EASIEST STICKY CHAT WIDGET PLUGIN TO CONNECT MULTIPLE SOCIAL SUPPORT CHAT BUTTON
 
