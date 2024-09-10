@@ -26,7 +26,7 @@ Although it is not a live chat plugin but help you to connect with multiple soci
 
 https://youtu.be/atVwkzFNnmM
 
-🚀 [Documentation](https://bitapps.pro/docs/bit-assist/) | 🚀 [Premium](https://www.bitapps.pro/bit-assist#pricing) | 🚀 [Support](https://bitapps.pro/contact/) | 🚀 [Facebook Community](https://www.facebook.com/groups/bitapps) | 🚀 [YouTube Channel](https://www.youtube.com/@bit-apps)
+🚀 [Try Demo](https://towp.io/) | 🚀 [Documentation](https://bitapps.pro/docs/bit-assist/) | 🚀 [Premium](https://www.bitapps.pro/bit-assist#pricing) | 🚀 [Support](https://bitapps.pro/contact/) | 🚀 [Facebook Community](https://www.facebook.com/groups/bitapps) | 🚀 [YouTube Channel](https://www.youtube.com/@bit-apps)
 
 ## EASIEST STICKY CHAT WIDGET PLUGIN TO CONNECT MULTIPLE SOCIAL SUPPORT CHAT BUTTON
 
