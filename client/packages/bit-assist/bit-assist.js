@@ -1,4 +1,4 @@
-const apiEndPoint = window?.bit_assist_?.api?.base || 'http://bit-assist-wp.test/wp-json/bit-assist/v1'
+const apiEndPoint = window?.bit_assist_?.api?.base || 'http://bit-assist.click/wp-json/bit-assist/v1'
 const iframeHost = window?.bit_assist_?.api?.base ? `${bit_assist_.api.base}/iframe` : 'http://localhost:5000'
 const iframeDomain = new URL(iframeHost).origin
 const separator = window?.bit_assist_?.api?.separator || '?'

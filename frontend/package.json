@@ -45,12 +45,12 @@
     "i18n:json": "npx po2json ./language/locale.pot ../languages/bitform-btcassist-admin-script.json -f jed1.x",
     "i18n:php": "node ./language/pot-to-php.js ./language/locale.pot ../languages/generatedString.php btcassist",
     "clean": "rimraf node_modules yarn.lock package-lock.json",
-    "dev": "vite --open",
+    "dev:open": "vite --open",
     "vbuild": "tsc && vite build",
     "preview": "vite preview",
     "mock": "json-server --watch ./Mock_API/api.json --port 9000",
     "test": "jest",
-    "devv": "vite --config vite.config.wp.ts",
+    "dev": "vite --config vite.config.wp.ts",
     "postinstall": "node ./postinstall.js"
   },
   "husky": {
