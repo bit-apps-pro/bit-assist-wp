@@ -1,14 +1,11 @@
 import babel from '@rollup/plugin-babel'
+import terser from '@rollup/plugin-terser'
 import { resolve } from 'path'
-import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 
 export default {
 	input: resolve(__dirname, 'bit-assist.js'),
-	external: [
-		'window',
-		'document',
-	],
+	external: ['window', 'document'],
 	output: {
 		file: '../../../iframe/bit-assist.js',
 		format: 'iife',

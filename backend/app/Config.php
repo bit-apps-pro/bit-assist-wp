@@ -80,7 +80,7 @@ class Config
                 ];
 
             case 'ROOT_URI':
-                return set_url_scheme(plugins_url('', self::get('MAIN_FILE')), parse_url(home_url())['scheme']);
+                return set_url_scheme(plugins_url('', self::get('MAIN_FILE')), wp_parse_url(home_url())['scheme']);
 
             case 'ASSET_URI':
                 return self::get('ROOT_URI') . '/assets';

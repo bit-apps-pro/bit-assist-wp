@@ -1,9 +1,9 @@
 import babel from '@rollup/plugin-babel'
-import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 import resolve from '@rollup/plugin-node-resolve'
 import scss from 'rollup-plugin-scss'
 import image from '@rollup/plugin-image'
+import terser from '@rollup/plugin-terser'
 
 export default function generateRollupConfig({ watch }) {
 	const isDev = watch
