@@ -13,25 +13,25 @@ if (!\defined('ABSPATH')) {
  */
 class Config
 {
-    const SLUG = 'bit-assist';
+    public const SLUG = 'bit-assist';
 
-    const TITLE = ' Bit Assist';
+    public const TITLE = ' Bit Assist';
 
-    const VAR_PREFIX = 'bit_assist_';
+    public const VAR_PREFIX = 'bit_assist_';
 
-    const VERSION = '1.4.7';
+    public const VERSION = '1.4.8';
 
-    const DB_VERSION = '1.0.2';
+    public const DB_VERSION = '1.0.2';
 
-    const REQUIRED_PHP_VERSION = '7.0';
+    public const REQUIRED_PHP_VERSION = '7.0';
 
-    const REQUIRED_WP_VERSION = '5.1';
+    public const REQUIRED_WP_VERSION = '5.1';
 
-    const API_VERSION = '1.0.0';
+    public const API_VERSION = '1.0.0';
 
-    const APP_BASE = '../../index.php';
+    public const APP_BASE = '../../index.php';
 
-    const DEV_URL = 'http://localhost:3000';
+    public const DEV_URL = 'http://localhost:3000';
 
     /**
      * Provides configuration for plugin.
@@ -58,7 +58,7 @@ class Config
 
             case 'SITE_URL':
                 $parsedUrl = parse_url(get_admin_url());
-                $siteUrl   = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+                $siteUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
                 $siteUrl .= empty($parsedUrl['port']) ? null : ':' . $parsedUrl['port'];
 
                 return $siteUrl;
@@ -201,7 +201,7 @@ class Config
     private static function sideBarMenu()
     {
         return [
-            'Home'      => [
+            'Home' => [
                 'type'       => 'menu',
                 'title'      => __('Bit Assist', 'bit-assist'),
                 'name'       => __('Bit Assist', 'bit-assist'),
