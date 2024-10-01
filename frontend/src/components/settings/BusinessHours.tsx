@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Box, Checkbox, FormControl, FormLabel, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
+import { Box, Checkbox, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
@@ -161,6 +161,8 @@ function BusinessHours() {
                     placeholder="Choose your timezone"
                     className="select-search"
                     disabled={!config.IS_PRO}
+                    onBlur={() => {}}
+                    onFocus={() => {}}
                   />
                 </Box>
               </VStack>
