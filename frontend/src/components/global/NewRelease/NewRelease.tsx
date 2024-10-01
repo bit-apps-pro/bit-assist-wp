@@ -13,6 +13,9 @@ import config from '@config/config'
 
 import cls from './NewRelease.module.css'
 
+const addProIfExist = config.IS_PRO ? '-pro' : ''
+const redirectUrl = `https://bit-social.com/?utm_source=bit-assist${addProIfExist}&utm_medium=referral&utm_campaign=early-bird-offer`
+
 export default function NewRelease() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -25,19 +28,19 @@ export default function NewRelease() {
         <span className={cls.star} />
       </Button>
 
-      <Modal size="lg" isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent borderRadius={0}>
+      <Modal isCentered size="lg" isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay zIndex={100000} />
+        <ModalContent borderRadius={0} containerProps={{ zIndex: 100000 }}>
           <ModalCloseButton />
 
-          <Link href="https://bit-social.com/" target="_blank" rel="noopener noreferrer">
+          <Link href={redirectUrl} target="_blank" rel="noopener noreferrer">
             <Image src={config.ROOT_URL + '/img/early-bird-offer-bit-social.webp'} cursor="pointer" />
           </Link>
 
           <ModalFooter pt={0}>
             <Button
               as="a"
-              href="https://bit-social.com/"
+              href={redirectUrl}
               target="_blank"
               rel="noopener noreferrer"
               rounded="full"

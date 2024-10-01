@@ -1,4 +1,7 @@
 // eslint-disable-next-line camelcase, @typescript-eslint/ban-ts-comment
+
+import { toBoolean } from '@helpers/globalHelpers'
+
 // @ts-ignore
 const serverVariables = typeof bit_assist_ === 'undefined' ? {} : bit_assist_ // eslint-disable-line camelcase,
 
@@ -11,7 +14,7 @@ const config = {
   ROUTE_PREFIX: serverVariables.routePrefix || 'bit_assist_',
   ROOT_URL: serverVariables.rootURL,
   ASSETS_URL: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : serverVariables.assetsURL,
-  IS_PRO: serverVariables.isPro || false,
+  IS_PRO: toBoolean(serverVariables.isPro),
 }
 
 export default config

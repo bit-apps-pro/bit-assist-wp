@@ -6,3 +6,16 @@ export const checkValidEmail = (email: string) => {
   }
   return false
 }
+
+export function toBoolean(value: unknown): boolean {
+  if (typeof value === 'string') {
+    value = value.toLowerCase()
+    return value === 'true' || value === '1'
+  }
+
+  if (typeof value === 'number') {
+    return value === 1
+  }
+
+  return !!value
+}
