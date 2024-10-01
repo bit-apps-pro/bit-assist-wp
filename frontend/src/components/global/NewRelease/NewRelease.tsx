@@ -14,7 +14,7 @@ import config from '@config/config'
 import cls from './NewRelease.module.css'
 
 const addProIfExist = config.IS_PRO ? '-pro' : ''
-const redirectUrl = `https://bit-social.com/?utm_source=bit-assist${addProIfExist}&utm_medium=referral&utm_campaign=early-bird-offer`
+const redirectUrl = `https://bit-social.com/?utm_source=bit-assist${addProIfExist}&utm_medium=inside-plugin&utm_campaign=early-bird-offer`
 
 export default function NewRelease() {
   const { isOpen, onOpen, onClose } = useDisclosure()
