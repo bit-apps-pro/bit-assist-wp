@@ -22,7 +22,7 @@ export default function NewRelease() {
   return (
     <>
       <Button className={cls.button} size="sm" onClick={onOpen} rounded="full" colorScheme="purple">
-        New Release
+        New Product Release
         <span className={cls.star} />
         <span className={cls.star} />
         <span className={cls.star} />
