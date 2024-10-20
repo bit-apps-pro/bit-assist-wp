@@ -81,10 +81,11 @@ class InstallerProvider
             'BASTPluginOptions',
             'BASTUpdateOptions',
             'BASTAnalyticsTableMigration',
+            'BASTUpdateCustomCssColumnInWidgetTableMigration'
         ];
 
         return [
-            'path'       => Config::get('BASEDIR')
+            'path' => Config::get('BASEDIR')
                 . DIRECTORY_SEPARATOR
                 . 'db'
                 . DIRECTORY_SEPARATOR
@@ -105,7 +106,7 @@ class InstallerProvider
         ];
 
         return [
-            'path'       => Config::get('BASEDIR')
+            'path' => Config::get('BASEDIR')
                 . DIRECTORY_SEPARATOR
                 . 'db'
                 . DIRECTORY_SEPARATOR

@@ -19,9 +19,9 @@ class Config
 
     public const VAR_PREFIX = 'bit_assist_';
 
-    public const VERSION = '1.4.8';
+    public const VERSION = '1.4.9';
 
-    public const DB_VERSION = '1.0.2';
+    public const DB_VERSION = '1.0.3';
 
     public const REQUIRED_PHP_VERSION = '7.0';
 
@@ -115,6 +115,20 @@ class Config
     public static function withPrefix($option)
     {
         return self::VAR_PREFIX . $option;
+    }
+
+    /**
+     * Prefixed table name with db prefix and var prefix.
+     *
+     * @param mixed $table
+     *
+     * @return string
+     */
+    public static function withDBPrefix($table)
+    {
+        global $wpdb;
+
+        return $wpdb->prefix . self::VAR_PREFIX . $table;
     }
 
     /**

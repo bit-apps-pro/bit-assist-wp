@@ -81,7 +81,9 @@ type PositionInputProps = {
 function PositionInput({ position, value, onChange }: PositionInputProps) {
   return (
     <HStack mt="2">
-      <Text w="16">{position}</Text>
+      <Text w="16" textTransform="capitalize">
+        {position}
+      </Text>
       <InputGroup>
         <Input w="28" min="0" placeholder={position} value={value} onChange={(e) => onChange(e, position)} />
         <InputRightAddon children="px" />

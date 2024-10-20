@@ -9,7 +9,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure
+  useDisclosure,
 } from '@chakra-ui/react'
 import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
@@ -48,7 +48,6 @@ function CustomCSS() {
           readOnly
           filter="auto"
           cursor="pointer"
-          overflow="hidden"
           onClick={onOpen}
           value={widget.custom_css || ''}
           tabIndex={tabIndex}

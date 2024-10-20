@@ -79,11 +79,15 @@ class Blueprint
 
     private $_sql = '';
 
+    private $fkID = '';
+
     private $_rawSql = false;
 
     private $_prefix = '';
 
     private $_edit = [];
+
+    private $_newName = '';
 
     /**
      * Create a new schema blueprint.
