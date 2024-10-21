@@ -25,7 +25,7 @@ export const woocommerce = {
 		globalAppend(widgetThis.cardBody, widgetThis.formBody)
 
 		globalEventListener(widgetThis.formBody, 'submit', e => woocommerce.formSubmitted(widgetThis, e, widgetChannel))
-		widgetThis.createAllFields(cardConfig?.form_fields)
+		woocommerce.createAllFields(cardConfig?.form_fields)
 	},
 
 	createAllFields(fields) {
@@ -71,7 +71,7 @@ export const woocommerce = {
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
-				this.formSubmittedData(widgetThis, formData, widgetChannel)
+				woocommerce.formSubmittedData(widgetThis, formData, widgetChannel)
 			} else {
 				await woocommerce.showToast(widgetThis, 'error', responseData?.data, widgetChannel)
 			}
@@ -105,10 +105,10 @@ export const woocommerce = {
 
 	async showToast(widgetThis, type, data, widgetChannel, formData) {
 		if (data?.status_code === 200) {
-			this.orderDetailsItems(widgetThis, data, widgetChannel)
+			woocommerce.orderDetailsItems(widgetThis, data, widgetChannel)
 
 			if (data?.pagination?.has_next || data?.pagination?.has_previous) {
-				this.renderOrderDetailsPagination(widgetThis, data?.pagination, formData, widgetChannel)
+				woocommerce.renderOrderDetailsPagination(widgetThis, data?.pagination, formData, widgetChannel)
 			}
 			return
 		}
@@ -270,10 +270,10 @@ export const woocommerce = {
 		}
 
 		globalEventListener(nextPage, 'click', () =>
-			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.next),
+			woocommerce.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.next),
 		)
 		globalEventListener(prevPage, 'click', () =>
-			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.previous),
+			woocommerce.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.previous),
 		)
 
 		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])

@@ -24,7 +24,7 @@ export const custom_form = {
 		globalAppend(widgetThis.cardBody, widgetThis.formBody)
 
 		globalEventListener(widgetThis.formBody, 'submit', e => custom_form.formSubmitted(widgetThis, e))
-		widgetThis.createAllFields(cardConfig?.form_fields)
+		custom_form.createAllFields(cardConfig?.form_fields)
 	},
 
 	createAllFields(fields) {
