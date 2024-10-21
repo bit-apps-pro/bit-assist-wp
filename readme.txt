@@ -321,6 +321,7 @@ Yes, you can use standalone form using Bit Assist‘s custom ifram channel which
 == Changelog ==
 = v1.4.9 (Oct 21, 2024) =
 * Fix: Resolved issue where custom CSS was limited to 255 characters, now allowing users to add unlimited CSS content.
+* Fix: Resolved the issue where feedback and rating fields were not displaying in custom forms, improving form functionality and user experience.
 
 = v1.4.8 (Oct 01, 2024) =
 * Improvement: some code optimization
