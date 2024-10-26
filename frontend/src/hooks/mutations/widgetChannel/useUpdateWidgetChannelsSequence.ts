@@ -20,22 +20,40 @@ export default function useUpdateWidgetChannelsSequence() {
     const { data } = queryClient.getQueryData<any>(['widget/widgetChannels', widgetId])
     const oldWidgetChannel: WidgetChannelType[] = data
 
+    // Update the cache with new widget channels
     queryClient.setQueryData(['widget/widgetChannels', widgetId], {
       data: newWidgetChannels,
     })
 
+    // Determine the moved item and create a new array to store only changed sequences
     const newArray: UpdateSequenceProps[] = []
-    oldWidgetChannel?.map((widgetChannel: WidgetChannelType, i: number) => {
-      if (i !== oldIndex && ((i >= oldIndex && i <= newIndex) || (i >= newIndex && i <= oldIndex))) {
-        if (oldIndex < newIndex) {
-          newArray.push({ id: widgetChannel.id, sequence: oldWidgetChannel[i - 1].sequence })
-        } else if (oldIndex > newIndex) {
-          newArray.push({ id: widgetChannel.id, sequence: oldWidgetChannel[i + 1].sequence })
-        }
+
+    // Loop through each item and determine if sequence has changed
+    oldWidgetChannel.forEach((channel, index) => {
+      let newSequence = index
+
+      // Case when item was shifted downwards (oldIndex < newIndex)
+      if (oldIndex < newIndex && index >= oldIndex && index <= newIndex) {
+        newSequence = index === oldIndex ? newIndex : index - 1
+      }
+      // Case when item was shifted upwards (oldIndex > newIndex)
+      else if (oldIndex > newIndex && index >= newIndex && index <= oldIndex) {
+        newSequence = index === oldIndex ? newIndex : index + 1
+      }
+
+      // Add to newArray if sequence has changed
+      if (newSequence !== index) {
+        newArray.push({
+          id: channel.id,
+          sequence: newSequence,
+        })
       }
     })
-    newArray.push({ id: oldWidgetChannel[oldIndex].id, sequence: oldWidgetChannel[newIndex].sequence })
 
+    // check if the array is empty or has no changes
+    if (newArray.length < 2) return
+
+    // Pass the updated array with only changed sequences to mutateAsync
     mutateAsync(newArray)
   }
 

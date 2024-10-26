@@ -15,7 +15,7 @@ import {
 } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAtom } from 'jotai'
 import { flowAtom, widgetChannelOrderAtom } from '@globalStates/atoms'
 import useUpdateWidgetChannelsSequence from '@hooks/mutations/widgetChannel/useUpdateWidgetChannelsSequence'
@@ -30,13 +30,17 @@ function ChannelsList() {
 
   useEffect(() => {
     if (widgetChannels?.length < 1) return
+
     let maxNumber = 0
+
     widgetChannels?.map((item: WidgetChannelType) => {
       if (item.sequence > maxNumber) {
         maxNumber = item.sequence
       }
     })
+
     setChannelOrder(maxNumber + 1)
+
     setFlow((prev) => {
       prev.sequence = maxNumber + 1
     })
@@ -64,6 +68,8 @@ function ChannelsList() {
     }
   }
 
+  const channelIds = useMemo(() => widgetChannels?.map((item: WidgetChannelType) => item.id), [widgetChannels])
+
   return (
     <>
       {isWidgetChannelsFetching && <Spinner />}
@@ -76,10 +82,7 @@ function ChannelsList() {
           onDragEnd={handleDragEnd}
           onDragStart={handleDragStart}
         >
-          <SortableContext
-            items={widgetChannels.map((item: WidgetChannelType) => item.id)}
-            strategy={verticalListSortingStrategy}
-          >
+          <SortableContext items={channelIds} strategy={verticalListSortingStrategy}>
             <VStack>
               {widgetChannels?.map((widgetChannel: WidgetChannelType) => (
                 <WidgetChanel key={widgetChannel.id} widgetChannel={widgetChannel} />
