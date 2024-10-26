@@ -1,5 +1,6 @@
 <?php
 
+use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Blueprint;
 use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Schema;
@@ -12,7 +13,7 @@ final class BASTWidgetChannelsTableMigration extends Migration
 {
     public function up()
     {
-        Schema::create('widget_channels', function (Blueprint $table) {
+        Schema::withPrefix(Config::get('DB_PREFIX'))->create('widget_channels', function (Blueprint $table) {
             $table->id();
             $table->bigint('widget_id', 20)->unsigned()->foreign('widgets', 'id')->onDelete()->cascade();
             $table->string('channel_name');
@@ -25,6 +26,6 @@ final class BASTWidgetChannelsTableMigration extends Migration
 
     public function down()
     {
-        Schema::drop('widget_channels');
+        Schema::withPrefix(Config::get('DB_PREFIX'))->drop('widget_channels');
     }
 }

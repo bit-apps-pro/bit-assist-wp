@@ -115,62 +115,66 @@ function Widgets() {
             </Tr>
           </Thead>
           <Tbody>
-            {widgets?.map((widget: Widget) => (
-              <Tr key={widget.id}>
-                <Td w="10">
-                  <Switch
-                    colorScheme="purple"
-                    aria-label="Switch widget status"
-                    disabled={isWidgetStatusUpdating}
-                    isChecked={widget.status}
-                    onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
-                    title={widget.status ? 'Widget disable' : 'Widget enable'}
-                  />
-                </Td>
-                <Td>
-                  <Text display="inline-block" fontSize="md" _hover={{ color: brandColorToggle }}>
-                    <Link to={`/widgets/${widget.id}`}>{widget.name || 'Untitled Widget'}</Link>
+            {widgets &&
+              widgets.map((widget: Widget) => (
+                <Tr key={widget.id}>
+                  <Td w="10">
+                    <Switch
+                      colorScheme="purple"
+                      aria-label="Switch widget status"
+                      disabled={isWidgetStatusUpdating}
+                      isChecked={widget.status}
+                      onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
+                      title={widget.status ? 'Widget disable' : 'Widget enable'}
+                    />
+                  </Td>
+                  <Td>
+                    <Text display="inline-block" fontSize="md" _hover={{ color: brandColorToggle }}>
+                      <Link to={`/widgets/${widget.id}`}>{widget.name || 'Untitled Widget'}</Link>
+                    </Text>
+                  </Td>
+                  <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
+
+                  <Td textAlign="right" w="10">
+                    <Select
+                      w="28"
+                      mr="4"
+                      display="inline-block"
+                      value={widget.active ? 1 : 0}
+                      disabled={config.IS_PRO ? !widget.status : true}
+                      onChange={(e) => handleChange(e.target.value, widget.id)}
+                      className={`chipSelect ${widget.active ? 'active' : ''}`}
+                      size="sm"
+                    >
+                      <option value="1">This site</option>
+                      <option value="0">External site</option>
+                    </Select>
+
+                    <Menu>
+                      <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
+                      <MenuList shadow="lg">
+                        <Link to={`/widgets/${widget.id}`}>
+                          <MenuItem icon={<FiEdit2 />}>Edit</MenuItem>
+                        </Link>
+                        <MenuItem icon={<FiCopy />} onClick={onCopyWidget(widget.id)}>
+                          Duplicate
+                        </MenuItem>
+                        <MenuItem icon={<FiTrash2 />} color="red.600" onClick={openDeleteModal(widget.id)}>
+                          Delete
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Td>
+                </Tr>
+              ))}
+
+            {(!widgets || widgets?.length < 1) && (
+              <Tr>
+                <Td colSpan={4}>
+                  <Text fontSize="md" color="gray.500" align="center">
+                    No widgets found! Create a new widget.
                   </Text>
                 </Td>
-                <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
-
-                <Td textAlign="right" w="10">
-                  <Select
-                    w="28"
-                    mr="4"
-                    display="inline-block"
-                    value={widget.active ? 1 : 0}
-                    disabled={config.IS_PRO ? !widget.status : true}
-                    onChange={(e) => handleChange(e.target.value, widget.id)}
-                    className={`chipSelect ${widget.active ? 'active' : ''}`}
-                    size="sm"
-                  >
-                    <option value="1">This site</option>
-                    <option value="0">External site</option>
-                  </Select>
-
-                  <Menu>
-                    <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
-                    <MenuList shadow="lg">
-                      <Link to={`/widgets/${widget.id}`}>
-                        <MenuItem icon={<FiEdit2 />}>Edit</MenuItem>
-                      </Link>
-
-                      <MenuItem icon={<FiCopy />} onClick={onCopyWidget(widget.id)}>
-                        Copy
-                      </MenuItem>
-                      <MenuItem icon={<FiTrash2 />} color="red.600" onClick={openDeleteModal(widget.id)}>
-                        Delete
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </Td>
-              </Tr>
-            ))}
-
-            {widgets?.length < 1 && (
-              <Tr>
-                <Td rowSpan={2}>No Widgets</Td>
               </Tr>
             )}
           </Tbody>

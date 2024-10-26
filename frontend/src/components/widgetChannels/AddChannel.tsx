@@ -9,7 +9,6 @@ import {
   useDisclosure,
   Text,
   HStack,
-  Box,
   Link,
   ButtonGroup,
 } from '@chakra-ui/react'
@@ -259,7 +258,7 @@ function AddChannel() {
 
   return (
     <>
-      <Button mb="4" mr="2" variant="outline" colorScheme="gray" leftIcon={<HiPlus />} onClick={onOpen}>
+      <Button mb="4" mr="2" variant="outline" colorScheme="purple" leftIcon={<HiPlus />} onClick={onOpen}>
         Add Channel
       </Button>
 

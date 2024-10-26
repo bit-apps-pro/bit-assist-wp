@@ -1,5 +1,6 @@
 <?php
 
+use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Blueprint;
 use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Schema;
@@ -12,7 +13,7 @@ final class BASTResponsesTableMigration extends Migration
 {
     public function up()
     {
-        Schema::create('responses', function (Blueprint $table) {
+        Schema::withPrefix(Config::get('DB_PREFIX'))->create('responses', function (Blueprint $table) {
             $table->id();
             $table->bigint('widget_channel_id', 20)->unsigned()->foreign('widget_channels', 'id')->onDelete()->cascade();
             $table->longtext('response');
@@ -22,6 +23,6 @@ final class BASTResponsesTableMigration extends Migration
 
     public function down()
     {
-        Schema::drop('responses');
+        Schema::withPrefix(Config::get('DB_PREFIX'))->drop('responses');
     }
 }

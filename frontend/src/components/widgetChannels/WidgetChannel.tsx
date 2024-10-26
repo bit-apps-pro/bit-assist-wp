@@ -130,7 +130,7 @@ function WidgetChannel({ widgetChannel, shadow = 'none', cursor = 'grab', bg = '
                 Edit
               </MenuItem>
               <MenuItem icon={<FiCopy />} onClick={onCopyChannel(widgetChannel.id)}>
-                Copy
+                Duplicate
               </MenuItem>
               {widgetChannel.config?.card_config?.form_fields && (
                 <Link to={`/responses/${widgetChannel.id}`}>

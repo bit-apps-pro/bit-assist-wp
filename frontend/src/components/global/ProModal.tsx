@@ -10,7 +10,7 @@ import {
   Text,
   Link,
   Box,
-  Flex
+  Flex,
 } from '@chakra-ui/react'
 
 interface ProModalProps {
@@ -25,7 +25,7 @@ export default function ProModal({ type, number, text, icon }: ProModalProps) {
 
   return (
     <>
-      <Button mb="4" mr="2" variant="outline" colorScheme="gray" leftIcon={icon} onClick={onOpen}>
+      <Button mb="4" mr="2" variant="outline" colorScheme="purple" leftIcon={icon} onClick={onOpen}>
         {text}
       </Button>
 
@@ -40,19 +40,18 @@ export default function ProModal({ type, number, text, icon }: ProModalProps) {
             <Flex justifyContent="space-between" alignItems="center">
               <Box>
                 <Text fontSize="md">
-                  You can use
-                  {' '}
-                  <strong>{`${number} ${type}`}</strong>
-                  {' '}
-                  in free version.
+                  You can use <strong>{`${number} ${type}`}</strong> in free version.
                 </Text>
-                <Text fontSize="md">
-                  {`Get premium version to use unlimited ${type}s.`}
-                </Text>
+                <Text fontSize="md">{`Get premium version to use unlimited ${type}s.`}</Text>
               </Box>
               <Box textAlign="right">
-                <Link href="https://www.bitapps.pro/bit-assist" target="_blank" _hover={{ underline: 'none' }} tabIndex={-1}>
-                  <Button colorScheme="purple">Buy Pro</Button>
+                <Link
+                  href="https://www.bitapps.pro/bit-assist"
+                  target="_blank"
+                  _hover={{ underline: 'none' }}
+                  tabIndex={-1}
+                >
+                  <Button colorScheme="purple">Get Pro Version</Button>
                 </Link>
               </Box>
             </Flex>

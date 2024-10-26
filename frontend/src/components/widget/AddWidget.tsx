@@ -11,7 +11,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  ModalFooter
+  ModalFooter,
 } from '@chakra-ui/react'
 import { defaultCreateWidgetInfo } from '@globalStates/DefaultStates'
 import { CreateWidgetInfo } from '@globalStates/Interfaces'
@@ -45,7 +45,7 @@ function AddWidget() {
 
   return (
     <>
-      <Button mb="4" mr="2" variant="outline" colorScheme="gray" leftIcon={<HiPlus />} onClick={onOpen}>
+      <Button mb="4" mr="2" variant="outline" colorScheme="purple" leftIcon={<HiPlus />} onClick={onOpen}>
         Add Widget
       </Button>
 
@@ -64,7 +64,13 @@ function AddWidget() {
           </ModalBody>
           <ModalFooter gap="2">
             <Button onClick={onModalClose}>Cancel</Button>
-            <Button colorScheme="purple" onClick={addNewWidget} isLoading={isWidgetCreating} loadingText="Creating..." spinnerPlacement="start">
+            <Button
+              colorScheme="purple"
+              onClick={addNewWidget}
+              isLoading={isWidgetCreating}
+              loadingText="Creating..."
+              spinnerPlacement="start"
+            >
               Create
             </Button>
           </ModalFooter>

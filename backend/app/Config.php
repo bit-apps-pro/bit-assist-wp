@@ -100,6 +100,10 @@ class Config
             case 'UPLOAD_DIR':
                 return wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . self::SLUG;
 
+            case 'DB_PREFIX':
+                global $wpdb;
+                return $wpdb->prefix . self::VAR_PREFIX;
+
             default:
                 return $default;
         }
