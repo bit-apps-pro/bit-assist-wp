@@ -11,7 +11,7 @@
     "bitapps/wp-kit": "^1.2",
     "bitapps/wp-database": "^1",
     "bitapps/wp-validator": "^1",
-    "bitapps/wp-telemetry": "^0.0.8",
+    "bitapps/wp-telemetry": "^0.0.9",
     "typisttech/imposter-plugin": "^0.6.2"
   },
   "require-dev": {
@@ -23,8 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "BitApps\\Assist\\": "./backend/app",
-      "BitApps\\Assist\\Core\\": "./backend/core"
+      "BitApps\\Assist\\": "./backend/app"
     }
   },
   "config": {

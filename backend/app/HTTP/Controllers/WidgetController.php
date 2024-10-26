@@ -74,7 +74,8 @@ final class WidgetController
     public function update(WidgetUpdateRequest $request, Widget $widget)
     {
         $request->name = sanitize_text_field(trim($request->name));
-        $widget->update($request->all());
+
+        $widget->update($request->validated());
 
         if ($widget->save()) {
             return Response::success('Widget updated');
