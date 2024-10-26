@@ -84,13 +84,21 @@ function CustomForm() {
       if (typeof prev.config?.card_config?.form_fields === 'undefined') {
         prev.config.card_config = { ...prev.config.card_config, form_fields: [] }
       }
+
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
-      prev.config.card_config?.form_fields?.push({
+
+      const newField = {
         id: prev.config.card_config.maxId || 0,
         label: `${value.charAt(0).toUpperCase() + value.slice(1)}${fieldCount == 0 ? '' : ` ${fieldCount + 1}`}`,
         field_type: value,
         required: true,
-      })
+      }
+
+      if (value === 'rating') {
+        Object.assign(newField, { rating_type: 'star' })
+      }
+
+      prev.config.card_config?.form_fields?.push(newField)
     })
     onClose()
   }

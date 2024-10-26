@@ -3,7 +3,7 @@
 namespace BitApps\Assist\Views;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Hooks\Hooks;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 
 class WebsiteLayout
 {
@@ -26,7 +26,7 @@ class WebsiteLayout
 
         wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', [], $version, true);
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [
-            'api'  => Config::get('API_URL'),
+            'api' => Config::get('API_URL'),
         ]);
     }
 

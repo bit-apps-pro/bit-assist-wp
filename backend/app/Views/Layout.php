@@ -5,16 +5,16 @@
 namespace BitApps\Assist\Views;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Helpers\DateTimeHelper;
-use BitApps\Assist\Core\Hooks\Hooks;
-use BitApps\Assist\Core\Utils\Capabilities;
+use BitApps\Assist\Deps\BitApps\WPKit\Helpers\DateTimeHelper;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
+use BitApps\Assist\Deps\BitApps\WPKit\Utils\Capabilities;
 
 /**
  * The admin Layout and page handler class.
  */
 class Layout
 {
-    const FONT_URL = 'https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap';
+    public const FONT_URL = 'https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap';
 
     public function __construct()
     {

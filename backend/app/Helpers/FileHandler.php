@@ -1,5 +1,6 @@
 <?php
-namespace BitApps\Assist\Core\Utils;
+
+namespace BitApps\Assist\Helpers;
 
 use BitApps\Assist\Config;
 

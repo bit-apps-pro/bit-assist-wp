@@ -1,6 +1,6 @@
 <?php
 
-use BitApps\Assist\Core\Helpers\JSON;
+use BitApps\Assist\Deps\BitApps\WPKit\Helpers\JSON;
 
 class TestFlowController extends BaseTestCase
 {

@@ -105,7 +105,7 @@ export default function Responses() {
             <IconButton aria-label="spinner" size="sm" variant="ghost" rounded="full" icon={<Spinner size="sm" />} />
           ) : (
             <IconButton
-              onClick={refresh}
+              onClick={() => refresh()}
               aria-label="refresh button"
               size="sm"
               rounded="full"

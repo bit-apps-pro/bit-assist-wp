@@ -440,7 +440,7 @@ export const woocommerce = {
 			}).then(res => res.json())
 
 			if (responseData?.status === 'success') {
-				this.formSubmittedData(widgetThis, formData, widgetChannel)
+				woocommerce.formSubmittedData(widgetThis, formData, widgetChannel)
 			} else {
 				await woocommerce.showToast(widgetThis, 'error', responseData?.data, widgetChannel)
 			}
@@ -474,10 +474,10 @@ export const woocommerce = {
 
 	async showToast(widgetThis, type, data, widgetChannel, formData) {
 		if (data?.status_code === 200) {
-			this.orderDetailsItems(widgetThis, data, widgetChannel)
+			woocommerce.orderDetailsItems(widgetThis, data, widgetChannel)
 
 			if (data?.pagination?.has_next || data?.pagination?.has_previous) {
-				this.renderOrderDetailsPagination(widgetThis, data?.pagination, formData, widgetChannel)
+				woocommerce.renderOrderDetailsPagination(widgetThis, data?.pagination, formData, widgetChannel)
 			}
 			return
 		}
@@ -639,89 +639,15 @@ export const woocommerce = {
 		}
 
 		globalEventListener(nextPage, 'click', () =>
-			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.next),
+			woocommerce.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.next),
 		)
 		globalEventListener(prevPage, 'click', () =>
-			this.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.previous),
+			woocommerce.formSubmittedData(widgetThis, formData, widgetChannel, pagination?.previous),
 		)
 
 		globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
 		globalAppend($('#lists'), paginationWrap)
 
-		widgetThis.resetClientWidgetSize()
-	},
-}
-
-import leftArrow from '../icons/left-circle-arrow.js'
-
-export const faq = {
-	renderFaq(widgetChannel) {
-		const widgetThis = this
-		widgetThis.hideChannels()
-		widgetThis.renderCard()
-		widgetThis.setCardStyle(widgetChannel.config)
-		const cardConfig = widgetChannel.config?.card_config
-
-		const faqBody = createElm('div', { id: 'faqBody' })
-		const listWrapper = createElm('div', { id: 'listWrapper' })
-		const lists = createElm('div', { id: 'lists' })
-		const listSearch = createElm('input', {
-			type: 'text',
-			id: 'listSearch',
-			class: 'formControl',
-			placeholder: 'Search',
-		})
-		globalAppend(listWrapper, [lists, listSearch])
-
-		const faqDescription = createElm('div', { id: 'faqDescription' })
-		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-		globalInnerHTML(closeDescBtn, leftArrow)
-		const pElm = createElm('p')
-		globalAppend(descriptionTitle, [closeDescBtn, pElm])
-
-		const content = createElm('div', { class: 'content' })
-		globalAppend(faqDescription, [descriptionTitle, content])
-		globalAppend(faqBody, [listWrapper, faqDescription])
-
-		globalInnerHTML(widgetThis.cardBody, '')
-		globalAppend(widgetThis.cardBody, faqBody)
-
-		globalEventListener(listSearch, 'input', widgetThis.searchList)
-		globalEventListener(closeDescBtn, 'click', e => faq.faqDescToggle(widgetThis, e))
-
-		faq.renderFaqItem(widgetThis, cardConfig?.faqs)
-	},
-
-	renderFaqItem(widgetThis, items) {
-		widgetThis.itemListAppend(items)
-		globalQuerySelectorAll(document, '.listItemTitleWrapper').forEach(item => {
-			globalEventListener(item, 'click', e => faq.faqDescToggle(widgetThis, e, items))
-		})
-	},
-
-	faqDescToggle(widgetThis, e, faqs) {
-		if (faqs) {
-			const faq = faqs.find(
-				item => Number(item.id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
-			)
-			globalInnerHTML($('.descriptionTitle p'), faq?.title || '')
-			globalInnerHTML($('.content'), faq?.description || '')
-		}
-
-		const faqBody = $('#faqBody')
-		const isOpen = globalClassListToggle($('#faqBody'), 'openDesc')
-		if (isOpen) {
-			const descHeight = $('#faqDescription').scrollHeight
-			Object.assign(faqBody.style, {
-				height: descHeight > 400 ? '400px' : `${descHeight}px`,
-				overflow: descHeight > 400 ? 'auto' : 'initial',
-			})
-		} else {
-			faqBody.removeAttribute('style')
-		}
-
-		globalClassListToggle($('#listWrapper'), 'hide')
 		widgetThis.resetClientWidgetSize()
 	},
 }

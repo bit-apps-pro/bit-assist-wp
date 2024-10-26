@@ -2,8 +2,8 @@
 
 namespace BitApps\Assist\HTTP\Middleware;
 
-use BitApps\Assist\Core\Http\Response;
-use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
 final class NonceCheckerMiddleware
 {

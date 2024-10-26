@@ -47,17 +47,23 @@ function Domains() {
         return
       }
 
-      const domainExists = widget.domains.find((domain: string) => domain === origin)
+      const domains = Array.isArray(widget.domains) ? widget.domains : []
+
+      const domainExists = domains.find((domain: string) => domain === origin)
       if (domainExists) {
         toaster('warning', 'Domain already exists')
         return
       }
 
-      const { status, data } = await updateWidget({ ...widget, domains: [...widget.domains, origin] })
+      const { status, data } = await updateWidget({ ...widget, domains: [...domains, origin] })
 
       if (status === 'success') {
         setWidget((prev) => {
-          prev.domains.push(origin)
+          if (Array.isArray(prev.domains)) {
+            prev.domains.push(origin)
+          } else {
+            prev.domains = [origin]
+          }
         })
         resetStates()
       }
@@ -85,7 +91,13 @@ function Domains() {
       <Box w="sm" maxW="full">
         <Box mb="4" rounded="md" borderWidth={`${widget.domains?.length && '1px'}`}>
           {widget.domains?.map((domain, index) => (
-            <Domain key={domain} index={index} domain={domain} updateWidget={updateWidget} isWidgetUpdating={isWidgetUpdating} />
+            <Domain
+              key={domain}
+              index={index}
+              domain={domain}
+              updateWidget={updateWidget}
+              isWidgetUpdating={isWidgetUpdating}
+            />
           ))}
         </Box>
 
@@ -125,21 +137,20 @@ function Domains() {
               </Tooltip>
             </HStack>
             <span>
-              Press
-              {' '}
-              <Kbd>enter</Kbd>
-              {' '}
-              to add, &nbsp;
-              {' '}
-              <Kbd>esc</Kbd>
-              {' '}
-              to cancel
+              Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
             </span>
           </Box>
         )}
 
         {!isAdding && (
-          <Button tabIndex={tabIndex} leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={() => setIsAdding(true)} isLoading={isWidgetUpdating}>
+          <Button
+            tabIndex={tabIndex}
+            leftIcon={<HiPlus />}
+            colorScheme="gray"
+            variant="outline"
+            onClick={() => setIsAdding(true)}
+            isLoading={isWidgetUpdating}
+          >
             Add Domain
           </Button>
         )}

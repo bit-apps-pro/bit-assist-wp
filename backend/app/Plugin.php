@@ -8,10 +8,10 @@ namespace BitApps\Assist;
  * @since 1.0.0-alpha
  */
 
-use BitApps\Assist\Core\Database\Operator as DBOperator;
-use BitApps\Assist\Core\Hooks\Hooks;
-use BitApps\Assist\Core\Http\RequestType;
-use BitApps\Assist\Core\Utils\Capabilities;
+use BitApps\Assist\Deps\BitApps\WPKit\Migration\MigrationHelper;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\RequestType;
+use BitApps\Assist\Deps\BitApps\WPKit\Utils\Capabilities;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
 use BitApps\Assist\HTTP\Controllers\BitAssistAnalyticsController;
@@ -72,7 +72,6 @@ final class Plugin
         TelemetryConfig::setPrefix(Config::VAR_PREFIX);
 
         TelemetryConfig::setServerBaseUrl('https://wp-api.bitapps.pro/public/');
-
         TelemetryConfig::setTermsUrl('https://bitapps.pro/terms-of-service/');
         TelemetryConfig::setPolicyUrl('https://bitapps.pro/refund-policy/');
 
@@ -143,7 +142,7 @@ final class Plugin
         }
 
         if (version_compare(Config::getOption('db_version'), Config::DB_VERSION, '<') || version_compare(Config::getOption('version'), Config::VERSION, '<')) {
-            DBOperator::migrate(InstallerProvider::migration());
+            MigrationHelper::migrate(InstallerProvider::migration());
         }
     }
 

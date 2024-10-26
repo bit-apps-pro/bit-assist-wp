@@ -2,7 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Requests;
 
-use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
 class WidgetChannelStoreRequest extends Request
 {

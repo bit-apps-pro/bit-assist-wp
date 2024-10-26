@@ -3,8 +3,8 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Http\Request\Request;
-use BitApps\Assist\Core\Http\Response;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
 use BitApps\Assist\Model\Widget;
@@ -45,7 +45,7 @@ final class WidgetController
                 'position'         => 'bottom-right',
                 'top'              => 10,
                 'bottom'           => 10,
-                'let'              => 10,
+                'left'             => 10,
                 'right'            => 10,
                 'badge_active'     => 0,
                 'badge_color'      => ['b' => 0, 'g' => 220, 'h' => 120, 'hex' => '00dc00', 'r' => 0, 's' => 100, 'str' => '#00dc00', 'v' => 86],
@@ -118,7 +118,7 @@ final class WidgetController
 
         if ($widget->exists()) {
             $newWidget = $this->replicateWidget($widget);
-            $result    = Widget::insert((array) $newWidget);
+            $result = Widget::insert((array) $newWidget);
 
             if ($result) {
                 $widget->with('widgetChannels');
@@ -143,32 +143,32 @@ final class WidgetController
 
     private function replicateWidget($widget)
     {
-        $newWidget                   = (object) [];
-        $newWidget->name             = $widget->name . ' (copy)';
-        $newWidget->styles           = $widget->styles;
-        $newWidget->business_hours   = $widget->business_hours;
-        $newWidget->timezone         = $widget->timezone;
-        $newWidget->exclude_pages    = $widget->exclude_pages;
-        $newWidget->initial_delay    = $widget->initial_delay;
-        $newWidget->page_scroll      = $widget->page_scroll;
-        $newWidget->widget_behavior  = $widget->widget_behavior;
-        $newWidget->custom_css       = $widget->custom_css;
-        $newWidget->call_to_action   = $widget->call_to_action;
-        $newWidget->store_responses  = $widget->store_responses;
+        $newWidget = (object) [];
+        $newWidget->name = $widget->name . ' (copy)';
+        $newWidget->styles = $widget->styles;
+        $newWidget->business_hours = $widget->business_hours;
+        $newWidget->timezone = $widget->timezone;
+        $newWidget->exclude_pages = $widget->exclude_pages;
+        $newWidget->initial_delay = $widget->initial_delay;
+        $newWidget->page_scroll = $widget->page_scroll;
+        $newWidget->widget_behavior = $widget->widget_behavior;
+        $newWidget->custom_css = $widget->custom_css;
+        $newWidget->call_to_action = $widget->call_to_action;
+        $newWidget->store_responses = $widget->store_responses;
         $newWidget->delete_responses = $widget->delete_responses;
-        $newWidget->status           = $widget->status;
+        $newWidget->status = $widget->status;
 
         return $newWidget;
     }
 
     private function replicateWidgetChannel($widgetChannel, $widgetId, $maxSequence)
     {
-        $newWidgetChannel               = (object) [];
-        $newWidgetChannel->widget_id    = $widgetId;
+        $newWidgetChannel = (object) [];
+        $newWidgetChannel->widget_id = $widgetId;
         $newWidgetChannel->channel_name = $widgetChannel->channel_name;
-        $newWidgetChannel->config       = $widgetChannel->config;
-        $newWidgetChannel->sequence     = $maxSequence + 1;
-        $newWidgetChannel->status       = $widgetChannel->status;
+        $newWidgetChannel->config = $widgetChannel->config;
+        $newWidgetChannel->sequence = $maxSequence + 1;
+        $newWidgetChannel->status = $widgetChannel->status;
 
         return $newWidgetChannel;
     }

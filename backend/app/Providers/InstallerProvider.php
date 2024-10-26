@@ -3,8 +3,8 @@
 namespace BitApps\Assist\Providers;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Hooks\Hooks;
-use BitApps\Assist\Core\Installer;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
+use BitApps\Assist\Deps\BitApps\WPKit\Installer;
 
 class InstallerProvider
 {

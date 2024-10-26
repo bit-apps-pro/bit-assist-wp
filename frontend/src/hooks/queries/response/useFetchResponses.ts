@@ -6,25 +6,22 @@ export default function useFetchResponses(pageLimit: number, pageNumber: number)
   const queryClient = useQueryClient()
   const { widgetChannelId } = useParams()
 
-  const { data, isLoading, isFetching, isFetched } = useQuery(
+  const { data, isLoading, isFetching, isFetched, refetch } = useQuery(
     ['responses', [widgetChannelId, pageNumber, pageLimit]],
     async () => request(`responses/${widgetChannelId}/${pageNumber}/${pageLimit}`, null, null, 'GET'),
     {
       enabled: !!widgetChannelId && !!pageLimit && !!pageNumber,
       keepPreviousData: true,
-      staleTime: 3600000, // 60000 × 60 = 1 hour
+      staleTime: 3600000, // 60000 × 60 = 1 hour,
+      refetchInterval: 3000,
     },
   )
-
-  const refresh = () => {
-    queryClient.invalidateQueries(['responses', [widgetChannelId, pageNumber, pageLimit]])
-  }
 
   return {
     widgetResponses: data?.data,
     isResponsesLoading: isLoading,
     isFetching,
     isFetched,
-    refresh,
+    refresh: refetch,
   }
 }

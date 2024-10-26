@@ -4,7 +4,7 @@ namespace BitApps\Assist\HTTP\Controllers;
 
 use AllowDynamicProperties;
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 use BitApps\AssistPro\Config as ProConfig;
@@ -64,7 +64,7 @@ final class ApiWidgetController
     private function getPageAndPosts($search, $page)
     {
         $paged = !empty($page) ? $page : 1;
-        $args  = [
+        $args = [
             'post_type'      => ['page', 'post'],
             'post_status'    => 'publish',
             'posts_per_page' => 10,
@@ -98,7 +98,7 @@ final class ApiWidgetController
             'has_next'     => $paged < $query->max_num_pages,
             'has_previous' => $paged > 1,
         ];
-        
+
         return ['data' => $results, 'pagination' => $query->pagination];
     }
 
@@ -108,9 +108,9 @@ final class ApiWidgetController
             return ['message' => 'WooCommerce not installed or active.', 'status_code' => 404];
         }
 
-        $order_id      = $request['number'];
+        $order_id = $request['number'];
         $billing_email = $request['email'];
-        $allOrders     = [];
+        $allOrders = [];
 
         global $wpdb;
 
@@ -129,7 +129,8 @@ final class ApiWidgetController
         } elseif ($billing_email) {
             $query = $wpdb->prepare(
                 "SELECT * FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s",
-                '_billing_email', $billing_email
+                '_billing_email',
+                $billing_email
             );
 
             $orders = $wpdb->get_results($query);
@@ -137,7 +138,7 @@ final class ApiWidgetController
             if ($orders) {
                 foreach ($orders as $order) {
                     $order_details = wc_get_order($order->post_id);
-                    $allOrders[]   = $order_details;
+                    $allOrders[] = $order_details;
                 }
                 $data = $this->allOrderWithPagination($request, $allOrders);
 
@@ -154,7 +155,7 @@ final class ApiWidgetController
     {
         $activeChannelWPOptions = Config::getOption('active_channels');
 
-        $activeChannelWPOptions['channel_names']  = '';
+        $activeChannelWPOptions['channel_names'] = '';
         $activeChannelWPOptions['channel_status'] = 0;
         Config::updateOption('active_channels', $activeChannelWPOptions);
 
@@ -174,7 +175,7 @@ final class ApiWidgetController
         $this->getChannels($baseURL, $widget, $activeChannelWPOptions, $version);
 
         $get_options_version = Config::getOption('active_channels');
-        $new_version         = $get_options_version['version'];
+        $new_version = $get_options_version['version'];
 
         $widget->featuresJsPath = Config::isDev() ? "./channels/features.js?ver={$new_version}" : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
 
@@ -190,21 +191,21 @@ final class ApiWidgetController
 
         if (Config::isDev()) {
             $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
-            $outputFilePath  = $baseURL . 'client/packages/widget-iframe/channels/features.js';
+            $outputFilePath = $baseURL . 'client/packages/widget-iframe/channels/features.js';
         }
 
-        $importJsIframe[]     = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
+        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
         $outputFilePathIframe = $baseURL . 'iframe/assets/channels/features.js';
 
-        $channel_names          = $this->getActiveChannelsNameString($widget, $activeChannelWPOptions, $version);
+        $channel_names = $this->getActiveChannelsNameString($widget, $activeChannelWPOptions, $version);
         $activeChannelWPOptions = $this->updateOptionOnChannelChange($activeChannelWPOptions, $channel_names, $version);
 
         if ($activeChannelWPOptions['channel_status'] == 0 || !file_exists($outputFilePathIframe)) {
-            $importJsArray  = [];
+            $importJsArray = [];
             $importJsIframe = [];
 
             if (Config::isDev()) {
-                $importJsArray[]  = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
+                $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
             }
             $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
 
@@ -261,7 +262,7 @@ final class ApiWidgetController
     {
         if ($activeChannelWPOptions['channel_names'] != $channel_names) {
             $activeChannelWPOptions['channel_status'] = 0;
-            $activeChannelWPOptions['version']        = $version . '.' . wp_rand(10000, 9999999) . strtotime('now');
+            $activeChannelWPOptions['version'] = $version . '.' . wp_rand(10000, 9999999) . strtotime('now');
 
             Config::updateOption('active_channels', $activeChannelWPOptions);
         }
@@ -273,7 +274,7 @@ final class ApiWidgetController
     {
         if ($activeChannelWPOptions['channel_names'] != $channel_names || !file_exists($outputFilePathIframe)) {
             $activeChannelWPOptions['channel_status'] = 1;
-            $activeChannelWPOptions['channel_names']  = $channel_names;
+            $activeChannelWPOptions['channel_names'] = $channel_names;
             Config::updateOption('active_channels', $activeChannelWPOptions);
 
             if (Config::isDev()) {
@@ -344,7 +345,7 @@ final class ApiWidgetController
     {
         if ($channel->channel_name === 'Custom-Channel') {
             $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
-            $channel->config->url       = esc_url_raw($channel->config->url);
+            $channel->config->url = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'Google-Map') {
@@ -353,7 +354,7 @@ final class ApiWidgetController
 
         if ($channel->channel_name === 'Custom-Iframe') {
             $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
-            $channel->config->url       = esc_url_raw($channel->config->url);
+            $channel->config->url = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'FAQ' || $channel->channel_name === 'Knowledge-Base') {
@@ -388,9 +389,8 @@ final class ApiWidgetController
 
     private function escapeTitle($channel)
     {
-
-        $faqs  = new stdClass();
-        $kbs   = new stdClass();
+        $faqs = new stdClass();
+        $kbs = new stdClass();
 
         if ($channel->channel_name === 'FAQ') {
             $faqs = &$channel->config->card_config->faqs;
@@ -415,12 +415,12 @@ final class ApiWidgetController
 
     private function getOrderWithIdAndMail($order_id)
     {
-        $order_details   = wc_get_order($order_id);
+        $order_details = wc_get_order($order_id);
         $shipping_status = $order_details->get_status();
-        $total_items     = $order_details->get_item_count();
-        $total_amount    = $order_details->get_total();
-        $billing_name    = $order_details->get_billing_first_name() . ' ' . $order_details->get_billing_last_name();
-        $shipping_name   = $order_details->get_shipping_first_name() . ' ' . $order_details->get_shipping_last_name();
+        $total_items = $order_details->get_item_count();
+        $total_amount = $order_details->get_total();
+        $billing_name = $order_details->get_billing_first_name() . ' ' . $order_details->get_billing_last_name();
+        $shipping_name = $order_details->get_shipping_first_name() . ' ' . $order_details->get_shipping_last_name();
 
         $item[] = ['order_id' => $order_id, 'shipping_status' => $shipping_status, 'total_items' => $total_items, 'total_amount' => $total_amount, 'billing_name' => $billing_name, 'shipping_name' => $shipping_name];
 
@@ -429,7 +429,7 @@ final class ApiWidgetController
 
     private function allOrderWithPagination($request, $allOrders)
     {
-        $paged    = !empty($request['page']) ? $request['page'] : 1;
+        $paged = !empty($request['page']) ? $request['page'] : 1;
         $per_page = 10;
 
         $args = [
@@ -464,14 +464,14 @@ final class ApiWidgetController
         $items = [];
 
         foreach ($orders_query->posts as $order) {
-            $order_id      = $order->ID;
+            $order_id = $order->ID;
             $order_details = wc_get_order($order_id);
 
-            $item_count      = $order_details->get_item_count();
-            $total           = $order_details->get_total();
+            $item_count = $order_details->get_item_count();
+            $total = $order_details->get_total();
             $shipping_status = $order_details->get_status('shipping');
-            $shipping_name   = $order_details->get_shipping_first_name() . ' ' . $order_details->get_shipping_last_name();
-            $billing_name    = $order_details->get_billing_first_name() . ' ' . $order_details->get_billing_last_name();
+            $shipping_name = $order_details->get_shipping_first_name() . ' ' . $order_details->get_shipping_last_name();
+            $billing_name = $order_details->get_billing_first_name() . ' ' . $order_details->get_billing_last_name();
 
             $items[] = ['order_id' => $order_id, 'shipping_status' => $shipping_status, 'total_items' => $item_count, 'total_amount' => $total, 'billing_name' => $billing_name, 'shipping_name' => $shipping_name];
         }

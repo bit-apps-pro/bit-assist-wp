@@ -1,5 +1,16 @@
 /* eslint-disable react/no-children-prop */
-import { Box, Button, HStack, IconButton, Input, InputGroup, InputLeftAddon, Kbd, Select, Tooltip } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Kbd,
+  Select,
+  Tooltip,
+} from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
@@ -45,14 +56,22 @@ function PageFilters() {
       return
     }
 
+    const newPage = { url: pageUrl, condition: pageCondition, visibility: pageVisibility }
+
     setWidget((prev) => {
-      prev.exclude_pages.push({ url: pageUrl, condition: pageCondition, visibility: pageVisibility })
+      if (!Array.isArray(prev.exclude_pages)) {
+        prev.exclude_pages = []
+      }
+      prev.exclude_pages.push(newPage)
     })
     resetStates()
 
     const { status, data } = await updateWidget(
       produce(widget, (draft) => {
-        draft.exclude_pages.push({ url: pageUrl, condition: pageCondition, visibility: pageVisibility })
+        if (!Array.isArray(draft.exclude_pages)) {
+          draft.exclude_pages = []
+        }
+        draft.exclude_pages.push(newPage)
       }),
     )
     toaster(status, data)
@@ -78,7 +97,14 @@ function PageFilters() {
       <Box mt={4}>
         <Box mb="4" rounded="md" borderWidth={`${widget.exclude_pages?.length && '1px'}`}>
           {widget.exclude_pages?.map((page, index) => (
-            <Page key={page?.url} index={index} pageDomain={pageDomain} page={page} updateWidget={updateWidget} isWidgetUpdating={isWidgetUpdating} />
+            <Page
+              key={page?.url}
+              index={index}
+              pageDomain={pageDomain}
+              page={page}
+              updateWidget={updateWidget}
+              isWidgetUpdating={isWidgetUpdating}
+            />
           ))}
         </Box>
       </Box>
@@ -87,11 +113,23 @@ function PageFilters() {
         <ProWrapper>
           <Box>
             <HStack mb={2} py="2" pr="2" spacing="0" gap="2" overflow="auto">
-              <Select tabIndex={tabIndex} w="15rem" minW="7rem" maxW="full" onChange={(e) => setPageVisibility(e.target.value)}>
+              <Select
+                tabIndex={tabIndex}
+                w="15rem"
+                minW="7rem"
+                maxW="full"
+                onChange={(e) => setPageVisibility(e.target.value)}
+              >
                 <option value="showOn">Show On</option>
                 <option value="hideOn">Hide On</option>
               </Select>
-              <Select tabIndex={tabIndex} w="25rem" minW="10rem" maxW="full" onChange={(e) => setPageCondition(e.target.value)}>
+              <Select
+                tabIndex={tabIndex}
+                w="25rem"
+                minW="10rem"
+                maxW="full"
+                onChange={(e) => setPageCondition(e.target.value)}
+              >
                 <option value="contains">Pages that contain</option>
                 <option value="equal">Specific page</option>
                 <option value="startWith">Pages stars with</option>
@@ -110,7 +148,15 @@ function PageFilters() {
               </InputGroup>
 
               <Tooltip label="Cancel">
-                <IconButton tabIndex={tabIndex} isRound aria-label="Remove Page" variant="ghost" colorScheme="red" icon={<HiOutlineTrash />} onClick={resetStates} />
+                <IconButton
+                  tabIndex={tabIndex}
+                  isRound
+                  aria-label="Remove Page"
+                  variant="ghost"
+                  colorScheme="red"
+                  icon={<HiOutlineTrash />}
+                  onClick={resetStates}
+                />
               </Tooltip>
               <Tooltip label="Save">
                 <IconButton
@@ -127,28 +173,28 @@ function PageFilters() {
               </Tooltip>
             </HStack>
             <span>
-              Press
-              {' '}
-              <Kbd>enter</Kbd>
-              {' '}
-              to add, &nbsp;
-              {' '}
-              <Kbd>esc</Kbd>
-              {' '}
-              to cancel
+              Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
             </span>
           </Box>
         </ProWrapper>
       )}
 
       {!isAdding ? (
-        <Button leftIcon={<HiPlus />} colorScheme="gray" variant="outline" onClick={addPageButtonClickHandle} isLoading={isWidgetUpdating}>
+        <Button
+          leftIcon={<HiPlus />}
+          colorScheme="gray"
+          variant="outline"
+          onClick={addPageButtonClickHandle}
+          isLoading={isWidgetUpdating}
+        >
           Add Page
         </Button>
       ) : null}
 
-      {(!config.IS_PRO && isAdding) ? (
-        <Button colorScheme="red" mt="4" variant="outline" onClick={resetStates}>Remove Filter</Button>
+      {!config.IS_PRO && isAdding ? (
+        <Button colorScheme="red" mt="4" variant="outline" onClick={resetStates}>
+          Remove Filter
+        </Button>
       ) : null}
     </Box>
   )

@@ -4,8 +4,8 @@ namespace BitApps\Assist\HTTP\Controllers;
 
 use AllowDynamicProperties;
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Http\Request\Request;
-use BitApps\Assist\Core\Http\Response;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\Model\Analytics;
 
 #[AllowDynamicProperties]
@@ -18,13 +18,14 @@ final class AnalyticsController
         return $analyticsOption ? (int)$analyticsOption : 0;
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validated = [
-            'widget_id' => $request->widget_id,
+            'widget_id'  => $request->widget_id,
             'is_clicked' => $request->is_clicked,
         ];
 
-        if($request->channel_id){
+        if ($request->channel_id) {
             $validated['channel_id'] = $request->channel_id;
         }
 
@@ -40,7 +41,6 @@ final class AnalyticsController
         $analyticsOption = Config::getOption('analytics_activate');
 
         return ['widget_analytics' => (int)$analyticsOption];
-
     }
 
     public function getWidgetAnalytics($filterValue)
@@ -48,41 +48,41 @@ final class AnalyticsController
         global $wpdb;
 
         $datePattern = '/\d{4}-\d{2}-\d{2}/';
-        $isDate      = preg_match($datePattern, $filterValue) === 1;
+        $isDate = preg_match($datePattern, $filterValue) === 1;
 
         $startDate = date('Y-m-d');
-        $endDate   = date('Y-m-d');
+        $endDate = date('Y-m-d');
         $dateRange = [];
 
-        if($isDate){
-            $dateRange = explode(",", $filterValue);
+        if ($isDate) {
+            $dateRange = explode(',', $filterValue);
         }
 
         $placeHolder = [0, 1, 0, 1, 1, 0, 0, 1];
 
-        $dateCondition = "";
-        if ($filterValue === "7days") {
-            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
-        } elseif ($filterValue === "30days") {
-            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
-        } elseif ($filterValue === "today") {
-            $dateCondition = "DATE(analytics.created_at) = CURDATE()";
-        } elseif ($isDate && isset($dateRange[0]) && isset($dateRange[1])){
-            $startDate     = $dateRange[0];
-            $endDate       = $dateRange[1];
+        $dateCondition = '';
+        if ($filterValue === '7days') {
+            $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
+        } elseif ($filterValue === '30days') {
+            $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)';
+        } elseif ($filterValue === 'today') {
+            $dateCondition = 'DATE(analytics.created_at) = CURDATE()';
+        } elseif ($isDate && isset($dateRange[0]) && isset($dateRange[1])) {
+            $startDate = $dateRange[0];
+            $endDate = $dateRange[1];
             $placeHolder[] = $startDate;
             $placeHolder[] = $endDate;
-            $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
-        } elseif ($isDate && count($dateRange) !== 2){
-            $startDate     = $dateRange[0];
+            $dateCondition = 'DATE(analytics.created_at) BETWEEN %s AND %s';
+        } elseif ($isDate && count($dateRange) !== 2) {
+            $startDate = $dateRange[0];
             $placeHolder[] = $startDate;
-            $dateCondition = "DATE(analytics.created_at) = %s";
+            $dateCondition = 'DATE(analytics.created_at) = %s';
         } else {
-            $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
+            $dateCondition = 'DATE(analytics.created_at) IS NOT NULL';
         }
 
         $sql = $wpdb->prepare(
-                "SELECT
+            "SELECT
                     analytics.widget_id, widgets.name,
                     SUM(CASE WHEN analytics.is_clicked = %d THEN %d ELSE %d END) AS visitor_count,
                     SUM(CASE WHEN analytics.is_clicked = %d THEN %d ELSE %d END) AS click_count
@@ -95,7 +95,9 @@ final class AnalyticsController
                     AND
                         $dateCondition
                     GROUP BY 
-                        analytics.widget_id, widgets.name", $placeHolder);
+                        analytics.widget_id, widgets.name",
+            $placeHolder
+        );
 
         $widgetAnalyticsData = $wpdb->get_results($sql);
 
@@ -106,35 +108,35 @@ final class AnalyticsController
     {
         global $wpdb;
 
-        $widget_id   = $request->widget_id;
+        $widget_id = $request->widget_id;
         $filterValue = $request->filter;
         $datePattern = '/\d{4}-\d{2}-\d{2}/';
-        $isDate      = is_array($filterValue) ? preg_match($datePattern, $filterValue[0]) === 1 : false;
+        $isDate = is_array($filterValue) ? preg_match($datePattern, $filterValue[0]) === 1 : false;
 
         $startDate = date('Y-m-d');
-        $endDate   = date('Y-m-d');
+        $endDate = date('Y-m-d');
 
         $placeHolder = [1, 0, 1, 0, $widget_id, 1];
 
-        $dateCondition = "";
-        if ($filterValue === "7days") {
-            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
-        } elseif ($filterValue === "30days") {
-            $dateCondition = "DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)";
-        } elseif ($filterValue === "today") {
-            $dateCondition = "DATE(analytics.created_at) = CURDATE()";
-        } elseif ($isDate && isset($filterValue[0]) && isset($filterValue[1])){
+        $dateCondition = '';
+        if ($filterValue === '7days') {
+            $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
+        } elseif ($filterValue === '30days') {
+            $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)';
+        } elseif ($filterValue === 'today') {
+            $dateCondition = 'DATE(analytics.created_at) = CURDATE()';
+        } elseif ($isDate && isset($filterValue[0]) && isset($filterValue[1])) {
             $startDate = $filterValue[0];
             $endDate = $filterValue[1];
             $placeHolder[] = $startDate;
             $placeHolder[] = $endDate;
-            $dateCondition = "DATE(analytics.created_at) BETWEEN %s AND %s";
-        } elseif ($isDate && count($filterValue) !== 2){
+            $dateCondition = 'DATE(analytics.created_at) BETWEEN %s AND %s';
+        } elseif ($isDate && count($filterValue) !== 2) {
             $startDate = $filterValue[0];
             $placeHolder[] = $startDate;
-            $dateCondition = "DATE(analytics.created_at) = %s";
+            $dateCondition = 'DATE(analytics.created_at) = %s';
         } else {
-            $dateCondition = "DATE(analytics.created_at) IS NOT NULL";
+            $dateCondition = 'DATE(analytics.created_at) IS NOT NULL';
         }
 
         $sql = $wpdb->prepare(
@@ -156,8 +158,9 @@ final class AnalyticsController
                 AND
                     $dateCondition
                 GROUP BY
-                    c.id"
-            , $placeHolder);
+                    c.id",
+            $placeHolder
+        );
 
         $results = $wpdb->get_results($sql);
 
@@ -169,5 +172,4 @@ final class AnalyticsController
         Analytics::delete();
         return Response::success('Analytics removed!');
     }
-
 }

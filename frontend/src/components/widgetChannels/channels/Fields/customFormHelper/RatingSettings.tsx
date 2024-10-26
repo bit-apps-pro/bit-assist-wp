@@ -1,4 +1,4 @@
-import { Radio, RadioGroup, Stack, } from '@chakra-ui/react'
+import { Radio, RadioGroup, Stack } from '@chakra-ui/react'
 
 type RatingSettingsProps = {
   id: number
@@ -8,10 +8,12 @@ type RatingSettingsProps = {
 
 export default function RatingSettings({ id, type, handleChange }: RatingSettingsProps) {
   return (
-    <RadioGroup colorScheme='purple' value={type} onChange={(val) => handleChange(val, 'rating_type', id)}>
+    <RadioGroup colorScheme="purple" value={type} onChange={(val) => handleChange(val, 'rating_type', id)}>
       <Stack spacing={4} direction={'row'}>
-        <Radio value='star' isRequired>Star</Radio>
-        <Radio value='smiley'>Smiley</Radio>
+        <Radio value="star" isRequired>
+          Star
+        </Radio>
+        <Radio value="smiley">Smiley</Radio>
       </Stack>
     </RadioGroup>
   )

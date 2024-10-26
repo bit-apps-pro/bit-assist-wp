@@ -1,7 +1,7 @@
 <?php
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Database\Migration;
+use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
 
 if (!\defined('ABSPATH')) {
     exit;

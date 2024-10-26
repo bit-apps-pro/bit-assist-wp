@@ -2,8 +2,8 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
-use BitApps\Assist\Core\Http\Request\Request;
-use BitApps\Assist\Core\Http\Response;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetChannelUpdateRequest;
 use BitApps\Assist\Model\WidgetChannel;
@@ -103,7 +103,7 @@ final class WidgetChannelController
 
         if ($widgetChannel->exists()) {
             $newWidgetChannel = $this->replicate($widgetChannel);
-            $result           = WidgetChannel::insert((array) $newWidgetChannel);
+            $result = WidgetChannel::insert((array) $newWidgetChannel);
             if ($result) {
                 return Response::success('Channel copied successfully');
             }
@@ -114,13 +114,13 @@ final class WidgetChannelController
 
     private function replicate($widgetChannel)
     {
-        $newWidgetChannel                = (object) [];
-        $newWidgetChannel->widget_id     = $widgetChannel->widget_id;
-        $newWidgetChannel->channel_name  = $widgetChannel->channel_name;
-        $newWidgetChannel->config        = $widgetChannel->config;
+        $newWidgetChannel = (object) [];
+        $newWidgetChannel->widget_id = $widgetChannel->widget_id;
+        $newWidgetChannel->channel_name = $widgetChannel->channel_name;
+        $newWidgetChannel->config = $widgetChannel->config;
         $newWidgetChannel->config->title = $widgetChannel->config->title . ' (Copy)';
-        $newWidgetChannel->sequence      = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence') + 1;
-        $newWidgetChannel->status        = $widgetChannel->status;
+        $newWidgetChannel->sequence = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence') + 1;
+        $newWidgetChannel->status = $widgetChannel->status;
 
         return $newWidgetChannel;
     }
@@ -168,7 +168,7 @@ final class WidgetChannelController
     private function sanitizeUrl($validated)
     {
         $validated['config']['unique_id'] = sanitize_url($validated['config']['unique_id']);
-        $validated['config']['url']       = sanitize_url($validated['config']['url']);
+        $validated['config']['url'] = sanitize_url($validated['config']['url']);
 
         return $validated;
     }
@@ -181,9 +181,8 @@ final class WidgetChannelController
 
     private function sanitizeFieldTitle($validated, $channelName)
     {
-
         $faqs = [];
-        $kbs  = [];
+        $kbs = [];
 
         if ($channelName === 'FAQ') {
             $faqs = &$validated['config']['card_config']['faqs'];
@@ -210,7 +209,7 @@ final class WidgetChannelController
     {
         if ($channel->channel_name === 'Custom-Channel') {
             $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
-            $channel->config->url       = esc_url_raw($channel->config->url);
+            $channel->config->url = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'Google-Map') {
@@ -219,7 +218,7 @@ final class WidgetChannelController
 
         if ($channel->channel_name === 'Custom-Iframe') {
             $channel->config->unique_id = esc_url_raw($channel->config->unique_id);
-            $channel->config->url       = esc_url_raw($channel->config->url);
+            $channel->config->url = esc_url_raw($channel->config->url);
         }
 
         if ($channel->channel_name === 'FAQ' || $channel->channel_name === 'Knowledge-Base') {
@@ -233,8 +232,8 @@ final class WidgetChannelController
     {
         $channel->config->title = esc_html($channel->config->title);
 
-        $faqs  = new stdClass();
-        $kbs   = new stdClass();
+        $faqs = new stdClass();
+        $kbs = new stdClass();
 
         if ($channel->channel_name === 'FAQ') {
             $faqs = &$channel->config->card_config->faqs;

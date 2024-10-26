@@ -3,9 +3,9 @@
 namespace BitApps\Assist\Providers;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Hooks\Hooks;
-use BitApps\Assist\Core\Http\RequestType;
-use BitApps\Assist\Core\Http\Router\Router;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\RequestType;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Router\Router;
 use BitApps\Assist\Plugin;
 use FilesystemIterator;
 

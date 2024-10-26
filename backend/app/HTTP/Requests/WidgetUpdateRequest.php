@@ -2,7 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Requests;
 
-use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
 class WidgetUpdateRequest extends Request
 {
@@ -11,10 +11,10 @@ class WidgetUpdateRequest extends Request
         return [
             'name'             => ['required'],
             'styles'           => ['nullable'],
-            'domains'          => ['required'],
-            'business_hours'   => ['required'],
+            'domains'          => ['nullable', 'array'],
+            'business_hours'   => ['nullable', 'array'],
             'timezone'         => ['nullable'],
-            'exclude_pages'    => ['required'],
+            'exclude_pages'    => ['nullable', 'array'],
             'initial_delay'    => ['required'],
             'page_scroll'      => ['required'],
             'widget_behavior'  => ['required'],
@@ -22,7 +22,7 @@ class WidgetUpdateRequest extends Request
             'call_to_action'   => ['nullable'],
             'store_responses'  => ['required'],
             'delete_responses' => ['nullable'],
-            'integrations'     => ['required'],
+            'integrations'     => ['nullable', 'array'],
             'status'           => ['required'],
         ];
     }

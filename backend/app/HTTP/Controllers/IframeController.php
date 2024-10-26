@@ -3,7 +3,7 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
 final class IframeController
 {
@@ -14,13 +14,13 @@ final class IframeController
             exit();
         }
 
-        $urlParts     = explode('-protocol-bit-assist-', $request->clientDomain);
-        $protocol     = $urlParts[0] === 'i' ? 'http://' : 'https://';
-        $domain       = $urlParts[1];
+        $urlParts = explode('-protocol-bit-assist-', $request->clientDomain);
+        $protocol = $urlParts[0] === 'i' ? 'http://' : 'https://';
+        $domain = $urlParts[1];
         $clientDomain = $protocol . $domain;
 
-        $version       = Config::VERSION;
-        $assetBase     = Config::get('ROOT_URI') . '/iframe';
+        $version = Config::VERSION;
+        $assetBase = Config::get('ROOT_URI') . '/iframe';
         $frameAncestor = Config::get('SITE_URL');
         if ($clientDomain !== $frameAncestor) {
             $frameAncestor .= ' ' . $clientDomain;

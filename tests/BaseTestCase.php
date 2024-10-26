@@ -1,8 +1,8 @@
 <?php
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Core\Http\RequestType;
-use BitApps\Assist\Core\Http\Router\Router;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\RequestType;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Router\Router;
 use BitApps\Assist\Plugin;
 
 abstract class BaseTestCase extends WP_Ajax_UnitTestCase

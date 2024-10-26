@@ -1,6 +1,6 @@
 <?php
 
-use BitApps\Assist\Core\Http\Router\Route;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\AnalyticsController;
 use BitApps\Assist\HTTP\Controllers\ApiWidgetController;
 use BitApps\Assist\HTTP\Controllers\IframeController;

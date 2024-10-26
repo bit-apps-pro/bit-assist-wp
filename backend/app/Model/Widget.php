@@ -2,10 +2,13 @@
 
 namespace BitApps\Assist\Model;
 
-use BitApps\Assist\Core\Database\Model;
+use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPDatabase\Model;
 
 class Widget extends Model
 {
+    protected $prefix = Config::VAR_PREFIX;
+    
     protected $casts = [
         'styles'           => 'object',
         'call_to_action'   => 'object',

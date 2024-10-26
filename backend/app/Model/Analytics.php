@@ -2,15 +2,18 @@
 
 namespace BitApps\Assist\Model;
 
-use BitApps\Assist\Core\Database\Model;
+use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPDatabase\Model;
 
 class Analytics extends Model
 {
+    protected $prefix = Config::VAR_PREFIX;
+
     protected $table = 'analytics';
-    
+
     protected $casts = [
-        'id'         => 'int',
-        'widget_id'  => 'int',
+        'id'        => 'int',
+        'widget_id' => 'int',
         // 'channel_id' => 'int',
         'is_clicked' => 'int',
     ];

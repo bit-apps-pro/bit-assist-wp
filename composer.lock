@@ -4,26 +4,133 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc11033dda4266f7f910ca2a02513077",
+    "content-hash": "0cbc421d2d3e55d2aa47927a96f24ff6",
     "packages": [
         {
-            "name": "bitapps/wp-telemetry",
-            "version": "v0.0.6",
+            "name": "bitapps/wp-database",
+            "version": "1.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Bit-Apps-Pro/wp-telemetry.git",
-                "reference": "2a08d002bae6e75c4bb0586103fc05619bf8296e"
+                "url": "https://github.com/Bit-Apps-Pro/wp-database.git",
+                "reference": "1df65bf8f0f20008d93cb902afece85a4c1f7569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-telemetry/zipball/2a08d002bae6e75c4bb0586103fc05619bf8296e",
-                "reference": "2a08d002bae6e75c4bb0586103fc05619bf8296e",
+                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-database/zipball/1df65bf8f0f20008d93cb902afece85a4c1f7569",
+                "reference": "1df65bf8f0f20008d93cb902afece85a4c1f7569",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "friendsofphp/php-cs-fixer": "^3.10",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "sirbrillig/phpcs-variable-analysis": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BitApps\\WPDatabase\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Bit-Code-Developer",
+                    "email": "developer@bitcode.pro"
+                }
+            ],
+            "description": "A simple orm with wpdb",
+            "keywords": [
+                "database",
+                "wordpress",
+                "wpdb"
+            ],
+            "support": {
+                "issues": "https://github.com/Bit-Apps-Pro/wp-database/issues",
+                "source": "https://github.com/Bit-Apps-Pro/wp-database"
+            },
+            "time": "2024-07-27T07:40:01+00:00"
+        },
+        {
+            "name": "bitapps/wp-kit",
+            "version": "1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bit-Apps-Pro/wp-kit.git",
+                "reference": "37282f745e13161fddbe9e0b9c9ddf9f1be85e63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-kit/zipball/37282f745e13161fddbe9e0b9c9ddf9f1be85e63",
+                "reference": "37282f745e13161fddbe9e0b9c9ddf9f1be85e63",
+                "shasum": ""
+            },
+            "require": {
+                "bitapps/wp-validator": "^1.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "friendsofphp/php-cs-fixer": "^3.10",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "sirbrillig/phpcs-variable-analysis": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BitApps\\WPKit\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "A simple plugin framework",
+            "keywords": [
+                "framework",
+                "wordpress",
+                "wp"
+            ],
+            "support": {
+                "issues": "https://github.com/Bit-Apps-Pro/wp-kit/issues",
+                "source": "https://github.com/Bit-Apps-Pro/wp-kit/tree/1.7"
+            },
+            "time": "2024-10-17T12:31:58+00:00"
+        },
+        {
+            "name": "bitapps/wp-telemetry",
+            "version": "v0.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bit-Apps-Pro/wp-telemetry.git",
+                "reference": "efa19cfc72e6325889e6bcd78bdd45556f9aa1a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-telemetry/zipball/efa19cfc72e6325889e6bcd78bdd45556f9aa1a8",
+                "reference": "efa19cfc72e6325889e6bcd78bdd45556f9aa1a8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "dev-master",
                 "pestphp/pest": "3.x-dev",
                 "phpcompatibility/php-compatibility": "*",
                 "squizlabs/php_codesniffer": "*"
@@ -55,7 +162,65 @@
                 "issues": "https://github.com/Bit-Apps-Pro/wp-telemetry/issues",
                 "source": "https://github.com/Bit-Apps-Pro/wp-telemetry"
             },
-            "time": "2024-05-20T13:37:46+00:00"
+            "time": "2024-06-01T10:06:19+00:00"
+        },
+        {
+            "name": "bitapps/wp-validator",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bit-Apps-Pro/wp-validator.git",
+                "reference": "9d29785718350c4fed8d9b16989175ce86f6343c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bit-Apps-Pro/wp-validator/zipball/9d29785718350c4fed8d9b16989175ce86f6343c",
+                "reference": "9d29785718350c4fed8d9b16989175ce86f6343c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.18",
+                "phpcompatibility/php-compatibility": "*",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BitApps\\WPValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BitApps",
+                    "email": "developer@bitcode.pro"
+                }
+            ],
+            "description": "WordPress Validation and Sanitization Library",
+            "homepage": "https://bitapps.pro",
+            "keywords": [
+                "form-validation",
+                "input-sanitization",
+                "input-validation",
+                "php-validation",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/Bit-Apps-Pro/wp-validator/issues",
+                "source": "https://github.com/Bit-Apps-Pro/wp-validator"
+            },
+            "time": "2024-07-25T10:32:42+00:00"
         },
         {
             "name": "typisttech/imposter",
@@ -941,16 +1106,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a"
+                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3abf7425cd284141dc5d8d14a9ee444de3345d1a",
-                "reference": "3abf7425cd284141dc5d8d14a9ee444de3345d1a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8eea230464783aa9671db8eea6f8c6ac5285794b",
+                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b",
                 "shasum": ""
             },
             "require": {
@@ -993,9 +1158,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.1"
             },
-            "time": "2024-09-29T13:56:26+00:00"
+            "time": "2024-10-08T18:51:32+00:00"
         },
         {
             "name": "phar-io/manifest",

@@ -3,10 +3,10 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\AssistPro\Config as ProConfig;
-use BitApps\Assist\Core\Http\Client\HttpClient;
-use BitApps\Assist\Core\Http\Response as Res;
-use BitApps\Assist\Core\Http\Request\Request;
-use BitApps\Assist\Core\Utils\FileHandler;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Helpers\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
 
@@ -75,7 +75,7 @@ final class ResponseController
     private function storeFiles($files, $widgetChannelId)
     {
         $fileNames = [];
-        $fileHandler = new FileHandler;
+        $fileHandler = new FileHandler();
         foreach ($files as $fileName => $fileDetails) {
             $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
             if (!empty($filePath)) {
