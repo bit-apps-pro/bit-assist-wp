@@ -64,7 +64,7 @@ function ChannelsList() {
       const oldIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === e.active.id)
       const newIndex = widgetChannels.findIndex((item: WidgetChannelType) => item?.id === e.over?.id)
       const newWidgetChannels: WidgetChannelType[] = arrayMove(widgetChannels, oldIndex, newIndex)
-      updateWidgetChannelsOrder(newWidgetChannels, newIndex, oldIndex)
+      updateWidgetChannelsOrder(newWidgetChannels)
     }
   }
 
