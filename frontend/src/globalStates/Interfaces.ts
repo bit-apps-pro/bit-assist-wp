@@ -108,6 +108,7 @@ export interface WidgetChannelConfig {
   store_responses?: boolean
   order_details?: (string | number)[]
   iframe_options?: IframeOptionsType
+  wp_post_types?: string[]
 }
 
 export interface IframeOptionsType {

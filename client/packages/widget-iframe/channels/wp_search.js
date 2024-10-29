@@ -1,8 +1,11 @@
 export const wp_search = {
+	wp_post_types: undefined,
 	renderWPSearch(config) {
 		this.hideChannels()
 		this.renderCard()
 		this.setCardStyle(config)
+
+		wp_search.wp_post_types = config?.wp_post_types
 
 		const wpSearchBody = createElm('div', { id: 'wpSearchBody' })
 		const listWrapper = createElm('div', { id: 'listWrapper' })
@@ -42,7 +45,7 @@ export const wp_search = {
 		const { data } = await fetch(`${this.apiEndPoint}/wpSearch`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ search: value, page }),
+			body: JSON.stringify({ search: value, page, postTypes: wp_search.wp_post_types }),
 		}).then(res => res.json())
 
 		return data

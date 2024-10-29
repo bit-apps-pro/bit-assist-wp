@@ -51,46 +51,46 @@ final class ApiWidgetController
 
     public function wpSearch(Request $request)
     {
-        $validate = $request->validate([
-            'search' => ['string']
+        $validated = $request->validate([
+            'search'      => ['string', 'sanitize:text'],
+            'page'        => ['integer'],
+            'postTypes.*' => ['nullable', 'string', 'sanitize:text'],
         ]);
-        if (!empty($validate)) {
-            return ['message' => 'Search query is not a valid string!', 'status_code' => 404];
+
+        $postTypes = $validated['postTypes'] ?? ['page', 'post'];
+
+        if (empty($postTypes)) {
+            return ['data' => [], 'pagination' => []];
         }
 
-        return $this->getPageAndPosts($request->search, $request->page);
+        return $this->getPageAndPosts($validated['search'], $validated['page'], $postTypes);
     }
 
-    private function getPageAndPosts($search, $page)
+    private function getPageAndPosts($search, $page, $postTypes)
     {
         $paged = !empty($page) ? $page : 1;
-        $args = [
-            'post_type'      => ['page', 'post'],
+
+        $query = new WP_Query([
+            'post_type'      => $postTypes,
             'post_status'    => 'publish',
             'posts_per_page' => 10,
             's'              => $search,
             'orderby'        => 'title',
             'order'          => 'ASC',
             'paged'          => $paged,
-            'fields'         => 'ids'
-        ];
+        ]);
 
-        $query = new WP_Query($args);
+        $posts = [];
 
-        $results = [];
-        foreach ($query->posts as $post_id) {
-            $post = get_post($post_id);
-
-            $result = [
-                'guid'       => get_permalink($post_id),
+        foreach ($query->posts as $post) {
+            $posts[] = [
+                'guid'       => $post->guid,
                 'post_title' => $post->post_title,
                 'post_type'  => $post->post_type,
             ];
-
-            $results[] = $result;
         }
 
-        $query->pagination = [
+        $pagination = [
             'total'        => $query->max_num_pages,
             'current'      => $paged,
             'next'         => $paged + 1,
@@ -99,7 +99,7 @@ final class ApiWidgetController
             'has_previous' => $paged > 1,
         ];
 
-        return ['data' => $results, 'pagination' => $query->pagination];
+        return ['data' => $posts, 'pagination' => $pagination];
     }
 
     public function orderDetails(Request $request)
