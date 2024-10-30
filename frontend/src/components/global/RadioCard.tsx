@@ -2,19 +2,19 @@
 import { Box, useRadio, useColorModeValue, Center, useColorMode } from '@chakra-ui/react'
 
 function RadioCard(props: any) {
-  const { getInputProps, getCheckboxProps } = useRadio(props)
+  const { getInputProps, getRadioProps } = useRadio(props)
   const formBackground = useColorModeValue('purple.500', 'purple.200')
   const iconColor = useColorModeValue('white', 'gray.800')
   const { colorMode } = useColorMode()
 
-  const input = getInputProps()
-  const checkbox = getCheckboxProps()
+  const inputProps = getInputProps()
+  const radioProps = getRadioProps()
 
   return (
     <Box as="label">
-      <input {...input} />
+      <input {...inputProps} />
       <Center
-        {...checkbox}
+        {...radioProps}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"

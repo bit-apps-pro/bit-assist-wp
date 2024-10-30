@@ -4,10 +4,11 @@
   "license": "gpl-2",
   "scripts": {
     "lint": "./vendor/bin/php-cs-fixer fix",
-    "compat": "./vendor/bin/phpcs -p ./backend --standard=PHPCompatibilityWP --runtime-set testVersion 7.2-",
+    "compat": "./vendor/bin/phpcs -p ./backend --standard=PHPCompatibilityWP --runtime-set testVersion 7.4-",
     "test:unit": "./vendor/bin/phpunit"
   },
   "require": {
+    "php": ">=7.4",
     "bitapps/wp-kit": "^1.2",
     "bitapps/wp-database": "^1",
     "bitapps/wp-validator": "^1",
