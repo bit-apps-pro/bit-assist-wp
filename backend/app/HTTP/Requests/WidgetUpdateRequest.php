@@ -9,21 +9,22 @@ class WidgetUpdateRequest extends Request
     public function rules()
     {
         return [
-            'name'             => ['required'],
-            'styles'           => ['nullable'],
-            'domains'          => ['nullable', 'array'],
-            'business_hours'   => ['nullable', 'array'],
-            'timezone'         => ['nullable'],
-            'exclude_pages'    => ['nullable', 'array'],
-            'initial_delay'    => ['required'],
-            'page_scroll'      => ['required'],
-            'widget_behavior'  => ['required'],
-            'custom_css'       => ['nullable'],
-            'call_to_action'   => ['nullable'],
-            'store_responses'  => ['required'],
-            'delete_responses' => ['nullable'],
-            'integrations'     => ['nullable', 'array'],
-            'status'           => ['required'],
+            'name'                 => ['required', 'string', 'max:255', 'sanitize:text'],
+            'styles'               => ['nullable'],
+            'domains.*'            => ['nullable', 'string', 'max:255', 'sanitize:text'],
+            'business_hours'       => ['nullable', 'array'],
+            'timezone'             => ['nullable', 'string', 'max:255', 'sanitize:text'],
+            'exclude_pages'        => ['nullable', 'array'],
+            'initial_delay'        => ['required', 'integer'],
+            'page_scroll'          => ['required', 'integer'],
+            'widget_behavior'      => ['required', 'integer'],
+            'custom_css'           => ['nullable', 'string', 'sanitize:textarea'],
+            'call_to_action.delay' => ['nullable', 'integer'],
+            'call_to_action.text'  => ['nullable', 'string', 'sanitize:textarea'],
+            'store_responses'      => ['required'],
+            'delete_responses'     => ['nullable'],
+            'integrations'         => ['nullable', 'array'],
+            'status'               => ['required', 'boolean'],
         ];
     }
 }
