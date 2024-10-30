@@ -91,8 +91,8 @@ export default function CustomIframe() {
 
       <FormControl>
         <FormLabel>Aspect Ratio</FormLabel>
-        <RadioGroup my="6" value={flow?.config?.iframe_options?.aspect_ratio} defaultValue="3/2">
-          <HStack spacing={4}>
+        <RadioGroup colorScheme="purple" my="6" value={flow?.config?.iframe_options?.aspect_ratio} defaultValue="3/2">
+          <Stack spacing={[1, 5]} direction={['column', 'row']} wrap="wrap">
             <Radio value="custom" onChange={(e) => handelCustom(e)}>
               Custom
             </Radio>
@@ -108,7 +108,7 @@ export default function CustomIframe() {
             <Radio value="16/9" onChange={(e) => handelCustom(e)}>
               16:9
             </Radio>
-          </HStack>
+          </Stack>
         </RadioGroup>
 
         <Stack mt="2">

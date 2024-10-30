@@ -11,29 +11,17 @@ import {
   Text,
   Box,
   Flex,
-  Button,
+  Stack,
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import { useEffect, useState } from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { useEffect, useRef } from 'react'
 import CardColors from './common/CardColors'
 
 export default function WooCommerce() {
   const [flow, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
-  const [isButtonHide, setIsButtonHide] = useState(false)
-
-  useEffect(() => {
-    if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
-    setFlow((prev) => {
-      if (typeof prev.config?.card_config === 'undefined') {
-        prev.config.card_config = {}
-      }
-      prev.config.store_responses = true
-      prev.config.card_config.submit_button_text = 'Submit'
-    })
-  }, [])
+  const isFieldAdded = useRef(false)
 
   const handleAddField = (value: string, label: string) => {
     if (value === '') return
@@ -50,14 +38,6 @@ export default function WooCommerce() {
         required: true,
       })
     })
-  }
-
-  const handleAddFieldActive = () => {
-    if (typeof flow.config?.card_config?.form_fields === 'undefined') {
-      handleAddField('number', 'Order Id')
-      handleAddField('email', 'Billing Email')
-      setIsButtonHide(!isButtonHide)
-    }
   }
 
   const handleChange = (value: string | boolean | number, key: string, index: number) => {
@@ -80,15 +60,29 @@ export default function WooCommerce() {
     })
   }
 
+  useEffect(() => {
+    if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
+    setFlow((prev) => {
+      if (typeof prev.config?.card_config === 'undefined') {
+        prev.config.card_config = {}
+      }
+      prev.config.store_responses = true
+      prev.config.card_config.submit_button_text = 'Submit'
+    })
+  }, [])
+
+  useEffect(() => {
+    if (isFieldAdded.current || flow.config?.card_config?.form_fields) return
+
+    handleAddField('number', 'Order Id')
+    handleAddField('email', 'Billing Email')
+
+    isFieldAdded.current = true
+  }, [])
+
   return (
     <>
       <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
-        {!isButtonHide && (
-          <Button rightIcon={<FiPlus />} onClick={handleAddFieldActive}>
-            Add Fields
-          </Button>
-        )}
-
         {flow.config?.card_config?.form_fields && (
           <VStack w="full" spacing="3">
             {flow.config.card_config.form_fields.map((field, id) => (
@@ -139,23 +133,23 @@ export default function WooCommerce() {
           colorScheme="purple"
           value={flow.config?.order_details ?? []}
         >
-          <HStack spacing={4}>
-            <Checkbox size="md" value="shipping_status" aria-label="shipping status">
+          <Stack spacing={[1, 5]} direction={['column', 'row']} wrap="wrap">
+            <Checkbox size="lg" value="shipping_status" aria-label="shipping status">
               Shipping Status
             </Checkbox>
-            <Checkbox size="md" value="total_items" aria-label="total items">
+            <Checkbox size="lg" value="total_items" aria-label="total items">
               Total Items
             </Checkbox>
-            <Checkbox size="md" value="total_amount" aria-label="total amount">
+            <Checkbox size="lg" value="total_amount" aria-label="total amount">
               Total Amount
             </Checkbox>
-            <Checkbox size="md" value="billing_name" aria-label="total amount">
+            <Checkbox size="lg" value="billing_name" aria-label="total amount">
               Billing Name
             </Checkbox>
-            <Checkbox size="md" value="shipping_name" aria-label="total amount">
+            <Checkbox size="lg" value="shipping_name" aria-label="total amount">
               Shipping Name
             </Checkbox>
-          </HStack>
+          </Stack>
         </CheckboxGroup>
       </FormControl>
 

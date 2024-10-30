@@ -31,7 +31,7 @@ export default function WPSearch() {
         >
           <Stack spacing={[1, 5]} direction={['column', 'row']} wrap="wrap">
             {postTypes.map((postType) => (
-              <Checkbox size="lg" value={postType.name}>
+              <Checkbox size="lg" key={postType.name} value={postType.name}>
                 {postType.label}
               </Checkbox>
             ))}
