@@ -4,16 +4,23 @@ import resolve from '@rollup/plugin-node-resolve'
 import scss from 'rollup-plugin-scss'
 import image from '@rollup/plugin-image'
 import terser from '@rollup/plugin-terser'
+import fs from 'fs'
+import path from 'path'
 
 export default function generateRollupConfig({ watch }) {
 	const isDev = watch
 
-	const fileNames = ['common', 'faq', 'custom_form', 'custom_iframe', 'knowledge_base', 'wp_search', 'woocommerce']
-
-	const external = ['window', 'document', ...fileNames]
-
+	// Dynamic file discovery
 	const srcFolder = 'channels'
 	const distFolder = '../../../iframe/assets/channels'
+
+	// Identify all .js files in the srcFolder except features.js
+	const fileNames = fs
+		.readdirSync(srcFolder)
+		.filter(file => file.endsWith('.js') && file !== 'features.js')
+		.map(file => path.basename(file, '.js'))
+
+	const external = ['window', 'document', ...fileNames]
 
 	const plugins = [
 		resolve(),
