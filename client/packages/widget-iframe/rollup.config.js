@@ -10,19 +10,21 @@ import path from 'path'
 export default function generateRollupConfig({ watch }) {
 	const isDev = watch
 
-	// Dynamic file discovery
+	// Paths and folders
 	const srcFolder = 'channels'
 	const distFolder = '../../../iframe/assets/channels'
 
-	// Identify all .js files in the srcFolder except features.js
+	// Dynamically fetch all .js files except 'features.js'
 	const fileNames = fs
 		.readdirSync(srcFolder)
 		.filter(file => file.endsWith('.js') && file !== 'features.js')
 		.map(file => path.basename(file, '.js'))
 
+	// External dependencies
 	const external = ['window', 'document', ...fileNames]
 
-	const plugins = [
+	// Common plugins
+	const basePlugins = [
 		resolve(),
 		bundleSize(),
 		babel({
@@ -31,48 +33,38 @@ export default function generateRollupConfig({ watch }) {
 		}),
 	]
 
-	const getTerserConfig = fileName => {
-		const terserOptions = {
-			mangle: {
-				reserved: fileNames,
-			},
-		}
-		if (fileName === 'common') {
-			terserOptions.mangle.keep_fnames = true
-		}
-		return terserOptions
-	}
+	// Get Terser configuration
+	const getTerserConfig = fileName => ({
+		mangle: {
+			reserved: fileNames,
+			...(fileName === 'common' && { keep_fnames: true }),
+		},
+	})
 
+	// Generate output configuration
+	const getOutputConfig = (fileName, filePath) => ({
+		file: filePath,
+		name: fileName.replace(/-/g, '_'),
+		globals: { document: 'document', window: 'window' },
+	})
+
+	// Generate channel-specific configurations
 	const channels = fileNames.map(fileName => ({
 		input: `${srcFolder}/${fileName}.js`,
 		external,
-		plugins: [...plugins, terser(getTerserConfig(fileName))],
-		output: [
-			{
-				file: `${distFolder}/${fileName}.js`,
-				name: fileName.replace(/-/g, '_'),
-				// format: 'umd',
-				globals: {
-					document: 'document',
-					window: 'window',
-				},
-			},
-		],
+		plugins: [...basePlugins, terser(getTerserConfig(fileName))],
+		output: [getOutputConfig(fileName, `${distFolder}/${fileName}.js`)],
 	}))
 
+	// Add main index.js configuration
 	channels.push({
 		input: `index.js`,
 		external,
-		plugins: [scss(), image(), ...plugins, ...[!isDev && terser(getTerserConfig())]],
+		plugins: [scss(), image(), ...basePlugins, ...(isDev ? [] : [terser(getTerserConfig('index'))])],
 		output: [
 			{
-				file: '../../../iframe/assets/index.js',
-				name: 'index.js',
+				...getOutputConfig('index.js', '../../../iframe/assets/index.js'),
 				format: 'iife',
-				globals: {
-					document: 'document',
-					window: 'window',
-				},
 			},
 		],
 	})
