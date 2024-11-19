@@ -182,6 +182,8 @@ export default class Widget {
 
 		if (channel_name === 'faq') {
 			this.renderFaq(widgetChannel)
+		} else if (channel_name === 'wechat') {
+			this.renderWeChat(widgetChannel)
 		} else if (channel_name === 'custom-form') {
 			this.renderForm(widgetChannel)
 		} else if (channel_name === 'woocommerce') {

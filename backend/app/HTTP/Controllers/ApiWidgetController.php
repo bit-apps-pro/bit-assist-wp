@@ -16,7 +16,7 @@ final class ApiWidgetController
 {
     private $isPro = false;
 
-    private $allDifferentChannels = ['FAQ', 'Knowledge-Base', 'Custom-Form', 'WP-Search', 'WooCommerce'];
+    private $allDifferentChannels = ['FAQ', 'Knowledge-Base', 'Custom-Form', 'WP-Search', 'WooCommerce', 'WeChat'];
 
     private $allSimilarChannels = ['Google-Map', 'Youtube', 'Custom-Iframe'];
 

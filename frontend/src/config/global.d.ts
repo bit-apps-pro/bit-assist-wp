@@ -18,3 +18,5 @@ declare let __webpack_public_path__ // eslint-disable-line @typescript-eslint/na
 declare module 'vite/client'
 
 declare module 'i18nwrap'
+
+type KeyedValueHandler<T> = <K extends keyof T>(key: K, value: T[K]) => void

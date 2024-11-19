@@ -1,4 +1,4 @@
-export const custom_frame = {
+export const custom_iframe = {
 	renderIframe(url, channelName, iframe = false, iframeOptions = false) {
 		this.hideChannels()
 		this.iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
@@ -15,16 +15,15 @@ export const custom_frame = {
 			globalAppend(this.iFrameWrapper, iframeElm)
 		}
 
-		if(iframeOptions){
+		if (iframeOptions) {
 			const { aspect_ratio, width, height } = iframeOptions
 
-			if(aspect_ratio === 'custom'){
+			if (aspect_ratio === 'custom') {
 				globalSetProperty(this.root.style, '--iframe-height', width + 'px')
 				globalSetProperty(this.root.style, '--iframe-height', height + 'px')
 			}
 
 			globalSetProperty(this.root.style, '--iframe-aspect-ratio', aspect_ratio)
-			
 		}
 
 		globalAppend($('#contentWrapper'), this.iFrameWrapper)

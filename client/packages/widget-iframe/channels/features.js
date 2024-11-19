@@ -653,7 +653,7 @@ export const faq = {
 	},
 }
 
-export const custom_frame = {
+export const custom_iframe = {
 	renderIframe(url, channelName, iframe = false, iframeOptions = false) {
 		this.hideChannels()
 		this.iFrameWrapper = createElm('div', { id: 'iframe-wrapper', class: channelName.toLowerCase() })
@@ -670,16 +670,15 @@ export const custom_frame = {
 			globalAppend(this.iFrameWrapper, iframeElm)
 		}
 
-		if(iframeOptions){
+		if (iframeOptions) {
 			const { aspect_ratio, width, height } = iframeOptions
 
-			if(aspect_ratio === 'custom'){
+			if (aspect_ratio === 'custom') {
 				globalSetProperty(this.root.style, '--iframe-height', width + 'px')
 				globalSetProperty(this.root.style, '--iframe-height', height + 'px')
 			}
 
 			globalSetProperty(this.root.style, '--iframe-aspect-ratio', aspect_ratio)
-			
 		}
 
 		globalAppend($('#contentWrapper'), this.iFrameWrapper)
@@ -692,6 +691,7 @@ export const custom_frame = {
 		this.resetClientWidgetSize()
 	},
 }
+
 import leftArrow from '../icons/left-circle-arrow.js'
 
 export const woocommerce = {
@@ -974,5 +974,31 @@ export const woocommerce = {
 		globalAppend($('#lists'), paginationWrap)
 
 		widgetThis.resetClientWidgetSize()
+	},
+}
+
+export const wechat = {
+	renderWeChat(widgetChannel) {
+		const widgetThis = this
+		widgetThis.hideChannels()
+		widgetThis.renderCard()
+		widgetThis.setCardStyle(widgetChannel.config)
+		const { url } = widgetChannel.config
+
+		const weChatBody = createElm('div', {
+			id: 'weChatBody',
+			style: 'min-height: calc(var(--card-width) - 30px)',
+		})
+
+		const weChatQRCode = createElm('img', {
+			id: 'weChatQRCode',
+			alt: 'WeChat QR Code',
+			src: url,
+			style: 'width: 100%',
+		})
+
+		globalAppend(weChatBody, weChatQRCode)
+		globalInnerHTML(widgetThis.cardBody, '')
+		globalAppend(widgetThis.cardBody, weChatBody)
 	},
 }
