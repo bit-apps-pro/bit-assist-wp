@@ -1,4 +1,13 @@
-import leftArrow from '../icons/left-circle-arrow.js'
+import leftArrow from '../images/left-circle-arrow.svg'
+import {
+	$,
+	createElm,
+	globalAppend,
+	globalClassListToggle,
+	globalEventListener,
+	globalInnerHTML,
+	globalQuerySelectorAll,
+} from '../utils/Helpers.js'
 
 export const faq = {
 	renderFaq(widgetChannel) {
@@ -22,7 +31,9 @@ export const faq = {
 		const faqDescription = createElm('div', { id: 'faqDescription' })
 		const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
 		const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-		globalInnerHTML(closeDescBtn, leftArrow)
+		const leftArrowIcon = createElm('img', { src: leftArrow, alt: 'back' })
+		globalAppend(closeDescBtn, leftArrowIcon)
+
 		const pElm = createElm('p')
 		globalAppend(descriptionTitle, [closeDescBtn, pElm])
 

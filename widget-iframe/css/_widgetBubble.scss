@@ -81,8 +81,8 @@
 	}
 
 	&.semiRounded {
-		mask: url('../public/images/widget-button-mask.svg') no-repeat;
-		-webkit-mask: url('../public/images/widget-button-mask.svg') no-repeat;
+		mask: url('../images/widget-button-mask.svg') no-repeat;
+		-webkit-mask: url('../images/widget-button-mask.svg') no-repeat;
 		// border-radius: 40%;
 	}
 
@@ -105,7 +105,7 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background-image: url('../public/images/close-icon.svg');
+		background-image: url('../images/close-icon.svg');
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: 30%;

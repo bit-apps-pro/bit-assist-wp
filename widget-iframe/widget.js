@@ -1,5 +1,13 @@
 import './css/style.scss'
-import closeIcon from './public/images/close-icon.svg'
+import closeIcon from './images/close-icon.svg'
+import { common } from './channels/common.js'
+import { custom_form } from './channels/custom_form.js'
+import { custom_iframe } from './channels/custom_iframe.js'
+import { faq } from './channels/faq.js'
+import { knowledge_base } from './channels/knowledge_base.js'
+import { wechat } from './channels/wechat.js'
+import { woocommerce } from './channels/woocommerce.js'
+import { wp_search } from './channels/wp_search.js'
 import {
 	$,
 	createElm,
@@ -15,6 +23,7 @@ import {
 	globalSetProperty,
 	globalInnerHTML,
 } from './utils/Helpers.js'
+
 export default class Widget {
 	apiEndPoint
 	root
@@ -306,12 +315,6 @@ export default class Widget {
 				console.error(this.widgetData)
 				this.removeClientWidget()
 				return
-			}
-
-			const mixinObj = await import(this.widgetData.featuresJsPath)
-
-			if (typeof mixinObj !== 'undefined') {
-				Object.values(mixinObj).forEach(mixin => Object.assign(Widget.prototype, mixin))
 			}
 
 			this.widgetSetup()
@@ -632,3 +635,14 @@ export default class Widget {
 		this.resetClientWidgetSize()
 	}
 }
+
+Object.assign(Widget.prototype, {
+	...custom_form,
+	...common,
+	...custom_iframe,
+	...faq,
+	...knowledge_base,
+	...wechat,
+	...woocommerce,
+	...wp_search,
+})

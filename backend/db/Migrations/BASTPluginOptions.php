@@ -18,15 +18,6 @@ final class BASTPluginOptions extends Migration
             Config::addOption('installed', time(), true);
             Config::addOption('version', Config::VERSION, true);
         }
-
-        if (Config::getOption('active_channels') === false) {
-            $options = [
-                'channel_names'  => '',
-                'channel_status' => 0
-            ];
-
-            Config::addOption('active_channels', $options, true);
-        }
     }
 
     public function down()
@@ -36,7 +27,6 @@ final class BASTPluginOptions extends Migration
             Config::withPrefix('db_version'),
             Config::withPrefix('installed'),
             Config::withPrefix('version'),
-            Config::withPrefix('active_channels'),
         ];
 
         DB::query(

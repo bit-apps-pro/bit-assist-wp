@@ -1,3 +1,5 @@
+import { $, createElm, globalAppend, globalInnerHTML, globalSetProperty } from '../utils/Helpers.js'
+
 export const custom_iframe = {
 	renderIframe(url, channelName, iframe = false, iframeOptions = false) {
 		this.hideChannels()

@@ -1,4 +1,18 @@
-import leftArrow from '../icons/left-circle-arrow.js'
+import leftArrow from '../images/left-circle-arrow.svg'
+import {
+	$,
+	createElm,
+	globalAppend,
+	globalClassListAdd,
+	globalClassListContains,
+	globalClassListRemove,
+	globalClassListToggle,
+	globalEventListener,
+	globalInnerHTML,
+	globalInnerText,
+	globalQuerySelectorAll,
+	globalSetAttribute,
+} from '../utils/Helpers.js'
 
 export const woocommerce = {
 	renderWooCommerce(widgetChannel) {

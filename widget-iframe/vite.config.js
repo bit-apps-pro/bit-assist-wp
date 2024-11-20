@@ -8,12 +8,13 @@ export default defineConfig({
 		cssCodeSplit: true,
 		rollupOptions: {
 			output: {
-				dir: resolve(__dirname, '../../../iframe/'),
+				dir: resolve(__dirname, '../iframe/'),
 				entryFileNames: 'assets/[name].js',
 				assetFileNames: assetInfo => {
 					if (assetInfo.name.indexOf('index.css') > -1) return 'assets/[name].[ext]'
 					return 'assets/[name].[hash].[ext]'
 				},
+				format: 'cjs',
 			},
 		},
 	},

@@ -1,3 +1,19 @@
+@use './widget';
+@use './widgetBubble';
+@use './callToAction';
+@use './card';
+@use './channels';
+@use './contactForm';
+@use './rating';
+@use './feedback';
+@use './listItem';
+@use './wpSearch';
+@use './pagination';
+@use './iframe';
+@use './toast';
+@use './keyframes';
+@use './orderDetails';
+
 :root {
 	--widget-color: #00ffa3;
 	--widget-active-badge-color: #00dc00;
@@ -53,19 +69,3 @@ body {
 		border-radius: 50%;
 	}
 }
-
-@import './widget';
-@import './widgetBubble';
-@import './callToAction';
-@import './card';
-@import './channels';
-@import './contactForm';
-@import './rating';
-@import './feedback';
-@import './listItem';
-@import './wpSearch';
-@import './pagination';
-@import './iframe';
-@import './toast';
-@import './keyframes';
-@import './orderDetails';

@@ -1,5 +1,5 @@
-const apiEndPoint = window?.bit_assist_?.api?.base || 'http://bit-assist.click/wp-json/bit-assist/v1'
-const iframeHost = window?.bit_assist_?.api?.base ? `${bit_assist_.api.base}/iframe` : 'http://localhost:5000'
+const apiEndPoint = window?.bit_assist_?.api?.base
+const iframeHost = window?.bit_assist_?.isDev !== '1' ? `${apiEndPoint}/iframe` : 'http://localhost:5000'
 const iframeDomain = new URL(iframeHost).origin
 const separator = window?.bit_assist_?.api?.separator || '?'
 
@@ -11,14 +11,6 @@ const winHeight = window.innerHeight
 let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
-
-// const winHeight = document.documentElement.clientHeight
-
-// if (navigator.userAgent.indexOf('iPhone') > -1) {
-// 	document
-// 		.querySelector('[name=viewport]')
-// 		.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1')
-// }
 
 const css = `
 	#bit-assist-widget-container{--ba-top:auto;--ba-left:auto;--ba-bottom:10;--ba-right:10;position:fixed;z-index:2147483646;bottom:0;right:0;width:${defaultWidth};height:${defaultHeight};max-width:100%}
@@ -147,10 +139,6 @@ function openChatWidget(chatWidgetName) {
 	if (chatWidgetName === 'tawk') {
 		openTawkTo()
 	}
-	// Facebook chat plugin disabled by facebook officially!
-	// if (chatWidgetName === 'live-chat-messenger') {
-	// 	openMessenger()
-	// }
 	if (chatWidgetName === 'crisp') {
 		openCrispChat()
 	}
@@ -163,7 +151,6 @@ function openChatWidget(chatWidgetName) {
 }
 
 window.addEventListener('load', () => {
-	// if (isLoadedMessenger()) handleMessenger()
 	if (isLoadedTawkTo()) handleTawkTo()
 	if (isLoadedCrisp()) handleCrisp()
 	if (isLoadedIntercom()) handleIntercom()
@@ -207,51 +194,6 @@ function isLoadedTawkTo() {
 	return typeof Tawk_API !== 'undefined'
 }
 // Tawk Channel Ends
-
-// Messenger Channel Starts
-// function handleMessenger() {
-// 	const FbWidget = window.FB?.CustomerChat || {}
-
-// 	FbWidget.hide()
-// 	FB.Event.subscribe('customerchat.load', function () {
-// 		isMessengerClickable = true
-// 		FbWidget.hide()
-// 	})
-
-// 	FB.Event.subscribe('customerchat.show', function () {
-// 		hideWidget()
-// 	})
-
-// 	FB.Event.subscribe('customerchat.hide', function () {
-// 		showWidget()
-// 	})
-
-// 	FB.Event.subscribe('customerchat.dialogShow', function () {
-// 		hideWidget()
-// 	})
-
-// 	FB.Event.subscribe('customerchat.dialogHide', function () {
-// 		FbWidget.hide()
-// 	})
-// }
-
-// function openMessenger() {
-// 	if (!isMessengerClickable) return alertMessage('Messenger'), null
-
-// 	try {
-// 		const FB = window.FB || {}
-// 		FB.CustomerChat.showDialog()
-// 		hideWidget()
-// 	} catch (e) {
-// 		alertMessage('Messenger')
-// 		showWidget()
-// 	}
-// }
-
-function isLoadedMessenger() {
-	return typeof window.FB !== 'undefined'
-}
-// Messenger Channel Ends
 
 // Crisp Channel Starts
 function handleCrisp() {
@@ -363,7 +305,6 @@ function showWidget() {
 
 function hideAllChatBots() {
 	if (isLoadedTawkTo()) Tawk_API?.minimize()
-	if (isLoadedMessenger()) FB?.CustomerChat?.hide()
 	if (isLoadedCrisp()) $crisp?.push(['do', 'chat:hide'])
 	if (isLoadedIntercom()) Intercom('hide')
 	if (isLoadedTidio()) tidioChatApi.hide()

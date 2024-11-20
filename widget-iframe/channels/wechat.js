@@ -1,3 +1,5 @@
+import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
+
 export const wechat = {
 	renderWeChat(widgetChannel) {
 		const widgetThis = this

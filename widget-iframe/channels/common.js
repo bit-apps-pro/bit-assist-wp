@@ -1,18 +1,17 @@
+import closeIcon from '../images/close-icon.svg'
+import rightArrowIcon from '../images/right-circle-arrow.svg'
 import {
 	$,
 	createElm,
 	globalAppend,
-	globalEventListener,
-	globalSetProperty,
-	globalPostMessage,
-	globalInnerHTML,
-	globalInnerText,
-	globalSetAttribute,
 	globalClassListAdd,
-	globalClassListRemove,
-	globalQuerySelectorAll,
 	globalClassListContains,
-	globalClassListToggle,
+	globalClassListRemove,
+	globalEventListener,
+	globalInnerHTML,
+	globalPostMessage,
+	globalQuerySelectorAll,
+	globalSetProperty,
 } from '../utils/Helpers.js'
 
 export const common = {
@@ -42,11 +41,8 @@ export const common = {
 		const cardHeader = createElm('div', { id: 'cardHeader' })
 		const h4Elm = createElm('h4')
 		const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
-
-		globalInnerHTML(
-			iconBtn,
-			`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="currentColor"><path d="M6.061 5l2.969-2.969A.75.75 0 0 0 9.03.97.75.75 0 0 0 7.969.969L5 3.938 2.031.969a.75.75 0 0 0-1.062 0 .75.75 0 0 0 0 1.063L3.938 5 .969 7.969a.75.75 0 0 0 0 1.062.75.75 0 0 0 1.063 0L5 6.063l2.969 2.969a.75.75 0 0 0 1.063 0 .75.75 0 0 0 0-1.062L6.061 5z"/></svg>`,
-		)
+		const closeBtnIcon = createElm('img', { src: closeIcon, alt: 'Close' })
+		globalAppend(iconBtn, closeBtnIcon)
 
 		globalAppend(cardHeader, [h4Elm, iconBtn])
 		this.cardBody = createElm('div', { id: 'cardBody' })
@@ -88,10 +84,8 @@ export const common = {
 					: (item.order_id ? 'Order Id: ' + item.order_id + ` (${item.shipping_status})` : '') || '',
 			)
 
-			globalInnerHTML(
-				listItemTitleWrapper,
-				`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor"><path d="M7.397 14.176a7.09 7.09 0 0 0 7.088-7.088A7.09 7.09 0 0 0 7.397 0 7.09 7.09 0 0 0 .31 7.088a7.09 7.09 0 0 0 7.088 7.088z" fill-opacity=".2"/><path d="M6.504 10.122c-.135 0-.269-.05-.376-.156-.099-.1-.154-.235-.154-.376s.055-.276.154-.376l2.126-2.126-2.126-2.126c-.099-.1-.154-.235-.154-.376s.055-.276.154-.376c.206-.206.546-.206.751 0l2.502 2.502c.206.206.206.546 0 .751L6.88 9.966c-.106.106-.241.156-.376.156z"/></svg>`,
-			)
+			const detailsIcon = createElm('img', { src: rightArrowIcon, alt: 'Details' })
+			globalAppend(listItemTitleWrapper, detailsIcon)
 			globalAppend(listItemTitleWrapper, title)
 
 			globalAppend(listItem, listItemTitleWrapper)
@@ -118,21 +112,4 @@ export const common = {
 			`${this.clientDomain}`,
 		)
 	},
-}
-
-export {
-	$,
-	createElm,
-	globalAppend,
-	globalEventListener,
-	globalSetProperty,
-	globalPostMessage,
-	globalInnerHTML,
-	globalInnerText,
-	globalSetAttribute,
-	globalClassListAdd,
-	globalClassListRemove,
-	globalQuerySelectorAll,
-	globalClassListContains,
-	globalClassListToggle,
 }

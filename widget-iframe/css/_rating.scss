@@ -26,30 +26,30 @@
 	}
 
 	.sad {
-		background-image: url('../public/images/rating/sad_white.svg');
+		background-image: url('../images/rating/sad_white.svg');
 	}
 
 	.confused {
-		background-image: url('../public/images/rating/confused_white.svg');
+		background-image: url('../images/rating/confused_white.svg');
 	}
 
 	.happy {
-		background-image: url('../public/images/rating/happy_white.svg');
+		background-image: url('../images/rating/happy_white.svg');
 	}
 
 	input:checked + .sad,
 	.sad:hover {
-		background-image: url('../public/images/rating/sad.svg');
+		background-image: url('../images/rating/sad.svg');
 	}
 
 	input:checked + .confused,
 	.confused:hover {
-		background-image: url('../public/images/rating/confused.svg');
+		background-image: url('../images/rating/confused.svg');
 	}
 
 	input:checked + .happy,
 	.happy:hover {
-		background-image: url('../public/images/rating/happy.svg');
+		background-image: url('../images/rating/happy.svg');
 	}
 }
 
@@ -59,18 +59,18 @@
 
 	&:not(:hover) {
 		input:checked ~ label {
-			background-image: url('../public/images/rating/star.svg');
+			background-image: url('../images/rating/star.svg');
 		}
 	}
 
 	label {
 		height: 24px;
 		width: 24px;
-		background-image: url('../public/images/rating/star_white.svg');
+		background-image: url('../images/rating/star_white.svg');
 
 		&:hover ~ label,
 		&:hover {
-			background-image: url('../public/images/rating/star.svg');
+			background-image: url('../images/rating/star.svg');
 			transform: scale(1.14);
 		}
 	}
