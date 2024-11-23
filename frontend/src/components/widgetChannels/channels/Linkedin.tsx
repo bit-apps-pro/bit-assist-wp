@@ -18,7 +18,7 @@ export default function Linkedin() {
       <FormControl>
         <FormLabel>Profile</FormLabel>
         <InputGroup>
-          <InputLeftAddon>https://linkedin.com/</InputLeftAddon>
+          <InputLeftAddon>linkedin.com/</InputLeftAddon>
           <Input
             placeholder="ex: in/username or company/username, etc"
             value={flow.config?.unique_id || ''}
