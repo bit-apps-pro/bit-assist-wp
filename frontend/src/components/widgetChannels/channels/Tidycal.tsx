@@ -3,22 +3,22 @@ import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 
-export default function Calendly() {
+export default function Tidycal() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
     setFlow((prev) => {
       prev.config.unique_id = value
-      prev.config.url = `https://calendly.com/${value}`
+      prev.config.url = `https://tidycal.com/${value}`
     })
   }
 
   return (
     <>
       <FormControl>
-        <FormLabel>Calendly </FormLabel>
+        <FormLabel>Tidycal</FormLabel>
         <InputGroup>
-          <InputLeftAddon children="calendly.com/" />
+          <InputLeftAddon>tidycal.com/</InputLeftAddon>
           <Input
             value={flow.config?.unique_id || ''}
             onChange={(e) => handleChanges(e.target.value)}
@@ -26,6 +26,7 @@ export default function Calendly() {
           />
         </InputGroup>
       </FormControl>
+
       <OpenWindowAction />
     </>
   )

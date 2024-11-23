@@ -10,6 +10,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/custom-iframe.svg`,
   },
   {
+    name: 'Calendly',
+    icon: `${config.ROOT_URL}/img/channel/calendly.svg`,
+  },
+  {
     name: 'Call',
     icon: `${config.ROOT_URL}/img/channel/call.svg`,
   },
@@ -98,6 +102,10 @@ const channelList = [
     icon: `${config.ROOT_URL}/img/channel/tidio.svg`,
   },
   {
+    name: 'Tidycal',
+    icon: `${config.ROOT_URL}/img/channel/tidycal.svg`,
+  },
+  {
     name: 'TikTok',
     icon: `${config.ROOT_URL}/img/channel/tiktok.svg`,
   },
@@ -132,10 +140,6 @@ const channelList = [
   {
     name: 'Youtube',
     icon: `${config.ROOT_URL}/img/channel/youtube.svg`,
-  },
-  {
-    name: 'Calendly',
-    icon: `${config.ROOT_URL}/img/channel/calendly.svg`,
   },
 ]
 

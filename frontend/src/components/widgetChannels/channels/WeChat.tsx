@@ -1,11 +1,10 @@
 import { Box, Button, FormControl, FormLabel, IconButton, Image, Text } from '@chakra-ui/react'
-import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { WidgetChannelConfig } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiUpload, FiX } from 'react-icons/fi'
 import CardColors from './common/CardColors'
-import { WidgetChannelConfig } from '@globalStates/Interfaces'
 
 export default function WeChat() {
   const [flow, setFlow] = useAtom(flowAtom)
