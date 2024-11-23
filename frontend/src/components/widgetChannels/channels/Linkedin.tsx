@@ -1,7 +1,7 @@
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
+import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
-import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 
 export default function Linkedin() {
   const [flow, setFlow] = useAtom(flowAtom)
@@ -9,16 +9,24 @@ export default function Linkedin() {
   const handleChanges = (value: string) => {
     setFlow((prev) => {
       prev.config.unique_id = value
-      prev.config.url = `https://linkedin.com/in/${value}`
+      prev.config.url = `https://linkedin.com/${value}`
     })
   }
 
   return (
     <>
       <FormControl>
-        <FormLabel>User name</FormLabel>
-        <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
+        <FormLabel>Profile</FormLabel>
+        <InputGroup>
+          <InputLeftAddon>https://linkedin.com/</InputLeftAddon>
+          <Input
+            placeholder="ex: in/username or company/username, etc"
+            value={flow.config?.unique_id || ''}
+            onChange={(e) => handleChanges(e.target.value)}
+          />
+        </InputGroup>
       </FormControl>
+
       <OpenWindowAction />
     </>
   )
