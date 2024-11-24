@@ -11,18 +11,18 @@ import {
 } from '@chakra-ui/react'
 import config from '@config/config'
 
-import cls from './NewRelease.module.css'
+import cls from './NewOffer.module.css'
 
 const addProIfExist = config.IS_PRO ? '-pro' : ''
-const redirectUrl = `https://bit-social.com/?utm_source=bit-assist${addProIfExist}&utm_medium=inside-plugin&utm_campaign=early-bird-offer`
+const redirectUrl = `https://bitapps.pro/wordpress-black-friday-discounts/?utm_source=bit-assist${addProIfExist}&utm_medium=inside-plugin&utm_campaign=black-friday-offer`
 
-export default function NewRelease() {
+export default function NewOffer() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
       <Button className={cls.button} size="sm" onClick={onOpen} rounded="full" colorScheme="purple">
-        New Product Release
+        Black Friday Deal
         <span className={cls.star} />
         <span className={cls.star} />
         <span className={cls.star} />
@@ -31,13 +31,13 @@ export default function NewRelease() {
       <Modal isCentered size="lg" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay zIndex={100000} />
         <ModalContent borderRadius={0} containerProps={{ zIndex: 100000 }}>
-          <ModalCloseButton />
+          <ModalCloseButton color="white" />
 
           <Link href={redirectUrl} target="_blank" rel="noopener noreferrer">
-            <Image src={config.ROOT_URL + '/img/early-bird-offer-bit-social.webp'} cursor="pointer" />
+            <Image src={config.ROOT_URL + '/img/black-friday.webp'} cursor="pointer" />
           </Link>
 
-          <ModalFooter pt={0}>
+          <ModalFooter p={3}>
             <Button
               as="a"
               href={redirectUrl}
@@ -46,6 +46,7 @@ export default function NewRelease() {
               rounded="full"
               colorScheme="purple"
               mx="auto"
+              _hover={{ color: 'purple.100' }}
             >
               Grab It Now 🚀
             </Button>
