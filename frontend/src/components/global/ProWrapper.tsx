@@ -7,7 +7,7 @@ type ProWrapper = PropsWithChildren<{ hide?: boolean }>
 export default function ProWrapper({ children, hide }: ProWrapper) {
   const blurBg = useColorModeValue('gray.200', 'whiteAlpha.200')
 
-  if (config.IS_PRO || hide) return children
+  if (config.IS_PRO || hide) return <>{children}</>
 
   return (
     <Box w="full" position="relative">
