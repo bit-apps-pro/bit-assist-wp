@@ -23,7 +23,7 @@ import config from '@config/config'
 import Logo from '@icons/Logo'
 import DocTutorials from './DocTutorials'
 import { FiExternalLink } from 'react-icons/fi'
-import NewRelease from './NewRelease'
+import NewOffer from './NewOffer'
 
 const PRODUCT_NAME = 'Bit Assist'
 const REVIEW_URL = 'https://wordpress.org/support/plugin/bit-assist/reviews/#new-post'
@@ -52,7 +52,7 @@ function Navbar() {
           </Link>
         </Flex>
         <ButtonGroup alignItems="center">
-          <NewRelease />
+          <NewOffer />
           <DocTutorials
             tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5"
             docLink="https://bitapps.pro/docs/bit-assist/"

@@ -1,10 +1,13 @@
 import { Box, Button, Link, useColorModeValue } from '@chakra-ui/react'
 import config from '@config/config'
+import { PropsWithChildren } from 'react'
 
-export default function ProWrapper({ children }: { children: React.ReactNode }) {
+type ProWrapper = PropsWithChildren<{ hide?: boolean }>
+
+export default function ProWrapper({ children, hide }: ProWrapper) {
   const blurBg = useColorModeValue('gray.200', 'whiteAlpha.200')
 
-  if (config.IS_PRO) return <>{children}</> // eslint-disable-line react/jsx-no-useless-fragment
+  if (config.IS_PRO || hide) return <>{children}</>
 
   return (
     <Box w="full" position="relative">

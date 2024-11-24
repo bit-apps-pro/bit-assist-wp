@@ -16,10 +16,6 @@ final class ApiWidgetController
 {
     private $isPro = false;
 
-    private $allDifferentChannels = ['FAQ', 'Knowledge-Base', 'Custom-Form', 'WP-Search', 'WooCommerce'];
-
-    private $allSimilarChannels = ['Google-Map', 'Youtube', 'Custom-Iframe'];
-
     public function __construct()
     {
         $this->isPro = class_exists(ProConfig::class) && ProConfig::isPro();
@@ -27,26 +23,23 @@ final class ApiWidgetController
 
     public function bitAssistWidget(Request $request)
     {
-        $version = Config::VERSION;
-        $baseURL = Config::get('BASEDIR_ROOT');
-
         $widget = $this->getWidget($request->domain);
 
         if (!isset($widget->id)) {
-            $this->makeFilesAndDbOptionEmpty($baseURL);
-
             return 'Widget not found';
         }
 
         $widgetChannels = $this->getChannelsByWidget($widget->id);
 
         if (\is_null($widgetChannels)) {
-            $this->makeFilesAndDbOptionEmpty($baseURL);
-
             return 'Widget channels not found';
         }
 
-        return $this->getActiveChannels($widget, $baseURL, $version, $widgetChannels);
+        $widget->widget_channels = $widgetChannels;
+
+        $widget->isAnalyticsActivate = (int) Config::getOption('analytics_activate');
+
+        return $widget;
     }
 
     public function wpSearch(Request $request)
@@ -151,141 +144,6 @@ final class ApiWidgetController
         return ['message' => 'No order found', 'status_code' => 404];
     }
 
-    private function makeFilesAndDbOptionEmpty($baseURL)
-    {
-        $activeChannelWPOptions = Config::getOption('active_channels');
-
-        $activeChannelWPOptions['channel_names'] = '';
-        $activeChannelWPOptions['channel_status'] = 0;
-        Config::updateOption('active_channels', $activeChannelWPOptions);
-
-        file_put_contents($baseURL . 'iframe/assets/channels/features.js', '');
-
-        if (Config::isDev()) {
-            file_put_contents($baseURL . 'client/packages/widget-iframe/channels/features.js', '');
-        }
-    }
-
-    private function getActiveChannels($widget, $baseURL, $version, $widgetChannels)
-    {
-        $widget->widget_channels = $widgetChannels;
-
-        $activeChannelWPOptions = Config::getOption('active_channels');
-
-        $this->getChannels($baseURL, $widget, $activeChannelWPOptions, $version);
-
-        $get_options_version = Config::getOption('active_channels');
-        $new_version = $get_options_version['version'];
-
-        $widget->featuresJsPath = Config::isDev() ? "./channels/features.js?ver={$new_version}" : plugins_url() . '/' . Config::SLUG . "/iframe/assets/channels/features.js?ver={$new_version}";
-
-        $widget->isAnalyticsActivate = (int)Config::getOption('analytics_activate');
-
-        return $widget;
-    }
-
-    private function getChannels($baseURL, $widget, $activeChannelWPOptions, $version)
-    {
-        $activeChannels = [];
-        $outputFilePath = '';
-
-        if (Config::isDev()) {
-            $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
-            $outputFilePath = $baseURL . 'client/packages/widget-iframe/channels/features.js';
-        }
-
-        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
-        $outputFilePathIframe = $baseURL . 'iframe/assets/channels/features.js';
-
-        $channel_names = $this->getActiveChannelsNameString($widget, $activeChannelWPOptions, $version);
-        $activeChannelWPOptions = $this->updateOptionOnChannelChange($activeChannelWPOptions, $channel_names, $version);
-
-        if ($activeChannelWPOptions['channel_status'] == 0 || !file_exists($outputFilePathIframe)) {
-            $importJsArray = [];
-            $importJsIframe = [];
-
-            if (Config::isDev()) {
-                $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/common.js');
-            }
-            $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/common.js');
-
-            foreach ($widget->widget_channels as $channel) {
-                if (\in_array($channel->channel_name, $this->allDifferentChannels)) {
-                    if (\in_array($channel->channel_name, $activeChannels)) {
-                        continue;
-                    }
-
-                    $activeChannels[] = $channel->channel_name;
-
-                    if (Config::isDev()) {
-                        $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/' . strtolower(str_replace('-', '_', $channel->channel_name)) . '.js');
-
-                        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $channel->channel_name)) . '.js');
-                    } else {
-                        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/' . strtolower(str_replace('-', '_', $channel->channel_name)) . '.js');
-                    }
-                }
-
-                if (\in_array($channel->channel_name, $this->allSimilarChannels)) {
-                    if (\in_array('Google-Map', $activeChannels) || \in_array('Youtube', $activeChannels) || \in_array('Custom-Iframe', $activeChannels)) {
-                        continue;
-                    }
-
-                    $activeChannels[] = $channel->channel_name;
-
-                    if (Config::isDev()) {
-                        $importJsArray[] = file_get_contents($baseURL . 'client/packages/widget-iframe/channels/custom_iframe.js');
-
-                        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js');
-                    } else {
-                        $importJsIframe[] = file_get_contents($baseURL . 'iframe/assets/channels/custom_iframe.js');
-                    }
-                }
-            }
-
-            $this->writeActiveChannelsJS($activeChannelWPOptions, $channel_names, $outputFilePathIframe, $importJsIframe, $outputFilePath, $importJsArray);
-        }
-    }
-
-    private function getActiveChannelsNameString($widget)
-    {
-        $channel_names = '';
-
-        foreach ($widget->widget_channels as $channel) {
-            $channel_names .= $channel->channel_name;
-        }
-
-        return $channel_names;
-    }
-
-    private function updateOptionOnChannelChange($activeChannelWPOptions, $channel_names, $version)
-    {
-        if ($activeChannelWPOptions['channel_names'] != $channel_names) {
-            $activeChannelWPOptions['channel_status'] = 0;
-            $activeChannelWPOptions['version'] = $version . '.' . wp_rand(10000, 9999999) . strtotime('now');
-
-            Config::updateOption('active_channels', $activeChannelWPOptions);
-        }
-
-        return $activeChannelWPOptions;
-    }
-
-    private function writeActiveChannelsJS($activeChannelWPOptions, $channel_names, $outputFilePathIframe, $importJsIframe, $outputFilePath, $importJsArray)
-    {
-        if ($activeChannelWPOptions['channel_names'] != $channel_names || !file_exists($outputFilePathIframe)) {
-            $activeChannelWPOptions['channel_status'] = 1;
-            $activeChannelWPOptions['channel_names'] = $channel_names;
-            Config::updateOption('active_channels', $activeChannelWPOptions);
-
-            if (Config::isDev()) {
-                file_put_contents($outputFilePathIframe, implode(PHP_EOL, $importJsIframe));
-                file_put_contents($outputFilePath, implode(PHP_EOL, $importJsArray));
-            } else {
-                file_put_contents($outputFilePathIframe, implode(PHP_EOL, $importJsIframe));
-            }
-        }
-    }
-
     private function getWidget($domain)
     {
         $widget = new Widget();
@@ -319,8 +177,8 @@ final class ApiWidgetController
     private function getChannelsByWidget($widgetId)
     {
         $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widgetId)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
-        if (\count($widgetChannels) < 1) {
-            return;
+        if (!is_array($widgetChannels) || \count($widgetChannels) < 1) {
+            return null;
         }
 
         $rootURL = Config::get('ROOT_URI');

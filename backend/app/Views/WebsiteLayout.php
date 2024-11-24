@@ -24,9 +24,15 @@ class WebsiteLayout
         $version = Config::VERSION;
         $rootURL = Config::get('ROOT_URI');
 
-        wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', [], $version, true);
+        if (Config::isDev()) {
+            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/widget-iframe/bit-assist.js', [], $version, true);
+        } else {
+            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', [], $version, true);
+        }
+
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [
-            'api' => Config::get('API_URL'),
+            'api'   => Config::get('API_URL'),
+            'isDev' => Config::isDev(),
         ]);
     }
 

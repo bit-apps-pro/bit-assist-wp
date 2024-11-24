@@ -39,7 +39,7 @@
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js --ext .ts --ext .tsx src/ --fix",
     "pd": "tsc && vite build",
-    "fpd": "cd ../client && pnpm i && pnpm build",
+    "fpd": "cd ../widget-iframe && pnpm i && pnpm build",
     "pda": "npm run pd && npm run fpd",
     "clear-lint-cache": "eslint . --cache --cache-file eslint-cache/eslintcache",
     "i18n:json": "npx po2json ./language/locale.pot ../languages/bitform-btcassist-admin-script.json -f jed1.x",
@@ -51,7 +51,8 @@
     "mock": "json-server --watch ./Mock_API/api.json --port 9000",
     "test": "jest",
     "dev": "vite --config vite.config.wp.ts",
-    "postinstall": "node ./postinstall.js"
+    "postinstall": "node ./postinstall.js",
+    "dev:both": "npx concurrently -c \"#fb7185,#fdba74\" \"yarn dev\" \"cd ../widget-iframe && pnpm dev\" --names=frontend,iframe"
   },
   "husky": {
     "hooks": {
