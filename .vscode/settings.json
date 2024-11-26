@@ -1,5 +1,5 @@
 {
-  "eslint.workingDirectories": ["./frontend"],
+  "eslint.workingDirectories": ["./frontend", "./widget-iframe"],
   "php-cs-fixer.onsave": true,
   "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
   "php-cs-fixer.documentFormattingProvider": true,
@@ -13,5 +13,6 @@
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.printWidth": 120,
-  "prettier.trailingComma": "all"
+  "prettier.trailingComma": "all",
+  "editor.formatOnSave": true
 }
