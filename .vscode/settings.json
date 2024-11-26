@@ -1,5 +1,8 @@
 {
-  "eslint.workingDirectories": ["./frontend"],
+  "eslint.workingDirectories": [
+    { "directory": "./frontend"  },
+    { "directory": "./widget-igrame" }
+  ],
   "php-cs-fixer.onsave": true,
   "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
   "php-cs-fixer.documentFormattingProvider": true,
