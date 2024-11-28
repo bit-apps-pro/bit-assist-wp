@@ -1,14 +1,14 @@
 export const $ = s => document.querySelector(s)
 
 export const createElm = (elm, attributes) => {
-	const domElm = document.createElement(elm)
+  const domElm = document.createElement(elm)
 
-	if (attributes) {
-		for (const attribute in attributes) {
-			domElm.setAttribute(attribute, attributes[attribute])
-		}
-	}
-	return domElm
+  if (attributes) {
+    for (const attribute in attributes) {
+      domElm.setAttribute(attribute, attributes[attribute])
+    }
+  }
+  return domElm
 }
 
 export const globalAppend = (elm, child) => (Array.isArray(child) ? elm.append(...child) : elm.append(child))
@@ -30,12 +30,12 @@ export const globalClassListContains = (selector, action) => selector?.classList
 export const globalClassListToggle = (selector, action) => selector?.classList.toggle(action)
 
 export const globalSetAttribute = (domElm, attribute, value) => {
-	domElm.setAttribute(attribute, value)
+  domElm.setAttribute(attribute, value)
 }
 
 export const globalInnerHTML = (domElm, value) => {
-	domElm.innerHTML = value
+  domElm.innerHTML = value
 }
 export const globalInnerText = (domElm, value) => {
-	domElm.innerText = value
+  domElm.textContent = value
 }

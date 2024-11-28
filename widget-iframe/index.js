@@ -9,8 +9,7 @@ const domain = urlParts?.[1]
 
 const clientDomain = protocol + domain
 
-window.addEventListener('load', function () {
-	new Widget({
-		clientDomain,
-	})
+window.addEventListener('load', () => {
+  // eslint-disable-next-line no-new
+  new Widget({ clientDomain })
 })
