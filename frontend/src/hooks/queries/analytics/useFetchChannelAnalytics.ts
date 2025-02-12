@@ -1,40 +1,40 @@
 import request from '@utils/request'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 
 interface Filter {
-  widget_id?: string,
-  filterValue?: string | Date[],
   filter?: string | string[]
+  filterValue?: Date[] | string
+  widget_id?: string
 }
 
 export default function useFetchChannelAnalytics(analyticsFilter?: Filter) {
-  let filter = <string[] | string>[]
+  let filter = [] as string | string[]
 
-  if(Array.isArray(analyticsFilter?.filterValue)){
+  if (Array.isArray(analyticsFilter?.filterValue)) {
     const dates = analyticsFilter?.filterValue.map(date => {
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
       return formattedDate
     })
-    filter = dates ? dates : 'all-time'
-  } else{
-    filter = analyticsFilter?.filterValue ? analyticsFilter?.filterValue : 'all-time'
+    filter = dates || 'all-time'
+  } else {
+    filter = analyticsFilter?.filterValue || 'all-time'
   }
 
-  analyticsFilter = {widget_id: analyticsFilter?.widget_id, filter}
+  const newAnalyticsFilter = { filter, widget_id: analyticsFilter?.widget_id }
 
   const { data, isLoading } = useQuery(
-    ['channel_analytics', analyticsFilter],
-    async () => request('analytics/channel', analyticsFilter),
+    ['channel_analytics', newAnalyticsFilter],
+    async () => request('analytics/channel', newAnalyticsFilter),
     {
-      enabled: !!analyticsFilter?.widget_id,
+      enabled: !!newAnalyticsFilter?.widget_id
     }
   )
 
   return {
     analytics: data?.data,
-    isAnalyticsFetching: isLoading,
+    isAnalyticsFetching: isLoading
   }
 }

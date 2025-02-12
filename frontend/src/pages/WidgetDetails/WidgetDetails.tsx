@@ -1,12 +1,12 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, useColorModeValue } from '@chakra-ui/react'
 import Customizations from '@components/customizations/Customizations'
-import Publish from '@components/publish/Publish'
-import WidgetChannels from '@components/widgetChannels/WidgetChannels'
-import Settings from '@components/settings/Settings'
-import useFetchWidget from '@hooks/queries/widget/useFetchWidget'
 import ChannelAnalytics from '@components/global/ChannelAnalytics'
-import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
+import Publish from '@components/publish/Publish'
+import Settings from '@components/settings/Settings'
+import WidgetChannels from '@components/widgetChannels/WidgetChannels'
 import config from '@config/config'
+import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
+import useFetchWidget from '@hooks/queries/widget/useFetchWidget'
 
 function WidgetDetails() {
   useFetchWidget()
@@ -14,17 +14,17 @@ function WidgetDetails() {
   const { isAnalyticsActive } = useFetchIsAnalyticsActive()
 
   return (
-    <Tabs variant="solid-rounded" colorScheme="purple">
+    <Tabs colorScheme="purple" variant="solid-rounded">
       <TabList
+        backdropFilter="blur(10px)"
+        bg={tabColorMode}
+        flexWrap="wrap"
         gap={['1', '2']}
         justifyContent="center"
-        flexWrap="wrap"
         position="sticky"
-        top="32px"
         py="2"
+        top="32px"
         zIndex={2}
-        bg={tabColorMode}
-        backdropFilter="blur(10px)"
       >
         {isAnalyticsActive === 1 && config.IS_PRO && <Tab rounded="md">Analytics</Tab>}
         <Tab rounded="md">Channels</Tab>
@@ -32,7 +32,7 @@ function WidgetDetails() {
         <Tab rounded="md">Settings</Tab>
         <Tab rounded="md">External publish</Tab>
       </TabList>
-      <TabPanels mx="auto" borderWidth="1px" rounded="lg" shadow="md" mt="2" p={[0, 4]}>
+      <TabPanels borderWidth="1px" mt="2" mx="auto" p={[0, 4]} rounded="lg" shadow="md">
         {isAnalyticsActive === 1 && config.IS_PRO && (
           <TabPanel>
             <ChannelAnalytics />

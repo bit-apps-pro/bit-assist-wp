@@ -1,40 +1,41 @@
 import { extendTheme } from '@chakra-ui/react'
+
 import { modalTheme } from './modalTheme'
 
 const fonts = {
-  heading: 'Outfit, sans-serif',
   body: 'Outfit, sans-serif',
-  mono: 'Menlo, monospace',
+  heading: 'Outfit, sans-serif',
+  mono: 'Menlo, monospace'
 }
 
 const breakpoints = {
-  sm: '40em',
-  md: '52em',
   lg: '64em',
-  xl: '80em',
+  md: '52em',
+  sm: '40em',
+  xl: '80em'
 }
 
 const customTheme = extendTheme({
-  semanticTokens: {
-    radii: {
-      none: '0',
-      sm: '0.375rem',
-      base: '0.75rem',
-      md: '0.75rem',
-      lg: '0.9375rem',
-      xl: '1.125rem',
-      '2xl': '1rem',
-      '3xl': '1.5rem',
-      full: '999px',
-    },
-  },
-  shadows: {
-    outline: '0 0 0 3px #D6BCFA',
-    // outline: '0 0 0 3px #9AE6B4',
-  },
-  fonts,
   breakpoints,
   components: { Modal: modalTheme },
+  fonts,
+  semanticTokens: {
+    radii: {
+      '2xl': '1rem',
+      '3xl': '1.5rem',
+      base: '0.75rem',
+      full: '999px',
+      lg: '0.9375rem',
+      md: '0.75rem',
+      none: '0',
+      sm: '0.375rem',
+      xl: '1.125rem'
+    }
+  },
+  shadows: {
+    outline: '0 0 0 3px #D6BCFA'
+    // outline: '0 0 0 3px #9AE6B4',
+  }
   // colors: {
   //   purple: {
   //     50: '#F0FFF4',

@@ -101,7 +101,7 @@ final class WidgetController
 
         if ($widget->save()) {
             if ($widget->active) {
-                Config::updateOption('widget_active', ($request->status ? $widget->id : null));
+                Config::updateOption('widget_active', ($request->status ? $widget->id : undefined));
             }
 
             return Response::success('Widget status changed');

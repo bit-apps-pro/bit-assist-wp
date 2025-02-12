@@ -2,28 +2,28 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
-use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
 use BitApps\Assist\Helpers\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
+use BitApps\AssistPro\Config as ProConfig;
 
 final class ResponseController
 {
     public function index($widgetChannelId, $page, $limit)
     {
         return Response::where('widget_channel_id', $widgetChannelId)
-        ->skip(($page * $limit) - $limit)
-        ->take($limit)
-        ->desc()
-        ->get();
+            ->skip(($page * $limit) - $limit)
+            ->take($limit)
+            ->desc()
+            ->get();
     }
 
     public function othersData($widgetChannelId)
     {
-        if (is_null($widgetChannelId)) {
+        if (\is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
 
@@ -40,8 +40,8 @@ final class ResponseController
     public function store(Request $request)
     {
         $formData = $request->all();
-        $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
-        if (is_null($widgetChannelId)) {
+        $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : undefined;
+        if (\is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
         unset($formData['widget_channel_id']);
@@ -50,7 +50,7 @@ final class ResponseController
 
         if (!empty($config->card_config->webhook_url) && class_exists(ProConfig::class) && ProConfig::isPro()) {
             $webhook = new HttpClient();
-            $webhook->request($config->card_config->webhook_url, 'POST', json_encode($formData));
+            $webhook->request($config->card_config->webhook_url, 'POST', wp_json_encode($formData));
         }
 
         if (!empty($config->store_responses)) {
@@ -70,20 +70,6 @@ final class ResponseController
         }
 
         return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
-    }
-
-    private function storeFiles($files, $widgetChannelId)
-    {
-        $fileNames = [];
-        $fileHandler = new FileHandler();
-        foreach ($files as $fileName => $fileDetails) {
-            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
-            if (!empty($filePath)) {
-                $fileNames[$fileName] = $filePath;
-            }
-        }
-
-        return $fileNames;
     }
 
     public function sendMail($email, $formTitle, $data)
@@ -108,5 +94,19 @@ final class ResponseController
         Response::whereIn('id', $request->responseIds)->delete();
 
         return Res::success('Selected response deleted');
+    }
+
+    private function storeFiles($files, $widgetChannelId)
+    {
+        $fileNames = [];
+        $fileHandler = new FileHandler();
+        foreach ($files as $fileName => $fileDetails) {
+            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
+            if (!empty($filePath)) {
+                $fileNames[$fileName] = $filePath;
+            }
+        }
+
+        return $fileNames;
     }
 }

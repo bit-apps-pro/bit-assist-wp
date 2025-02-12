@@ -8,11 +8,8 @@ import {
   HStack,
   Input,
   Switch,
-  VStack,
+  VStack
 } from '@chakra-ui/react'
-import { flowAtom } from '@globalStates/atoms'
-import { useAtom } from 'jotai'
-
 import ProWrapper from '@components/global/ProWrapper'
 import Call from '@components/widgetChannels/channels/Call'
 import CustomChannel from '@components/widgetChannels/channels/CustomChannel'
@@ -28,24 +25,27 @@ import Line from '@components/widgetChannels/channels/Line'
 import Linkedin from '@components/widgetChannels/channels/Linkedin'
 import Messenger from '@components/widgetChannels/channels/Messenger'
 import Pinterest from '@components/widgetChannels/channels/Pinterest'
-import SMS from '@components/widgetChannels/channels/SMS'
 import Signal from '@components/widgetChannels/channels/Signal'
 import Skype from '@components/widgetChannels/channels/Skype'
 import Slack from '@components/widgetChannels/channels/Slack'
+import SMS from '@components/widgetChannels/channels/SMS'
 import Snapchat from '@components/widgetChannels/channels/Snapchat'
 import Tawk from '@components/widgetChannels/channels/Tawk'
 import Telegram from '@components/widgetChannels/channels/Telegram'
 import TikTok from '@components/widgetChannels/channels/TikTok'
 import Twitter from '@components/widgetChannels/channels/Twitter'
 import Viber from '@components/widgetChannels/channels/Viber'
-import WPSearch from '@components/widgetChannels/channels/WPSearch'
 import Waze from '@components/widgetChannels/channels/Waze'
 import WeChat from '@components/widgetChannels/channels/WeChat'
 import Whatsapp from '@components/widgetChannels/channels/Whatsapp'
 import WooCommerce from '@components/widgetChannels/channels/WooCommerce'
+import WPSearch from '@components/widgetChannels/channels/WPSearch'
 import Youtube from '@components/widgetChannels/channels/Youtube'
 import config from '@config/config'
-import { WidgetChannelConfig } from '@globalStates/Interfaces'
+import { flowAtom } from '@globalStates/atoms'
+import { type WidgetChannelConfig } from '@globalStates/Interfaces'
+import { useAtom } from 'jotai'
+
 import Calendly from './channels/Calendly'
 import Crisp from './channels/Crisp'
 import Intercom from './channels/Intercom'
@@ -55,103 +55,139 @@ import Tidycal from './channels/Tidycal'
 
 const renderSelectedChannelSettings = (channelName: string) => {
   switch (channelName) {
-    case 'wp-search':
-      return <WPSearch />
-    case 'custom-iframe':
-      return <CustomIframe />
-    case 'custom-channel':
-      return <CustomChannel />
-    case 'tawk':
-      return <Tawk />
-    case 'knowledge-base':
-      return <KnowledgeBase />
-    case 'faq':
-      return <FAQ />
-    case 'custom-form':
-      return <CustomForm />
-    case 'discord':
-      return <Discord />
-    case 'line':
-      return <Line />
-    case 'snapchat':
-      return <Snapchat />
-    case 'viber':
-      return <Viber />
-    case 'wechat':
-      return <WeChat />
-    case 'sms':
-      return <SMS />
-    case 'linkedin':
-      return <Linkedin />
-    case 'tiktok':
-      return <TikTok />
-    case 'google-map':
-      return <GoogleMap />
-    case 'waze':
-      return <Waze />
-    case 'slack':
-      return <Slack />
-    case 'youtube':
-      return <Youtube />
-    case 'call':
-      return <Call />
-    case 'skype':
-      return <Skype />
-    case 'signal':
-      return <Signal />
-    case 'whatsapp':
-      return <Whatsapp />
-    case 'messenger':
-      return <Messenger />
-    case 'live-chat-messenger':
-      return <MessengerLive />
-    case 'pinterest':
-      return <Pinterest />
-    case 'twitter':
-      return <Twitter />
-    case 'instagram':
-      return <Instagram />
-    case 'telegram':
-      return <Telegram />
-    case 'woocommerce':
-      return <WooCommerce />
-    case 'calendly':
+    case 'calendly': {
       return <Calendly />
-    case 'crisp':
+    }
+    case 'call': {
+      return <Call />
+    }
+    case 'crisp': {
       return <Crisp />
-    case 'intercom':
+    }
+    case 'custom-channel': {
+      return <CustomChannel />
+    }
+    case 'custom-form': {
+      return <CustomForm />
+    }
+    case 'custom-iframe': {
+      return <CustomIframe />
+    }
+    case 'discord': {
+      return <Discord />
+    }
+    case 'faq': {
+      return <FAQ />
+    }
+    case 'google-map': {
+      return <GoogleMap />
+    }
+    case 'instagram': {
+      return <Instagram />
+    }
+    case 'intercom': {
       return <Intercom />
-    case 'tidio':
+    }
+    case 'knowledge-base': {
+      return <KnowledgeBase />
+    }
+    case 'line': {
+      return <Line />
+    }
+    case 'linkedin': {
+      return <Linkedin />
+    }
+    case 'live-chat-messenger': {
+      return <MessengerLive />
+    }
+    case 'messenger': {
+      return <Messenger />
+    }
+    case 'pinterest': {
+      return <Pinterest />
+    }
+    case 'signal': {
+      return <Signal />
+    }
+    case 'skype': {
+      return <Skype />
+    }
+    case 'slack': {
+      return <Slack />
+    }
+    case 'sms': {
+      return <SMS />
+    }
+    case 'snapchat': {
+      return <Snapchat />
+    }
+    case 'tawk': {
+      return <Tawk />
+    }
+    case 'telegram': {
+      return <Telegram />
+    }
+    case 'tidio': {
       return <Tidio />
-    case 'tidycal':
+    }
+    case 'tidycal': {
       return <Tidycal />
-    default:
-      return null
+    }
+    case 'tiktok': {
+      return <TikTok />
+    }
+    case 'twitter': {
+      return <Twitter />
+    }
+    case 'viber': {
+      return <Viber />
+    }
+    case 'waze': {
+      return <Waze />
+    }
+    case 'wechat': {
+      return <WeChat />
+    }
+    case 'whatsapp': {
+      return <Whatsapp />
+    }
+    case 'woocommerce': {
+      return <WooCommerce />
+    }
+    case 'wp-search': {
+      return <WPSearch />
+    }
+    case 'youtube': {
+      return <Youtube />
+    }
+    default: {
+      return
+    }
   }
 }
 
-const PRO_CHANNELS = [
-  'FAQ',
-  'Knowledge-Base',
-  'WooCommerce',
-  'WP-Search',
-  'Custom-Iframe',
+const PRO_CHANNELS = new Set([
   'Crisp',
-  'Tawk',
+  'Custom-Iframe',
+  'FAQ',
   'Intercom',
+  'Knowledge-Base',
+  'Tawk',
   'Tidio',
-]
+  'WooCommerce',
+  'WP-Search'
+])
 
 function ChannelSettings() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges: KeyedValueHandler<WidgetChannelConfig> = (key, value) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config[key] = value
     })
   }
 
-  const isProChannel = PRO_CHANNELS.includes(flow.channel_name)
+  const isProChannel = PRO_CHANNELS.has(flow.channel_name)
 
   if (flow.channel_name === 'Live-Chat-Messenger') {
     return <MessengerLive />
@@ -163,7 +199,7 @@ function ChannelSettings() {
         <>
           <FormControl isRequired>
             <FormLabel>Title</FormLabel>
-            <Input value={flow.config.title} onChange={(e) => handleChanges('title', e.target.value)} />
+            <Input onChange={e => handleChanges('title', e.target.value)} value={flow.config.title} />
             <FormHelperText>Descriptive text for visitors.</FormHelperText>
           </FormControl>
 
@@ -176,11 +212,11 @@ function ChannelSettings() {
               <Flex alignItems="center">
                 <FormLabel mb="0">Hide after office hours</FormLabel>
                 <Switch
-                  ml="2"
-                  colorScheme="purple"
                   aria-label="hide after office hours"
+                  colorScheme="purple"
                   isChecked={flow.config?.hide_after_office_hours || false}
-                  onChange={(e) => handleChanges('hide_after_office_hours', e.target.checked)}
+                  ml="2"
+                  onChange={e => handleChanges('hide_after_office_hours', e.target.checked)}
                   tabIndex={config.IS_PRO ? 0 : -1}
                 />
               </Flex>
@@ -191,15 +227,15 @@ function ChannelSettings() {
           <FormControl>
             <FormLabel display="inline-block">Channel show on</FormLabel>
             <CheckboxGroup
-              onChange={(val) => handleChanges('channel_show_on', val)}
               colorScheme="purple"
+              onChange={val => handleChanges('channel_show_on', val)}
               value={flow.config?.channel_show_on ?? []}
             >
               <HStack spacing={4}>
-                <Checkbox size="lg" value="desktop" aria-label="show on desktop">
+                <Checkbox aria-label="show on desktop" size="lg" value="desktop">
                   Desktop
                 </Checkbox>
-                <Checkbox size="lg" value="mobile" aria-label="show on mobile">
+                <Checkbox aria-label="show on mobile" size="lg" value="mobile">
                   Mobile
                 </Checkbox>
               </HStack>

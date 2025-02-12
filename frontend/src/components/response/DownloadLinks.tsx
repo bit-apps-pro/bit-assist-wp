@@ -1,17 +1,12 @@
-import {
-  Tooltip,
-  Link,
-  useColorModeValue,
-  Flex
-} from '@chakra-ui/react'
-import config from "@config/config"
-import { ResponseFileType } from "@globalStates/Interfaces"
+import { Flex, Link, Tooltip, useColorModeValue } from '@chakra-ui/react'
+import config from '@config/config'
+import { type ResponseFileType } from '@globalStates/Interfaces'
 import { textTrim } from '@utils/utils'
 import { FiDownload, FiFile } from 'react-icons/fi'
+
 import style from './Response.module.css'
 
-
-type DownloadLinksProps = {
+interface DownloadLinksProps {
   files: ResponseFileType[]
   widgetChannelId: string
 }
@@ -31,21 +26,20 @@ export default function DownloadLinks({ files, widgetChannelId }: DownloadLinksP
         uri.searchParams.append('fileName', file.originalName)
 
         return (
-          <Tooltip placement='top' key={Math.random()} label={file.originalName}>
-            <Flex className={style.downloadLink} gap='0.5'>
-              <Link
-                target='_blank'
-                href={uri.href}
-                display='flex' alignItems="center" gap='1'
-                h='7'
-              >
-                <FiFile fontSize='0.875rem' />
+          <Tooltip key={Math.random()} label={file.originalName} placement="top">
+            <Flex className={style.downloadLink} gap="0.5">
+              <Link alignItems="center" display="flex" gap="1" h="7" href={uri.href} target="_blank">
+                <FiFile fontSize="0.875rem" />
                 {textTrim(file.originalName, 6)}
               </Link>
               <Link
+                _hover={{ backgroundColor: grayColorToggle }}
+                className={style.fileDownloadIcon}
                 href={`${uri.href}&download`}
-                className={style.fileDownloadIcon} rounded='full' p='1.5' _hover={{ backgroundColor: grayColorToggle }}>
-                <FiDownload fontSize='0.875rem' />
+                p="1.5"
+                rounded="full"
+              >
+                <FiDownload fontSize="0.875rem" />
               </Link>
             </Flex>
           </Tooltip>

@@ -1,21 +1,20 @@
 import {
-  Select,
   Box,
-  Input,
+  Select,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  Switch,
   Text,
   Tooltip,
   useColorModeValue,
-  VStack,
-  Switch,
+  VStack
 } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -38,99 +37,106 @@ function AttentionAnimation() {
     }
   }, [widget.styles?.animation_active])
 
+  const debounceUpdateWidget = useRef(
+    debounce(async newWidget => {
+      const { data, status } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000)
+  ).current
+
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsEnabled(e.target.checked)
     const animationActive = e.target.checked ? 1 : 0
 
     // const animationDelay = e.target.checked ? 1 : 0
 
-    setWidget((prev) => {
-      if (prev.styles === null) {
+    setWidget(prev => {
+      if (prev.styles === null || prev.styles === undefined) {
         prev.styles = {}
       }
-      prev.styles != null ? (prev.styles.animation_active = animationActive) : (prev.styles = {})
+      if (prev.styles == undefined) {
+        prev.styles = {}
+      } else {
+        prev.styles.animation_active = animationActive
+      }
     })
 
     debounceUpdateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
+      produce(widget, draft => {
+        if (draft.styles === null || draft.styles === undefined) {
           draft.styles = {}
         }
-        if (draft.styles != null) {
+        if (draft.styles != undefined) {
           draft.styles.animation_active = animationActive
         }
-      }),
+      })
     )
   }
-
-  const debounceUpdateWidget = useRef(
-    debounce(async (newWidget) => {
-      const { status, data } = await updateWidget(newWidget)
-      toaster(status, data)
-    }, 1000),
-  ).current
 
   useEffect(
     () => () => {
       debounceUpdateWidget.cancel()
     },
-    [debounceUpdateWidget],
+    [debounceUpdateWidget]
   )
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const animationType = Number(e.target.value)
-    setWidget((prev) => {
-      if (prev.styles === null) {
+    setWidget(prev => {
+      if (prev.styles === null || prev.styles === undefined) {
         prev.styles = {}
       }
-      prev.styles != null ? (prev.styles.animation_type = animationType) : (prev.styles = {})
+      if (prev.styles == undefined) {
+        prev.styles = {}
+      } else {
+        prev.styles.animation_type = animationType
+      }
     })
 
-    const { status, data } = await updateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
+    const { data, status } = await updateWidget(
+      produce(widget, draft => {
+        if (draft.styles === null || draft.styles === undefined) {
           draft.styles = {}
         }
-        if (draft.styles != null) {
+        if (draft.styles != undefined) {
           draft.styles.animation_type = animationType
         }
-      }),
+      })
     )
     toaster(status, data)
   }
 
-  const handleSliderChange = (value: number) => {
-    updateData(value, 'delay')
-  }
-
-  const updateData = (value: string | number, key: string) => {
-    setWidget((prev) => {
-      if (prev.styles === null) {
+  const updateData = (value: number | string, key: string) => {
+    setWidget(prev => {
+      if (prev.styles === null || prev.styles === undefined) {
         prev.styles = {}
       }
       prev.styles.animation_delay = { ...prev.styles?.animation_delay, [key]: value }
     })
 
     debounceUpdateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
+      produce(widget, draft => {
+        if (draft.styles === null || draft.styles === undefined) {
           draft.styles = {}
         }
         draft.styles.animation_delay = { ...draft.styles?.animation_delay, [key]: value }
-      }),
+      })
     )
   }
 
+  const handleSliderChange = (value: number) => {
+    updateData(value, 'delay')
+  }
   return (
-    <Box w="lg" maxW="full">
+    <Box maxW="full" w="lg">
       <Title>
         Attention Animation
-        <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
+        <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
       </Title>
 
       {isEnabled && (
-        <VStack spacing="4" alignItems="flex-start" w="lg" maxW="full">
-          <Select value={widget.styles?.animation_type ?? ''} onChange={handleChange}>
+        <VStack alignItems="flex-start" maxW="full" spacing="4" w="lg">
+          <Select onChange={handleChange} value={widget.styles?.animation_type ?? ''}>
             <option value={1}>Wiggle</option>
             <option value={2}>Jump</option>
             <option value={3}>Shock Wave</option>
@@ -138,26 +144,26 @@ function AttentionAnimation() {
 
           <Text>Animation Delay: {widget.styles?.animation_delay?.delay ?? 0} seconds.</Text>
           <Slider
-            defaultValue={0}
-            value={widget.styles?.animation_delay?.delay}
-            min={0}
-            max={60}
             colorScheme="purple"
-            onChange={(val) => handleSliderChange(val)}
+            defaultValue={0}
+            max={60}
+            min={0}
+            onChange={val => handleSliderChange(val)}
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
+            value={widget.styles?.animation_delay?.delay}
           >
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
 
             <Tooltip
-              hasArrow
               bg={brandColorToggle}
               color={textColorToggle}
-              placement="top"
+              hasArrow
               isOpen={showTooltip}
               label={`${widget.styles?.animation_delay?.delay ?? 0} sec`}
+              placement="top"
             >
               <SliderThumb bg={brandColorToggle} />
             </Tooltip>

@@ -1,16 +1,17 @@
 import { Box, Button, Flex, FormControl, FormLabel, IconButton, Image, Text } from '@chakra-ui/react'
-import { FiUpload, FiX } from 'react-icons/fi'
+import channelList from '@components/widgetChannels/ChannelList'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
-import channelList from '@components/widgetChannels/ChannelList'
+import { FiUpload, FiX } from 'react-icons/fi'
 
 export default function CustomIcon() {
   const [flow, setFlow] = useAtom(flowAtom)
   const [imgWarn, setImgWarn] = useState('')
 
-  const handleChanges = (value: string | number | boolean, key: string) => {
-    setFlow((prev) => {
+  const handleChanges = (value: boolean | number | string, key: string) => {
+    setFlow(prev => {
       prev.config = { ...prev.config, [key]: value }
 
       if (key === 'unique_id') {
@@ -22,16 +23,16 @@ export default function CustomIcon() {
   const setChannelImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        title: 'Media',
         button: { text: 'Select picture' },
         library: { type: 'image' },
         multiple: false,
+        title: __('Media')
       })
 
       imgSelectionFrame.on('select', () => {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChanges(attachment.url, 'channel_icon')
-        if (attachment.filesizeInBytes > 512000) {
+        if (attachment.filesizeInBytes > 512_000) {
           setImgWarn('⚠ Larger size image might slow down load time')
         }
       })
@@ -47,40 +48,40 @@ export default function CustomIcon() {
       <Flex gap="4">
         <Box position="relative">
           <Image
-            src={flow.config?.channel_icon || ''}
             alt={flow.config.title || 'Custom channel icon'}
-            boxSize="40px"
             borderRadius="full"
+            boxSize="40px"
+            fallbackSrc={channelList.find(c => c.name === flow.channel_name)?.icon || ''}
             objectFit="cover"
             objectPosition="center"
-            fallbackSrc={channelList.find((c) => c.name === flow.channel_name)?.icon || ''}
+            src={flow.config?.channel_icon || ''}
           />
           {flow.config?.channel_icon ? (
             <IconButton
               aria-label="remove custom icon"
-              icon={<FiX />}
               borderRadius="full"
               colorScheme="red"
               h="5"
+              icon={<FiX />}
               minW="5"
-              w="5"
-              position="absolute"
-              top="-1"
-              right="-2"
               onClick={() => handleChanges('', 'channel_icon')}
+              position="absolute"
+              right="-2"
+              top="-1"
+              w="5"
             />
-          ) : null}
+          ) : undefined}
         </Box>
-        <Button onClick={setChannelImg} leftIcon={<FiUpload />}>
+        <Button leftIcon={<FiUpload />} onClick={setChannelImg}>
           Browse
         </Button>
       </Flex>
-      <Text mt="1" fontSize="sm" color="gray.500">
+      <Text color="gray.500" fontSize="sm" mt="1">
         image size 40 x 40px
       </Text>
 
       {imgWarn !== '' && (
-        <Text mt="1" fontSize="sm" color="yellow.500">
+        <Text color="yellow.500" fontSize="sm" mt="1">
           {imgWarn}
         </Text>
       )}

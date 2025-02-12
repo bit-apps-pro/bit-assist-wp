@@ -10,17 +10,17 @@ export default function useFetchWidgetChannels() {
 
   const { data, isLoading } = useQuery(
     ['widget/widgetChannels', widgetId],
-    async () => request(`widgets/${widgetId}/widgetChannels`, null, null, 'GET'),
+    async () => request(`widgets/${widgetId}/widgetChannels`, undefined, undefined, 'GET'),
     {
       enabled: !!widgetId,
-      onSuccess: (res) => {
+      onSuccess: res => {
         setWidgetChannelCount(res?.data?.length)
-      },
-    },
+      }
+    }
   )
 
   return {
-    widgetChannels: data?.data,
     isWidgetChannelsFetching: isLoading,
+    widgetChannels: data?.data
   }
 }

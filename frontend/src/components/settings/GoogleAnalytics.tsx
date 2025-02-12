@@ -1,13 +1,13 @@
 import { Box, Switch } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
+import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
-import ProWrapper from '@components/global/ProWrapper'
 
 function GoogleAnalytics() {
   const [isEnabled, setIsEnabled] = useState(false)
@@ -16,44 +16,50 @@ function GoogleAnalytics() {
   const { updateWidget } = useUpdateWidget()
 
   useEffect(() => {
-    widget.styles?.google_analytics === 1 ? setIsEnabled(true) : setIsEnabled(false)
+    setIsEnabled(widget.styles?.google_analytics === 1)
   }, [widget.styles?.google_analytics])
+
+  const debounceUpdateWidget = useRef(
+    debounce(async newWidget => {
+      const { data, status } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000)
+  ).current
 
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsEnabled(e.target.checked)
     const googleAnalytics = e.target.checked ? 1 : 0
 
-    setWidget((prev) => {
-      prev.styles != null ? (prev.styles.google_analytics = googleAnalytics) : (prev.styles = {})
+    setWidget(prev => {
+      if (prev.styles == undefined) {
+        prev.styles = {}
+      }
+      prev.styles.google_analytics = googleAnalytics
     })
 
     debounceUpdateWidget(
-      produce(widget, (draft) => {
-        draft.styles !== null ? (draft.styles.google_analytics = googleAnalytics) : (draft.styles = {})
-      }),
+      produce(widget, draft => {
+        if (draft.styles === undefined) {
+          draft.styles = {}
+        }
+        draft.styles.google_analytics = googleAnalytics
+      })
     )
   }
-
-  const debounceUpdateWidget = useRef(
-    debounce(async (newWidget) => {
-      const { status, data } = await updateWidget(newWidget)
-      toaster(status, data)
-    }, 1000),
-  ).current
 
   useEffect(
     () => () => {
       debounceUpdateWidget.cancel()
     },
-    [debounceUpdateWidget],
+    [debounceUpdateWidget]
   )
 
   return (
     <ProWrapper>
-      <Box w="lg" maxW="full" mb={'-7'}>
+      <Box maxW="full" mb={'-7'} w="lg">
         <Title>
           Google Analytics
-          <Switch ml={4} isChecked={!!isEnabled} colorScheme="purple" onChange={handleSwitchEnable} />
+          <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
         </Title>
       </Box>
     </ProWrapper>

@@ -1,17 +1,17 @@
-import { useMutation, useQueryClient } from 'react-query'
 import request from '@utils/request'
+import { useMutation, useQueryClient } from 'react-query'
 
 export default function useDeleteAnalytics() {
   const queryClient = useQueryClient()
 
-  const { mutateAsync, isLoading } = useMutation(async () => request('analytics/destroy'), {
+  const { isLoading, mutateAsync } = useMutation(async () => request('analytics/destroy'), {
     onSuccess: () => {
       queryClient.invalidateQueries('widget_analytics')
-    },
+    }
   })
 
   return {
     deleteAnalytics: () => mutateAsync(),
-    isAnalyticsDeleting: isLoading,
+    isAnalyticsDeleting: isLoading
   }
 }

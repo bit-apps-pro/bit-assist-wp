@@ -1,5 +1,5 @@
-/* eslint-disable react/no-children-prop */
-import { Box,
+import {
+  Box,
   Button,
   HStack,
   IconButton,
@@ -10,25 +10,78 @@ import { Box,
   PopoverContent,
   PopoverTrigger,
   Text,
-  Tooltip } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
+  Tooltip
+} from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
+import { type ExcludePages, type Widget } from '@globalStates/Interfaces'
+import useToaster from '@hooks/useToaster'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
-import { ExcludePages, Widget } from '@globalStates/Interfaces'
 
 interface Props {
-  pageDomain: string
-  page: ExcludePages
   index: number
-  updateWidget: (widget: Widget) => Promise<{ status: 'success' | 'error', data: string }>
   isWidgetUpdating: boolean
+  page: ExcludePages
+  pageDomain: string
+  updateWidget: (widget: Widget) => Promise<{ data: string; status: 'error' | 'success' }>
 }
 
-function Page({
-  pageDomain, page, index, updateWidget, isWidgetUpdating,
-}: Props) {
+const showPageVisibility = (condition: string) => {
+  switch (condition) {
+    case 'hideOn': {
+      return 'Hide On'
+    }
+    case 'showOn': {
+      return 'Show On'
+    }
+    default: {
+      return 'None'
+    }
+  }
+}
+
+const showPageCondition = (condition: string) => {
+  switch (condition) {
+    case 'contains': {
+      return 'Pages that contain'
+    }
+    case 'endWith': {
+      return 'Pages ended with'
+    }
+    case 'equal': {
+      return 'Specific page'
+    }
+    case 'startWith': {
+      return 'Pages stars with'
+    }
+    default: {
+      return 'None'
+    }
+  }
+}
+
+const makeUrl = (url: string, condition: string) => {
+  switch (condition) {
+    case 'contains': {
+      return `/*${url}*`
+    }
+    case 'endWith': {
+      return `/*${url}`
+    }
+    case 'equal': {
+      return `/${url}`
+    }
+    case 'startWith': {
+      return `/${url}*`
+    }
+    default: {
+      return 'None'
+    }
+  }
+}
+
+function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
 
@@ -37,76 +90,43 @@ function Page({
 
     const newPages = [...widget.exclude_pages]
     newPages.splice(domainIndex, 1)
-    const { status, data } = await updateWidget({ ...widget, exclude_pages: [...newPages] })
+    const { data, status } = await updateWidget({ ...widget, exclude_pages: [...newPages] })
     toaster(status, data)
 
-    setWidget((prev) => {
+    setWidget(prev => {
       prev.exclude_pages.splice(domainIndex, 1)
     })
-  }
-
-  const showPageVisibility = (condition: string) => {
-    switch (condition) {
-      case 'showOn':
-        return 'Show On'
-      case 'hideOn':
-        return 'Hide On'
-      default:
-        return 'None'
-    }
-  }
-
-  const showPageCondition = (condition: string) => {
-    switch (condition) {
-      case 'contains':
-        return 'Pages that contain'
-      case 'equal':
-        return 'Specific page'
-      case 'startWith':
-        return 'Pages stars with'
-      case 'endWith':
-        return 'Pages ended with'
-      default:
-        return 'None'
-    }
-  }
-
-  const makeUrl = (url: string, condition: string) => {
-    switch (condition) {
-      case 'contains':
-        return `/*${url}*`
-      case 'equal':
-        return `/${url}`
-      case 'startWith':
-        return `/${url}*`
-      case 'endWith':
-        return `/*${url}`
-      default:
-        return 'None'
-    }
   }
 
   const initRef = useRef()
 
   return (
-    <HStack flexWrap="wrap" justifyContent="space-between" spacing="0" gap="2" py="2" px="4" borderTopWidth={`${index > 0 && '1px'}`}>
+    <HStack
+      borderTopWidth={`${index > 0 && '1px'}`}
+      flexWrap="wrap"
+      gap="2"
+      justifyContent="space-between"
+      px="4"
+      py="2"
+      spacing="0"
+    >
       <Text>{showPageVisibility(page?.visibility)}</Text>
       <Text>{showPageCondition(page?.condition)}</Text>
       <Text>{makeUrl(page?.url, page?.condition)}</Text>
 
       <Popover closeOnBlur={false} initialFocusRef={initRef.current}>
-        {({ isOpen, onClose }) => (
+        {({ onClose }) => (
           <>
             <PopoverTrigger>
               <Box>
                 <Tooltip label="Remove page" placement="right">
                   <IconButton
-                    isRound
                     aria-label="Remove Domain"
-                    variant="ghost"
                     colorScheme="red"
-                    icon={<HiOutlineTrash />}
                     disabled={isWidgetUpdating}
+                    icon={<HiOutlineTrash />}
+                    isRound
+                    variant="ghost"
                   />
                 </Tooltip>
               </Box>
@@ -116,7 +136,13 @@ function Page({
               <PopoverCloseButton />
               <PopoverBody>
                 <Text>Are you sure you want to remove this page?</Text>
-                <Button mt={4} colorScheme="red" ref={initRef.current} onClick={() => handleRemoveDomain(index, onClose)} disabled={isWidgetUpdating}>
+                <Button
+                  colorScheme="red"
+                  disabled={isWidgetUpdating}
+                  mt={4}
+                  onClick={() => handleRemoveDomain(index, onClose)}
+                  ref={initRef.current}
+                >
                   Confirm
                 </Button>
               </PopoverBody>

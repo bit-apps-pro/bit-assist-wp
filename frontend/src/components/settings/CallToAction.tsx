@@ -1,6 +1,5 @@
 import {
   Box,
-  Input,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -9,12 +8,12 @@ import {
   Textarea,
   Tooltip,
   useColorModeValue,
-  VStack,
+  VStack
 } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -28,6 +27,31 @@ function CallToAction() {
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const textColorToggle = useColorModeValue('white', 'gray.800')
 
+  const debounceUpdateWidget = useRef(
+    debounce(async newWidget => {
+      const { data, status } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000)
+  ).current
+
+  const updateData = (val: number | string, key: string) => {
+    setWidget(prev => {
+      if (prev.call_to_action === null) {
+        prev.call_to_action = {}
+      }
+      prev.call_to_action = { ...prev.call_to_action, [key]: val }
+    })
+
+    debounceUpdateWidget(
+      produce(widget, draft => {
+        if (draft.call_to_action === null) {
+          draft.call_to_action = {}
+        }
+        draft.call_to_action = { ...draft.call_to_action, [key]: val }
+      })
+    )
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateData(e.target.value, 'text')
   }
@@ -36,69 +60,51 @@ function CallToAction() {
     updateData(val, 'delay')
   }
 
-  const updateData = (val: string | number, key: string) => {
-    setWidget((prev) => {
-      if (prev.call_to_action === null) {
-        prev.call_to_action = {}
-      }
-      prev.call_to_action = { ...prev.call_to_action, [key]: val }
-    })
-
-    debounceUpdateWidget(
-      produce(widget, (draft) => {
-        if (draft.call_to_action === null) {
-          draft.call_to_action = {}
-        }
-        draft.call_to_action = { ...draft.call_to_action, [key]: val }
-      }),
-    )
-  }
-
-  const debounceUpdateWidget = useRef(
-    debounce(async (newWidget) => {
-      const { status, data } = await updateWidget(newWidget)
-      toaster(status, data)
-    }, 1000),
-  ).current
-
   useEffect(
     () => () => {
       debounceUpdateWidget.cancel()
     },
-    [debounceUpdateWidget],
+    [debounceUpdateWidget]
   )
 
   return (
     <Box>
       <Title>Call To Action</Title>
 
-      <VStack spacing="4" alignItems="flex-start" w="lg" maxW="full">
-        <Text>Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0} seconds.</Text>
+      <VStack alignItems="flex-start" maxW="full" spacing="4" w="lg">
+        <Text>
+          Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0}{' '}
+          seconds.
+        </Text>
         <Slider
-          defaultValue={0}
-          value={widget.call_to_action?.delay}
-          min={0}
-          max={60}
           colorScheme="purple"
-          onChange={(val) => handleSliderChange(val)}
+          defaultValue={0}
+          max={60}
+          min={0}
+          onChange={val => handleSliderChange(val)}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
+          value={widget.call_to_action?.delay}
         >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
           <Tooltip
-            hasArrow
             bg={brandColorToggle}
             color={textColorToggle}
-            placement="top"
+            hasArrow
             isOpen={showTooltip}
             label={`${widget.call_to_action?.delay ?? 0} sec`}
+            placement="top"
           >
             <SliderThumb bg={brandColorToggle} />
           </Tooltip>
         </Slider>
-        <Textarea placeholder="Message" value={widget.call_to_action?.text ?? ''} onChange={handleChange} />
+        <Textarea
+          onChange={handleChange}
+          placeholder="Message"
+          value={widget.call_to_action?.text ?? ''}
+        />
       </VStack>
     </Box>
   )

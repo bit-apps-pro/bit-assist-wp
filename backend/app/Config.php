@@ -102,6 +102,7 @@ class Config
 
             case 'DB_PREFIX':
                 global $wpdb;
+
                 return $wpdb->prefix . self::VAR_PREFIX;
 
             default:
@@ -178,7 +179,7 @@ class Config
      */
     public static function updateOption($option, $value, $autoload = null)
     {
-        return update_option(self::withPrefix($option), $value, !\is_null($autoload) ? 'yes' : null);
+        return update_option(self::withPrefix($option), $value, !\is_null($autoload) ? 'yes' : undefined);
     }
 
     public static function isDev()

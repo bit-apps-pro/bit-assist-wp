@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalOverlay,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
 import config from '@config/config'
 
@@ -17,36 +17,36 @@ const addProIfExist = config.IS_PRO ? '-pro' : ''
 const redirectUrl = `https://bitapps.pro/wordpress-black-friday-discounts/?utm_source=bit-assist${addProIfExist}&utm_medium=inside-plugin&utm_campaign=black-friday-offer`
 
 export default function NewOffer() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
     <>
-      <Button className={cls.button} size="sm" onClick={onOpen} rounded="full" colorScheme="purple">
+      <Button className={cls.button} colorScheme="purple" onClick={onOpen} rounded="full" size="sm">
         Black Friday Deal
         <span className={cls.star} />
         <span className={cls.star} />
         <span className={cls.star} />
       </Button>
 
-      <Modal isCentered size="lg" isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay zIndex={100000} />
-        <ModalContent borderRadius={0} containerProps={{ zIndex: 100000 }}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay zIndex={100_000} />
+        <ModalContent borderRadius={0} containerProps={{ zIndex: 100_000 }}>
           <ModalCloseButton color="white" />
 
-          <Link href={redirectUrl} target="_blank" rel="noopener noreferrer">
-            <Image src={config.ROOT_URL + '/img/black-friday.webp'} cursor="pointer" />
+          <Link href={redirectUrl} rel="noopener noreferrer" target="_blank">
+            <Image cursor="pointer" src={config.ROOT_URL + '/img/black-friday.webp'} />
           </Link>
 
           <ModalFooter p={3}>
             <Button
+              _hover={{ color: 'purple.100' }}
               as="a"
+              colorScheme="purple"
               href={redirectUrl}
-              target="_blank"
+              mx="auto"
               rel="noopener noreferrer"
               rounded="full"
-              colorScheme="purple"
-              mx="auto"
-              _hover={{ color: 'purple.100' }}
+              target="_blank"
             >
               Grab It Now 🚀
             </Button>

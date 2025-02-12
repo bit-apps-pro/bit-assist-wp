@@ -8,32 +8,33 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  VStack,
   useDisclosure,
+  VStack
 } from '@chakra-ui/react'
 import { FiExternalLink } from 'react-icons/fi'
 
 export default function Cashback() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
-  const openCashbackModal = () => () => {
+  const openCashbackModal = () => {
     onOpen()
   }
+
   return (
     <>
       <Button
-        background="#00FFA3"
-        colorScheme="purple"
-        color="#000"
-        size="sm"
-        borderRadius="full"
         _hover={{ background: '#00d680', color: '#000' }}
-        onClick={openCashbackModal()}
+        background="#00FFA3"
+        borderRadius="full"
+        color="#000"
+        colorScheme="purple"
+        onClick={openCashbackModal}
+        size="sm"
       >
         Get $10 Cashback
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnOverlayClick={false}>
+      <Modal closeOnOverlayClick={false} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
@@ -41,35 +42,36 @@ export default function Cashback() {
             <ModalHeader>Get $10 cashback</ModalHeader>
           </VStack>
           <ModalBody>
-            Thank you for using Bit Assist! To <b>Get $10 cashback:</b> give us a review on WordPress by clicking the{' '}
+            Thank you for using Bit Assist! To <b>Get $10 cashback:</b> give us a review on WordPress by
+            clicking the{' '}
             <Link
+              color="blue"
               href="https://wordpress.org/support/plugin/bit-assist/reviews/#new-post"
               isExternal
               rel="noopener noreferrer"
-              color="blue"
             >
               Review us
             </Link>{' '}
             button and send an email with the review link to{' '}
-            <Link color="blue" rel="noopener noreferrer" isExternal href="mailto:support@bitapps.pro">
+            <Link color="blue" href="mailto:support@bitapps.pro" isExternal rel="noopener noreferrer">
               support@bitapps.pro
             </Link>
           </ModalBody>
 
           <ModalFooter justifyContent="center">
             <Button
-              as="a"
-              href="https://wordpress.org/support/plugin/bit-assist/reviews/#new-post"
-              target="_blank"
-              rel="noopener noreferrer"
-              mr={3}
-              size="sm"
-              rightIcon={<FiExternalLink />}
-              colorScheme="purple"
               _hover={{
                 backgroundColor: 'purple.600',
-                color: 'white',
+                color: 'white'
               }}
+              as="a"
+              colorScheme="purple"
+              href="https://wordpress.org/support/plugin/bit-assist/reviews/#new-post"
+              mr={3}
+              rel="noopener noreferrer"
+              rightIcon={<FiExternalLink />}
+              size="sm"
+              target="_blank"
             >
               Review us
             </Button>

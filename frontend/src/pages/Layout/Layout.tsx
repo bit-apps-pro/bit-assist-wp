@@ -1,7 +1,7 @@
 import { Box, Container } from '@chakra-ui/react'
+import Navbar from '@components/global/Navbar'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { Outlet } from 'react-router-dom'
-import Navbar from '@components/global/Navbar'
 
 export default function Layout() {
   return (

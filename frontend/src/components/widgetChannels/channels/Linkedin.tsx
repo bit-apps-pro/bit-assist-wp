@@ -7,7 +7,7 @@ export default function Linkedin() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.unique_id = value
       prev.config.url = `https://linkedin.com/${value}`
     })
@@ -20,9 +20,9 @@ export default function Linkedin() {
         <InputGroup>
           <InputLeftAddon>linkedin.com/</InputLeftAddon>
           <Input
+            onChange={e => handleChanges(e.target.value)}
             placeholder="ex: in/username or company/username, etc"
             value={flow.config?.unique_id || ''}
-            onChange={(e) => handleChanges(e.target.value)}
           />
         </InputGroup>
       </FormControl>

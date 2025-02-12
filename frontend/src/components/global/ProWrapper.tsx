@@ -1,6 +1,6 @@
 import { Box, Button, Link, useColorModeValue } from '@chakra-ui/react'
 import config from '@config/config'
-import { PropsWithChildren } from 'react'
+import { type PropsWithChildren } from 'react'
 
 type ProWrapper = PropsWithChildren<{ hide?: boolean }>
 
@@ -10,21 +10,29 @@ export default function ProWrapper({ children, hide }: ProWrapper) {
   if (config.IS_PRO || hide) return <>{children}</>
 
   return (
-    <Box w="full" position="relative">
-      <Link href="https://bitapps.pro/bit-assist" target="_blank" tabIndex={-1}>
+    <Box position="relative" w="full">
+      <Link href="https://bitapps.pro/bit-assist" tabIndex={-1} target="_blank">
         <Button
-          position="absolute"
-          zIndex="1"
+          boxShadow="lg"
+          colorScheme="purple"
           left="50%"
+          position="absolute"
           top="50%"
           transform="translate(-50%, -50%)"
-          colorScheme="purple"
-          boxShadow="lg"
+          zIndex="1"
         >
           Get Pro Version
         </Button>
       </Link>
-      <Box filter="blur(0.7px)" bg={blurBg} pointerEvents="none" py="2" px="4" rounded="md" userSelect="none">
+      <Box
+        bg={blurBg}
+        filter="blur(0.7px)"
+        pointerEvents="none"
+        px="4"
+        py="2"
+        rounded="md"
+        userSelect="none"
+      >
         {children}
       </Box>
     </Box>

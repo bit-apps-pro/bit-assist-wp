@@ -1,17 +1,8 @@
 import {
-  useColorModeValue,
-  Switch,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  HStack,
-  Spinner,
-  Heading,
+  Box,
   Button,
+  Heading,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -19,33 +10,49 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  Tooltip,
   Select,
-  Box,
+  Spinner,
+  Switch,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tooltip,
+  Tr,
+  useColorModeValue,
+  useDisclosure
 } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import ProWrapper from '@components/global/ProWrapper'
+import config from '@config/config'
+import useDeleteAnalytics from '@hooks/mutations/analytics/useDeleteAnalytics'
 import useUpdateAnalytics from '@hooks/mutations/analytics/useUpdateAnalytics'
 import useFetchAnalytics from '@hooks/queries/analytics/useFetchAnalytics'
-import { FiTrash2 } from 'react-icons/fi'
-import useDeleteAnalytics from '@hooks/mutations/analytics/useDeleteAnalytics'
-import { useState } from 'react'
-import { RangeDatepicker } from 'chakra-dayzed-datepicker'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
-import config from '@config/config'
+import useToaster from '@hooks/useToaster'
+import { RangeDatepicker } from 'chakra-dayzed-datepicker'
+import { useState } from 'react'
+import { FiTrash2 } from 'react-icons/fi'
+
+interface AnalyticsItem {
+  click_count: number
+  name: string
+  visitor_count: number
+  widget_id: number
+}
 
 function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
   const toaster = useToaster()
   const ThColorToggle = useColorModeValue('gray.50', 'gray.700')
-  const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
+  const { isOpen, onClose: closeDelModal, onOpen: openDelModal } = useDisclosure()
   const { isAnalyticsActive, isFetching } = useFetchIsAnalyticsActive()
-  const { updateAnalytics, isAnalyticsUpdating } = useUpdateAnalytics()
+  const { isAnalyticsUpdating, updateAnalytics } = useUpdateAnalytics()
   const { deleteAnalytics, isAnalyticsDeleting } = useDeleteAnalytics()
 
   const [selectedFilter, setSelectedFilter] = useState('all-time')
   const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()])
-  const filterValue = selectedFilter !== 'custom' ? selectedFilter : selectedDates
+  const filterValue = selectedFilter === 'custom' ? selectedDates : selectedFilter
   const { analytics, isAnalyticsFetching } = useFetchAnalytics(filterValue)
 
   const isWidgetAnalyticsActive = isAnalyticsActive === 1
@@ -53,7 +60,7 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
   const handleSwitchEnable = async (isChecked: boolean) => {
     const widgetAnalytics = isChecked ? 1 : 0
     const { status } = await updateAnalytics(widgetAnalytics)
-    toaster(status, status !== 'error' ? 'Updated successfully!' : 'Something went wrong!')
+    toaster(status, status === 'error' ? 'Something went wrong!' : 'Updated successfully!')
   }
 
   const handleSelectChange = async (value: string) => {
@@ -61,17 +68,17 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
   }
 
   const handleDeleteAnalytics = async () => {
-    const { status, data } = await deleteAnalytics()
+    const { data, status } = await deleteAnalytics()
     toaster(status, data)
     closeDelModal()
   }
 
-  const openDeleteModal = () => () => {
+  const openDeleteModal = () => {
     openDelModal()
   }
 
   if (widgetLength < 1) {
-    return null
+    return
   }
 
   return (
@@ -79,15 +86,15 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
       <ProWrapper>
         <HStack justifyContent="space-between">
           <HStack>
-            <Heading as="h2" size="sm" mb="2">
+            <Heading as="h2" mb="2" size="sm">
               Widget Analytics
               <Switch
                 aria-label="Switch widget status"
                 colorScheme="purple"
                 disabled={isAnalyticsUpdating}
-                ml={4}
                 isChecked={!!isWidgetAnalyticsActive}
-                onChange={(e) => handleSwitchEnable(e.target.checked)}
+                ml={4}
+                onChange={e => handleSwitchEnable(e.target.checked)}
                 title={isWidgetAnalyticsActive ? 'Analytics disable' : 'Analytics enable'}
               />
             </Heading>
@@ -97,7 +104,7 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
 
         {isWidgetAnalyticsActive && config.IS_PRO && (
           <>
-            <TableContainer borderWidth="1px" rounded="lg" shadow="md" mt="2">
+            <TableContainer borderWidth="1px" mt="2" rounded="lg" shadow="md">
               <Table variant="simple">
                 <Thead bgColor={ThColorToggle}>
                   <Tr>
@@ -105,11 +112,11 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                       <HStack justifyContent="space-between">
                         <HStack>
                           <Select
+                            onChange={e => handleSelectChange(e.target.value)}
                             style={{ width: 'inherit' }}
-                            w="36"
                             value={selectedFilter}
                             variant="outline"
-                            onChange={(e) => handleSelectChange(e.target.value)}
+                            w="36"
                           >
                             <option value="today">Today</option>
                             <option value="7days">Last 7 Days</option>
@@ -119,11 +126,18 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                           </Select>
 
                           {selectedFilter === 'custom' && (
-                            <RangeDatepicker selectedDates={selectedDates} onDateChange={setSelectedDates} />
+                            <RangeDatepicker
+                              onDateChange={setSelectedDates}
+                              selectedDates={selectedDates}
+                            />
                           )}
                         </HStack>
                         <Tooltip label="Delete all analytics data" placement="left-end">
-                          <Button variant="outline" onClick={openDeleteModal()} leftIcon={<FiTrash2 color="red" />}>
+                          <Button
+                            leftIcon={<FiTrash2 color="red" />}
+                            onClick={openDeleteModal}
+                            variant="outline"
+                          >
                             Delete
                           </Button>
                         </Tooltip>
@@ -138,13 +152,16 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {analytics?.data?.map((item: any) => (
+                  {analytics?.data?.map((item: AnalyticsItem) => (
                     <Tr key={item.widget_id}>
                       <Td>{item.name}</Td>
                       <Td textAlign="center">{+item.visitor_count}</Td>
                       <Td textAlign="center">{+item.click_count}</Td>
                       <Td textAlign="center" width="1">
-                        {+item.visitor_count !== 0 ? ((100 / +item.visitor_count) * +item.click_count).toFixed(0) : 0}%
+                        {+item.visitor_count === 0
+                          ? 0
+                          : ((100 / +item.visitor_count) * +item.click_count).toFixed(0)}
+                        %
                       </Td>
                     </Tr>
                   ))}
@@ -152,7 +169,7 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
               </Table>
             </TableContainer>
 
-            <Modal isOpen={isOpen} onClose={closeDelModal} isCentered>
+            <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
               <ModalOverlay />
               <ModalContent>
                 <ModalHeader>Confirmation</ModalHeader>
@@ -164,10 +181,10 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                     Cancel
                   </Button>
                   <Button
-                    onClick={handleDeleteAnalytics}
+                    colorScheme="red"
                     isLoading={isAnalyticsDeleting}
                     loadingText="Deleting..."
-                    colorScheme="red"
+                    onClick={handleDeleteAnalytics}
                     shadow="md"
                   >
                     Delete

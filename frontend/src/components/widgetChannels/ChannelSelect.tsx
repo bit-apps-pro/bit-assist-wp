@@ -1,10 +1,12 @@
-import { VStack, Input, Text, Grid } from '@chakra-ui/react'
+import { Grid, Input, Text, VStack } from '@chakra-ui/react'
 import SingleChannel from '@components/widgetChannels/SingleChannel'
-import { Channel } from '@globalStates/Interfaces'
-import { useMemo, useState, useCallback, ChangeEvent } from 'react'
+import { type Channel } from '@globalStates/Interfaces'
+import { type ChangeEvent } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+
 import channelList from './ChannelList'
 
-const CUSTOM_CHANNEL_NAMES = ['Custom-Channel', 'Custom-Iframe']
+const CUSTOM_CHANNEL_NAMES = new Set(['Custom-Channel', 'Custom-Iframe'])
 
 function ChannelSelect() {
   const [filter, setFilter] = useState('')
@@ -14,15 +16,15 @@ function ChannelSelect() {
     const sorted = [...channelList].sort((a, b) => a.name.localeCompare(b.name))
 
     const { custom, other } = sorted.reduce<{ custom: Channel[]; other: Channel[] }>(
-      (acc, channel) => {
-        if (CUSTOM_CHANNEL_NAMES.includes(channel.name)) {
-          acc.custom.push(channel)
+      (accumulator, channel) => {
+        if (CUSTOM_CHANNEL_NAMES.has(channel.name)) {
+          accumulator.custom.push(channel)
         } else {
-          acc.other.push(channel)
+          accumulator.other.push(channel)
         }
-        return acc
+        return accumulator
       },
-      { custom: [], other: [] },
+      { custom: [], other: [] }
     )
 
     return [...custom, ...other]
@@ -33,7 +35,7 @@ function ChannelSelect() {
     if (!filter.trim()) return sortedChannels
 
     const normalizedFilter = filter.toLowerCase().trim()
-    return sortedChannels.filter((channel) => channel.name.toLowerCase().includes(normalizedFilter))
+    return sortedChannels.filter(channel => channel.name.toLowerCase().includes(normalizedFilter))
   }, [filter, sortedChannels])
 
   // Memoize the change handler
@@ -43,11 +45,21 @@ function ChannelSelect() {
 
   return (
     <VStack spacing="4">
-      <Input value={filter} placeholder="Search" onChange={handleFilterChange} aria-label="Search channels" />
+      <Input
+        aria-label="Search channels"
+        onChange={handleFilterChange}
+        placeholder="Search"
+        value={filter}
+      />
 
-      <Grid justifyContent="center" gap={[2, 3]} w="full" gridTemplateColumns="repeat(auto-fill, minmax(120px, 1fr))">
+      <Grid
+        gap={[2, 3]}
+        gridTemplateColumns="repeat(auto-fill, minmax(120px, 1fr))"
+        justifyContent="center"
+        w="full"
+      >
         {filteredChannelList.map((channel: Channel) => (
-          <SingleChannel key={channel.name} channel={channel} />
+          <SingleChannel channel={channel} key={channel.name} />
         ))}
       </Grid>
 

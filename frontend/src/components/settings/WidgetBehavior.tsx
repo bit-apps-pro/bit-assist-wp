@@ -1,8 +1,8 @@
 import { Box, Select } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 
@@ -13,22 +13,22 @@ function WidgetBehavior() {
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = Number(e.target.value)
-    setWidget((prev) => {
+    setWidget(prev => {
       prev.widget_behavior = value
     })
 
-    const { status, data } = await updateWidget(
-      produce(widget, (draft) => {
+    const { data, status } = await updateWidget(
+      produce(widget, draft => {
         draft.widget_behavior = value
-      }),
+      })
     )
     toaster(status, data)
   }
 
   return (
-    <Box w="lg" maxW="full">
+    <Box maxW="full" w="lg">
       <Title>Widget Behavior</Title>
-      <Select value={widget.widget_behavior ?? ''} onChange={handleChange}>
+      <Select onChange={handleChange} value={widget.widget_behavior ?? ''}>
         <option value={1}>Click to open</option>
         <option value={2}>Hover to open</option>
         <option value={3}>Opened by default</option>

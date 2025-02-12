@@ -1,3 +1,1 @@
-import WidgetDetails from './WidgetDetails'
-
-export default WidgetDetails
+export { default } from './WidgetDetails'

@@ -1,13 +1,14 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-undef */
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable no-restricted-imports */
+/* eslint-disable unicorn/no-typeof-undefined */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { __ as i18n_, sprintf as i18nsprintf } from '@wordpress/i18n'
 
+declare let bitapp: any
+declare let wp: any
 // declare var bitapp: any
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __ = (text: string, domain = 'bitapp') => {
-  if (typeof bitapp !== 'undefined' && bitapp?.translations && bitapp.translations[text]) {
+const __ = (text: string, domain = 'bitapp'): string => {
+  if (typeof bitapp !== 'undefined' && bitapp?.translations?.[text]) {
     return bitapp?.translations[text]
   }
   if (typeof wp !== 'undefined' && !wp?.i18n) {
@@ -18,12 +19,15 @@ const __ = (text: string, domain = 'bitapp') => {
 
 const sprintf = (text: string, ...vars: any) => {
   if (!wp?.i18n) {
-    const matches: any = text.match(/%[s d u c o x X bg G e E f F]/g)
+    const matches: any = text.match(/%[ E-GXb-gosux]/g)
     let str = text
-    vars.map((val: any, idx: number) => { str = str.replace(matches[idx], val) })
+    vars.map((val: any, idx: number) => {
+      str = str.replace(matches[idx], val)
+    })
     return str
   }
-  return i18nsprintf(text, vars)
+
+  return i18nsprintf(text, ...vars)
 }
 
 export { __, sprintf }

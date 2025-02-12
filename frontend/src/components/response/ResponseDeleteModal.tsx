@@ -6,19 +6,24 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay,
+  ModalOverlay
 } from '@chakra-ui/react'
 
-type ResponseDeleteModalProps = {
-  isOpen: boolean
+interface ResponseDeleteModalProps {
   closeDelModal: () => void
   handleDeleteWidget: () => void
+  isOpen: boolean
   isResponsesDeleting: boolean
 }
 
-export default function ResponseDeleteModal({ isOpen, closeDelModal, handleDeleteWidget, isResponsesDeleting }: ResponseDeleteModalProps) {
+export default function ResponseDeleteModal({
+  closeDelModal,
+  handleDeleteWidget,
+  isOpen,
+  isResponsesDeleting
+}: ResponseDeleteModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={closeDelModal} isCentered>
+    <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Confirmation</ModalHeader>
@@ -30,10 +35,10 @@ export default function ResponseDeleteModal({ isOpen, closeDelModal, handleDelet
             Cancel
           </Button>
           <Button
-            onClick={handleDeleteWidget}
+            colorScheme="red"
             isLoading={isResponsesDeleting}
             loadingText="Deleting..."
-            colorScheme="red"
+            onClick={handleDeleteWidget}
             shadow="md"
           >
             Delete

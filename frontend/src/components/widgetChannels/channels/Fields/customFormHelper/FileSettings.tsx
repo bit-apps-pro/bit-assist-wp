@@ -1,18 +1,24 @@
-import { FormControl, FormLabel, HStack, Input, Radio, RadioGroup, Stack, Switch, Text, VStack, } from '@chakra-ui/react'
-import { DynamicFormField } from '@globalStates/Interfaces'
+import { FormControl, FormLabel, Switch, VStack } from '@chakra-ui/react'
+import { type DynamicFormField } from '@globalStates/Interfaces'
 
-type FileSettingsProps = {
-  id: number
+interface FileSettingsProps {
   field: DynamicFormField | undefined
-  handleChange: (value: string | boolean | number, key: string, index: number) => void
+  handleChange: (value: boolean | number | string, key: string, index: number) => void
+  id: number
 }
 
-export default function FileSettings({ id, field, handleChange }: FileSettingsProps) {
+export default function FileSettings({ field, handleChange, id }: FileSettingsProps) {
   return (
-    <VStack alignItems={'flex-start'} w='full'>
-      <FormControl display="flex" alignItems="center">
-        <FormLabel mb="0" fontSize={'sm'}>Allow Multiple</FormLabel>
-        <Switch isChecked={!!field?.allow_multiple} colorScheme="purple" onChange={(e) => handleChange(e.target.checked, 'allow_multiple', id)} />
+    <VStack alignItems={'flex-start'} w="full">
+      <FormControl alignItems="center" display="flex">
+        <FormLabel fontSize={'sm'} mb="0">
+          Allow Multiple
+        </FormLabel>
+        <Switch
+          colorScheme="purple"
+          isChecked={!!field?.allow_multiple}
+          onChange={e => handleChange(e.target.checked, 'allow_multiple', id)}
+        />
       </FormControl>
       {/* <FormControl display="flex" alignItems="center">
         <FormLabel mb="0" fontSize={'sm'} whiteSpace="nowrap">Max Upload Size</FormLabel>

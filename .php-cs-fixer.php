@@ -1,20 +1,43 @@
 <?php
 
+use BitApps\Assist\Fixers\JsonEncodeFixer;
+
 $finder = PhpCsFixer\Finder::create()
-    ->exclude(__DIR__ . '/vendor')
-    ->ignoreVCSIgnored(true)
-    ->in(__DIR__ . '/backend');
+    ->exclude([
+        __DIR__ . '/vendor',
+        __DIR__ . '/bin'
+    ])
+    ->in([
+        __DIR__ . '/backend',
+        __DIR__ . '/custom-fixers'
+    ])
+    ->ignoreVCSIgnored(true);
 
 $config = new PhpCsFixer\Config();
 
 return $config
+    ->registerCustomFixers([
+        new JsonEncodeFixer(),
+    ])
     ->setRiskyAllowed(true)
+    ->setIndent(str_pad('', 4))
     ->setRules([
-        'align_multiline_comment'                       => ['comment_type' => 'phpdocs_like'],
-        'array_indentation'                             => true,
-        'array_push'                                    => true,
-        'array_syntax'                                  => true,
-        'binary_operator_spaces'                        => ['default' => 'align_single_space'],
+        '@PSR2'                       => true,
+        'BitApps/replace_json_encode' => true,
+        'align_multiline_comment'     => ['comment_type' => 'phpdocs_like'],
+        'array_indentation'           => true,
+        'array_push'                  => true,
+        'array_syntax'                => true,
+        'binary_operator_spaces'      => [
+            'operators' => [
+                '=>' => 'align_single_space_minimal',
+                // '='  => 'align_single_space_minimal',
+            ],
+        ],
+        'method_argument_space' => [
+            'on_multiline'                     => 'ensure_fully_multiline',
+            'keep_multiple_spaces_after_comma' => false,
+        ],
         'blank_line_after_namespace'                    => true,
         'blank_line_after_opening_tag'                  => true,
         'blank_line_before_statement'                   => true,
@@ -56,10 +79,15 @@ return $config
         'magic_constant_casing'                         => true,
         'magic_method_casing'                           => true,
         'method_chaining_indentation'                   => true,
+        'visibility_required'                           => true,
+        'whitespace_after_comma_in_array'               => true,
+        'space_after_semicolon'                         => true,
+        'trim_array_spaces'                             => true,
         'multiline_comment_opening_closing'             => true,
-        'multiline_whitespace_before_semicolons'        => true,
+        'multiline_whitespace_before_semicolons'        => false,
+        'no_whitespace_before_comma_in_array'           => true,
         'native_function_casing'                        => true,
-        'native_function_invocation'                    => true,
+        'native_function_invocation'                    => ['include' => ['@compiler_optimized'], 'scope' => 'namespaced', 'strict' => true],
         'new_with_braces'                               => true,
         'no_alias_language_construct_call'              => true,
         'no_alternative_syntax'                         => true,

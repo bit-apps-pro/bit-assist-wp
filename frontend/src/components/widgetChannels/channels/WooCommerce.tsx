@@ -1,21 +1,22 @@
 import {
-  FormControl,
-  FormLabel,
-  Input,
-  useColorModeValue,
-  VStack,
+  Box,
   Checkbox,
   CheckboxGroup,
+  Flex,
+  FormControl,
+  FormLabel,
   HStack,
+  Input,
+  Stack,
   Switch,
   Text,
-  Box,
-  Flex,
-  Stack,
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
+
 import CardColors from './common/CardColors'
 
 export default function WooCommerce() {
@@ -26,44 +27,44 @@ export default function WooCommerce() {
   const handleAddField = (value: string, label: string) => {
     if (value === '') return
 
-    setFlow((prev) => {
-      if (typeof prev.config?.card_config?.form_fields === 'undefined') {
+    setFlow(prev => {
+      if (prev.config?.card_config?.form_fields === undefined) {
         prev.config.card_config = { ...prev.config.card_config, form_fields: [] }
       }
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
       prev.config.card_config?.form_fields?.push({
+        field_type: value,
         id: prev.config.card_config.maxId || 0,
         label: `${label}`,
-        field_type: value,
-        required: true,
+        required: true
       })
     })
   }
 
-  const handleChange = (value: string | boolean | number, key: string, index: number) => {
-    setFlow((prev) => {
+  const handleChange = (value: boolean | number | string, key: string, index: number) => {
+    setFlow(prev => {
       const newFields = [...(prev.config?.card_config?.form_fields || [])]
       newFields[index] = { ...newFields[index], [key]: value }
       prev.config.card_config = { ...prev.config.card_config, form_fields: newFields }
     })
   }
 
-  const handleFormChange = (value: string | number | boolean, key: string) => {
-    setFlow((prev) => {
+  const handleFormChange = (value: boolean | number | string, key: string) => {
+    setFlow(prev => {
       prev.config.card_config = { ...prev.config.card_config, [key]: value }
     })
   }
 
-  const handleCheckBoxes = (value: string | number | boolean | (string | number)[], key: string) => {
-    setFlow((prev) => {
+  const handleCheckBoxes = (value: (number | string)[] | boolean | number | string, key: string) => {
+    setFlow(prev => {
       prev.config = { ...prev.config, [key]: value }
     })
   }
 
   useEffect(() => {
-    if (typeof flow.config?.card_config?.submit_button_text !== 'undefined') return
-    setFlow((prev) => {
-      if (typeof prev.config?.card_config === 'undefined') {
+    if (flow.config?.card_config?.submit_button_text !== undefined) return
+    setFlow(prev => {
+      if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
@@ -82,13 +83,20 @@ export default function WooCommerce() {
 
   return (
     <>
-      <VStack spacing={3} alignSelf="center" w="full" borderWidth={1} p={[2, 4]} rounded="md">
+      <VStack alignSelf="center" borderWidth={1} p={[2, 4]} rounded="md" spacing={3} w="full">
         {flow.config?.card_config?.form_fields && (
-          <VStack w="full" spacing="3">
+          <VStack spacing="3" w="full">
             {flow.config.card_config.form_fields.map((field, id) => (
-              <HStack w="full" key={field.id}>
-                <HStack w="full" borderWidth={1} shadow="base" p="2" rounded="md" bg={channelColorToggle}>
-                  <Flex rounded="sm" justifyContent="center" alignItems="center" w={6} h={8}></Flex>
+              <HStack key={field.id} w="full">
+                <HStack
+                  bg={channelColorToggle}
+                  borderWidth={1}
+                  p="2"
+                  rounded="md"
+                  shadow="base"
+                  w="full"
+                >
+                  <Flex alignItems="center" h={8} justifyContent="center" rounded="sm" w={6}></Flex>
                   <Box w="full">
                     <HStack alignItems="flex-start" justifyContent="space-between">
                       <Text fontWeight={500} mb="2">
@@ -96,7 +104,7 @@ export default function WooCommerce() {
                           `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
                         Field
                         {!field?.required && (
-                          <Text display="inline" color="gray.400">
+                          <Text color="gray.400" display="inline">
                             &nbsp;&nbsp;(Optional)
                           </Text>
                         )}
@@ -107,15 +115,15 @@ export default function WooCommerce() {
                         <Switch
                           colorScheme="purple"
                           isChecked={field?.required || false}
-                          onChange={(e) => handleChange(e.target.checked, 'required', id)}
+                          onChange={e => handleChange(e.target.checked, 'required', id)}
                         />
                       </HStack>
                     </HStack>
                     <VStack alignItems="flex-start">
                       <Input
-                        value={field?.label}
-                        onChange={(e) => handleChange(e.target.value, 'label', id)}
+                        onChange={e => handleChange(e.target.value, 'label', id)}
                         placeholder="label"
+                        value={field?.label}
                       />
                     </VStack>
                   </Box>
@@ -129,24 +137,24 @@ export default function WooCommerce() {
       <FormControl>
         <FormLabel display="inline-block">Show Order Details</FormLabel>
         <CheckboxGroup
-          onChange={(value) => handleCheckBoxes(value, 'order_details')}
           colorScheme="purple"
+          onChange={value => handleCheckBoxes(value, 'order_details')}
           value={flow.config?.order_details ?? []}
         >
-          <Stack spacing={[1, 5]} direction={['column', 'row']} wrap="wrap">
-            <Checkbox size="lg" value="shipping_status" aria-label="shipping status">
+          <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
+            <Checkbox aria-label="shipping status" size="lg" value="shipping_status">
               Shipping Status
             </Checkbox>
-            <Checkbox size="lg" value="total_items" aria-label="total items">
+            <Checkbox aria-label="total items" size="lg" value="total_items">
               Total Items
             </Checkbox>
-            <Checkbox size="lg" value="total_amount" aria-label="total amount">
+            <Checkbox aria-label="total amount" size="lg" value="total_amount">
               Total Amount
             </Checkbox>
-            <Checkbox size="lg" value="billing_name" aria-label="total amount">
+            <Checkbox aria-label="total amount" size="lg" value="billing_name">
               Billing Name
             </Checkbox>
-            <Checkbox size="lg" value="shipping_name" aria-label="total amount">
+            <Checkbox aria-label="total amount" size="lg" value="shipping_name">
               Shipping Name
             </Checkbox>
           </Stack>
@@ -156,8 +164,8 @@ export default function WooCommerce() {
       <FormControl>
         <FormLabel>Button Text</FormLabel>
         <Input
+          onChange={e => handleFormChange(e.target.value, 'submit_button_text')}
           value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
-          onChange={(e) => handleFormChange(e.target.value, 'submit_button_text')}
         />
       </FormControl>
 

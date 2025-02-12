@@ -1,16 +1,16 @@
 import { Radio, RadioGroup, Stack } from '@chakra-ui/react'
 
-type RatingSettingsProps = {
+interface RatingSettingsProps {
+  handleChange: (value: boolean | number | string, key: string, index: number) => void
   id: number
   type: string | undefined
-  handleChange: (value: string | boolean | number, key: string, index: number) => void
 }
 
-export default function RatingSettings({ id, type, handleChange }: RatingSettingsProps) {
+export default function RatingSettings({ handleChange, id, type }: RatingSettingsProps) {
   return (
-    <RadioGroup colorScheme="purple" value={type} onChange={(val) => handleChange(val, 'rating_type', id)}>
-      <Stack spacing={4} direction={'row'}>
-        <Radio value="star" isRequired>
+    <RadioGroup colorScheme="purple" onChange={val => handleChange(val, 'rating_type', id)} value={type}>
+      <Stack direction={'row'} spacing={4}>
+        <Radio isRequired value="star">
           Star
         </Radio>
         <Radio value="smiley">Smiley</Radio>

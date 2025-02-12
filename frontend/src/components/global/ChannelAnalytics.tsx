@@ -1,22 +1,29 @@
 import {
-  useColorModeValue,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   HStack,
   Select,
+  Table,
+  TableCaption,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
-import { useAtomValue } from 'jotai'
 import useFetchChannelAnalytics from '@hooks/queries/analytics/useFetchChannelAnalytics'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
 import { RangeDatepicker } from 'chakra-dayzed-datepicker'
+import { useAtomValue } from 'jotai'
 import { useState } from 'react'
+
+interface AnalyticsItem {
+  channel_id: string
+  click_count: number
+  title: string
+  visitor_count: number
+}
 
 function ChannelAnalytics() {
   const widget = useAtomValue(widgetAtom)
@@ -25,8 +32,8 @@ function ChannelAnalytics() {
 
   const [selectedFilter, setSelectedFilter] = useState('all-time')
   const [selectedDates, setSelectedDates] = useState<Date[]>([new Date(), new Date()])
-  const filterValue = selectedFilter !== 'custom' ? selectedFilter : selectedDates
-  const filterOptions = { widget_id: widget?.id, filterValue }
+  const filterValue = selectedFilter === 'custom' ? selectedDates : selectedFilter
+  const filterOptions = { filterValue, widget_id: widget?.id }
   const { analytics } = useFetchChannelAnalytics(filterOptions)
 
   const handleSelectChange = async (value: string) => {
@@ -34,7 +41,7 @@ function ChannelAnalytics() {
   }
 
   if (isAnalyticsActive === 0) {
-    return null
+    return
   }
 
   return (
@@ -50,11 +57,11 @@ function ChannelAnalytics() {
                 <HStack justifyContent="space-between">
                   <HStack>
                     <Select
+                      onChange={e => handleSelectChange(e.target.value)}
                       style={{ width: 'inherit' }}
-                      w="36"
                       value={selectedFilter}
                       variant="outline"
-                      onChange={(e) => handleSelectChange(e.target.value)}
+                      w="36"
                     >
                       <option value="today">Today</option>
                       <option value="7days">Last 7 Days</option>
@@ -64,7 +71,7 @@ function ChannelAnalytics() {
                     </Select>
 
                     {selectedFilter === 'custom' && (
-                      <RangeDatepicker selectedDates={selectedDates} onDateChange={setSelectedDates} />
+                      <RangeDatepicker onDateChange={setSelectedDates} selectedDates={selectedDates} />
                     )}
                   </HStack>
                 </HStack>
@@ -79,13 +86,16 @@ function ChannelAnalytics() {
           </Thead>
 
           <Tbody>
-            {analytics?.data?.map((item: any) => (
+            {analytics?.data?.map((item: AnalyticsItem) => (
               <Tr key={item.channel_id}>
                 <Td>{item.title}</Td>
                 <Td textAlign="center">{+item.visitor_count}</Td>
                 <Td textAlign="center">{+item.click_count}</Td>
                 <Td textAlign="center">
-                  {+item.visitor_count !== 0 ? ((100 / +item.visitor_count) * +item.click_count).toFixed(0) : 0}%
+                  {+item.visitor_count === 0
+                    ? 0
+                    : ((100 / +item.visitor_count) * +item.click_count).toFixed(0)}
+                  %
                 </Td>
               </Tr>
             ))}

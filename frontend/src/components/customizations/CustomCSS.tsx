@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/filename-case */
 import {
   Box,
   Button,
@@ -9,32 +10,32 @@ import {
   ModalHeader,
   ModalOverlay,
   Textarea,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
+import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
+import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
+import useToaster from '@hooks/useToaster'
 import Editor from '@monaco-editor/react'
 import { useAtom } from 'jotai'
-import config from '@config/config'
-import ProWrapper from '@components/global/ProWrapper'
 
 function CustomCSS() {
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidgetPro()
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isWidgetUpdating, updateWidget } = useUpdateWidgetPro()
+  const { isOpen, onClose, onOpen } = useDisclosure()
   const toaster = useToaster()
   const tabIndex = config.IS_PRO ? 0 : -1
 
   const handleChangeCustomCSS = (value: string | undefined) => {
-    setWidget((prev) => {
+    setWidget(prev => {
       prev.custom_css = value
     })
   }
 
   const handleSaveCustomCSS = async () => {
-    const { status, data } = await updateWidget(widget)
+    const { data, status } = await updateWidget(widget)
     toaster(status, data)
     onClose()
   }
@@ -44,17 +45,17 @@ function CustomCSS() {
       <Title>Custom CSS</Title>
       <ProWrapper>
         <Textarea
-          h="36"
-          readOnly
-          filter="auto"
           cursor="pointer"
+          filter="auto"
+          h="36"
           onClick={onOpen}
-          value={widget.custom_css || ''}
+          readOnly
           tabIndex={tabIndex}
+          value={widget.custom_css || ''}
         />
       </ProWrapper>
 
-      <Modal id="custom_css" size="2xl" isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal id="custom_css" isCentered isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader py="2">Custom CSS</ModalHeader>
@@ -62,12 +63,12 @@ function CustomCSS() {
           <ModalBody p="0">
             <Box boxShadow="md">
               <Editor
-                height="40vh"
-                width="100%"
-                theme="vs-dark"
-                onChange={handleChangeCustomCSS}
                 defaultLanguage="css"
+                height="40vh"
+                onChange={handleChangeCustomCSS}
+                theme="vs-dark"
                 value={widget.custom_css || ''}
+                width="100%"
               />
             </Box>
           </ModalBody>
@@ -76,10 +77,10 @@ function CustomCSS() {
               Cancel
             </Button>
             <Button
-              onClick={handleSaveCustomCSS}
+              colorScheme="purple"
               isLoading={isWidgetUpdating}
               loadingText="Updating..."
-              colorScheme="purple"
+              onClick={handleSaveCustomCSS}
               shadow="md"
             >
               Update

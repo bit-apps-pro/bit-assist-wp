@@ -2,22 +2,25 @@ import { useToast } from '@chakra-ui/react'
 
 export default function useToaster() {
   const toast = useToast({
-    position: 'top-right',
-    isClosable: true,
     containerStyle: {
-      margin: '0.35rem',
+      margin: '0.35rem'
     },
+    isClosable: true,
+    position: 'top-right'
   })
 
-  const toaster = (status: 'info' | 'warning' | 'success' | 'error' | 'loading' | undefined, message: string) => {
+  const toaster = (
+    status: 'error' | 'info' | 'loading' | 'success' | 'warning' | undefined,
+    message: string
+  ) => {
     let title = typeof message === 'string' ? message : 'Something went wrong'
-    if (typeof status === 'undefined') {
+    if (status === undefined) {
       title = 'Something went wrong'
     }
 
     toast({
       status: status ?? 'warning',
-      title,
+      title
     })
   }
 

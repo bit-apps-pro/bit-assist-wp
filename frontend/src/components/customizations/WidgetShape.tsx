@@ -1,18 +1,17 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { Box, HStack, useRadioGroup, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, useColorModeValue, useRadioGroup } from '@chakra-ui/react'
+import RadioCard from '@components/global/RadioCard'
+import Title from '@components/global/Title'
+import config from '@config/config'
+import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
-import RadioCard from '@components/global/RadioCard'
-import { widgetAtom } from '@globalStates/atoms'
-import Title from '@components/global/Title'
-import { useEffect } from 'react'
-import { useAtom } from 'jotai'
 import { produce } from 'immer'
-import config from '@config/config'
+import { useAtom } from 'jotai'
+import { useEffect } from 'react'
 
 const maskStyle = {
   mask: `url(${config.ROOT_URL}/img/widget-button-mask.svg)`,
-  WebkitMask: `url(${config.ROOT_URL}/img/widget-button-mask.svg)`,
+  WebkitMask: `url(${config.ROOT_URL}/img/widget-button-mask.svg)`
 }
 
 function WidgetShape() {
@@ -22,29 +21,29 @@ function WidgetShape() {
   const formBackground = useColorModeValue('purple.500', 'purple.200')
 
   const handleChange = async (shape: string) => {
-    setWidget((prev) => {
-      if (prev.styles === null) {
+    setWidget(prev => {
+      if (prev.styles === null || prev.styles === undefined) {
         prev.styles = {}
       }
       prev.styles.shape = shape
     })
 
-    const { status, data } = await updateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
+    const { data, status } = await updateWidget(
+      produce(widget, draft => {
+        if (draft.styles === null || draft.styles === undefined) {
           draft.styles = {}
         }
         draft.styles.shape = shape
-      }),
+      })
     )
     toaster(status, data)
   }
 
   const shapeOptions = ['semiRounded', 'rounded', 'circle', 'square']
-  const { getRootProps, getRadioProps, setValue } = useRadioGroup({
-    name: 'widgetShape',
+  const { getRadioProps, getRootProps, setValue } = useRadioGroup({
     defaultValue: widget.styles?.shape,
-    onChange: handleChange,
+    name: 'widgetShape',
+    onChange: handleChange
   })
 
   const group = getRootProps()
@@ -57,14 +56,22 @@ function WidgetShape() {
     <Box>
       <Title>Widget Shape</Title>
       <HStack {...group} flexWrap="wrap" gap={2} spacing={0}>
-        {shapeOptions.map((value) => {
+        {shapeOptions.map(value => {
           const radio = getRadioProps({ value })
           return (
             <RadioCard design="border" key={value} {...radio}>
-              {value === shapeOptions[0] && <Box h="44px" w="44px" bg={formBackground} className="semiRoundedShape" style={maskStyle} />}
-              {value === shapeOptions[1] && <Box h="44px" w="44px" bg={formBackground} rounded="10px" />}
-              {value === shapeOptions[2] && <Box h="44px" w="44px" bg={formBackground} rounded="full" />}
-              {value === shapeOptions[3] && <Box h="44px" w="44px" bg={formBackground} rounded="none" />}
+              {value === shapeOptions[0] && (
+                <Box
+                  bg={formBackground}
+                  className="semiRoundedShape"
+                  h="44px"
+                  style={maskStyle}
+                  w="44px"
+                />
+              )}
+              {value === shapeOptions[1] && <Box bg={formBackground} h="44px" rounded="10px" w="44px" />}
+              {value === shapeOptions[2] && <Box bg={formBackground} h="44px" rounded="full" w="44px" />}
+              {value === shapeOptions[3] && <Box bg={formBackground} h="44px" rounded="none" w="44px" />}
             </RadioCard>
           )
         })}

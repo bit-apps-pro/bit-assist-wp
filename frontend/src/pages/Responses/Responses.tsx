@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Checkbox,
   HStack,
@@ -12,38 +13,42 @@ import {
   Th,
   Thead,
   Tr,
-  Badge,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
-import { WidgetResponse } from '@globalStates/Interfaces'
-import useFetchResponses from '@hooks/queries/response/useFetchResponses'
+import Pagination from '@components/global/Pagination'
+import DownloadLinks from '@components/response/DownloadLinks'
+import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
+import ResponseDrawer from '@components/response/ResponseDrawer'
+import { type WidgetResponse } from '@globalStates/Interfaces'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
+import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
+import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import { textTrim, toSlug } from '@utils/utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { FiEye, FiRefreshCw, FiTrash2 } from 'react-icons/fi'
-import Pagination from '@components/global/Pagination'
-import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
-import ResponseDrawer from '@components/response/ResponseDrawer'
-import DownloadLinks from '@components/response/DownloadLinks'
+
+const convertDate = (date: string) => {
+  const dateObj = new Date(date)
+  return `${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString()}`
+}
 
 export default function Responses() {
   const [pageLimit, setPageLimit] = useState<number>(10)
   const [pageNumber, setPageNumber] = useState<number>(1)
   const { othersData } = useFetchOthersData()
-  const { widgetResponses, isResponsesLoading, isFetching, isFetched, refresh } = useFetchResponses(
+  const { isFetched, isFetching, isResponsesLoading, refresh, widgetResponses } = useFetchResponses(
     pageLimit,
-    pageNumber,
+    pageNumber
   )
   const { deleteResponses, isResponsesDeleting } = useDeleteResponses(pageLimit, pageNumber)
-  const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
+  const { isOpen, onClose: closeDelModal, onOpen: openDelModal } = useDisclosure()
   const [checkedItems, setCheckedItems] = useState<string[]>([])
   const navigate = useNavigate()
-  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure()
+  const { isOpen: isDrawerOpen, onClose: onDrawerClose, onOpen: onDrawerOpen } = useDisclosure()
   const btnRef = useRef<HTMLButtonElement | null>(null)
-  const drawerResponse = useRef<WidgetResponse | null>(null)
+  const drawerResponse = useRef<undefined | WidgetResponse>()
 
   const handleDeleteWidget = async () => {
     await deleteResponses(checkedItems)
@@ -51,17 +56,14 @@ export default function Responses() {
     closeDelModal()
   }
 
-  const convertDate = (date: string) => {
-    const dateObj = new Date(date)
-    return `${dateObj.toLocaleDateString()} ${dateObj.toLocaleTimeString()}`
-  }
-
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, responseId: string) => {
     const { checked } = e.target
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setCheckedItems((prev: any) => {
       if (checked) {
         return [...prev, responseId]
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return prev.filter((item: any) => item !== responseId)
     })
   }
@@ -87,30 +89,36 @@ export default function Responses() {
   }
 
   const handleDrawerClose = () => {
-    drawerResponse.current = null
+    drawerResponse.current = undefined
     onDrawerClose()
   }
 
   return (
     <>
-      <HStack mb="4" flexWrap="wrap">
+      <HStack flexWrap="wrap" mb="4">
         <HStack alignItems="center">
-          <Button p="1" size="sm" variant="ghost" onClick={() => navigate(-1)}>
-            <MdArrowBackIosNew size="1rem" aria-label="back button" />
+          <Button onClick={() => navigate(-1)} p="1" size="sm" variant="ghost">
+            <MdArrowBackIosNew aria-label="back button" size="1rem" />
           </Button>
           <Text as="h2" fontSize="lg" textTransform="none">
             Response List {othersData?.channelName && `- ${othersData.channelName}`}
           </Text>
           {isFetching ? (
-            <IconButton aria-label="spinner" size="sm" variant="ghost" rounded="full" icon={<Spinner size="sm" />} />
+            <IconButton
+              aria-label="spinner"
+              icon={<Spinner size="sm" />}
+              rounded="full"
+              size="sm"
+              variant="ghost"
+            />
           ) : (
             <IconButton
-              onClick={() => refresh()}
               aria-label="refresh button"
-              size="sm"
-              rounded="full"
-              variant="ghost"
               icon={<FiRefreshCw />}
+              onClick={() => refresh()}
+              rounded="full"
+              size="sm"
+              variant="ghost"
             />
           )}
         </HStack>
@@ -118,17 +126,17 @@ export default function Responses() {
         {checkedItems?.length ? (
           <HStack spacing={1}>
             <IconButton
-              onClick={openDelModal}
-              fontSize="1rem"
-              size="sm"
-              rounded="full"
               aria-label="Delete Icon"
-              variant="ghost"
+              fontSize="1rem"
               icon={<FiTrash2 />}
+              onClick={openDelModal}
+              rounded="full"
+              size="sm"
+              variant="ghost"
             />
             <Badge textTransform="lowercase">{checkedItems.length} items selected</Badge>
           </HStack>
-        ) : null}
+        ) : undefined}
       </HStack>
 
       <TableContainer borderWidth="1px" rounded="lg" shadow="md">
@@ -137,11 +145,13 @@ export default function Responses() {
             <Tr>
               <Th w="4">
                 <Checkbox
+                  aria-label="select all"
                   colorScheme="purple"
                   isChecked={widgetResponses?.length && widgetResponses.length === checkedItems?.length}
-                  isIndeterminate={!!(checkedItems?.length && checkedItems.length < widgetResponses?.length)}
+                  isIndeterminate={
+                    !!(checkedItems?.length && checkedItems.length < widgetResponses?.length)
+                  }
                   onChange={handleCheckAllBox}
-                  aria-label="select all"
                 />
               </Th>
               {othersData?.formFields?.map((field: { id: string; label: string }) => (
@@ -157,18 +167,18 @@ export default function Responses() {
                   <Td py="2">
                     <HStack spacing={3}>
                       <Checkbox
+                        aria-label="select single checkbox"
                         colorScheme="purple"
                         isChecked={!!checkedItems.includes(widgetResponse.id)}
-                        onChange={(e) => handleCheckboxChange(e, widgetResponse.id)}
-                        aria-label="select single checkbox"
+                        onChange={e => handleCheckboxChange(e, widgetResponse.id)}
                       />
                       <IconButton
-                        ref={btnRef}
-                        onClick={() => handleResponseClick(widgetResponse)}
                         aria-label="detailed view"
-                        icon={<FiEye fontSize={'1rem'} />}
-                        size="sm"
                         h="auto"
+                        icon={<FiEye fontSize={'1rem'} />}
+                        onClick={() => handleResponseClick(widgetResponse)}
+                        ref={btnRef}
+                        size="sm"
                         variant={'unstyled'}
                       />
                     </HStack>
@@ -207,27 +217,27 @@ export default function Responses() {
 
       {widgetResponses?.length > 0 && !isResponsesLoading && (
         <Pagination
-          pageNumber={pageNumber}
           pageLimit={pageLimit}
-          totalResponses={othersData?.totalResponses || 0}
-          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
           setPageLimit={setPageLimit}
+          setPageNumber={setPageNumber}
+          totalResponses={othersData?.totalResponses || 0}
         >
           {!isFetched && isFetching && <Spinner size="sm" />}
         </Pagination>
       )}
 
       <ResponseDrawer
-        drawerResponse={drawerResponse.current}
-        isDrawerOpen={isDrawerOpen}
-        handleDrawerClose={handleDrawerClose}
         btnRef={btnRef}
+        drawerResponse={drawerResponse.current}
+        handleDrawerClose={handleDrawerClose}
+        isDrawerOpen={isDrawerOpen}
       />
 
       <ResponseDeleteModal
-        isOpen={isOpen}
         closeDelModal={closeDelModal}
         handleDeleteWidget={handleDeleteWidget}
+        isOpen={isOpen}
         isResponsesDeleting={isResponsesDeleting}
       />
     </>

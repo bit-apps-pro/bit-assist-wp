@@ -8,14 +8,14 @@ export default function useFetchWidgetChannels() {
 
   const { data, isLoading } = useQuery(
     ['widgetChannels', editWidgetChannelId],
-    async () => request(`widgetChannels/${editWidgetChannelId}`, null, null, 'GET'),
+    async () => request(`widgetChannels/${editWidgetChannelId}`, undefined, undefined, 'GET'),
     {
-      enabled: !!editWidgetChannelId,
-    },
+      enabled: !!editWidgetChannelId
+    }
   )
 
   return {
-    widgetChannel: data?.data,
     isWidgetChannelFetching: isLoading,
+    widgetChannel: data?.data
   }
 }

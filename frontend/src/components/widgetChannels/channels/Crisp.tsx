@@ -7,8 +7,8 @@ export default function Crisp() {
   const [, setFlow] = useAtom(flowAtom)
 
   useEffect(() => {
-    setFlow((prev) => {
-      if (typeof prev.config?.card_config === 'undefined') {
+    setFlow(prev => {
+      if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
       }
       prev.config.card_config.isChatWidget = true

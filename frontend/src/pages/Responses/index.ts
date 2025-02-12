@@ -1,3 +1,1 @@
-import Responses from './Responses'
-
-export default Responses
+export { default } from './Responses'

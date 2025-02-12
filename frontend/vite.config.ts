@@ -2,38 +2,39 @@ import { esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { Alias, defineConfig } from 'vite'
+
 import * as tsconfig from './tsconfig.json'
 
-const chunkCount = 0
+// const chunkCount = 0
 
 export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    // copyStatics(mode),
-  ],
+  // root: 'src',
+  base: mode === 'development' ? '/src/' : '',
+
+  build: {
+    outDir: '../assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: '[name].[ext]', // currently does not work for images
+        entryFileNames: '[name].js', // currently does not work for the legacy bundle
+        inlineDynamicImports: true,
+        manualChunks: undefined,
+      },
+    },
+  },
 
   optimizeDeps: {
     esbuildOptions: {
       plugins: [esbuildCommonjs(['react-calendar', 'react-date-picker', 'react-clock', 'react-time-picker', 'fela'])],
     },
   },
+  plugins: [
+    react(),
+    // copyStatics(mode),
+  ],
 
-  // root: 'src',
-  base: mode === 'development' ? '/src/' : '',
   resolve: {
     alias: readAliasFromTsConfig(),
-  },
-
-  build: {
-    outDir: '../assets',
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-        inlineDynamicImports: true,
-        entryFileNames: '[name].js', // currently does not work for the legacy bundle
-        assetFileNames: '[name].[ext]', // currently does not work for images
-      },
-    },
   },
 
   // build: {
@@ -77,23 +78,23 @@ export default defineConfig(({ mode }) => ({
   // },
 
   server: {
-    origin: 'http://localhost:3000',
+    commonjsOptions: { transformMixedEsModules: true },
     // required to load scripts from custom host
     cors: true,
+    hmr: { host: 'localhost' },
+    origin: 'http://localhost:3000',
+    port: 3000,
     // we need a strict port to match on PHP side
     strictPort: true,
-    port: 3000,
-    hmr: { host: 'localhost' },
-    commonjsOptions: { transformMixedEsModules: true },
   },
 }))
 
-function hash() {
-  return Math.round(Math.random() * (999 - 1) + 1)
-}
+// function hash() {
+//   return Math.round(Math.random() * (999 - 1) + 1)
+// }
 
 function readAliasFromTsConfig(): Alias[] {
-  // eslint-disable-next-line prefer-regex-literals
+
   const pathReplaceRegex = new RegExp(/\/\*$/, '')
   return Object.entries(tsconfig.compilerOptions.paths).reduce((aliases, [fromPaths, toPaths]) => {
     const find = fromPaths.replace(pathReplaceRegex, '')

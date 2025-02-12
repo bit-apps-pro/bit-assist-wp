@@ -3,26 +3,25 @@ import { FaYoutube } from 'react-icons/fa'
 import { FiFileText } from 'react-icons/fi'
 
 interface DocTutorialsProps {
-  tutorial?: string | null
-  docLink?: string | null
+  docLink?: string | undefined
+  tutorial?: string | undefined
 }
 
-export default function DocTutorials({ tutorial, docLink }: DocTutorialsProps) {
+export default function DocTutorials({ docLink, tutorial }: DocTutorialsProps) {
   return (
     <>
       {tutorial && (
         <Button
           as="a"
-          href={
-            !tutorial
-              ? 'https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=1&pp=iAQB'
-              : tutorial
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-          leftIcon={<FaYoutube color="red" />}
-          size="sm"
           borderRadius={'full'}
+          href={
+            tutorial ||
+            'https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=1&pp=iAQB'
+          }
+          leftIcon={<FaYoutube color="red" />}
+          rel="noopener noreferrer"
+          size="sm"
+          target="_blank"
         >
           Tutorial
         </Button>
@@ -30,12 +29,12 @@ export default function DocTutorials({ tutorial, docLink }: DocTutorialsProps) {
       {docLink && (
         <Button
           as="a"
-          href={!docLink ? 'https://bitapps.pro/docs/bit-assist/' : docLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          leftIcon={<FiFileText color="blue" />}
-          size="sm"
           borderRadius={'full'}
+          href={docLink || 'https://bitapps.pro/docs/bit-assist/'}
+          leftIcon={<FiFileText color="blue" />}
+          rel="noopener noreferrer"
+          size="sm"
+          target="_blank"
         >
           Documentation
         </Button>

@@ -6,7 +6,7 @@ export default function OpenWindowAction() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.open_window_action = value
     })
   }
@@ -15,9 +15,9 @@ export default function OpenWindowAction() {
     <FormControl>
       <FormLabel>On click open channel on</FormLabel>
       <Select
+        onChange={e => handleChanges(e.target.value)}
         placeholder="Select window action"
         value={flow.config?.open_window_action || ''}
-        onChange={(e) => handleChanges(e.target.value)}
       >
         <option value="_blank">New Tab</option>
         <option value="_parent">Current Tab</option>

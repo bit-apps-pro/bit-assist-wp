@@ -1,7 +1,12 @@
-const fse = require('fs-extra')
-const path = require('path')
-const topDir = __dirname
-fse.emptyDirSync(path.join(topDir, '../assets', 'tinymce'))
-fse.copySync(path.join(topDir, 'node_modules', 'tinymce'), path.join(topDir, '../assets', 'tinymce'), {
-  overwrite: true,
-})
+import fse from 'fs-extra'
+import path from 'node:path'
+
+const topDirectory = import.meta.dirname
+fse.emptyDirSync(path.join(topDirectory, '../assets', 'tinymce'))
+fse.copySync(
+  path.join(topDirectory, 'node_modules', 'tinymce'),
+  path.join(topDirectory, '../assets', 'tinymce'),
+  {
+    overwrite: true
+  }
+)

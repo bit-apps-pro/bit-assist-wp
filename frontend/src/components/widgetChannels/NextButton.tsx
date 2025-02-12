@@ -3,7 +3,7 @@ import { HiArrowRight } from 'react-icons/hi'
 
 function NextButton() {
   return (
-    <Box textAlign="right" mt="4">
+    <Box mt="4" textAlign="right">
       <Button colorScheme="purple" rightIcon={<HiArrowRight />}>
         Next
       </Button>

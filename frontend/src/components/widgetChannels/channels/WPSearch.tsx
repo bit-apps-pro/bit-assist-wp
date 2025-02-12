@@ -1,16 +1,26 @@
-import CardColors from './common/CardColors'
-import OpenWindowAction from './OpenWindowAction'
-import usePostTypes from './data/usePostTypes'
-import { Checkbox, CheckboxGroup, FormControl, FormHelperText, FormLabel, Spinner, Stack } from '@chakra-ui/react'
+/* eslint-disable unicorn/filename-case */
+import {
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Spinner,
+  Stack
+} from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
 import { useAtom } from 'jotai'
 
+import CardColors from './common/CardColors'
+import usePostTypes from './data/usePostTypes'
+import OpenWindowAction from './OpenWindowAction'
+
 export default function WPSearch() {
-  const { postTypes, isLoading } = usePostTypes()
+  const { isLoading, postTypes } = usePostTypes()
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string[]) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.wp_post_types = value
     })
   }
@@ -25,13 +35,13 @@ export default function WPSearch() {
 
         <CheckboxGroup
           colorScheme="purple"
-          onChange={handleChanges}
           defaultValue={['post', 'page']}
+          onChange={handleChanges}
           value={flow.config?.wp_post_types}
         >
-          <Stack spacing={[1, 5]} direction={['column', 'row']} wrap="wrap">
-            {postTypes.map((postType) => (
-              <Checkbox size="lg" key={postType.name} value={postType.name}>
+          <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
+            {postTypes.map(postType => (
+              <Checkbox key={postType.name} size="lg" value={postType.name}>
                 {postType.label}
               </Checkbox>
             ))}
