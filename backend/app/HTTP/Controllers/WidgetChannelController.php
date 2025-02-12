@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
@@ -36,7 +37,7 @@ final class WidgetChannelController
     {
         $validated = $this->sanitizeRequest($request->all());
 
-        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = Config::isProActivated();
 
         if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
             unset($validated['config']['hide_after_office_hours']);
@@ -58,7 +59,7 @@ final class WidgetChannelController
     {
         $validated = $this->sanitizeRequest($request->all());
 
-        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = Config::isProActivated();
 
         if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
             unset($validated['config']['hide_after_office_hours']);
@@ -85,7 +86,13 @@ final class WidgetChannelController
 
     public function updateSequence(Request $request)
     {
-        foreach ($request->widgetChannels as $widgetChannel) {
+        $validated = $request->validate([
+            'widgetChannels'            => ['required', 'array'],
+            'widgetChannels.*.id'       => ['required', 'integer'],
+            'widgetChannels.*.sequence' => ['required', 'integer'],
+        ]);
+
+        foreach ($validated['widgetChannels'] as $widgetChannel) {
             WidgetChannel::take(1)->find($widgetChannel['id'])
                 ->update(['sequence' => $widgetChannel['sequence']])
                 ->save();
@@ -96,7 +103,7 @@ final class WidgetChannelController
 
     public function copy(WidgetChannel $widgetChannel)
     {
-        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = Config::isProActivated();
         if (!$isPro && WidgetChannel::where('widget_id', $widgetChannel->widget_id)->count() >= 2) {
             return Response::error('You can use 2 channel in free version.');
         }

@@ -18,7 +18,7 @@ final class ApiWidgetController
 
     public function __construct()
     {
-        $this->isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $this->isPro = Config::isProActivated();
     }
 
     public function bitAssistWidget(Request $request)

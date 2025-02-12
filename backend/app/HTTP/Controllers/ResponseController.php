@@ -2,6 +2,7 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Config;
 use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
@@ -48,7 +49,7 @@ final class ResponseController
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
-        if (!empty($config->card_config->webhook_url) && class_exists(ProConfig::class) && ProConfig::isPro()) {
+        if (!empty($config->card_config->webhook_url) && Config::isProActivated()) {
             $webhook = new HttpClient();
             $webhook->request($config->card_config->webhook_url, 'POST', json_encode($formData));
         }
