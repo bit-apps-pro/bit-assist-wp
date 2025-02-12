@@ -123,8 +123,8 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                           )}
                         </HStack>
                         <Tooltip label="Delete all analytics data" placement="left-end">
-                          <Button variant="outline" onClick={openDeleteModal()} leftIcon={<FiTrash2 color="red" />}>
-                            Delete
+                          <Button variant="outline" colorScheme="red" onClick={openDeleteModal()} leftIcon={<FiTrash2 color="red" />}>
+                            Delete All Analytics
                           </Button>
                         </Tooltip>
                       </HStack>
