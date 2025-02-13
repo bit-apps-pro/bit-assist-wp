@@ -5,7 +5,7 @@ Tags: chat, chat widget, whatsapp chat, click to chat, chat button
 Requires at least: 5.1
 Tested up to: 6.7.2
 Requires PHP: 7.4
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 License: GPLv2 or later
 
 WhatsApp Chat Widget, Click to Chat Simple chat Line Messenger, live chat support chat button, SMS, call button & customer support chat sticky button

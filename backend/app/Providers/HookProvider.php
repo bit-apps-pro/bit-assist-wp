@@ -6,6 +6,7 @@ use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\RequestType;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Router\Router;
+use BitApps\Assist\HTTP\Controllers\AnalyticsController;
 use BitApps\Assist\Plugin;
 use FilesystemIterator;
 
@@ -20,6 +21,7 @@ class HookProvider
         $this->loadAppHooks();
         $this->loadActionsHooks();
         Hooks::addAction('rest_api_init', [$this, 'loadApi']);
+        Hooks::addAction(Config::VAR_PREFIX . 'analytics_cleanup', [AnalyticsController::class, 'analyticsCleanup']);
     }
 
     /**
