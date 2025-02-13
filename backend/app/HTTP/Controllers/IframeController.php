@@ -9,12 +9,11 @@ final class IframeController
 {
     public function iframe(Request $request)
     {
-        if (empty($request->clientDomain)) {
-            status_header(422);
-            exit();
-        }
-
-        $urlParts = explode('-protocol-bit-assist-', $request->clientDomain);
+        $validated = $request->validate([
+            'clientDomain' => ['required', 'string', 'sanitize:text'],
+        ]);
+        
+        $urlParts = explode('-protocol-bit-assist-', $validated['clientDomain']);
         $protocol = $urlParts[0] === 'i' ? 'http://' : 'https://';
         $domain = $urlParts[1];
         $clientDomain = $protocol . $domain;

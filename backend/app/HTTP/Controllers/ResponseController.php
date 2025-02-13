@@ -40,11 +40,14 @@ final class ResponseController
 
     public function store(Request $request)
     {
-        $formData = $request->all();
-        $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : null;
+        $formData = array_map('sanitize_text_field', $request->all());
+
+        $widgetChannelId = $formData['widget_channel_id'] ?? null;
+
         if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
+        
         unset($formData['widget_channel_id']);
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;

@@ -20,16 +20,13 @@ final class AnalyticsController
 
     public function store(Request $request)
     {
-        $validated = [
-            'widget_id'  => $request->widget_id,
-            'is_clicked' => $request->is_clicked,
-        ];
+        $validated = $request->validate([
+            'widget_id' => ['required', 'integer'],
+            'channel_id' => ['nullable', 'integer'],
+            'is_clicked' => ['nullable', 'boolean'],
+        ]);
 
-        if ($request->channel_id) {
-            $validated['channel_id'] = $request->channel_id;
-        }
-
-        Analytics::insert((array)$request->all());
+        Analytics::insert($validated);
 
         return 'success';
     }
