@@ -319,6 +319,10 @@ Note: You can not use Zoho SalesIQ – Live chat, chatbots, and visitor tracking
 Yes, you can use standalone form using Bit Assist‘s custom iframe channel which is a pro feature. You can show wordpress standalone form with this channel by providing the link from dedicated standalone form. For example, there are several form builder plugin which have standalone form feature like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
+= v1.5.4 (Feb 15, 2025) =
+* Feature: Added cron event to automatically delete analytic data older than 30 days, improving database performance.
+* Security: Implemented enhanced validation and sanitization for all incoming requests to prevent potential security vulnerabilities.
+
 = v1.5.3 (Feb 13, 2025) =
 * Fix: Implemented security patches to enhance the overall security of the plugin.
 
