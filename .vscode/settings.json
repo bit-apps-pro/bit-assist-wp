@@ -15,21 +15,15 @@
   "search.useGlobalIgnoreFiles": false,
   "search.useParentIgnoreFiles": false,
   "prettier.enable": true,
-  "prettier.prettierPath": "node_modules/prettier/index.cjs",
+  "prettier.prettierPath": "frontend/node_modules/prettier/index.cjs",
+  "prettier.ignorePath": "frontend/.prettierignore",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "stylelint.snippet": [
-    "css",
-    "scss"
-  ],
-  "stylelint.validate": [
-    "css",
-    "scss",
-    "postcss"
-  ],
+  "stylelint.snippet": ["css", "scss"],
+  "stylelint.validate": ["css", "scss", "postcss"],
   "files.eol": "\n",
   "search.exclude": {
     "**/.git": true,
@@ -49,12 +43,10 @@
     "**/tmp": true,
     "**/yarn.lock": true,
     "**/vendor": true,
-    "**/tests/__libs": true,
+    "**/tests/__libs": true
   },
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "css.lint.validProperties": [
-    "composes"
-  ],
+  "css.lint.validProperties": ["composes"],
   "[typescript, javascript, typescriptreact, json, css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -63,5 +55,5 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  }
 }
