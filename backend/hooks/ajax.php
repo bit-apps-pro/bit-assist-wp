@@ -56,4 +56,4 @@ Route::group(function () {
     Route::get('getPostTypes', [WPPostController::class, 'getPostTypes']);
 
     Route::get('downloadResponseFile', [DownloadController::class, 'downloadResponseFile']);
-})->middleware('nonce');
+})->middleware('nonce', 'isAdmin');

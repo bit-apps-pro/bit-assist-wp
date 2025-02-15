@@ -2,6 +2,8 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+use BitApps\Assist\Config;
+use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
@@ -39,16 +41,19 @@ final class ResponseController
 
     public function store(Request $request)
     {
-        $formData = $request->all();
-        $widgetChannelId = isset($formData['widget_channel_id']) ? $formData['widget_channel_id'] : undefined;
-        if (\is_null($widgetChannelId)) {
+        $formData = array_map('sanitize_text_field', $request->all());
+
+        $widgetChannelId = $formData['widget_channel_id'] ?? null;
+
+        if (is_null($widgetChannelId)) {
             return Res::error('WidgetChannel id is required');
         }
+
         unset($formData['widget_channel_id']);
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
-        if (!empty($config->card_config->webhook_url) && class_exists(ProConfig::class) && ProConfig::isPro()) {
+        if (!empty($config->card_config->webhook_url) && Config::isProActivated()) {
             $webhook = new HttpClient();
             $webhook->request($config->card_config->webhook_url, 'POST', wp_json_encode($formData));
         }

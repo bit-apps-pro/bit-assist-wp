@@ -18,12 +18,16 @@ final class ApiWidgetController
 
     public function __construct()
     {
-        $this->isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $this->isPro = Config::isProActivated();
     }
 
     public function bitAssistWidget(Request $request)
     {
-        $widget = $this->getWidget($request->domain);
+        $validated = $request->validate([
+            'domain' => ['required', 'string', 'sanitize:url'],
+        ]);
+
+        $widget = $this->getWidget($validated['domain']);
 
         if (!isset($widget->id)) {
             return 'Widget not found';
@@ -101,8 +105,8 @@ final class ApiWidgetController
             return ['message' => 'WooCommerce not installed or active.', 'status_code' => 404];
         }
 
-        $order_id = $request['number'];
-        $billing_email = $request['email'];
+        $order_id = sanitize_text_field($request['number']);
+        $billing_email = sanitize_email($request['email']);
         $allOrders = [];
 
         global $wpdb;

@@ -12,28 +12,42 @@ final class DownloadController
             require_once ABSPATH . 'wp-admin/includes/file.php';
         }
 
-        $filePath = $this->isRequestedFileExists();
+        $widgetChannelID = intval(sanitize_text_field($_GET['widgetChannelID']));
 
-        if ($filePath) {
-            $this->fileDownloadORView($filePath, $_GET['fileName'], isset($_GET['download']));
-        } else {
+        $fileID = sanitize_text_field($_GET['fileID']);
+
+        $fileName = sanitize_text_field($_GET['fileName']);
+
+        $forceDownload = isset($_GET['download']);
+
+        if (empty($widgetChannelID) || empty($fileID) || empty($fileName)) {
             $this->show404();
         }
+
+        $filePath = $this->isRequestedFileExists($widgetChannelID, $fileID);
+
+        $this->fileDownloadORView($filePath, $fileName, $forceDownload);
     }
 
-    private function isRequestedFileExists()
+    private function isRequestedFileExists($widgetChannelID, $fileID)
     {
-        if (!isset($_GET['widgetChannelID']) || !isset($_GET['fileID']) || !isset($_GET['fileName'])) {
-            return false;
-        }
-        $widgetChannelID = intval(sanitize_text_field($_GET['widgetChannelID']));
-        $fileID = $_GET['fileID'];
         $filePath = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID . DIRECTORY_SEPARATOR . $fileID;
-        if (is_readable($filePath)) {
-            return $filePath;
+
+        if (!is_readable($filePath) || !$this->is_file_in_uploads($filePath)) {
+            $this->show404();
         }
-        return false;
+        
+        return $filePath;
     }
+
+    private function is_file_in_uploads($filePath) {    
+        $uploadsDir = trailingslashit(wp_normalize_path(Config::get('UPLOAD_DIR')));
+
+        $realPath   = trailingslashit(wp_normalize_path(realpath($filePath)));
+
+        return strpos( $realPath, $uploadsDir ) === 0;
+    }
+    
 
     private function fileDownloadORView($filePath, $fileName, $forceDownload = false)
     {

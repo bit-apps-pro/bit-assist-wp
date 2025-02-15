@@ -2,11 +2,11 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
-use AllowDynamicProperties;
 use BitApps\Assist\Config;
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+use AllowDynamicProperties;
 use BitApps\Assist\Model\Analytics;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
 #[AllowDynamicProperties]
 final class AnalyticsController
@@ -20,27 +20,91 @@ final class AnalyticsController
 
     public function store(Request $request)
     {
-        $validated = [
-            'widget_id'  => $request->widget_id,
-            'is_clicked' => $request->is_clicked,
-        ];
+        $validated = $request->validate([
+            'widget_id'  => ['required', 'integer'],
+            'channel_id' => ['nullable', 'integer'],
+            'is_clicked' => ['nullable', 'boolean'],
+        ]);
 
-        if ($request->channel_id) {
-            $validated['channel_id'] = $request->channel_id;
-        }
-
-        Analytics::insert((array)$request->all());
+        Analytics::insert($validated);
 
         return 'success';
     }
 
     public function toggleAnalytics(Request $request)
     {
-        Config::updateOption('analytics_activate', $request->widget_analytics);
+        $validated = $request->validate([
+            'widget_analytics' => ['required', 'boolean'],
+        ]);
 
-        $analyticsOption = Config::getOption('analytics_activate');
+        Config::updateOption('analytics_activate', $validated['widget_analytics']);
 
-        return ['widget_analytics' => (int)$analyticsOption];
+        $isAnalyticsEnabled = (int) Config::getOption('analytics_activate');
+
+        if ($isAnalyticsEnabled) {
+            $this->addScheduleToCleanupAnalytics();
+        } else {
+            $this->removeAnalyticsCleanupSchedule();
+        }
+
+        return ['widget_analytics' => $isAnalyticsEnabled];
+    }
+
+    public function addScheduleToCleanupAnalytics()
+    {
+        if (!wp_next_scheduled(Config::VAR_PREFIX . 'analytics_cleanup')) {
+            wp_schedule_event(time(), 'twicedaily', Config::VAR_PREFIX . 'analytics_cleanup');
+        }
+    }
+
+    public function removeAnalyticsCleanupSchedule()
+    {
+        wp_clear_scheduled_hook(Config::VAR_PREFIX . 'analytics_cleanup');
+    }
+
+    /**
+     * Cleans up old analytics data from the database.
+     *
+     * This function deletes records from the analytics table that are older than a specified number of days.
+     * It performs the deletion in batches to avoid locking the table for too long.
+     * The process will iterate up to a maximum number of times to ensure that all old records are deleted.
+     *
+     * @global wpdb $wpdb WordPress database abstraction object.
+     *
+     * @return void
+     */
+    public static function analyticsCleanup()
+    {
+        global $wpdb;
+
+        $retentionDays = 30; // Number of days to keep analytics data.
+
+        $batchSize = 1000;
+
+        $maxIterations = 10;
+
+        $iterations = 0;
+
+        $cutoff = date('Y-m-d H:i:s', strtotime("-{$retentionDays} days"));
+
+        $table = $wpdb->prefix . Config::VAR_PREFIX . 'analytics';
+
+        $preparedQuery = $wpdb->prepare(
+            "DELETE FROM {$table} WHERE created_at < %s LIMIT %d",
+            $cutoff,
+            $batchSize
+        );
+
+        /**
+        * If the number of records deleted in a batch is equal to the batch size,
+        * and the number of iterations is less than the maximum number of iterations,
+        * continue deleting records in batches.
+        */
+        do {
+            $deletedCount = $wpdb->query($preparedQuery);
+
+            $iterations++;
+        } while ($deletedCount === $batchSize && $iterations < $maxIterations);
     }
 
     public function getWidgetAnalytics($filterValue)

@@ -29,7 +29,7 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
-        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = Config::isProActivated();
         if (!$isPro && Widget::count() >= 1) {
             return Response::error('You can use 1 widget in free version.');
         }
@@ -112,7 +112,7 @@ final class WidgetController
 
     public function copy(Widget $widget)
     {
-        $isPro = class_exists(ProConfig::class) && ProConfig::isPro();
+        $isPro = Config::isProActivated();
         if (!$isPro && Widget::count() >= 1) {
             return Response::error('You can use 1 widget in free version.');
         }

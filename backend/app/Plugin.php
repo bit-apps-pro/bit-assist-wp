@@ -15,6 +15,7 @@ use BitApps\Assist\Deps\BitApps\WPKit\Utils\Capabilities;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
 use BitApps\Assist\HTTP\Controllers\BitAssistAnalyticsController;
+use BitApps\Assist\HTTP\Middleware\AdminCheckerMiddleware;
 use BitApps\Assist\HTTP\Middleware\NonceCheckerMiddleware;
 use BitApps\Assist\Providers\HookProvider;
 use BitApps\Assist\Providers\InstallerProvider;
@@ -61,6 +62,17 @@ final class Plugin
         Hooks::doAction(Config::withPrefix('loaded'));
         Hooks::addAction('init', [$this, 'registerProviders']);
         Hooks::addFilter('plugin_action_links_' . Config::get('BASENAME'), [$this, 'actionLinks']);
+
+        /**
+         * Add schedule to cleanup analytics if the plugin version is less than or equal to 1.5.3
+         * @since 1.5.4
+         */
+        if (version_compare(Config::getOption('version'), '1.5.3', '<=')) {
+            if (!wp_next_scheduled(Config::VAR_PREFIX . 'analytics_cleanup')) {
+                wp_schedule_event(time(), 'twicedaily', Config::VAR_PREFIX . 'analytics_cleanup');
+            }
+        }
+
         $this->maybeMigrateDB();
     }
 
@@ -82,7 +94,8 @@ final class Plugin
     public function middlewares()
     {
         return [
-            'nonce' => NonceCheckerMiddleware::class,
+            'nonce'   => NonceCheckerMiddleware::class,
+            'isAdmin' => AdminCheckerMiddleware::class,
         ];
     }
 
