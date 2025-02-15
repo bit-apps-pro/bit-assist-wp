@@ -3,14 +3,12 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\Assist\Config;
-use BitApps\AssistPro\Config as ProConfig;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
 use BitApps\Assist\Helpers\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
-use BitApps\AssistPro\Config as ProConfig;
 
 final class ResponseController
 {
