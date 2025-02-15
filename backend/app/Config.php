@@ -181,7 +181,7 @@ class Config
      */
     public static function updateOption($option, $value, $autoload = null)
     {
-        return update_option(self::withPrefix($option), $value, !\is_null($autoload) ? 'yes' : undefined);
+        return update_option(self::withPrefix($option), $value, !\is_null($autoload) ? 'yes' : null);
     }
 
     public static function isDev()

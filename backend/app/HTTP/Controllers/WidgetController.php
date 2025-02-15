@@ -9,7 +9,6 @@ use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
-use BitApps\AssistPro\Config as ProConfig;
 
 final class WidgetController
 {
@@ -101,7 +100,7 @@ final class WidgetController
 
         if ($widget->save()) {
             if ($widget->active) {
-                Config::updateOption('widget_active', ($request->status ? $widget->id : undefined));
+                Config::updateOption('widget_active', ($request->status ? $widget->id : null));
             }
 
             return Response::success('Widget status changed');
