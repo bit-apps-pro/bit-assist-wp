@@ -1,3 +1,5 @@
+import { __ } from '@helpers/i18nwrap'
+
 export const FreeLimitsDefault = {
   channel: 2,
   widget: 1

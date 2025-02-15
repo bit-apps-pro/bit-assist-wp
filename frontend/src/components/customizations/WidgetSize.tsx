@@ -14,7 +14,6 @@ function WidgetSize() {
   const { updateWidget } = useUpdateWidget()
   const toaster = useToaster()
 
-
   const debounceUpdateWidget = useRef(
     debounce(async newWidget => {
       const { data, status } = await updateWidget(newWidget)
