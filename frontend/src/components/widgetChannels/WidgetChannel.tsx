@@ -4,11 +4,7 @@ import {
   Button,
   Flex,
   HStack,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,14 +21,16 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { editWidgetChannelIdAtom } from '@globalStates/atoms'
 import { type WidgetChannelType } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import useCopyWidgetChannel from '@hooks/mutations/widgetChannel/useCopyWidgetChannel'
 import useDeleteWidgetChannel from '@hooks/mutations/widgetChannel/useDeleteWidgetChannel'
 import useToaster from '@hooks/useToaster'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { FiCopy, FiEdit2, FiList, FiTrash2 } from 'react-icons/fi'
-import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
+
+import channelList from './ChannelList'
 
 interface WidgetChannelProps {
   bg?: string
@@ -114,8 +112,15 @@ function WidgetChannel({
             rounded="sm"
             w={6}
           >
-            <DragHandleIcon aria-label="draggable button" />
+            <DragHandleIcon aria-label={__('draggable button')} />
           </Flex>
+          <Image
+            alt={widgetChannel.config.title}
+            boxSize="40px"
+            fallbackSrc={channelList.find(c => c.name === widgetChannel.channel_name)?.icon}
+            objectFit="cover"
+            src={widgetChannel.config.channel_icon}
+          />
           <Text
             _hover={{ color: brandColorToggle }}
             cursor="pointer"
@@ -127,25 +132,41 @@ function WidgetChannel({
           </Text>
         </HStack>
         <Box>
-          <Menu>
-            <MenuButton aria-label="Options" as={IconButton} icon={<HiDotsVertical />} isRound />
-            <MenuList shadow="lg">
-              <MenuItem icon={<FiEdit2 />} onClick={onOpenEditModal(widgetChannel.id)}>
-                Edit
-              </MenuItem>
-              <MenuItem icon={<FiCopy />} onClick={onCopyChannel(widgetChannel.id)}>
-                Duplicate
-              </MenuItem>
-              {widgetChannel.config?.card_config?.form_fields && (
-                <Link to={`/responses/${widgetChannel.id}`}>
-                  <MenuItem icon={<FiList />}>Responses</MenuItem>
-                </Link>
-              )}
-              <MenuItem color="red.600" icon={<FiTrash2 />} onClick={openDeleteModal(widgetChannel.id)}>
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          {widgetChannel.config?.card_config?.form_fields && (
+            <Link to={`/responses/${widgetChannel.id}`}>
+              <Button leftIcon={<FiList />} size="sm" variant="ghost">
+                {__('Responses')}
+              </Button>
+            </Link>
+          )}
+
+          <Button
+            leftIcon={<FiEdit2 />}
+            onClick={onOpenEditModal(widgetChannel.id)}
+            size="sm"
+            variant="ghost"
+          >
+            {__('Edit')}
+          </Button>
+
+          <Button
+            leftIcon={<FiCopy />}
+            onClick={onCopyChannel(widgetChannel.id)}
+            size="sm"
+            variant="ghost"
+          >
+            {__('Duplicate')}
+          </Button>
+
+          <Button
+            colorScheme="red"
+            leftIcon={<FiTrash2 />}
+            onClick={openDeleteModal(widgetChannel.id)}
+            size="sm"
+            variant="ghost"
+          >
+            {__('Delete')}
+          </Button>
         </Box>
       </HStack>
 
@@ -154,22 +175,22 @@ function WidgetChannel({
       <Modal closeOnOverlayClick={false} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Confirmation</ModalHeader>
+          <ModalHeader>{__('Confirmation')}</ModalHeader>
           <ModalCloseButton disabled={isWidgetChannelDeleting} />
-          <ModalBody>Are you sure want to delete this channel?</ModalBody>
+          <ModalBody>{__('Are you sure want to delete this channel?')}</ModalBody>
 
           <ModalFooter>
             <Button disabled={isWidgetChannelDeleting} mr={3} onClick={onClose}>
-              Cancel
+              {__('Cancel')}
             </Button>
             <Button
               colorScheme="red"
               isLoading={isWidgetChannelDeleting}
-              loadingText="Deleting..."
+              loadingText={__('Deleting') + '...'}
               onClick={handleDeleteWidgetChannel}
               shadow="md"
             >
-              Delete
+              {__('Delete')}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -144,6 +144,7 @@ export interface WidgetChannelConfig {
 
 export interface WidgetChannelType {
   channel_id: string
+  channel_name: string
   config: WidgetChannelConfig
   id: number
   sequence: number
