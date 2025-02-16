@@ -1,8 +1,7 @@
-import Loading from '@components/global/Loading'
 import Layout from '@pages/Layout'
 import Widgets from '@pages/Widgets'
 import { Provider } from 'jotai'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 
 const WidgetDetails = lazy(() => import('@pages/WidgetDetails'))
@@ -20,32 +19,16 @@ export default function AppRoutes() {
 
           <Route
             element={
-              <Suspense fallback={<Loading />}>
-                <Provider>
-                  <WidgetDetails />
-                </Provider>
-              </Suspense>
+              <Provider>
+                <WidgetDetails />
+              </Provider>
             }
             path="/widgets/:widgetId"
           />
 
-          <Route
-            element={
-              <Suspense fallback={<Loading />}>
-                <Responses />
-              </Suspense>
-            }
-            path="/responses/:widgetChannelId"
-          />
+          <Route element={<Responses />} path="/responses/:widgetChannelId" />
 
-          <Route
-            element={
-              <Suspense fallback={<Loading />}>
-                <Error404 />
-              </Suspense>
-            }
-            path="*"
-          />
+          <Route element={<Error404 />} path="*" />
         </Route>
       </Routes>
     </HashRouter>

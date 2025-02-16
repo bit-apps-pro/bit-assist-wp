@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Checkbox,
   HStack,
   IconButton,
@@ -12,6 +11,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
   useDisclosure
 } from '@chakra-ui/react'
@@ -20,6 +20,7 @@ import DownloadLinks from '@components/response/DownloadLinks'
 import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
 import ResponseDrawer from '@components/response/ResponseDrawer'
 import { type WidgetResponse } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
 import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
@@ -97,11 +98,15 @@ export default function Responses() {
     <>
       <HStack flexWrap="wrap" mb="4">
         <HStack alignItems="center">
-          <Button onClick={() => navigate(-1)} p="1" size="sm" variant="ghost">
-            <MdArrowBackIosNew aria-label="back button" size="1rem" />
-          </Button>
+          <Tooltip label={__('Back to channel list')} placement="top">
+            <IconButton
+              aria-label={__('Back to widget channel settings')}
+              icon={<MdArrowBackIosNew />}
+              onClick={() => navigate(-1)}
+            />
+          </Tooltip>
           <Text as="h2" fontSize="lg" textTransform="none">
-            Response List {othersData?.channelName && `- ${othersData.channelName}`}
+            {__('Response List')} {othersData?.channelName && `- ${othersData.channelName}`}
           </Text>
           {isFetching ? (
             <IconButton
