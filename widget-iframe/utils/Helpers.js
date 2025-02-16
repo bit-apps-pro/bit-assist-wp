@@ -1,6 +1,6 @@
 export const $ = s => document.querySelector(s)
 
-export const createElm = (elm, attributes) => {
+export function createElm(elm, attributes) {
   const domElm = document.createElement(elm)
 
   if (attributes) {
@@ -29,13 +29,13 @@ export const globalClassListContains = (selector, action) => selector?.classList
 
 export const globalClassListToggle = (selector, action) => selector?.classList.toggle(action)
 
-export const globalSetAttribute = (domElm, attribute, value) => {
+export function globalSetAttribute(domElm, attribute, value) {
   domElm.setAttribute(attribute, value)
 }
 
-export const globalInnerHTML = (domElm, value) => {
+export function globalInnerHTML(domElm, value) {
   domElm.innerHTML = value
 }
-export const globalInnerText = (domElm, value) => {
+export function globalInnerText(domElm, value) {
   domElm.textContent = value
 }

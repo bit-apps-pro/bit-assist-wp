@@ -22,18 +22,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  // "eslint.rules.customizations": [
-  //   { "rule": "style/*", "severity": "off", "fixable": true },
-  //   { "rule": "format/*", "severity": "off", "fixable": true },
-  //   { "rule": "*-indent", "severity": "off", "fixable": true },
-  //   { "rule": "*-spacing", "severity": "off", "fixable": true },
-  //   { "rule": "*-spaces", "severity": "off", "fixable": true },
-  //   { "rule": "*-order", "severity": "off", "fixable": true },
-  //   { "rule": "*-dangle", "severity": "off", "fixable": true },
-  //   { "rule": "*-newline", "severity": "off", "fixable": true },
-  //   { "rule": "*quotes", "severity": "off", "fixable": true },
-  //   { "rule": "*semi", "severity": "off", "fixable": true }
-  // ],
   "stylelint.snippet": ["css", "scss"],
   "stylelint.validate": ["css", "scss", "postcss"],
   "files.eol": "\n",
@@ -57,7 +45,6 @@
     "**/vendor": true,
     "**/tests/__libs": true
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib",
   "css.lint.validProperties": ["composes"],
   "[typescript, javascript, typescriptreact, json, css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
