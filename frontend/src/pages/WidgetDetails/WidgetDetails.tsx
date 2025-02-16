@@ -24,6 +24,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 function WidgetDetails() {
   useFetchWidget()
   const tabColorMode = useColorModeValue('rgba(255, 255, 255, 0.75)', 'rgba(26,32,44,0.75)')
+  const tabTextColor = useColorModeValue('gray.600', 'gray.400')
   const { isAnalyticsActive } = useFetchIsAnalyticsActive()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -54,11 +55,23 @@ function WidgetDetails() {
           </Link>
         </Tooltip>
         <HStack marginInline="auto">
-          <Tab rounded="md">{__('Channels')}</Tab>
-          <Tab rounded="md">{__('Customizations')}</Tab>
-          <Tab rounded="md">{__('Settings')}</Tab>
-          {isAnalyticsActive === 1 && config.IS_PRO && <Tab rounded="md">{__('Analytics')}</Tab>}
-          <Tab rounded="md">{__('External publish')}</Tab>
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('Channels')}
+          </Tab>
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('Customizations')}
+          </Tab>
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('Settings')}
+          </Tab>
+          {isAnalyticsActive === 1 && config.IS_PRO && (
+            <Tab rounded="md" textColor={tabTextColor}>
+              {__('Analytics')}
+            </Tab>
+          )}
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('External publish')}
+          </Tab>
         </HStack>
       </TabList>
 
