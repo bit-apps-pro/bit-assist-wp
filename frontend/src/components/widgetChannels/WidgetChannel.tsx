@@ -119,6 +119,7 @@ function WidgetChannel({
             boxSize="40px"
             fallbackSrc={channelList.find(c => c.name === widgetChannel.channel_name)?.icon}
             objectFit="cover"
+            rounded="full"
             src={widgetChannel.config.channel_icon}
           />
           <Text
