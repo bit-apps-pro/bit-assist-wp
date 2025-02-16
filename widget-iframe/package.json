@@ -10,11 +10,11 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
+    "@antfu/eslint-config": "^4.2.1",
     "@babel/core": "^7.18.10",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "eslint": "^8.57.1",
+    "eslint": "^9.20.1",
     "eslint-config-xo": "^0.42.0",
     "rollup": "^2.77.2",
     "rollup-plugin-bundle-size": "^1.0.3",

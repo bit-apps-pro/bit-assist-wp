@@ -1,5 +1,5 @@
 import { str2Color } from '@atomik-color/core'
-import { TColor } from '@atomik-color/core/dist/types'
+import { type TColor } from '@atomik-color/core/dist/types'
 import { FormControl, FormLabel, Stack } from '@chakra-ui/react'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import { flowAtom } from '@globalStates/atoms'
@@ -10,9 +10,9 @@ export default function CardColors({ bg, color }: { bg: string; color: string })
   const [flow, setFlow] = useAtom(flowAtom)
 
   useEffect(() => {
-    if (typeof flow.config?.card_config?.card_bg_color !== 'undefined') return
-    setFlow((prev) => {
-      if (typeof prev.config?.card_config === 'undefined') {
+    if (flow.config?.card_config?.card_bg_color !== undefined) return
+    setFlow(prev => {
+      if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
       }
       prev.config.card_config.card_bg_color = str2Color(bg)
@@ -21,19 +21,21 @@ export default function CardColors({ bg, color }: { bg: string; color: string })
   }, [])
 
   const handleColorChange = (color: TColor, key: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.card_config = { ...prev.config.card_config, [key]: color }
     })
   }
 
   return (
-    <Stack w="full" spacing="0" gap="2" flexDirection={['column', 'row']}>
+    <Stack flexDirection={['column', 'row']} gap="2" spacing="0" w="full">
       <FormControl>
         <FormLabel>Form Theme Color</FormLabel>
         <ColorPickerWrap
           color={flow.config?.card_config?.card_bg_color}
           handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
-          handleClose={() => {}}
+          handleClose={() => {
+            // Add meaningful implementation here if needed
+          }}
         />
       </FormControl>
 
@@ -42,7 +44,9 @@ export default function CardColors({ bg, color }: { bg: string; color: string })
         <ColorPickerWrap
           color={flow.config?.card_config?.card_text_color}
           handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}
-          handleClose={() => {}}
+          handleClose={() => {
+            // Add meaningful implementation here if needed
+          }}
         />
       </FormControl>
     </Stack>

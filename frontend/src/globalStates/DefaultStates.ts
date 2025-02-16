@@ -1,50 +1,52 @@
+import { __ } from '@helpers/i18nwrap'
+
 export const FreeLimitsDefault = {
-  widget: 1,
   channel: 2,
+  widget: 1
 }
 
 export const defaultCreateWidgetInfo = { name: 'Untitled Widget' }
 
 export const FlowDefault = {
-  step: 1,
-  widget_id: '',
   channel_id: '',
   channel_name: '',
-  config: { title: '' },
+  config: { title: __('') },
   sequence: 0,
+  step: 1,
+  widget_id: ''
 }
 
 export const WidgetDefault = {
-  id: '',
-  name: '',
-  styles: {
-    color: undefined,
-    position: undefined,
-    icon: undefined,
-    shape: undefined,
-    badge_active: 0,
-    badge_color: undefined,
+  active: false,
+  business_hours: [],
+  call_to_action: {
+    delay: 0,
+    text: undefined
+  },
+  created_at: '',
+  custom_css: undefined,
+  delete_responses: {
+    delete_after: undefined,
+    is_enabled: false
   },
   domains: [],
-  business_hours: [],
-  timezone: '',
   exclude_pages: [],
-  initial_delay: 0,
-  page_scroll: 0,
-  widget_behavior: 1,
-  custom_css: undefined,
-  call_to_action: {
-    text: undefined,
-    delay: 0,
-  },
-  store_responses: true,
-  delete_responses: {
-    is_enabled: false,
-    delete_after: undefined,
-  },
-  status: true,
-  active: false,
   hide_credit: false,
+  id: '',
+  initial_delay: 0,
   integrations: [],
-  created_at: '',
+  name: '',
+  page_scroll: 0,
+  status: true,
+  store_responses: true,
+  styles: {
+    badge_active: 0,
+    badge_color: undefined,
+    color: undefined,
+    icon: undefined,
+    position: undefined,
+    shape: undefined
+  },
+  timezone: '',
+  widget_behavior: 1
 }

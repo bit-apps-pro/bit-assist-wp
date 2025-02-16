@@ -1,34 +1,26 @@
-/* eslint-disable react/no-children-prop */
-import { Box, Button, HStack, IconButton, Input, Tooltip, Kbd } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
+import { Box, Button, HStack, IconButton, Input, Kbd, Tooltip } from '@chakra-ui/react'
+import Title from '@components/global/Title'
+import Domain from '@components/publish/Domain'
+import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
+import useToaster from '@hooks/useToaster'
 import { useAtom } from 'jotai'
 import React, { useEffect, useRef, useState } from 'react'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
-import Domain from '@components/publish/Domain'
-import Title from '@components/global/Title'
-import config from '@config/config'
 
 function Domains() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
-  const { updateWidget, isWidgetUpdating } = useUpdateWidgetPro()
+  const { isWidgetUpdating, updateWidget } = useUpdateWidgetPro()
   const [isAdding, setIsAdding] = useState(false)
   const [domainName, setDomainName] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const tabIndex = config.IS_PRO ? 0 : -1
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.repeat) {
-      return
-    }
-
-    if (e.key === 'Enter') {
-      addNewDomain()
-    } else if (e.key === 'Escape') {
-      resetStates()
-    }
+  const resetStates = () => {
+    setDomainName('')
+    setIsAdding(false)
   }
 
   const addNewDomain = async () => {
@@ -55,10 +47,10 @@ function Domains() {
         return
       }
 
-      const { status, data } = await updateWidget({ ...widget, domains: [...domains, origin] })
+      const { data, status } = await updateWidget({ ...widget, domains: [...domains, origin] })
 
       if (status === 'success') {
-        setWidget((prev) => {
+        setWidget(prev => {
           if (Array.isArray(prev.domains)) {
             prev.domains.push(origin)
           } else {
@@ -69,14 +61,21 @@ function Domains() {
       }
 
       toaster(status, data)
-    } catch (error) {
+    } catch {
       toaster('error', 'Please enter a valid domain name')
     }
   }
 
-  const resetStates = () => {
-    setDomainName('')
-    setIsAdding(false)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.repeat) {
+      return
+    }
+
+    if (e.key === 'Enter') {
+      addNewDomain()
+    } else if (e.key === 'Escape') {
+      resetStates()
+    }
   }
 
   useEffect(() => {
@@ -88,15 +87,15 @@ function Domains() {
   return (
     <Box>
       <Title badge="1">Add Bit Assist to your other website</Title>
-      <Box w="sm" maxW="full">
-        <Box mb="4" rounded="md" borderWidth={`${widget.domains?.length && '1px'}`}>
+      <Box maxW="full" w="sm">
+        <Box borderWidth={`${widget.domains?.length && '1px'}`} mb="4" rounded="md">
           {widget.domains?.map((domain, index) => (
             <Domain
-              key={domain}
-              index={index}
               domain={domain}
-              updateWidget={updateWidget}
+              index={index}
               isWidgetUpdating={isWidgetUpdating}
+              key={domain}
+              updateWidget={updateWidget}
             />
           ))}
         </Box>
@@ -105,34 +104,34 @@ function Domains() {
           <Box mb={4}>
             <HStack mb={2}>
               <Input
-                ref={inputRef}
-                placeholder="ex: https://your-domain.com"
-                value={domainName ?? ''}
-                onChange={(e) => setDomainName(e.target.value)}
+                onChange={e => setDomainName(e.target.value)}
                 onKeyDown={handleKeyDown}
+                placeholder="ex: https://your-domain.com"
+                ref={inputRef}
                 tabIndex={tabIndex}
+                value={domainName ?? ''}
               />
               <Tooltip label="Cancel">
                 <IconButton
-                  isRound
                   aria-label="Remove Domain"
-                  variant="ghost"
                   colorScheme="red"
                   icon={<HiOutlineTrash />}
+                  isRound
                   onClick={resetStates}
                   tabIndex={tabIndex}
+                  variant="ghost"
                 />
               </Tooltip>
               <Tooltip label="Save">
                 <IconButton
-                  isRound
                   aria-label="Remove Domain"
-                  variant="ghost"
                   colorScheme="green"
-                  icon={<HiCheck />}
-                  onClick={() => addNewDomain()}
                   disabled={isWidgetUpdating}
+                  icon={<HiCheck />}
+                  isRound
+                  onClick={() => addNewDomain()}
                   tabIndex={tabIndex}
+                  variant="ghost"
                 />
               </Tooltip>
             </HStack>
@@ -144,12 +143,12 @@ function Domains() {
 
         {!isAdding && (
           <Button
-            tabIndex={tabIndex}
-            leftIcon={<HiPlus />}
             colorScheme="gray"
-            variant="outline"
-            onClick={() => setIsAdding(true)}
             isLoading={isWidgetUpdating}
+            leftIcon={<HiPlus />}
+            onClick={() => setIsAdding(true)}
+            tabIndex={tabIndex}
+            variant="outline"
           >
             Add Domain
           </Button>

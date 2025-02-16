@@ -1,27 +1,31 @@
 import { Spinner, Text, useColorModeValue, VStack } from '@chakra-ui/react'
-import { WidgetChannelType } from '@globalStates/Interfaces'
-import useFetchWidgetChannels from '@hooks/queries/widgetChannel/useFetchWidgetChannels'
 import WidgetChanel from '@components/widgetChannels/WidgetChannel'
+import { type DragEndEvent, type DragStartEvent } from '@dnd-kit/core'
 import {
   closestCenter,
   DndContext,
-  DragEndEvent,
   DragOverlay,
-  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
+  useSensors
 } from '@dnd-kit/core'
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { useEffect, useMemo, useState } from 'react'
-import { useAtom } from 'jotai'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable'
 import { flowAtom, widgetChannelOrderAtom } from '@globalStates/atoms'
+import { type WidgetChannelType } from '@globalStates/Interfaces'
 import useUpdateWidgetChannelsSequence from '@hooks/mutations/widgetChannel/useUpdateWidgetChannelsSequence'
+import useFetchWidgetChannels from '@hooks/queries/widgetChannel/useFetchWidgetChannels'
+import { useAtom } from 'jotai'
+import { useEffect, useMemo, useState } from 'react'
 
 function ChannelsList() {
-  const { widgetChannels, isWidgetChannelsFetching } = useFetchWidgetChannels()
+  const { isWidgetChannelsFetching, widgetChannels } = useFetchWidgetChannels()
   const { updateWidgetChannelsOrder } = useUpdateWidgetChannelsSequence()
   const [activeId, setActiveId] = useState<number>(0)
   const [, setChannelOrder] = useAtom(widgetChannelOrderAtom)
@@ -41,7 +45,7 @@ function ChannelsList() {
 
     setChannelOrder(maxNumber + 1)
 
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.sequence = maxNumber + 1
     })
   }, [widgetChannels])
@@ -49,8 +53,8 @@ function ChannelsList() {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
+      coordinateGetter: sortableKeyboardCoordinates
+    })
   )
 
   const handleDragStart = (e: DragStartEvent) => {
@@ -68,7 +72,10 @@ function ChannelsList() {
     }
   }
 
-  const channelIds = useMemo(() => widgetChannels?.map((item: WidgetChannelType) => item.id), [widgetChannels])
+  const channelIds = useMemo(
+    () => widgetChannels?.map((item: WidgetChannelType) => item.id),
+    [widgetChannels]
+  )
 
   return (
     <>
@@ -76,11 +83,11 @@ function ChannelsList() {
       {widgetChannels?.length < 1 && <Text>Create new channel from here.</Text>}
       {!!widgetChannels?.length && (
         <DndContext
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-          sensors={sensors}
           collisionDetection={closestCenter}
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
           onDragEnd={handleDragEnd}
           onDragStart={handleDragStart}
+          sensors={sensors}
         >
           <SortableContext items={channelIds} strategy={verticalListSortingStrategy}>
             <VStack>
@@ -91,13 +98,15 @@ function ChannelsList() {
               {activeId ? (
                 <DragOverlay style={{ marginTop: 0 }}>
                   <WidgetChanel
-                    shadow="md"
-                    cursor="grabbing"
                     bg={bgColorToggle}
-                    widgetChannel={widgetChannels.find((item: WidgetChannelType) => +item.id === activeId)}
+                    cursor="grabbing"
+                    shadow="md"
+                    widgetChannel={widgetChannels.find(
+                      (item: WidgetChannelType) => +item.id === activeId
+                    )}
                   />
                 </DragOverlay>
-              ) : null}
+              ) : undefined}
             </VStack>
           </SortableContext>
         </DndContext>

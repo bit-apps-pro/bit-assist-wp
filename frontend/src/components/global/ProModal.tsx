@@ -1,35 +1,35 @@
 import {
+  Box,
   Button,
+  Flex,
+  Link,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
-  Link,
-  Box,
-  Flex,
+  useDisclosure
 } from '@chakra-ui/react'
 
 interface ProModalProps {
-  type: string
+  icon: React.ReactElement
   number: number
   text: string
-  icon: React.ReactElement
+  type: string
 }
 
-export default function ProModal({ type, number, text, icon }: ProModalProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+export default function ProModal({ icon, number, text, type }: ProModalProps) {
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
     <>
-      <Button mb="4" mr="2" variant="outline" colorScheme="purple" leftIcon={icon} onClick={onOpen}>
+      <Button colorScheme="purple" leftIcon={icon} mb="4" mr="2" onClick={onOpen} variant="outline">
         {text}
       </Button>
 
-      <Modal isCentered scrollBehavior="inside" size="xl" isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size="xl">
         <ModalOverlay />
         <ModalContent pb="4">
           <ModalHeader>
@@ -37,7 +37,7 @@ export default function ProModal({ type, number, text, icon }: ProModalProps) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Flex justifyContent="space-between" alignItems="center">
+            <Flex alignItems="center" justifyContent="space-between">
               <Box>
                 <Text fontSize="md">
                   You can use <strong>{`${number} ${type}`}</strong> in free version.
@@ -46,10 +46,10 @@ export default function ProModal({ type, number, text, icon }: ProModalProps) {
               </Box>
               <Box textAlign="right">
                 <Link
-                  href="https://www.bitapps.pro/bit-assist"
-                  target="_blank"
                   _hover={{ underline: 'none' }}
+                  href="https://www.bitapps.pro/bit-assist"
                   tabIndex={-1}
+                  target="_blank"
                 >
                   <Button colorScheme="purple">Get Pro Version</Button>
                 </Link>

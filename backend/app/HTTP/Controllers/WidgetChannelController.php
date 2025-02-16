@@ -8,7 +8,6 @@ use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetChannelUpdateRequest;
 use BitApps\Assist\Model\WidgetChannel;
-use BitApps\AssistPro\Config as ProConfig;
 use stdClass;
 
 final class WidgetChannelController
@@ -17,8 +16,8 @@ final class WidgetChannelController
     {
         $widgetChannels = WidgetChannel::where('widget_id', $request->widgetId)->orderBy('sequence')->get();
 
-        foreach ($widgetChannels as $channel) {
-            $widgetChannel = $this->escapeAll($channel);
+        foreach ($widgetChannels as $key => $channel) {
+            $widgetChannels[$key] = $this->escapeAll($channel);
         }
 
         return $widgetChannels;

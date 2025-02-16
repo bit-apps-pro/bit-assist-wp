@@ -1,12 +1,17 @@
-import { Box, Button, Flex, FormControl, FormLabel, IconButton, Image, Text, VStack } from '@chakra-ui/react'
-import { FiUpload, FiX } from 'react-icons/fi'
-import { flowAtom, widgetAtom } from '@globalStates/atoms'
-import { useAtom } from 'jotai'
-import { useState } from 'react'
-import config from '@config/config'
+import { Box, Button, Flex, IconButton, Image, Text } from '@chakra-ui/react'
+import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
-import produce from 'immer'
+import { produce } from 'immer'
+import { useAtom } from 'jotai'
+import { useState } from 'react'
+import { FiUpload, FiX } from 'react-icons/fi'
+
+interface CustomImagePreviewProps {
+  customImage?: string
+  removeImage: (imageUrl: string) => void
+}
 
 export default function CustomWidgetIcon() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -15,20 +20,20 @@ export default function CustomWidgetIcon() {
   const [imgWarn, setImgWarn] = useState('')
 
   const handleChange = async (imageUrl: string) => {
-    setWidget((prev) => {
-      if (prev.styles === null) {
+    setWidget(prev => {
+      if (prev.styles === null || prev.styles === undefined) {
         prev.styles = {}
       }
       prev.styles.customImage = imageUrl
     })
 
-    const { status, data } = await updateWidget(
-      produce(widget, (draft) => {
-        if (draft.styles === null) {
+    const { data, status } = await updateWidget(
+      produce(widget, draft => {
+        if (draft.styles === null || draft.styles === undefined) {
           draft.styles = {}
         }
         draft.styles.customImage = imageUrl
-      }),
+      })
     )
     toaster(status, data)
   }
@@ -36,16 +41,16 @@ export default function CustomWidgetIcon() {
   const setWidgetImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        title: 'Media',
         button: { text: 'Select picture' },
         library: { type: 'image' },
         multiple: false,
+        title: __('Media')
       })
 
       imgSelectionFrame.on('select', () => {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChange(attachment.url)
-        if (attachment.filesizeInBytes > 512000) {
+        if (attachment.filesizeInBytes > 512_000) {
           setImgWarn('⚠ Larger size image might slow down load time')
         }
       })
@@ -56,29 +61,24 @@ export default function CustomWidgetIcon() {
 
   return (
     <Box mt="6">
-      <Flex gap="4" alignItems="center">
+      <Flex alignItems="center" gap="4">
         <CustomImagePreview customImage={widget.styles?.customImage} removeImage={handleChange} />
-        <Button onClick={setWidgetImg} leftIcon={<FiUpload />}>
+        <Button leftIcon={<FiUpload />} onClick={setWidgetImg}>
           Browse
         </Button>
       </Flex>
 
-      <Text mt="1" fontSize="sm" color="gray.500">
+      <Text color="gray.500" fontSize="sm" mt="1">
         image size 100 x 100px
       </Text>
 
       {imgWarn !== '' && (
-        <Text mt="1" fontSize="sm" color="yellow.500">
+        <Text color="yellow.500" fontSize="sm" mt="1">
           {imgWarn}
         </Text>
       )}
     </Box>
   )
-}
-
-type CustomImagePreviewProps = {
-  customImage?: string
-  removeImage: (imageUrl: string) => void
 }
 
 function CustomImagePreview({ customImage, removeImage }: CustomImagePreviewProps) {
@@ -87,31 +87,38 @@ function CustomImagePreview({ customImage, removeImage }: CustomImagePreviewProp
       {customImage ? (
         <Box position="relative">
           <Image
-            src={customImage}
             alt="Custom image"
+            border="1px"
+            borderColor="gray.200"
             boxSize="14"
             objectFit="cover"
             objectPosition="center"
-            border="1px"
-            borderColor="gray.200"
+            src={customImage}
           />
           <IconButton
             aria-label="remove custom icon"
-            icon={<FiX />}
             borderRadius="full"
             colorScheme="red"
             h="5"
+            icon={<FiX />}
             minW="5"
-            w="5"
-            position="absolute"
-            top="-1"
-            right="-2"
             onClick={() => removeImage('')}
+            position="absolute"
+            right="-2"
+            top="-1"
+            w="5"
           />
         </Box>
       ) : (
-        <Box boxSize="14" bg="gray.200" rounded="sm" display="flex" alignItems="center" justifyContent="center">
-          <Text fontSize="10px" color="gray.600">
+        <Box
+          alignItems="center"
+          bg="gray.200"
+          boxSize="14"
+          display="flex"
+          justifyContent="center"
+          rounded="sm"
+        >
+          <Text color="gray.600" fontSize="10px">
             No Image
           </Text>
         </Box>

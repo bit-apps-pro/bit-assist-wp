@@ -6,9 +6,9 @@ export default function Youtube() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.unique_id = value
-      prev.config.url = value !== '' ? `https://www.youtube.com/embed/${value}?autoplay=1` : ''
+      prev.config.url = value === '' ? '' : `https://www.youtube.com/embed/${value}?autoplay=1`
     })
   }
 
@@ -16,8 +16,8 @@ export default function Youtube() {
     <FormControl>
       <FormLabel>Youtube video id</FormLabel>
       <InputGroup>
-        <InputLeftAddon children="youtube.com/watch?v=" />
-        <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
+        <InputLeftAddon>youtube.com/watch?v=</InputLeftAddon>
+        <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
       </InputGroup>
     </FormControl>
   )

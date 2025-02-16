@@ -1,15 +1,15 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Spinner,
+  Button,
   Center,
   HStack,
-  Button,
-  Text,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Text
 } from '@chakra-ui/react'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { editWidgetChannelIdAtom, flowAtom, resetFlowAtom } from '@globalStates/atoms'
@@ -31,24 +31,24 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
   const [, resetFlow] = useAtom(resetFlowAtom)
   const [editWidgetChannelId] = useAtom(editWidgetChannelIdAtom)
   const resetEditWidgetChannelId = useResetAtom(editWidgetChannelIdAtom)
-  const { widgetChannel, isWidgetChannelFetching } = useFetchWidgetChannel()
-  const { updateWidgetChannel, isWidgetChannelUpdating } = useUpdateWidgetChannel()
+  const { isWidgetChannelFetching, widgetChannel } = useFetchWidgetChannel()
+  const { isWidgetChannelUpdating, updateWidgetChannel } = useUpdateWidgetChannel()
   const toaster = useToaster()
 
   const onModalClose = () => {
     onClose()
-    resetFlow('')
+    resetFlow()
     resetEditWidgetChannelId()
   }
 
   useEffect(() => {
     if (!widgetChannel) return
     setFlow({
-      step: 1,
-      widget_id: widgetChannel.widget_id,
       channel_name: widgetChannel.channel_name,
       config: widgetChannel.config,
       sequence: widgetChannel?.sequence,
+      step: 1,
+      widget_id: widgetChannel.widget_id
     })
   }, [widgetChannel])
 
@@ -60,18 +60,18 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
       return
     }
 
-    const { status, data } = await updateWidgetChannel(flow, editWidgetChannelId)
+    const { data, status } = await updateWidgetChannel(flow, editWidgetChannelId)
     toaster(status, data)
     if (status === 'success') onModalClose()
   }
 
   return (
     <Modal
-      scrollBehavior="inside"
-      size="3xl"
       closeOnOverlayClick={false}
       isOpen={isOpen}
       onClose={onModalClose}
+      scrollBehavior="inside"
+      size="3xl"
       trapFocus={false}
     >
       <ModalOverlay />
@@ -80,12 +80,12 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
           <HStack justifyContent="space-between">
             <Text>Edit Channel</Text>
             <Button
-              form="editChannelForm"
-              type="submit"
               colorScheme="purple"
-              spinnerPlacement="start"
-              loadingText="Updating..."
+              form="editChannelForm"
               isLoading={isWidgetChannelUpdating}
+              loadingText="Updating..."
+              spinnerPlacement="start"
+              type="submit"
             >
               Update
             </Button>
@@ -99,7 +99,7 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
             </Center>
           )}
           {!isWidgetChannelFetching && (
-            <form onSubmit={editFormSubmit} id="editChannelForm">
+            <form id="editChannelForm" onSubmit={editFormSubmit}>
               <ChannelSettings />
             </form>
           )}

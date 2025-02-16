@@ -6,7 +6,7 @@ export default function GoogleMap() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.unique_id = value
     })
   }
@@ -14,7 +14,7 @@ export default function GoogleMap() {
   return (
     <FormControl>
       <FormLabel>Google maps embed code</FormLabel>
-      <Textarea value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
+      <Textarea onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
     </FormControl>
   )
 }

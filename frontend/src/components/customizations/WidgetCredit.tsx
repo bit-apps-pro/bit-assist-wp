@@ -1,8 +1,7 @@
-/* eslint-disable react/no-children-prop */
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -13,34 +12,38 @@ function WidgetCredit() {
   const { updateWidget } = useUpdateWidget()
   const toaster = useToaster()
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const debounceUpdateWidget = useRef(
+    debounce(async newWidget => {
+      const { data, status } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000)
+  ).current
 
-    setWidget((prev) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWidget(prev => {
       prev.hide_credit = e.target.checked
     })
 
     debounceUpdateWidget(
-      produce(widget, (draft) => {
+      produce(widget, draft => {
         draft.hide_credit = e.target.checked
-      }),
+      })
     )
   }
 
-  const debounceUpdateWidget = useRef(
-    debounce(async (newWidget) => {
-      const { status, data } = await updateWidget(newWidget)
-      toaster(status, data)
-    }, 1000),
-  ).current
-
-  useEffect(() => () => {
-    debounceUpdateWidget.cancel()
-  }, [debounceUpdateWidget])
+  useEffect(
+    () => () => {
+      debounceUpdateWidget.cancel()
+    },
+    [debounceUpdateWidget]
+  )
 
   return (
-    <FormControl display="flex" alignItems="center">
-      <FormLabel mb="0" fontSize={'lg'}>Hide Credit</FormLabel>
-      <Switch isChecked={!!widget.hide_credit} colorScheme="purple" onChange={handleChange} />
+    <FormControl alignItems="center" display="flex">
+      <FormLabel fontSize={'lg'} mb="0">
+        Hide Credit
+      </FormLabel>
+      <Switch colorScheme="purple" isChecked={!!widget.hide_credit} onChange={handleChange} />
     </FormControl>
   )
 }

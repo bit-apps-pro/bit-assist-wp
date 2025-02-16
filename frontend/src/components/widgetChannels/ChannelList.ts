@@ -2,145 +2,145 @@ import config from '@config/config'
 
 const channelList = [
   {
-    name: 'Custom-Channel',
     icon: `${config.ROOT_URL}/img/channel/custom-channel.svg`,
+    name: 'Custom-Channel'
   },
   {
-    name: 'Custom-Iframe',
     icon: `${config.ROOT_URL}/img/channel/custom-iframe.svg`,
+    name: 'Custom-Iframe'
   },
   {
-    name: 'Calendly',
     icon: `${config.ROOT_URL}/img/channel/calendly.svg`,
+    name: 'Calendly'
   },
   {
-    name: 'Call',
     icon: `${config.ROOT_URL}/img/channel/call.svg`,
+    name: 'Call'
   },
   {
-    name: 'Crisp',
     icon: `${config.ROOT_URL}/img/channel/crisp.svg`,
+    name: 'Crisp'
   },
   {
-    name: 'Custom-Form',
     icon: `${config.ROOT_URL}/img/channel/custom-form.svg`,
+    name: 'Custom-Form'
   },
   {
-    name: 'Discord',
     icon: `${config.ROOT_URL}/img/channel/discord.svg`,
+    name: 'Discord'
   },
   {
-    name: 'FAQ',
     icon: `${config.ROOT_URL}/img/channel/faq.svg`,
+    name: 'FAQ'
   },
   {
-    name: 'Google-Map',
     icon: `${config.ROOT_URL}/img/channel/google-map.svg`,
+    name: 'Google-Map'
   },
   {
-    name: 'Instagram',
     icon: `${config.ROOT_URL}/img/channel/instagram.svg`,
+    name: 'Instagram'
   },
   {
-    name: 'Intercom',
     icon: `${config.ROOT_URL}/img/channel/intercom.svg`,
+    name: 'Intercom'
   },
   {
-    name: 'Knowledge-Base',
     icon: `${config.ROOT_URL}/img/channel/knowledge-base.svg`,
+    name: 'Knowledge-Base'
   },
   {
-    name: 'Line',
     icon: `${config.ROOT_URL}/img/channel/line.svg`,
+    name: 'Line'
   },
   {
-    name: 'Linkedin',
     icon: `${config.ROOT_URL}/img/channel/linkedin.svg`,
+    name: 'Linkedin'
   },
   {
-    name: 'Live-Chat-Messenger',
     icon: `${config.ROOT_URL}/img/channel/live-chat-messenger.svg`,
+    name: 'Live-Chat-Messenger'
   },
   {
-    name: 'Messenger',
     icon: `${config.ROOT_URL}/img/channel/messenger.svg`,
+    name: 'Messenger'
   },
   {
-    name: 'Pinterest',
     icon: `${config.ROOT_URL}/img/channel/pinterest.svg`,
+    name: 'Pinterest'
   },
   {
-    name: 'Skype',
     icon: `${config.ROOT_URL}/img/channel/skype.svg`,
+    name: 'Skype'
   },
   {
-    name: 'Signal',
     icon: `${config.ROOT_URL}/img/channel/signal.svg`,
+    name: 'Signal'
   },
   {
-    name: 'Slack',
     icon: `${config.ROOT_URL}/img/channel/slack.svg`,
+    name: 'Slack'
   },
   {
-    name: 'SMS',
     icon: `${config.ROOT_URL}/img/channel/sms.svg`,
+    name: 'SMS'
   },
   {
-    name: 'Snapchat',
     icon: `${config.ROOT_URL}/img/channel/snapchat.svg`,
+    name: 'Snapchat'
   },
   {
-    name: 'Tawk',
     icon: `${config.ROOT_URL}/img/channel/tawk.svg`,
+    name: 'Tawk'
   },
   {
-    name: 'Telegram',
     icon: `${config.ROOT_URL}/img/channel/telegram.svg`,
+    name: 'Telegram'
   },
   {
-    name: 'Tidio',
     icon: `${config.ROOT_URL}/img/channel/tidio.svg`,
+    name: 'Tidio'
   },
   {
-    name: 'Tidycal',
     icon: `${config.ROOT_URL}/img/channel/tidycal.svg`,
+    name: 'Tidycal'
   },
   {
-    name: 'TikTok',
     icon: `${config.ROOT_URL}/img/channel/tiktok.svg`,
+    name: 'TikTok'
   },
   {
-    name: 'Twitter',
     icon: `${config.ROOT_URL}/img/channel/twitter.svg`,
+    name: 'Twitter'
   },
   {
-    name: 'Viber',
     icon: `${config.ROOT_URL}/img/channel/viber.svg`,
+    name: 'Viber'
   },
   {
-    name: 'Waze',
     icon: `${config.ROOT_URL}/img/channel/waze.svg`,
+    name: 'Waze'
   },
   {
-    name: 'WeChat',
     icon: `${config.ROOT_URL}/img/channel/wechat.svg`,
+    name: 'WeChat'
   },
   {
-    name: 'Whatsapp',
     icon: `${config.ROOT_URL}/img/channel/whatsapp.svg`,
+    name: 'Whatsapp'
   },
   {
-    name: 'WooCommerce',
     icon: `${config.ROOT_URL}/img/channel/woocommerce.svg`,
+    name: 'WooCommerce'
   },
   {
-    name: 'WP-Search',
     icon: `${config.ROOT_URL}/img/channel/wp-search.svg`,
+    name: 'WP-Search'
   },
   {
-    name: 'Youtube',
     icon: `${config.ROOT_URL}/img/channel/youtube.svg`,
-  },
+    name: 'Youtube'
+  }
 ]
 
 export default channelList

@@ -1,45 +1,55 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
-import { Box, Flex, HStack, IconButton, Input, Switch, Text, useColorModeValue, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  Input,
+  Switch,
+  Text,
+  useColorModeValue,
+  VStack
+} from '@chakra-ui/react'
 import { useSortable } from '@dnd-kit/sortable'
-import { FiX } from 'react-icons/fi'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
+import { type DynamicFormField } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
-import { DynamicFormField } from '@globalStates/Interfaces'
-import RatingSettings from './customFormHelper/RatingSettings'
+import { FiX } from 'react-icons/fi'
+
 import FileSettings from './customFormHelper/FileSettings'
+import RatingSettings from './customFormHelper/RatingSettings'
 
 interface CustomFormFieldProps {
-  id: number
-  field: DynamicFormField | undefined
-  cursor?: string
   bg?: string
+  cursor?: string
+  field: DynamicFormField | undefined
+  id: number
 }
 
-function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomFormFieldProps) {
+function CustomFormField({ bg = 'none', cursor = 'grab', field, id }: CustomFormFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const channelColorToggle = useColorModeValue('white', 'gray.700')
 
-  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
-    id: field?.id || 0,
+  const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({
+    id: field?.id || 0
   })
 
   const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.4 : 1,
     touchAction: 'pinch-zoom',
+    transform: CSS.Transform.toString(transform),
+    transition
   }
 
   const handleDelete = (index: number) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config?.card_config?.form_fields?.splice(index, 1)
     })
   }
 
-  const handleChange = (value: string | boolean | number, key: string, index: number) => {
-    setFlow((prev) => {
+  const handleChange = (value: boolean | number | string, key: string, index: number) => {
+    setFlow(prev => {
       const newFields = [...(prev.config?.card_config?.form_fields || [])]
       newFields[index] = { ...newFields[index], [key]: value }
       prev.config.card_config = { ...prev.config.card_config, form_fields: newFields }
@@ -47,29 +57,29 @@ function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomForm
   }
 
   return (
-    <HStack w="full" style={style} ref={setNodeRef}>
-      <HStack w="full" borderWidth={1} shadow="base" p="2" rounded="md" bg={channelColorToggle}>
+    <HStack ref={setNodeRef} style={style} w="full">
+      <HStack bg={channelColorToggle} borderWidth={1} p="2" rounded="md" shadow="base" w="full">
         <Flex
           {...listeners}
           {...attributes}
-          rounded="sm"
+          alignItems="center"
           bg={bg}
           cursor={cursor}
-          justifyContent="center"
-          alignItems="center"
-          w={6}
           h={8}
+          justifyContent="center"
+          rounded="sm"
+          w={6}
         >
           <DragHandleIcon aria-label="draggable button" />
         </Flex>
         <Box w="full">
           <HStack alignItems="flex-start" justifyContent="space-between">
             <Text fontWeight={500} mb="2">
-              {field?.field_type && `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}
-              {' '}
+              {field?.field_type &&
+                `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
               Field
               {!field?.required && (
-                <Text display="inline" color="gray.400">
+                <Text color="gray.400" display="inline">
                   &nbsp;&nbsp;(Optional)
                 </Text>
               )}
@@ -79,30 +89,40 @@ function CustomFormField({ id, field, cursor = 'grab', bg = 'none' }: CustomForm
               <Switch
                 colorScheme="purple"
                 isChecked={field?.required || false}
-                onChange={(e) => handleChange(e.target.checked, 'required', id)}
+                onChange={e => handleChange(e.target.checked, 'required', id)}
               />
             </HStack>
           </HStack>
-          <VStack alignItems='flex-start'>
+          <VStack alignItems="flex-start">
             <Input
-              value={field?.label}
-              onChange={(e) => handleChange(e.target.value, 'label', id)}
+              onChange={e => handleChange(e.target.value, 'label', id)}
               placeholder="label"
+              value={field?.label}
             />
             {field?.field_type === 'GDPR' && (
-              <Input value={field?.url} onChange={(e) => handleChange(e.target.value, 'url', id)} placeholder="url" />
+              <Input
+                onChange={e => handleChange(e.target.value, 'url', id)}
+                placeholder="url"
+                value={field?.url}
+              />
             )}
             {field?.field_type === 'rating' && (
-              <RatingSettings id={id} type={field?.rating_type} handleChange={handleChange} />
+              <RatingSettings handleChange={handleChange} id={id} type={field?.rating_type} />
             )}
             {field?.field_type === 'file' && (
-              <FileSettings id={id} field={field} handleChange={handleChange} />
+              <FileSettings field={field} handleChange={handleChange} id={id} />
             )}
           </VStack>
         </Box>
       </HStack>
       <Box>
-        <IconButton aria-label="Delete Icon" size="sm" isRound icon={<FiX />} onClick={() => handleDelete(id)} />
+        <IconButton
+          aria-label="Delete Icon"
+          icon={<FiX />}
+          isRound
+          onClick={() => handleDelete(id)}
+          size="sm"
+        />
       </Box>
     </HStack>
   )

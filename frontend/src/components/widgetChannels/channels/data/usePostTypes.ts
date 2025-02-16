@@ -1,19 +1,20 @@
 import request from '@utils/request'
-import { useQuery, UseQueryResult } from 'react-query'
+import { type UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
-type PostType = {
-  name: string
+interface PostType {
   label: string
+  name: string
 }
 
 export default function usePostTypes() {
   const { data, isLoading }: UseQueryResult<{ data: PostType[] }> = useQuery({
-    queryKey: ['postTypes'],
     queryFn: () => request('getPostTypes', undefined, undefined, 'GET'),
+    queryKey: ['postTypes']
   })
 
   return {
-    postTypes: data?.data || [],
     isLoading,
+    postTypes: data?.data || []
   }
 }

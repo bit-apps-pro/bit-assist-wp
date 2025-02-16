@@ -1,15 +1,18 @@
+import { ChakraProvider } from '@chakra-ui/react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ChakraProvider } from '@chakra-ui/react'
+
 import AppRoutes from './AppRoutes'
+
 import '@resource/styles/variables.css'
 import '@resource/styles/wp-css-reset.css'
 import '@resource/styles/global.css'
+
 import customTheme from './theme/customTheme'
 
 const queryClient = new QueryClient()
-const elm = document.getElementById('bit-apps-root')
+const elm = document.querySelector('#bit-apps-root')
 if (elm) {
   const root = createRoot(elm)
 
@@ -20,6 +23,6 @@ if (elm) {
           <AppRoutes />
         </ChakraProvider>
       </QueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
   )
 }

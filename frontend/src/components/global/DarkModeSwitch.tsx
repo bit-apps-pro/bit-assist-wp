@@ -1,4 +1,4 @@
-import { useColorMode, IconButton } from '@chakra-ui/react'
+import { IconButton, useColorMode } from '@chakra-ui/react'
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi'
 
 export default function DarkModeSwitch() {
@@ -7,12 +7,12 @@ export default function DarkModeSwitch() {
 
   return (
     <IconButton
-      icon={isDark ? <HiOutlineSun size={26} /> : <HiOutlineMoon size={25} />}
       aria-label="Toggle Theme"
-      variant="ghost"
       colorScheme="purple"
+      icon={isDark ? <HiOutlineSun size={26} /> : <HiOutlineMoon size={25} />}
       isRound
       onClick={toggleColorMode}
+      variant="ghost"
     />
   )
 }

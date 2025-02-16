@@ -4,14 +4,21 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
 interface PaginationProps {
   children: React.ReactNode
-  pageNumber: number
   pageLimit: number
+  pageNumber: number
+  setPageLimit: (pageNumber: ((pageNumber: number) => number) | number) => void
+  setPageNumber: (pageNumber: ((pageNumber: number) => number) | number) => void
   totalResponses: number
-  setPageNumber: (pageNumber: number | ((pageNumber: number) => number)) => void
-  setPageLimit: (pageNumber: number | ((pageNumber: number) => number)) => void
 }
 
-function Pagination({ children, pageNumber, pageLimit, totalResponses, setPageNumber, setPageLimit }: PaginationProps) {
+function Pagination({
+  children,
+  pageLimit,
+  pageNumber,
+  setPageLimit,
+  setPageNumber,
+  totalResponses
+}: PaginationProps) {
   const totalPages = Math.ceil(totalResponses / pageLimit)
 
   const handlePageLimitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -29,15 +36,15 @@ function Pagination({ children, pageNumber, pageLimit, totalResponses, setPageNu
   return (
     <Stack
       alignItems="center"
-      gap="3"
-      justifyContent={['center', 'space-between']}
       direction="row"
       flexWrap="wrap"
+      gap="3"
+      justifyContent={['center', 'space-between']}
       mt="4"
       w="full"
     >
       <HStack>
-        <Select id="page_limit" maxW="20" value={pageLimit} onChange={handlePageLimitChange}>
+        <Select id="page_limit" maxW="20" onChange={handlePageLimitChange} value={pageLimit}>
           <option value={10}>10</option>
           <option value={20}>20</option>
           <option value={30}>30</option>
@@ -51,21 +58,21 @@ function Pagination({ children, pageNumber, pageLimit, totalResponses, setPageNu
         {children}
 
         <Button
-          size="sm"
-          rounded="full"
-          leftIcon={<FiArrowLeft />}
           disabled={pageNumber === 1 || totalPages === 0}
+          leftIcon={<FiArrowLeft />}
           onClick={() => setPageNumber((prev: number) => prev - 1)}
+          rounded="full"
+          size="sm"
         >
           Prev
         </Button>
 
         <Button
-          size="sm"
-          rounded="full"
-          rightIcon={<FiArrowRight />}
           disabled={pageNumber === totalPages || totalPages === 0}
           onClick={() => setPageNumber((prev: number) => prev + 1)}
+          rightIcon={<FiArrowRight />}
+          rounded="full"
+          size="sm"
         >
           Next
         </Button>

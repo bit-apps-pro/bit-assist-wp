@@ -27,6 +27,11 @@
       "BitApps\\Assist\\": "./backend/app"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "BitApps\\Assist\\Fixers\\": "./custom-fixers"
+    }
+  },
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,

@@ -13,7 +13,7 @@ declare module '*.svg'
 declare let bitapp
 declare let wp
 
-declare let __webpack_public_path__ // eslint-disable-line @typescript-eslint/naming-convention, camelcase, no-underscore-dangle
+declare let __webpack_public_path__ // eslint-disable-line camelcase
 
 declare module 'vite/client'
 

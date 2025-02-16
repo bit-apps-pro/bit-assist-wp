@@ -9,7 +9,6 @@ use BitApps\Assist\HTTP\Requests\WidgetStoreRequest;
 use BitApps\Assist\HTTP\Requests\WidgetUpdateRequest;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
-use BitApps\AssistPro\Config as ProConfig;
 
 final class WidgetController
 {

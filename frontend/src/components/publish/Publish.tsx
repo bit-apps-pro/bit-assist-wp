@@ -1,4 +1,5 @@
-import { Box, Flex, HStack, Heading, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, Heading, HStack, Stack, Text, Tooltip } from '@chakra-ui/react'
+import DocTutorials from '@components/global/DocTutorials'
 import ProWrapper from '@components/global/ProWrapper'
 import Drupal from '@icons/Drupal'
 import Html from '@icons/Html'
@@ -10,9 +11,9 @@ import Squarespace from '@icons/Squarespace'
 import Webflow from '@icons/Webflow'
 import Weebly from '@icons/Weebly'
 import Wix from '@icons/Wix'
+
 import CDN from './CDN'
 import Domains from './Domains'
-import DocTutorials from '@components/global/DocTutorials'
 
 interface PlatformProps {
   children: React.ReactNode
@@ -21,8 +22,8 @@ interface PlatformProps {
 
 function Platform({ children, label }: PlatformProps) {
   return (
-    <Tooltip placement="top" hasArrow label={label}>
-      <Flex justifyContent="center" alignItems="center" rounded="lg" h="16" w="16" borderWidth={1} p="4">
+    <Tooltip hasArrow label={label} placement="top">
+      <Flex alignItems="center" borderWidth={1} h="16" justifyContent="center" p="4" rounded="lg" w="16">
         {children}
       </Flex>
     </Tooltip>
@@ -33,10 +34,10 @@ function Publish() {
   return (
     <Stack gap={[5, 6]}>
       <Box textAlign="center">
-        <Heading as="h4" size="md" mb="4">
+        <Heading as="h4" mb="4" size="md">
           Publish Widget on Any Platform
         </Heading>
-        <Flex justifyContent="center" flexWrap="wrap" gap="2">
+        <Flex flexWrap="wrap" gap="2" justifyContent="center">
           <Platform label="Shopify">
             <Shopify />
           </Platform>
@@ -72,7 +73,15 @@ function Publish() {
       <Box>
         <DocTutorials docLink="https://bitapps.pro/docs/bit-assist/external-publish/" />
         <HStack justifyContent="space-between">
-          <Text mb={4} py="1" px="3" borderLeft="4px" borderColor="purple.500" fontWeight="medium" fontSize="md">
+          <Text
+            borderColor="purple.500"
+            borderLeft="4px"
+            fontSize="md"
+            fontWeight="medium"
+            mb={4}
+            px="3"
+            py="1"
+          >
             Want to use this widget in other domain? <br /> Follow these steps.
           </Text>
         </HStack>

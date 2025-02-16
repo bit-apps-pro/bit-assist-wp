@@ -1,109 +1,118 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, IconButton, Input, useColorMode, useColorModeValue } from '@chakra-ui/react'
-import { useSortable } from '@dnd-kit/sortable'
-import { FiChevronDown, FiX } from 'react-icons/fi'
-import { CSS } from '@dnd-kit/utilities'
-import { useState } from 'react'
-import { flowAtom } from '@globalStates/atoms'
-import { useAtom } from 'jotai'
-import { Editor } from '@tinymce/tinymce-react'
-import { Faqs } from '@globalStates/Interfaces'
 import config from '@config/config'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { flowAtom } from '@globalStates/atoms'
+import { type Faqs } from '@globalStates/Interfaces'
+import { Editor } from '@tinymce/tinymce-react'
+import { useAtom } from 'jotai'
+import { useState } from 'react'
+import { FiChevronDown, FiX } from 'react-icons/fi'
 
 interface FaqFieldProps {
-  id: number
-  field: Faqs | undefined
-  cursor?: string
   bg?: string
+  cursor?: string
+  field: Faqs | undefined
+  id: number
 }
 
-function FaqField({ id, field, cursor = 'grab', bg = 'none' }: FaqFieldProps) {
+function FaqField({ bg = 'none', cursor = 'grab', field, id }: FaqFieldProps) {
   const [, setFlow] = useAtom(flowAtom)
   const [isEditing, setIsEditing] = useState(false)
   const { colorMode } = useColorMode()
   const bgColorToggle = useColorModeValue('white', 'gray.700')
 
-  const { attributes, listeners, setNodeRef, transition, transform, isDragging } = useSortable({
-    id: field?.id || 0,
+  const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({
+    id: field?.id || 0
   })
 
   const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.4 : 1,
     touchAction: 'pinch-zoom',
+    transform: CSS.Transform.toString(transform),
+    transition
   }
 
   const handleDelete = (index: number) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config?.card_config?.faqs?.splice(index, 1)
     })
   }
 
   const handleChange = (value: string, key: string, index: number) => {
+    let changeValue = value
     if (key === 'description') {
-      value = value.replace(/<a/g, '<a target="_blank"')
+      changeValue = value.replaceAll('<a', '<a target="_blank"')
     }
 
-    setFlow((prev) => {
+    setFlow(prev => {
       const newFields = [...(prev.config?.card_config?.faqs || [])]
-      newFields[index] = { ...newFields[index], [key]: value }
+      newFields[index] = { ...newFields[index], [key]: changeValue }
       prev.config.card_config = { ...prev.config.card_config, faqs: newFields }
     })
   }
 
   return (
-    <HStack w="full" style={style} ref={setNodeRef}>
-      <HStack w="full" borderWidth={1} p="2" shadow="base" rounded="md" bg={bgColorToggle}>
+    <HStack ref={setNodeRef} style={style} w="full">
+      <HStack bg={bgColorToggle} borderWidth={1} p="2" rounded="md" shadow="base" w="full">
         <Flex
           {...listeners}
           {...attributes}
-          rounded="sm"
+          alignItems="center"
           bg={bg}
           cursor={cursor}
-          justifyContent="center"
-          alignItems="center"
-          w={6}
           h={8}
+          justifyContent="center"
+          rounded="sm"
+          w={6}
         >
           <DragHandleIcon aria-label="draggable button" />
         </Flex>
         <Box w="full">
-          <HStack w="full" mb="2">
-            <Input value={field?.title || ''} onChange={(e) => handleChange(e.target.value, 'title', id)} />
+          <HStack mb="2" w="full">
+            <Input
+              onChange={e => handleChange(e.target.value, 'title', id)}
+              value={field?.title || ''}
+            />
             <IconButton
               aria-label="Show Desc"
-              onClick={() => setIsEditing((prev) => !prev)}
-              size="sm"
               icon={<FiChevronDown />}
+              onClick={() => setIsEditing(prev => !prev)}
+              size="sm"
             />
           </HStack>
           {isEditing && (
             <Editor
-              tinymceScriptSrc={`${config.ROOT_URL}/assets/tinymce/tinymce.min.js`}
-              value={`${field?.description}`}
-              onEditorChange={(val, editor) => handleChange(val, 'description', id)}
               init={{
-                height: 200,
-                menubar: false,
-                plugins: ['autolink', 'link'],
-                toolbar: 'bold italic link',
-                link_default_target: '_blank',
-                link_target_list: false,
-                skin: colorMode === 'dark' ? 'oxide-dark' : 'oxide',
                 content_css: colorMode === 'dark' ? 'dark' : 'default',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                document_base_url: config.ROOT_URL,
+                height: 200,
+                link_default_target: '_blank',
+                link_target_list: false,
+                menubar: false,
+                plugins: ['autolink', 'link'],
                 relative_urls: false,
                 remove_script_host: false,
-                document_base_url: config.ROOT_URL,
+                skin: colorMode === 'dark' ? 'oxide-dark' : 'oxide',
+                toolbar: 'bold italic link'
               }}
+              onEditorChange={val => handleChange(val, 'description', id)}
+              tinymceScriptSrc={`${config.ROOT_URL}/assets/tinymce/tinymce.min.js`}
+              value={`${field?.description}`}
             />
           )}
         </Box>
       </HStack>
       <Box>
-        <IconButton aria-label="Delete Icon" size="sm" isRound icon={<FiX />} onClick={() => handleDelete(id)} />
+        <IconButton
+          aria-label="Delete Icon"
+          icon={<FiX />}
+          isRound
+          onClick={() => handleDelete(id)}
+          size="sm"
+        />
       </Box>
     </HStack>
   )

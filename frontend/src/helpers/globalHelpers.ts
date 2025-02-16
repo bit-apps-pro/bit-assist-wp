@@ -9,8 +9,8 @@ export const checkValidEmail = (email: string) => {
 
 export function toBoolean(value: unknown): boolean {
   if (typeof value === 'string') {
-    value = value.toLowerCase()
-    return value === 'true' || value === '1'
+    const lowerValue = value.toLowerCase()
+    return lowerValue === 'true' || lowerValue === '1'
   }
 
   if (typeof value === 'number') {

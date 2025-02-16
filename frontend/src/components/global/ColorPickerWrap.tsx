@@ -1,6 +1,6 @@
-import { Button, Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react'
 import ColorPicker from '@atomik-color/component'
-import { TColor } from '@atomik-color/core/dist/types'
+import { type TColor } from '@atomik-color/core/dist/types'
+import { Button, Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react'
 
 interface ColorPickerWrapProps {
   color: TColor | undefined
@@ -13,20 +13,20 @@ function ColorPickerWrap({ color, handleChange, handleClose }: ColorPickerWrapPr
     <Popover onClose={handleClose} placement="right">
       <PopoverTrigger>
         <Button
-          h="14"
-          w="14"
-          rounded="md"
-          boxShadow="md"
-          transition="none"
-          bgColor={color?.str}
-          aria-label="color picker"
+          _focus={{ backgroundColor: color?.str, boxShadow: 'outline' }}
           _hover={{ backgroundColor: color?.str }}
-          _focus={{ boxShadow: 'outline', backgroundColor: color?.str }}
+          aria-label="color picker"
+          bgColor={color?.str}
+          boxShadow="md"
+          h="14"
+          rounded="md"
+          transition="none"
+          w="14"
         />
       </PopoverTrigger>
-      <PopoverContent border="0" w="242px" rounded="sm">
-        <PopoverBody p="0" maxW="100%">
-          <ColorPicker showParams showPreview={false} value={color} onChange={handleChange} />
+      <PopoverContent border="0" rounded="sm" w="242px">
+        <PopoverBody maxW="100%" p="0">
+          <ColorPicker onChange={handleChange} showParams showPreview={false} value={color} />
         </PopoverBody>
       </PopoverContent>
     </Popover>

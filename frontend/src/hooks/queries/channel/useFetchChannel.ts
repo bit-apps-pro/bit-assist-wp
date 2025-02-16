@@ -4,14 +4,14 @@ import { useQuery } from 'react-query'
 export default function useFetchChannel(channelId: string) {
   const { data, isLoading } = useQuery(
     ['channels', channelId],
-    async () => request(`channels/${channelId}`, null, null, 'GET'),
+    async () => request(`channels/${channelId}`, undefined, undefined, 'GET'),
     {
-      enabled: !!channelId,
-    },
+      enabled: !!channelId
+    }
   )
 
   return {
     channel: data?.data,
-    isChannelFetching: isLoading,
+    isChannelFetching: isLoading
   }
 }

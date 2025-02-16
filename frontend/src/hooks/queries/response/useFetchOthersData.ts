@@ -7,15 +7,15 @@ export default function useFetchOthersData() {
 
   const { data, isLoading } = useQuery(
     ['responses/othersData', widgetChannelId],
-    async () => request(`responses/${widgetChannelId}/othersData`, null, null, 'GET'),
+    async () => request(`responses/${widgetChannelId}/othersData`, undefined, undefined, 'GET'),
     {
       enabled: !!widgetChannelId,
-      staleTime: 3600000, // 60000 × 60 = 1 hour
-    },
+      staleTime: 3_600_000 // 60000 × 60 = 1 hour
+    }
   )
 
   return {
-    othersData: data?.data,
     isOthersDataLoading: isLoading,
+    othersData: data?.data
   }
 }

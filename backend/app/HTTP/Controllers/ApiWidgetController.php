@@ -7,7 +7,6 @@ use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
-use BitApps\AssistPro\Config as ProConfig;
 use stdClass;
 use WP_Query;
 

@@ -1,198 +1,67 @@
-import { TColor } from '@atomik-color/core/dist/types'
+import { type TColor } from '@atomik-color/core/dist/types'
 
-// logged in user state
-export interface UserStateType {
-  name?: string
-  email?: string
-  puid?: string
-  enableAffiliate?: null | boolean
-  referId?: string
-  role?: string
-  _id?: string
-}
-
-interface AnimationDelay {
-  text?: string
-  delay?: number
+export interface CardConfig {
+  card_bg_color?: TColor
+  card_text_color?: TColor
+  faqs?: Faqs[]
+  form_fields?: DynamicFormField[]
+  isChatWidget?: boolean
+  knowledge_bases?: KnowledgeBase[]
+  maxId?: number
+  send_mail_to?: string
+  submit_button_text?: string
+  success_message?: string
+  webhook_url?: string
 }
 
-// widget interfaces
-interface Styles {
-  color?: TColor
-  position?: string
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-  icon?: string
-  iconUrl?: string
-  customImage?: string
-  shape?: string
-  size?: number
-  badge_active?: number
-  badge_color?: TColor
-  animation_active?: number
-  animation_type?: number
-  animation_delay?: AnimationDelay | null
-  widget_show_on?: (string | number)[]
-  widget_style?: string | number
-  google_analytics?: number
-}
-
-interface BusinessHours {
-  day: string
-  start?: string
-  end?: string
-}
-export interface ExcludePages {
-  url: string
-  visibility: string
-  condition: string
-}
-interface Integrations {
+// channel interfaces
+export interface Channel {
+  icon: string
   name: string
-}
-interface CallToAction {
-  text?: string
-  delay?: number
-}
-interface DeleteResponses {
-  is_enabled?: boolean
-  delete_after?: number
-}
-export interface Widget {
-  id: string
-  name: string
-  styles: Styles | null
-  domains: string[]
-  business_hours: BusinessHours[]
-  timezone: string
-  exclude_pages: ExcludePages[]
-  initial_delay: number
-  page_scroll: number
-  widget_behavior: number
-  custom_css?: string
-  call_to_action: CallToAction | null
-  store_responses: boolean
-  delete_responses: DeleteResponses
-  status: boolean
-  active: boolean
-  hide_credit: boolean
-  integrations: Integrations[]
-  created_at: string
 }
 
 export interface CreateWidgetInfo {
   name: string
 }
 
-// channel interfaces
-export interface Channel {
-  name: string
-  icon: string
-}
-
-// flow interfaces
-export interface WidgetChannelConfig {
-  title: string
-  icon?: string
-  url?: string
-  unique_id?: string
-  phone_number?: string
-  message?: string
-  channel_icon?: string
-  card_config?: CardConfig
-  channel_show_on?: (string | number)[]
-  open_window_action?: string
-  hide_after_office_hours?: boolean
-  store_responses?: boolean
-  order_details?: (string | number)[]
-  iframe_options?: IframeOptionsType
-  wp_post_types?: string[]
-}
-
-export interface IframeOptionsType {
-  aspect_ratio?: string
-  width?: string
-  height?: string
-  scrollbar?: boolean
-}
-
-export interface CardConfig {
-  maxId?: number
-  card_bg_color?: TColor
-  card_text_color?: TColor
-  submit_button_text?: string
-  success_message?: string
-  isChatWidget?: boolean
-  send_mail_to?: string
-  webhook_url?: string
-  form_fields?: DynamicFormField[]
-  faqs?: Faqs[]
-  knowledge_bases?: KnowledgeBase[]
-}
 export interface DynamicFormField {
+  allow_multiple?: boolean
+  allowed_file_type?: string
+  field_type?: string
   id: number
   label?: string
-  field_type?: string
-  url?: string
-  rating_type?: string
-  allow_multiple?: boolean
   max_upload_size?: number
-  allowed_file_type?: string
+  rating_type?: string
   required?: boolean
+  url?: string
+}
+export interface ExcludePages {
+  condition: string
+  url: string
+  visibility: string
 }
 export interface Faqs {
+  description?: string
   id: number
   title: string
-  description?: string
-}
-export interface KnowledgeBase {
-  id: number
-  title: string
-  description?: string
-}
-
-export interface OrderDetails {
-  shipping_status?: string
-  total_item?: number
-  total_amount?: number
-}
-export interface WidgetChannelType {
-  id: number
-  widget_id: string
-  channel_id: string
-  config: WidgetChannelConfig
-  sequence: number
-  status?: boolean
-}
-export interface WidgetResponse {
-  id: string
-  widget_channel_id: string
-  response: any
-  created_at: string
 }
 export interface Flow {
-  step: number
-  sequence?: number
-  widget_id: string
   channel_name: string
   config: WidgetChannelConfig
+  sequence?: number
+  step: number
+  widget_id: string
 }
-
-export interface ResponseFileType {
-  uniqueName: string
-  originalName: string
+export interface IframeOptionsType {
+  aspect_ratio?: string
+  height?: string
+  scrollbar?: boolean
+  width?: string
 }
-
-// react select search
-export type SelectSearchOption = {
-  name: string
-  value?: string | number
-  type?: string
-  items?: SelectSearchOption[]
-  disabled?: boolean
-  [key: string]: any
+export interface KnowledgeBase {
+  description?: string
+  id: number
+  title: string
 }
 
 export interface Option {
@@ -200,4 +69,138 @@ export interface Option {
   value: string
 }
 
-export type SelectedOptionValue = string | number
+export interface OrderDetails {
+  shipping_status?: string
+  total_amount?: number
+  total_item?: number
+}
+
+export interface ResponseFileType {
+  originalName: string
+  uniqueName: string
+}
+
+export type SelectedOptionValue = number | string
+
+// react select search
+export interface SelectSearchOption {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
+  disabled?: boolean
+  items?: SelectSearchOption[]
+  name: string
+  type?: string
+  value?: number | string
+}
+// logged in user state
+export interface UserStateType {
+  _id?: string
+  email?: string
+  enableAffiliate?: boolean | null
+  name?: string
+  puid?: string
+  referId?: string
+  role?: string
+}
+export interface Widget {
+  active: boolean
+  business_hours: BusinessHours[]
+  call_to_action: CallToAction | null
+  created_at: string
+  custom_css?: string
+  delete_responses: DeleteResponses
+  domains: string[]
+  exclude_pages: ExcludePages[]
+  hide_credit: boolean
+  id: string
+  initial_delay: number
+  integrations: Integrations[]
+  name: string
+  page_scroll: number
+  status: boolean
+  store_responses: boolean
+  styles: Styles | undefined
+  timezone: string
+  widget_behavior: number
+}
+// flow interfaces
+export interface WidgetChannelConfig {
+  card_config?: CardConfig
+  channel_icon?: string
+  channel_show_on?: (number | string)[]
+  hide_after_office_hours?: boolean
+  icon?: string
+  iframe_options?: IframeOptionsType
+  message?: string
+  open_window_action?: string
+  order_details?: (number | string)[]
+  phone_number?: string
+  store_responses?: boolean
+  title: string
+  unique_id?: string
+  url?: string
+  wp_post_types?: string[]
+}
+
+export interface WidgetChannelType {
+  channel_id: string
+  channel_name: string
+  config: WidgetChannelConfig
+  id: number
+  sequence: number
+  status?: boolean
+  widget_id: string
+}
+export interface WidgetResponse {
+  created_at: string
+  id: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response: any
+  widget_channel_id: string
+}
+interface AnimationDelay {
+  delay?: number
+  text?: string
+}
+interface BusinessHours {
+  day: string
+  end?: string
+  start?: string
+}
+
+interface CallToAction {
+  delay?: number
+  text?: string
+}
+
+interface DeleteResponses {
+  delete_after?: number
+  is_enabled?: boolean
+}
+
+interface Integrations {
+  name: string
+}
+
+// widget interfaces
+interface Styles {
+  animation_active?: number
+  animation_delay?: AnimationDelay | null
+  animation_type?: number
+  badge_active?: number
+  badge_color?: TColor
+  bottom?: number
+  color?: TColor
+  customImage?: string
+  google_analytics?: number
+  icon?: string
+  iconUrl?: string
+  left?: number
+  position?: string
+  right?: number
+  shape?: string
+  size?: number
+  top?: number
+  widget_show_on?: (number | string)[]
+  widget_style?: number | string
+}

@@ -6,7 +6,7 @@ export default function Call() {
   const [flow, setFlow] = useAtom(flowAtom)
 
   const handleChanges = (value: string) => {
-    setFlow((prev) => {
+    setFlow(prev => {
       prev.config.unique_id = value
       prev.config.url = `tel:${value}`
     })
@@ -15,7 +15,7 @@ export default function Call() {
   return (
     <FormControl>
       <FormLabel>Phone number</FormLabel>
-      <Input value={flow.config?.unique_id || ''} onChange={(e) => handleChanges(e.target.value)} />
+      <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
     </FormControl>
   )
 }

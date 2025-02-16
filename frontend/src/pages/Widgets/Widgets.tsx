@@ -26,81 +26,86 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
+import ProModal from '@components/global/ProModal'
+import WidgetAnalytics from '@components/global/WidgetAnalytics'
+import AddWidget from '@components/widget/AddWidget'
+import config from '@config/config'
+import { freeLimitsAtom } from '@globalStates/atoms'
+import { type Widget } from '@globalStates/Interfaces'
+import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
+import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
+import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus'
+import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
+import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
+import useToaster from '@hooks/useToaster'
+import { useAtom } from 'jotai'
+import { useRef } from 'react'
+import { FiCopy, FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { HiDotsVertical, HiPlus } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
-import { FiCopy, FiEdit2, FiTrash2 } from 'react-icons/fi'
-import { useRef } from 'react'
-import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
-import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
-import { Widget } from '@globalStates/Interfaces'
-import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus'
-import AddWidget from '@components/widget/AddWidget'
-import useToaster from '@hooks/useToaster'
-import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
-import ProModal from '@components/global/ProModal'
-import { useAtom } from 'jotai'
-import { freeLimitsAtom } from '@globalStates/atoms'
-import config from '@config/config'
-import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
-import WidgetAnalytics from '@components/global/WidgetAnalytics'
 
 function Widgets() {
-  const { widgets, isWidgetFetching } = useFetchWidgets()
+  const { isWidgetFetching, widgets } = useFetchWidgets()
   const { deleteWidget, isWidgetDeleting } = useDeleteWidget()
   const brandColorToggle = useColorModeValue('purple.500', 'purple.200')
   const ThColorToggle = useColorModeValue('gray.50', 'gray.700')
-  const { updateWidgetStatus, isWidgetStatusUpdating } = useUpdateWidgetStatus()
-  const { copyWidget, isWidgetCoping } = useCopyWidget()
+  const { isWidgetStatusUpdating, updateWidgetStatus } = useUpdateWidgetStatus()
+  const { copyWidget } = useCopyWidget()
   const { updateWidgetActive } = useWidgetActive()
-  const { isOpen, onOpen: openDelModal, onClose: closeDelModal } = useDisclosure()
-  const tempWidgetId = useRef('')
+  const { isOpen, onClose: closeDelModal, onOpen: openDelModal } = useDisclosure()
+  const temporaryWidgetId = useRef('')
   const toaster = useToaster()
   const [freeLimit] = useAtom(freeLimitsAtom)
 
   const openDeleteModal = (widgetId: string) => () => {
-    tempWidgetId.current = widgetId
+    temporaryWidgetId.current = widgetId
     openDelModal()
   }
 
   const onCopyWidget = (widgetId: string) => async () => {
-    const { status, data } = await copyWidget(widgetId)
+    const { data, status } = await copyWidget(widgetId)
     toaster(status, data)
   }
 
   const handleDeleteWidget = async () => {
-    const { status, data } = await deleteWidget(tempWidgetId.current)
+    const { data, status } = await deleteWidget(temporaryWidgetId.current)
     toaster(status, data)
     closeDelModal()
   }
 
   const handleStatusChange = async (isChecked: boolean, widgetId: string) => {
-    const { status, data } = await updateWidgetStatus(widgetId, isChecked)
+    const { data, status } = await updateWidgetStatus(widgetId, isChecked)
     toaster(status, data)
   }
 
   const handleChange = async (value: string, widgetId: string) => {
-    const { status, data } = await updateWidgetActive(widgetId, +value)
+    const { data, status } = await updateWidgetActive(widgetId, +value)
     toaster(status, data)
   }
 
   return (
     <>
-      <TableContainer borderWidth="1px" rounded="lg" shadow="md" mt="2">
-        <Table variant="simple" size="sm">
+      <TableContainer borderWidth="1px" mt="2" rounded="lg" shadow="md">
+        <Table size="sm" variant="simple">
           <Thead bgColor={ThColorToggle}>
             <Tr>
               <Th colSpan={4} py="3">
                 <HStack justifyContent="space-between">
                   <HStack>
-                    <Heading as="h2" size="sm" textTransform="none" my="2">
+                    <Heading as="h2" my="2" size="sm" textTransform="none">
                       Widgets List
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
                   {!config.IS_PRO && widgets?.length >= freeLimit.widget ? (
-                    <ProModal type="widget" number={freeLimit.widget} text="Add Widget" icon={<HiPlus />} />
+                    <ProModal
+                      icon={<HiPlus />}
+                      number={freeLimit.widget}
+                      text="Add Widget"
+                      type="widget"
+                    />
                   ) : (
                     <AddWidget />
                   )}
@@ -120,16 +125,16 @@ function Widgets() {
                 <Tr key={widget.id}>
                   <Td w="10">
                     <Switch
-                      colorScheme="purple"
                       aria-label="Switch widget status"
+                      colorScheme="purple"
                       disabled={isWidgetStatusUpdating}
                       isChecked={widget.status}
-                      onChange={(e) => handleStatusChange(e.target.checked, widget.id)}
+                      onChange={e => handleStatusChange(e.target.checked, widget.id)}
                       title={widget.status ? 'Widget disable' : 'Widget enable'}
                     />
                   </Td>
                   <Td>
-                    <Text display="inline-block" fontSize="md" _hover={{ color: brandColorToggle }}>
+                    <Text _hover={{ color: brandColorToggle }} display="inline-block" fontSize="md">
                       <Link to={`/widgets/${widget.id}`}>{widget.name || 'Untitled Widget'}</Link>
                     </Text>
                   </Td>
@@ -137,21 +142,26 @@ function Widgets() {
 
                   <Td textAlign="right" w="10">
                     <Select
-                      w="28"
-                      mr="4"
-                      display="inline-block"
-                      value={widget.active ? 1 : 0}
-                      disabled={config.IS_PRO ? !widget.status : true}
-                      onChange={(e) => handleChange(e.target.value, widget.id)}
                       className={`chipSelect ${widget.active ? 'active' : ''}`}
+                      disabled={config.IS_PRO ? !widget.status : true}
+                      display="inline-block"
+                      mr="4"
+                      onChange={e => handleChange(e.target.value, widget.id)}
                       size="sm"
+                      value={widget.active ? 1 : 0}
+                      w="28"
                     >
                       <option value="1">This site</option>
                       <option value="0">External site</option>
                     </Select>
 
                     <Menu>
-                      <MenuButton isRound as={IconButton} aria-label="Options" icon={<HiDotsVertical />} />
+                      <MenuButton
+                        aria-label="Options"
+                        as={IconButton}
+                        icon={<HiDotsVertical />}
+                        isRound
+                      />
                       <MenuList shadow="lg">
                         <Link to={`/widgets/${widget.id}`}>
                           <MenuItem icon={<FiEdit2 />}>Edit</MenuItem>
@@ -159,7 +169,11 @@ function Widgets() {
                         <MenuItem icon={<FiCopy />} onClick={onCopyWidget(widget.id)}>
                           Duplicate
                         </MenuItem>
-                        <MenuItem icon={<FiTrash2 />} color="red.600" onClick={openDeleteModal(widget.id)}>
+                        <MenuItem
+                          color="red.600"
+                          icon={<FiTrash2 />}
+                          onClick={openDeleteModal(widget.id)}
+                        >
                           Delete
                         </MenuItem>
                       </MenuList>
@@ -171,7 +185,7 @@ function Widgets() {
             {(!widgets || widgets?.length < 1) && (
               <Tr>
                 <Td colSpan={4}>
-                  <Text fontSize="md" color="gray.500" align="center">
+                  <Text align="center" color="gray.500" fontSize="md">
                     No widgets found! Create a new widget.
                   </Text>
                 </Td>
@@ -181,7 +195,7 @@ function Widgets() {
         </Table>
       </TableContainer>
 
-      <Modal isOpen={isOpen} onClose={closeDelModal} isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Confirmation</ModalHeader>
@@ -193,10 +207,10 @@ function Widgets() {
               Cancel
             </Button>
             <Button
-              onClick={handleDeleteWidget}
+              colorScheme="red"
               isLoading={isWidgetDeleting}
               loadingText="Deleting..."
-              colorScheme="red"
+              onClick={handleDeleteWidget}
               shadow="md"
             >
               Delete

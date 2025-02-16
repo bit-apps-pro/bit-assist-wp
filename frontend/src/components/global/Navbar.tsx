@@ -1,28 +1,20 @@
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Flex,
-  Heading,
-  Stack
-} from '@chakra-ui/react'
+import { Button, ButtonGroup, Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import config from '@config/config'
 import Logo from '@icons/Logo'
 import { FaStar } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+
 import DarkModeSwitch from './DarkModeSwitch'
 import DocTutorials from './DocTutorials'
 
 function Navbar() {
-
-
   return (
     <Container maxW="1170px" px={[4, 6]}>
       <Stack
-        py="5"
-        direction={['column', 'row']}
         alignItems={['center', 'initial']}
+        direction={['column', 'row']}
         justifyContent={['initial', 'space-between']}
+        py="5"
       >
         <Flex alignItems="center" gap={2}>
           <Link to="/">
@@ -36,8 +28,8 @@ function Navbar() {
           {/* <NewOffer /> */}
 
           <DocTutorials
-            tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5"
             docLink="https://bitapps.pro/docs/bit-assist/"
+            tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5"
           />
 
           {/* {config.IS_PRO && (
@@ -47,12 +39,12 @@ function Navbar() {
           {!config.IS_PRO && (
             <Button
               as="a"
-              href={'https://wordpress.org/support/plugin/bit-assist/reviews/#new-post'}
-              target="_blank"
-              rel="noopener noreferrer"
-              leftIcon={<FaStar color="orange" />}
-              size="sm"
               borderRadius={'full'}
+              href={'https://wordpress.org/support/plugin/bit-assist/reviews/#new-post'}
+              leftIcon={<FaStar color="orange" />}
+              rel="noopener noreferrer"
+              size="sm"
+              target="_blank"
             >
               Review Us
             </Button>
@@ -60,7 +52,6 @@ function Navbar() {
           <DarkModeSwitch />
         </ButtonGroup>
       </Stack>
-
     </Container>
   )
 }

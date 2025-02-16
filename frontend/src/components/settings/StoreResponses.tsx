@@ -1,7 +1,7 @@
 import { Box, FormControl, FormLabel, Switch } from '@chakra-ui/react'
-import useToaster from '@hooks/useToaster'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
+import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -12,34 +12,41 @@ function StoreResponses() {
   const [widget, setWidget] = useAtom(widgetAtom)
   const { updateWidget } = useUpdateWidget()
 
+  const debounceUpdateWidget = useRef(
+    debounce(async newWidget => {
+      const { data, status } = await updateWidget(newWidget)
+      toaster(status, data)
+    }, 1000)
+  ).current
+
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWidget((prev) => {
+    setWidget(prev => {
       prev.store_responses = e.target.checked
     })
 
     debounceUpdateWidget(
-      produce(widget, (draft) => {
+      produce(widget, draft => {
         draft.store_responses = e.target.checked
-      }),
+      })
     )
   }
 
-  const debounceUpdateWidget = useRef(
-    debounce(async (newWidget) => {
-      const { status, data } = await updateWidget(newWidget)
-      toaster(status, data)
-    }, 1000),
-  ).current
-
-  useEffect(() => () => {
-    debounceUpdateWidget.cancel()
-  }, [debounceUpdateWidget])
+  useEffect(
+    () => () => {
+      debounceUpdateWidget.cancel()
+    },
+    [debounceUpdateWidget]
+  )
 
   return (
     <Box>
-      <FormControl display="flex" alignItems="center">
+      <FormControl alignItems="center" display="flex">
         <FormLabel mb="0">Store Responses</FormLabel>
-        <Switch isChecked={!!widget.store_responses} colorScheme="purple" onChange={handleSwitchEnable} />
+        <Switch
+          colorScheme="purple"
+          isChecked={!!widget.store_responses}
+          onChange={handleSwitchEnable}
+        />
       </FormControl>
     </Box>
   )

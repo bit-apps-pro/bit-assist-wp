@@ -104,6 +104,7 @@ class Config
 
             case 'DB_PREFIX':
                 global $wpdb;
+
                 return $wpdb->prefix . self::VAR_PREFIX;
 
             default:

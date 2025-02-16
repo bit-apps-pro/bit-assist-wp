@@ -1,32 +1,32 @@
 /* eslint-disable camelcase */
+import { WarningTwoIcon } from '@chakra-ui/icons'
 import { Box, GridItem, Image, Text } from '@chakra-ui/react'
+import config from '@config/config'
 import { flowAtom } from '@globalStates/atoms'
-import { Channel } from '@globalStates/Interfaces'
+import { type Channel } from '@globalStates/Interfaces'
 import { useAtom } from 'jotai'
 import { useParams } from 'react-router-dom'
-import config from '@config/config'
-import { WarningIcon, WarningTwoIcon } from '@chakra-ui/icons'
 
 function SingleChannel({ channel }: { channel: Channel }) {
   const { widgetId } = useParams()
   const [, setFlow] = useAtom(flowAtom)
 
   const onSelectChannel = (channel_name: string) => {
-    setFlow((prev) => ({
+    setFlow(prev => ({
       ...prev,
-      step: 2,
-      widget_id: widgetId,
       channel_name,
       config: {
-        title: channel_name.replace(/-/g, ' '),
-        open_window_action: '_blank',
         channel_show_on: ['desktop', 'mobile'],
+        f_fields: channel_name === 'WooCommerce' ? ['number'] : [],
+        open_window_action: '_blank',
         order_details:
           channel_name === 'WooCommerce'
             ? ['shipping_status', 'total_items', 'total_amount', 'billing_name', 'shipping_name']
             : [],
-        f_fields: channel_name === 'WooCommerce' ? ['number'] : [],
+        title: channel_name.replaceAll('-', ' ')
       },
+      step: 2,
+      widget_id: widgetId
     }))
   }
 
@@ -39,65 +39,65 @@ function SingleChannel({ channel }: { channel: Channel }) {
     'Crisp',
     'Tawk',
     'Intercom',
-    'Tidio',
+    'Tidio'
   ]
 
   return (
     <GridItem
-      py="2.5"
-      px="1"
-      rounded="md"
-      tabIndex={0}
+      _focusVisible={{ boxShadow: 'outline' }}
+      _hover={{ shadow: 'lg' }}
       borderWidth={1}
       cursor="pointer"
-      outline="none"
-      transition="250ms"
-      textAlign="center"
-      _hover={{ shadow: 'lg' }}
-      _focusVisible={{ boxShadow: 'outline' }}
       onClick={() => onSelectChannel(channel.name)}
-      onKeyDown={(e) => {
+      onKeyDown={e => {
         if (e.key === 'Enter') onSelectChannel(channel.name)
       }}
+      outline="none"
       position="relative"
+      px="1"
+      py="2.5"
+      rounded="md"
+      tabIndex={0}
+      textAlign="center"
+      transition="250ms"
     >
       {!config.IS_PRO && proChannels.includes(channel.name) && (
         <Box
           background="#00ff9c"
           borderRadius="1rem"
-          position="absolute"
-          top="0"
-          right="0"
-          fontWeight="semibold"
-          fontSize="xs"
           color="#000"
-          px="1"
-          mt="1"
-          mr="1"
+          fontSize="xs"
+          fontWeight="semibold"
           minWidth="20px"
+          mr="1"
+          mt="1"
+          position="absolute"
+          px="1"
+          right="0"
           textAlign="center"
+          top="0"
         >
           Pro
         </Box>
       )}
 
       {channel.name === 'Live-Chat-Messenger' && (
-        <Box position="absolute" top="0" right="0" color="#000" mt="0.5" mr="1">
-          <WarningTwoIcon w={4} h={4} color="red.500" />
+        <Box color="#000" mr="1" mt="0.5" position="absolute" right="0" top="0">
+          <WarningTwoIcon color="red.500" h={4} w={4} />
         </Box>
       )}
 
       <>
         <Image
-          src={channel.icon}
           alt={channel.name}
-          w="10"
+          filter={channel.name === 'Live-Chat-Messenger' ? 'grayscale(100%)' : 'none'}
           h="10"
           mx="auto"
-          filter={channel.name === 'Live-Chat-Messenger' ? 'grayscale(100%)' : 'none'}
+          src={channel.icon}
+          w="10"
         />
-        <Text marginTop="2" lineHeight="1">
-          {channel.name.replace(/-/g, ' ')}
+        <Text lineHeight="1" marginTop="2">
+          {channel.name.replaceAll('-', ' ')}
         </Text>
       </>
     </GridItem>
