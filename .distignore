@@ -1,5 +1,6 @@
 client
 frontend
+custom-fixers
 
 bin
 tests
