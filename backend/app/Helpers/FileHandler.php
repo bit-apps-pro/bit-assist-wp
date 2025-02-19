@@ -9,7 +9,13 @@ final class FileHandler
     public function moveUploadedFiles($fileDetails, $widgetChannelID)
     {
         $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID;
+
+        if (!$this->isUploadDir($_upload_dir)) {
+            return [];
+        }
+
         wp_mkdir_p($_upload_dir);
+
         $file_uploaded = [];
 
         if (is_array($fileDetails['name'])) {
@@ -27,6 +33,15 @@ final class FileHandler
         }
 
         return $file_uploaded;
+    }
+
+    public function isUploadDir($filePath)
+    {
+        $uploadsDir = trailingslashit(wp_normalize_path(Config::get('UPLOAD_DIR')));
+
+        $realPath = trailingslashit(wp_normalize_path(realpath($filePath)));
+
+        return strpos($realPath, $uploadsDir) === 0;
     }
 
     private function saveFile($_upload_dir, $tmpName, $fileName)

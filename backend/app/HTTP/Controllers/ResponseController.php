@@ -39,13 +39,12 @@ final class ResponseController
 
     public function store(Request $request)
     {
-        $formData = array_map('sanitize_text_field', $request->all());
+        $formData = $request->validate([
+            'widget_channel_id' => ['required', 'integer'],
+            '*'                 => ['nullable', 'sanitize:text'],
+        ]);
 
-        $widgetChannelId = $formData['widget_channel_id'] ?? null;
-
-        if (is_null($widgetChannelId)) {
-            return Res::error('WidgetChannel id is required');
-        }
+        $widgetChannelId = $formData['widget_channel_id'];
 
         unset($formData['widget_channel_id']);
 

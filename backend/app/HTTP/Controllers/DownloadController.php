@@ -3,6 +3,7 @@
 namespace BitApps\Assist\HTTP\Controllers;
 
 use BitApps\Assist\Config;
+use BitApps\Assist\Helpers\FileHandler;
 
 final class DownloadController
 {
@@ -33,21 +34,12 @@ final class DownloadController
     {
         $filePath = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID . DIRECTORY_SEPARATOR . $fileID;
 
-        if (!is_readable($filePath) || !$this->is_file_in_uploads($filePath)) {
+        if (!is_readable($filePath) || !(new FileHandler())->isUploadDir($filePath)) {
             $this->show404();
         }
-        
+
         return $filePath;
     }
-
-    private function is_file_in_uploads($filePath) {    
-        $uploadsDir = trailingslashit(wp_normalize_path(Config::get('UPLOAD_DIR')));
-
-        $realPath   = trailingslashit(wp_normalize_path(realpath($filePath)));
-
-        return strpos( $realPath, $uploadsDir ) === 0;
-    }
-    
 
     private function fileDownloadORView($filePath, $fileName, $forceDownload = false)
     {
