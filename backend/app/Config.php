@@ -21,7 +21,7 @@ class Config
 
     public const VAR_PREFIX = 'bit_assist_';
 
-    public const VERSION = '1.5.4';
+    public const VERSION = '1.5.5';
 
     public const DB_VERSION = '1.0.3';
 
