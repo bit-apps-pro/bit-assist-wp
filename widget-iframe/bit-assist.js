@@ -6,8 +6,6 @@ const separator = window?.bit_assist_?.api?.separator || '?'
 const protocol = window.location.protocol === 'http:' ? 'i' : 's'
 const domain = window.location.hostname === 'localhost' ? window.location.host : window.location.hostname
 const url = window.location.href
-const winWidth = document.documentElement.offsetWidth
-const winHeight = window.innerHeight
 let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
@@ -79,6 +77,9 @@ window.addEventListener('message', (e) => {
 
   if (action === 'getClientInfo') {
     const scrollPercent = windowScrollPercentage()
+    const winWidth = document.documentElement.offsetWidth
+    const winHeight = window.innerHeight
+
     iframeElement.contentWindow.postMessage(
       { action: 'windowLoaded', url, winWidth, winHeight, scrollPercent, apiEndPoint },
       iframeDomain,
