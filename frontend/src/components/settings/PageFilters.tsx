@@ -132,7 +132,7 @@ function PageFilters() {
               >
                 <option value="contains">Pages that contain</option>
                 <option value="equal">Specific page</option>
-                <option value="startWith">Pages stars with</option>
+                <option value="startWith">Pages starts with</option>
                 <option value="endWith">Pages ended with</option>
               </Select>
               <InputGroup>

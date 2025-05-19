@@ -53,7 +53,7 @@ const showPageCondition = (condition: string) => {
       return 'Specific page'
     }
     case 'startWith': {
-      return 'Pages stars with'
+      return 'Pages starts with'
     }
     default: {
       return 'None'
