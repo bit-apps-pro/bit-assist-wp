@@ -3,9 +3,9 @@
 Contributors: bitpressadmin, shuvomohajan, shimulckbt
 Tags: chat, chat widget, whatsapp chat, click to chat, chat button
 Requires at least: 5.1
-Tested up to: 6.7.2
+Tested up to: 6.8.1
 Requires PHP: 7.4
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 License: GPLv2 or later
 
 WhatsApp Chat Widget, Click to Chat Simple chat Line Messenger, live chat support chat button, SMS, call button & customer support chat sticky button
@@ -319,6 +319,11 @@ Note: You can not use Zoho SalesIQ – Live chat, chatbots, and visitor tracking
 Yes, you can use standalone form using Bit Assist‘s custom iframe channel which is a pro feature. You can show wordpress standalone form with this channel by providing the link from dedicated standalone form. For example, there are several form builder plugin which have standalone form feature like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
+= v1.5.7 (Mar 24, 2025) =
+* Fix: Fixed file upload issue on contact form submission.
+* Fix: Resolved textarea text not showing in dark mode.
+* Fix: Fixed custom CSS editor losing changes on window focus switch.
+
 = v1.5.6 (Mar 16, 2025) =
 * Fix: Ensured the chat widget now captures current viewport dimensions on open, preventing stale or inaccurate sizing issues.
 
