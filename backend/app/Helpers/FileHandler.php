@@ -10,11 +10,11 @@ final class FileHandler
     {
         $_upload_dir = Config::get('UPLOAD_DIR') . DIRECTORY_SEPARATOR . $widgetChannelID;
 
+        wp_mkdir_p($_upload_dir);
+
         if (!$this->isUploadDir($_upload_dir)) {
             return [];
         }
-
-        wp_mkdir_p($_upload_dir);
 
         $file_uploaded = [];
 
