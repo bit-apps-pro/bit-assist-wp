@@ -101,6 +101,7 @@ function CallToAction() {
           </Tooltip>
         </Slider>
         <Textarea
+          color="inherit"
           onChange={handleChange}
           placeholder="Message"
           value={widget.call_to_action?.text ?? ''}

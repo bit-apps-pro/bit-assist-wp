@@ -34,6 +34,7 @@ function Whatsapp() {
       <FormControl>
         <FormLabel>Message</FormLabel>
         <Textarea
+          color="inherit"
           onChange={e => handleChanges(e.target.value, 'message')}
           value={flow.config?.message ?? ''}
         />

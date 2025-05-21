@@ -14,7 +14,11 @@ export default function GoogleMap() {
   return (
     <FormControl>
       <FormLabel>Google maps embed code</FormLabel>
-      <Textarea onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
+      <Textarea
+        color="inherit"
+        onChange={e => handleChanges(e.target.value)}
+        value={flow.config?.unique_id || ''}
+      />
     </FormControl>
   )
 }
