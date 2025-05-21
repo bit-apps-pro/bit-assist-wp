@@ -20,6 +20,7 @@ import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import Editor from '@monaco-editor/react'
 import { useAtom } from 'jotai'
+import { useState } from 'react'
 
 function CustomCSS() {
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -27,15 +28,15 @@ function CustomCSS() {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const toaster = useToaster()
   const tabIndex = config.IS_PRO ? 0 : -1
-
-  const handleChangeCustomCSS = (value: string | undefined) => {
-    setWidget(prev => {
-      prev.custom_css = value
-    })
-  }
+  const [customCss, setCustomCss] = useState<string | undefined>()
 
   const handleSaveCustomCSS = async () => {
-    const { data, status } = await updateWidget(widget)
+    const { data, status } = await updateWidget({ ...widget, custom_css: customCss })
+
+    setWidget(prev => {
+      prev.custom_css = customCss
+    })
+
     toaster(status, data)
     onClose()
   }
@@ -45,6 +46,7 @@ function CustomCSS() {
       <Title>Custom CSS</Title>
       <ProWrapper>
         <Textarea
+          color="inherit"
           cursor="pointer"
           filter="auto"
           h="36"
@@ -64,10 +66,11 @@ function CustomCSS() {
             <Box boxShadow="md">
               <Editor
                 defaultLanguage="css"
+                defaultValue={widget.custom_css}
                 height="40vh"
-                onChange={handleChangeCustomCSS}
+                onChange={setCustomCss}
                 theme="vs-dark"
-                value={widget.custom_css || ''}
+                value={customCss || ''}
                 width="100%"
               />
             </Box>
