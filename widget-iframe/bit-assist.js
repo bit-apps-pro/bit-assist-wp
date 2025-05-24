@@ -175,6 +175,9 @@ window.addEventListener('load', () => {
   if (isLoadedTidio()) {
     handleTidio()
   }
+  else {
+    handleTidioNotLoaded()
+  }
 })
 
 let isTawkClickable = false
@@ -295,18 +298,24 @@ function isLoadedIntercom() {
 // Intercom Channel Ends
 
 // Tidio Channel Starts
-function handleTidio() {
+function handleTidioReady() {
+  isTidioClickable = true
   window.tidioChatApi.hide()
+}
 
-  window.tidioChatApi.on('ready', () => {
-    isTidioClickable = true
-    window.tidioChatApi.hide()
-  })
+function handleTidioClose() {
+  showWidget()
+  window.tidioChatApi.hide()
+}
 
-  window.tidioChatApi.on('close', () => {
-    showWidget()
-    window.tidioChatApi.hide()
-  })
+function handleTidio() {
+  window.tidioChatApi.on('ready', handleTidioReady)
+  window.tidioChatApi.on('close', handleTidioClose)
+}
+
+function handleTidioNotLoaded() {
+  document.addEventListener('tidioChat-ready', handleTidioReady)
+  document.addEventListener('tidioChat-close', handleTidioClose)
 }
 
 function openTidio() {
@@ -322,7 +331,7 @@ function openTidio() {
   }
   catch (e) {
     console.log(e)
-    alertMessage('Tawk')
+    alertMessage('Tidio')
     showWidget()
   }
 }
