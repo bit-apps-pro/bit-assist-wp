@@ -240,7 +240,7 @@ export const custom_form = {
       toastTextTitle.style.color = widgetThis.selectedFormBg
     }
 
-    await widgetThis.delay(2)
+    await widgetThis.delay(10)
     if (!globalClassListContains(widgetThis.formBody, 'hide')) {
       return
     }
