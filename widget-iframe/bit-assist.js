@@ -3,9 +3,12 @@ const iframeHost = window?.bit_assist_?.isDev !== '1' ? `${apiEndPoint}/iframe` 
 const iframeDomain = new URL(iframeHost).origin
 const separator = window?.bit_assist_?.api?.separator || '?'
 
-const protocol = window.location.protocol === 'http:' ? 'i' : 's'
-const domain = window.location.hostname === 'localhost' ? window.location.host : window.location.hostname
-const url = window.location.href
+const { protocol, host, hostname, href } = window.location
+const protocolIndicator = protocol === 'http:' ? 'i' : 's'
+const domain = hostname === 'localhost' || hostname === '127.0.0.1'
+  ? host
+  : hostname
+const url = href
 let defaultHeight = '100px'
 let defaultWidth = '100px'
 let currentScrollPercent = 0
@@ -29,7 +32,7 @@ hideWidget()
 
 const iframeElement = document.createElement('iframe')
 iframeElement.title = 'wp-bit-assist'
-iframeElement.src = `${iframeHost}${separator}clientDomain=${protocol}-protocol-bit-assist-${domain}`
+iframeElement.src = `${iframeHost}${separator}clientDomain=${protocolIndicator}-protocol-bit-assist-${domain}`
 iframeElement.id = 'bit-assist-widget-iframe'
 iframeElement.setAttribute('allowfullscreen', '')
 iframeElement.setAttribute('scrolling', 'no')
