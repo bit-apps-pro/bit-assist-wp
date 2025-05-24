@@ -323,6 +323,7 @@ Yes, you can use standalone form using Bit Assist‘s custom iframe channel whic
 * Fix: Fixed file upload issue on contact form submission.
 * Fix: Resolved textarea text not showing in dark mode.
 * Fix: Fixed custom CSS editor losing changes on window focus switch.
+* Fix: Fixed Tidio widget not opening when clicked.
 
 = v1.5.6 (Mar 16, 2025) =
 * Fix: Ensured the chat widget now captures current viewport dimensions on open, preventing stale or inaccurate sizing issues.
