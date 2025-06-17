@@ -127,14 +127,6 @@ const renderLink = (channelName: string) => {
         <DocTutorials tutorial="https://www.youtube.com/watch?v=tNiqiylU_Zw&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=26" />
       )
     }
-    case 'skype': {
-      return (
-        <DocTutorials
-          docLink="https://bitapps.pro/docs/bit-assist/all-channels/skype/"
-          tutorial="https://www.youtube.com/watch?v=c5b3YEtJM9A&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=2"
-        />
-      )
-    }
     case 'slack': {
       return (
         <DocTutorials

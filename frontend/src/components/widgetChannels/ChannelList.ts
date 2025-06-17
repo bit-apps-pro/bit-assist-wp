@@ -70,10 +70,6 @@ const channelList = [
     name: 'Pinterest'
   },
   {
-    icon: `${config.ROOT_URL}/img/channel/skype.svg`,
-    name: 'Skype'
-  },
-  {
     icon: `${config.ROOT_URL}/img/channel/signal.svg`,
     name: 'Signal'
   },

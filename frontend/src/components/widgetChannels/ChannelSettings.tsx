@@ -26,7 +26,6 @@ import Linkedin from '@components/widgetChannels/channels/Linkedin'
 import Messenger from '@components/widgetChannels/channels/Messenger'
 import Pinterest from '@components/widgetChannels/channels/Pinterest'
 import Signal from '@components/widgetChannels/channels/Signal'
-import Skype from '@components/widgetChannels/channels/Skype'
 import Slack from '@components/widgetChannels/channels/Slack'
 import SMS from '@components/widgetChannels/channels/SMS'
 import Snapchat from '@components/widgetChannels/channels/Snapchat'
@@ -108,9 +107,6 @@ const renderSelectedChannelSettings = (channelName: string) => {
     }
     case 'signal': {
       return <Signal />
-    }
-    case 'skype': {
-      return <Skype />
     }
     case 'slack': {
       return <Slack />

@@ -12,7 +12,7 @@ WhatsApp Chat Widget, Click to Chat Simple chat Line Messenger, live chat suppor
 
 == Description ==
 
-<strong>Click to chat widget with  WhatsApp, Facebook Messenger Simple Chat Button, Telegram Chat, Line Messenger, Live Chat Support Chat Button, WeChat, Discord Chat, Twitter, LinkedIn, TikTok, Snapchat, Viber Chat, Tidio Live Chat, Tawk Live Chat, Intercom Live Chat, Crisp Live Chat and Chatbot, Signal Chat, Slack Chat, Skype chat, Instagram Chat, Social Support Social Chat Bubble, Calendly, Pinterest, Social Support Live Support Customer Support Button with floating Chat Widget & sticky chat widget plugin.</strong>
+<strong>Click to chat widget with  WhatsApp, Facebook Messenger Simple Chat Button, Telegram Chat, Line Messenger, Live Chat Support Chat Button, WeChat, Discord Chat, Twitter, LinkedIn, TikTok, Snapchat, Viber Chat, Tidio Live Chat, Tawk Live Chat, Intercom Live Chat, Crisp Live Chat and Chatbot, Signal Chat, Slack Chat, Instagram Chat, Social Support Social Chat Bubble, Calendly, Pinterest, Social Support Live Support Customer Support Button with floating Chat Widget & sticky chat widget plugin.</strong>
 
 Although it is not a live chat plugin but help you to connect with multiple social support and social chat platform as well as live chat platform. It has also some unique feature like a Custom Contact Form, FAQ, Knowledge Base, WooCommerce order details, WP Search,  and WebHook. You can use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace by External Publish feature to get closer to your customers.
 
@@ -30,7 +30,7 @@ https://youtu.be/atVwkzFNnmM
 
 ## EASIEST STICKY CHAT WIDGET PLUGIN TO CONNECT MULTIPLE SOCIAL SUPPORT CHAT BUTTON
 
-[**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simple chat button or sticky chat widget plugin for WordPress which enables you to communicate with your website visitors through their preferred social support social chat button such as WhatsApp Support, Facebook Messenger Support, Telegram Support, Line Messenger Support, Live Chat Live Support Chat Button, WeChat Support, Discord Support Chat, SMS Support, Call Support Button, Twitter Support, LinkedIn Support, TikTok Support, Snapchat Support, Viber Support Chat, Tidio Live Support Chat, Tawk Live Support Chat, Intercom Live Support Chat, Crisp Live Support Chat and Chatbot, Signal Support Chat, Slack Support Chat, Skype Support Chat, Instagram Support Chat, Social Support Social Chat Bubble, Waze Map, Google Map, Calendly Support, Pinterest Support, Social Support Customer Support Button etc. Also featuring a Custom Contact Form, FAQ section, Knowledge Base, WooCommerce order details, WP Search, Custom Chanel, Custom Iframe and WebHook. You can use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers with external publish feature also.
+[**Bit Assist**](https://www.bitapps.pro/bit-assist) is one of the most simple chat button or sticky chat widget plugin for WordPress which enables you to communicate with your website visitors through their preferred social support social chat button such as WhatsApp Support, Facebook Messenger Support, Telegram Support, Line Messenger Support, Live Chat Live Support Chat Button, WeChat Support, Discord Support Chat, SMS Support, Call Support Button, Twitter Support, LinkedIn Support, TikTok Support, Snapchat Support, Viber Support Chat, Tidio Live Support Chat, Tawk Live Support Chat, Intercom Live Support Chat, Crisp Live Support Chat and Chatbot, Signal Support Chat, Slack Support Chat, Instagram Support Chat, Social Support Social Chat Bubble, Waze Map, Google Map, Calendly Support, Pinterest Support, Social Support Customer Support Button etc. Also featuring a Custom Contact Form, FAQ section, Knowledge Base, WooCommerce order details, WP Search, Custom Chanel, Custom Iframe and WebHook. You can use Bit Assist on WordPress or other platforms like Shopify, Wix, and Squarespace to get closer to your customers with external publish feature also.
 
 ## 👥 USE BIT ASSIST TO CHAT WITH CUSTOMERS ON WHATSAPP, MESSENGER, TELEGRAM AND MORE LIVE CHAT BUTTONS
 
@@ -42,7 +42,7 @@ Do not miss out on potential customers who prefer to chat with businesses via me
 
 ### ✔ Floating Chat Widget, Live Support, Live Chat Support Chat Button:
 
-Bit Assist has around 24 free chat channel and 10 premium channel! Custom Iframe, Crisp, FAQ, Intercom, Knowledge Base, Tawk, Tidio, WooCommerce Order Details, WpSearch are out premium chat channel rest are in free version of our chat plugin!
+Bit Assist has around 23 free chat channel and 10 premium channel! Custom Iframe, Crisp, FAQ, Intercom, Knowledge Base, Tawk, Tidio, WooCommerce Order Details, WpSearch are out premium chat channel rest are in free version of our chat plugin!
 
 * [Messenger Chat Support Button](https://bitapps.pro/docs/bit-assist/all-channels/messenger/) - [Watch Messenger Floating Chat Widget Button Video](https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=1)
 
@@ -63,8 +63,6 @@ Bit Assist has around 24 free chat channel and 10 premium channel! Custom Iframe
 * [TikTok Social Chat Support Button](https://bitapps.pro/docs/bit-assist/all-channels/tiktok) - [Watch Video](https://www.youtube.com/watch?v=Vyvu_JJKoOo&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=13)
 
 * [Discord Chat Support Button](https://bitapps.pro/docs/bit-assist/all-channels/discord) - [Watch Video](https://www.youtube.com/watch?v=QoObRkkkH4E&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=6),
-
-* [Skype Chat Support Button](https://bitapps.pro/docs/bit-assist/all-channels/skype) - [Watch Video](https://www.youtube.com/watch?v=c5b3YEtJM9A&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=2)
 
 * [Line Messenger Chat Support Button](https://bitapps.pro/docs/bit-assist/all-channels/line) - [Watch Video](https://www.youtube.com/watch?v=jz6KJXdk9kc&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5&index=4)
 
@@ -115,7 +113,7 @@ Bit Assist has around 24 free chat channel and 10 premium channel! Custom Iframe
 ## Free version's features of our chat plugin:
 * **Chat Widget:** In [Bit Assist](https://docs.bit-assist.bitapps.pro) free version you can have one widget activated at a time.
 
-* **Chat Widget Button or Channels:** You can choose any of 24 channels from 30+ chat channels to activate and use on your website simultaneously in free version.
+* **Chat Widget Button or Channels:** You can choose any of 23 channels from 30+ chat channels to activate and use on your website simultaneously in free version.
 
 * **Chat Widget Position:** Choose the widget's placement at either the bottom left, bottom right, top left, top right.
 
@@ -261,13 +259,13 @@ Wp-Telemetry **DOES NOT IMMEDIATELY** start gathering data, rather it will gathe
 ## FAQ
 
 = What is Bit Assist? =
-Bit Assist is a WordPress chat plugin that allows you to communicate with your website visitors through their favorite chat platforms like WhatsApp Support Chat, Facebook Messenger Support Chat, Telegram Support Chat, Line Messenger Support Chat, Live Chat Live Support Chat Button, WeChat Support, Discord Support Chat, SMS Support, Call Support Button, Twitter Support Chat, LinkedIn Support Chat, TikTok Support Chat, Snapchat Support Chat, Viber Support Chat, Tidio Live Support Chat, Tawk Live Support Chat, Intercom Live Support Chat, Crisp Live Support Chat and Chatbot, Signal Support Chat, Slack Support Chat, Skype Support Chat, Instagram Support Chat, Social Support Social Chat Bubble, Waze Map, Google Map, Calendly Support, Pinterest Support, Social Support Customer Support Button etc.
+Bit Assist is a WordPress chat plugin that allows you to communicate with your website visitors through their favorite chat platforms like WhatsApp Support Chat, Facebook Messenger Support Chat, Telegram Support Chat, Line Messenger Support Chat, Live Chat Live Support Chat Button, WeChat Support, Discord Support Chat, SMS Support, Call Support Button, Twitter Support Chat, LinkedIn Support Chat, TikTok Support Chat, Snapchat Support Chat, Viber Support Chat, Tidio Live Support Chat, Tawk Live Support Chat, Intercom Live Support Chat, Crisp Live Support Chat and Chatbot, Signal Support Chat, Slack Support Chat, Instagram Support Chat, Social Support Social Chat Bubble, Waze Map, Google Map, Calendly Support, Pinterest Support, Social Support Customer Support Button etc.
 
 = How many Widgets can I create in the free version? =
 You can create only one Widget in the free version
 
 = How many channels can I create in the free version? =
-You can create any of 22 channels at a time in the free version like WhatsApp, Facebook Messenger, Telegram, Discord, WeChat, Linkedin, Slack, Twitter, Instagram, TikTok, Skype, Line Messenger, Snapchat, Viber, Google Map, SMS, Call Button, Calendly, Waze, Pinterest, Signal, YouTube.
+You can create any of 23 channels at a time in the free version like WhatsApp, Facebook Messenger, Telegram, Discord, WeChat, Linkedin, Slack, Twitter, Instagram, TikTok, Line Messenger, Snapchat, Viber, Google Map, SMS, Call Button, Calendly, Waze, Pinterest, Signal, YouTube.
 
 = Does Bit Assist works on mobile? =
 Yes, it does. You have also the flexibility to customize which chat button will be displayed on different devices, be it desktop or mobile. This means you can choose to show WhatsApp and Facebook Messenger chat, channels on mobile devices while displaying another chat button on desktop or maybe you want to hide WhatsApp and Facebook Messenger chat, on mobile and show them on desktop. With this option, your visitors can choose their preferred way of communication, whether it’s WhatsApp or Messenger bot, to start chatting with you right away.
@@ -288,7 +286,7 @@ Select the WooCommerce channel and click on the “Add Field” button. Two fiel
 Yes, you can add them both. Just create the channels and provide your [phone](https://docs.bit-assist.bitapps.pro/call) number.
 
 = How many channels are available in Bit Assist? =
-34 channels are available, for example: WhatsApp Support, Call, Custom Channel, Custom Iframe, Custom Form, Discord Chat, Facebook Messenger Chat, FAQ Button, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS Support, Snapchat Support, Tawk Live Support Chat, Tidio Live Support Chat, Crisp Live Support Chat, Intercom Live Support Chat, Telegram Support Support Chat, TikTok Support Chat, Twitter Support Chat, Viber Support Chat, Waze Support, WeChat Support, WhatsApp Support Chat, WooCommerce Support, Pinterest Support Chat, Signal Support Chat, Wp Search Support, Knowledge Base, YouTube etc.
+33 channels are available, for example: WhatsApp Support, Call, Custom Channel, Custom Iframe, Custom Form, Discord Chat, Facebook Messenger Chat, FAQ Button, Google Map, Instagram, Knowledge base, Line, Linkedin, Slack, SMS Support, Snapchat Support, Tawk Live Support Chat, Tidio Live Support Chat, Crisp Live Support Chat, Intercom Live Support Chat, Telegram Support Support Chat, TikTok Support Chat, Twitter Support Chat, Viber Support Chat, Waze Support, WeChat Support, WhatsApp Support Chat, WooCommerce Support, Pinterest Support Chat, Signal Support Chat, Wp Search Support, Knowledge Base, YouTube etc.
 
 = Why don’t I see the Widget on my website? =
 To visible the chat widget you have to create a widget and add at least one channel to that chat widget.
@@ -300,7 +298,7 @@ Yes, it is. Bit Assist (WordPress chat plugin) is a great alternative to Chaty, 
 After installing the plugin click Bit Assist (WordPress chat plugin) or Bit Assist Pro. Then Click on the “Add Widget” button on the right of the page. A pop-up modal will show. In the modal set your widget name and hit the create button and the widget will be created.
 
 = How can I create a channel? =
-After creating a widget click on the three dots and go to the edit option, you will find the Add Channel button. Click on the button and choose your favourite channel like Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Skype, Slack, SMS, Snapchat, Tawk, Telegram, TikTok, Twitter, Viber, Waze, Wechat, WhatsApp, WooCommerce Pinterest, Signal, Wp Search and YouTube and create the channel.
+After creating a widget click on the three dots and go to the edit option, you will find the Add Channel button. Click on the button and choose your favourite channel like Call, Custom Channel, Custom Iframe, Custom Form, Discord, Facebook Messenger, FAQ, Google Map, Instagram, Knowledge base, Line, Linkedin, Slack, SMS, Snapchat, Tawk, Telegram, TikTok, Twitter, Viber, Waze, Wechat, WhatsApp, WooCommerce Pinterest, Signal, Wp Search and YouTube and create the channel.
 
 = Is there any Live Chat Live Support channel in Bit Assist ? =
 There is no dedicated live chat channel from bit assist but you can use Tawk LiveChat or Live Chat button, Live Support Button, Tidio Live Chat, Crisp Live Chat, Intercom Live chat Live Support button, to communicate with your visitors. You can add the Tawk (tawk.to) channel to your chat widget and enable Live Chat (LiveChat) with your website visitors. By adding this channel, you can engage in LiveChat or (Live Chat) sessions with your visitors, answering their queries in real-time and providing them with the best customer support chat experience possible.
@@ -392,7 +390,7 @@ Yes, you can use standalone form using Bit Assist‘s custom iframe channel whic
 
 = v1.3 (Oct 11, 2023) =
 * Important: 🔥 Free Unlimited Channels 🔥
-* Free Channels: Use 24 channels including WhatsApp Button, Facebook Messenger Chat Button, Telegram Chat button, Instagram Chat Button, Discord Chat Button, Line Messenger Chat Button, Skype Chat Button, Call Button, SMS Button, LinkedIn Button, Pinterest Button, Slack Chat Button, Signal Chat Button, Snapchat Button, Twitter Chat Button, Viber Chat Button, Calendly Button simultaneously in free version
+* Free Channels: Use 23 channels including WhatsApp Button, Facebook Messenger Chat Button, Telegram Chat button, Instagram Chat Button, Discord Chat Button, Line Messenger Chat Button, Call Button, SMS Button, LinkedIn Button, Pinterest Button, Slack Chat Button, Signal Chat Button, Snapchat Button, Twitter Chat Button, Viber Chat Button, Calendly Button simultaneously in free version
 * Pro Channels: FAQ, Knowledge Base, WooCommerce (Shipping Status), WP Search, Custom Iframe are now in pro version
 * Feature: Widget Analytics - Track your widget click, channel click, visitor count and click ratio
 * Feature: Google Analytics (GTM click)
