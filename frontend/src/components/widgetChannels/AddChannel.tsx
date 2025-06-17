@@ -309,47 +309,40 @@ function AddChannel() {
                     <MdArrowBackIosNew aria-label="back button" size="1rem" />
                   </Button>
                 )}
-                {flow.channel_name.toLowerCase() === 'live-chat-messenger' ? (
-                  <Text>Facebook Chat Plugin Disabled!</Text>
-                ) : (
-                  <Text>Create New Channel</Text>
-                )}
+
+                <Text>Create New Channel</Text>
 
                 <ButtonGroup alignItems="center">
                   {renderLink(flow.channel_name.toLowerCase())}
                 </ButtonGroup>
               </HStack>
-              {flow.channel_name.toLowerCase() !== 'live-chat-messenger' && (
-                <>
-                  {flow.step === 2 && config.IS_PRO ? (
-                    <Link href="https://bitapps.pro/bit-assist" target="_blank">
-                      <Button
-                        colorScheme="purple"
-                        form="createNewChannelForm"
-                        isLoading={isWidgetChannelCreating}
-                        loadingText="Saving..."
-                        spinnerPlacement="start"
-                        type="submit"
-                      >
-                        Save
-                      </Button>
-                    </Link>
-                  ) : (
-                    flow.step === 2 &&
-                    !proChannels.has(flow?.channel_name) && (
-                      <Button
-                        colorScheme="purple"
-                        form="createNewChannelForm"
-                        isLoading={isWidgetChannelCreating}
-                        loadingText="Saving..."
-                        spinnerPlacement="start"
-                        type="submit"
-                      >
-                        Save
-                      </Button>
-                    )
-                  )}
-                </>
+              {flow.step === 2 && config.IS_PRO ? (
+                <Link href="https://bitapps.pro/bit-assist" target="_blank">
+                  <Button
+                    colorScheme="purple"
+                    form="createNewChannelForm"
+                    isLoading={isWidgetChannelCreating}
+                    loadingText="Saving..."
+                    spinnerPlacement="start"
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                </Link>
+              ) : (
+                flow.step === 2 &&
+                !proChannels.has(flow?.channel_name) && (
+                  <Button
+                    colorScheme="purple"
+                    form="createNewChannelForm"
+                    isLoading={isWidgetChannelCreating}
+                    loadingText="Saving..."
+                    spinnerPlacement="start"
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                )
               )}
             </HStack>
           </ModalHeader>

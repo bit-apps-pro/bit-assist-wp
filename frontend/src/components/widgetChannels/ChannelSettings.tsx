@@ -48,7 +48,6 @@ import { useAtom } from 'jotai'
 import Calendly from './channels/Calendly'
 import Crisp from './channels/Crisp'
 import Intercom from './channels/Intercom'
-import MessengerLive from './channels/MessengerLive'
 import Tidio from './channels/Tidio'
 import Tidycal from './channels/Tidycal'
 
@@ -95,9 +94,6 @@ const renderSelectedChannelSettings = (channelName: string) => {
     }
     case 'linkedin': {
       return <Linkedin />
-    }
-    case 'live-chat-messenger': {
-      return <MessengerLive />
     }
     case 'messenger': {
       return <Messenger />
@@ -184,10 +180,6 @@ function ChannelSettings() {
   }
 
   const isProChannel = PRO_CHANNELS.has(flow.channel_name)
-
-  if (flow.channel_name === 'Live-Chat-Messenger') {
-    return <MessengerLive />
-  }
 
   return (
     <>

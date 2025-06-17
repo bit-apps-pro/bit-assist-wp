@@ -107,8 +107,6 @@ Bit Assist has around 23 free chat channel and 10 premium channel! Custom Iframe
 * [Intercom Live Chat Live Support Button](https://bitapps.pro/docs/bit-assist/all-channels/intercom/)
 
 * [Tidio Live Chat Live Support Button](https://bitapps.pro/docs/bit-assist/all-channels/tidio/)
-
-* [Messenger Live Chat Live Support Button](https://bitapps.pro/docs/bit-assist/all-channels/live-chat-messenger/) **⚠️ Currently Disabled By Facebook Officially!**
  
 ## Free version's features of our chat plugin:
 * **Chat Widget:** In [Bit Assist](https://docs.bit-assist.bitapps.pro) free version you can have one widget activated at a time.

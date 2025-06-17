@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { WarningTwoIcon } from '@chakra-ui/icons'
 import { Box, GridItem, Image, Text } from '@chakra-ui/react'
 import config from '@config/config'
 import { flowAtom } from '@globalStates/atoms'
@@ -81,21 +80,8 @@ function SingleChannel({ channel }: { channel: Channel }) {
         </Box>
       )}
 
-      {channel.name === 'Live-Chat-Messenger' && (
-        <Box color="#000" mr="1" mt="0.5" position="absolute" right="0" top="0">
-          <WarningTwoIcon color="red.500" h={4} w={4} />
-        </Box>
-      )}
-
       <>
-        <Image
-          alt={channel.name}
-          filter={channel.name === 'Live-Chat-Messenger' ? 'grayscale(100%)' : 'none'}
-          h="10"
-          mx="auto"
-          src={channel.icon}
-          w="10"
-        />
+        <Image alt={channel.name} h="10" mx="auto" src={channel.icon} w="10" />
         <Text lineHeight="1" marginTop="2">
           {channel.name.replaceAll('-', ' ')}
         </Text>

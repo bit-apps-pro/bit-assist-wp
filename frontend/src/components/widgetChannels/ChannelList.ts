@@ -58,10 +58,6 @@ const channelList = [
     name: 'Linkedin'
   },
   {
-    icon: `${config.ROOT_URL}/img/channel/live-chat-messenger.svg`,
-    name: 'Live-Chat-Messenger'
-  },
-  {
     icon: `${config.ROOT_URL}/img/channel/messenger.svg`,
     name: 'Messenger'
   },
