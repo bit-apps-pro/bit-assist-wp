@@ -1,4 +1,4 @@
-=== Chat Widget: Floating Customer Support Button for Whatsapp, Messenger, Line, WeChat, SMS, Call Button - Bit Assist ===
+=== Chat Widget: Floating Customer Support Button for 30+ Channels, Supporting SMS, Calls, and Chat - Bit Assist ===
 
 Contributors: bitpressadmin, shuvomohajan, shimulckbt
 Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
