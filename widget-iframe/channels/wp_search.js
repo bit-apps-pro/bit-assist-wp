@@ -32,15 +32,55 @@ export const wp_search = {
     )
   },
 
-  async searchPostPage(value, page = 1) {
-    const { data, pagination } = await this.fetchWPSearchData(value, page)
+  showLoading(showText = true) {
+    const lists = $('#lists')
+    if (lists) {
+      const loadingDiv = createElm('div', { class: 'loading-container' })
+      const loadingIcon = createElm('div', { class: 'loading-spinner' })
 
-    this.renderWPSearchItem(data)
-    if (pagination?.has_next || pagination?.has_previous) {
-      this.renderWPSearchPagination(pagination)
+      if (showText) {
+        const loadingText = createElm('p', { class: 'loading-text' })
+        globalInnerText(loadingText, 'Searching...')
+        globalAppend(loadingDiv, [loadingIcon, loadingText])
+      }
+      else {
+        globalAppend(loadingDiv, loadingIcon)
+      }
+
+      globalInnerHTML(lists, '')
+      globalAppend(lists, loadingDiv)
     }
+  },
 
-    this.resetClientWidgetSize()
+  hideLoading() {
+    const loadingContainer = $('.loading-container')
+    if (loadingContainer) {
+      loadingContainer.remove()
+    }
+  },
+
+  async searchPostPage(value, page = 1, isPaginating = false) {
+    this.showLoading(!isPaginating)
+
+    try {
+      const { data, pagination } = await this.fetchWPSearchData(value, page)
+
+      this.renderWPSearchItem(data)
+      if (pagination?.has_next || pagination?.has_previous) {
+        this.renderWPSearchPagination(pagination)
+      }
+    }
+    catch (error) {
+      console.error('Search error:', error)
+      const lists = $('#lists')
+      if (lists) {
+        globalInnerHTML(lists, '<div class="error-message">Failed to load search results. Please try again.</div>')
+      }
+    }
+    finally {
+      this.hideLoading()
+      this.resetClientWidgetSize()
+    }
   },
 
   async fetchWPSearchData(value, page) {
@@ -57,6 +97,13 @@ export const wp_search = {
     const lists = $('#lists')
     globalInnerHTML(lists, '')
     const itemsObj = []
+
+    if (!items || items.length === 0) {
+      const noResults = createElm('div', { class: 'no-results' })
+      globalInnerText(noResults, 'No results found')
+      globalAppend(lists, noResults)
+      return
+    }
 
     items?.forEach((item) => {
       const listItem = createElm('div', { class: 'listItem' })
@@ -102,8 +149,8 @@ export const wp_search = {
     }
 
     const searchValue = $('#listSearch')?.value || ''
-    globalEventListener(nextPage, 'click', () => this.searchPostPage(searchValue, pagination?.next))
-    globalEventListener(prevPage, 'click', () => this.searchPostPage(searchValue, pagination?.previous))
+    globalEventListener(nextPage, 'click', () => this.searchPostPage(searchValue, pagination?.next, true))
+    globalEventListener(prevPage, 'click', () => this.searchPostPage(searchValue, pagination?.previous, true))
 
     globalAppend(paginationWrap, [prevPage, nextPage, pageNumber])
     globalAppend($('#lists'), paginationWrap)

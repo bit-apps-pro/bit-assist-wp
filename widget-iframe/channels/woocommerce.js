@@ -132,22 +132,15 @@ export const woocommerce = {
     const toastContent = createElm('div', { class: 'toast-content' })
     const toastText = createElm('div', { class: 'toast-text' })
 
-    const toastTextTitle = createElm('div', { class: 'toast-text-title' })
-    toastTextTitle.textContent = type === 'success' ? '404' : 'Error'
-
     const toastTextBody = createElm('div', { class: 'toast-text-body' })
     toastTextBody.textContent = type === 'success' ? data?.message : 'Something went wrong'
 
-    globalAppend(toastText, [toastTextTitle, toastTextBody])
+    globalAppend(toastText, [toastTextBody])
     globalAppend(toastContent, toastText)
     globalAppend(toast, toastContent)
 
     globalAppend(widgetThis.cardBody, toast)
     globalClassListAdd(widgetThis.formBody, 'hide')
-
-    if (globalClassListContains(toast, 'success')) {
-      toastTextTitle.style.color = widgetThis.selectedFormBg
-    }
 
     await widgetThis.delay(10)
     if (!globalClassListContains(widgetThis.formBody, 'hide')) {
