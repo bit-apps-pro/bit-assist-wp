@@ -1,7 +1,8 @@
 const apiEndPoint = window?.bit_assist_?.api?.base
-const iframeHost = window?.bit_assist_?.isDev !== '1' ? `${apiEndPoint}/iframe` : 'http://localhost:5000'
+const isProduction = window?.bit_assist_?.isDev !== '1'
+const iframeHost = isProduction ? `${apiEndPoint}/iframe` : 'http://localhost:5000'
 const iframeDomain = new URL(iframeHost).origin
-const separator = window?.bit_assist_?.api?.separator || '?'
+const separator = isProduction ? window?.bit_assist_?.api?.separator || '?' : '?'
 
 const { protocol, host, hostname, href } = window.location
 const protocolIndicator = protocol === 'http:' ? 'i' : 's'

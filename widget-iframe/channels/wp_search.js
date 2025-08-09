@@ -107,7 +107,7 @@ export const wp_search = {
 
     items?.forEach((item) => {
       const listItem = createElm('div', { class: 'listItem' })
-      const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.guid })
+      const listItemTitleWrapper = createElm('button', { class: 'listItemTitleWrapper', title: item.post_link })
       const title = createElm('p', { class: 'title' })
       const type = createElm('p', { class: 'type' })
 
@@ -120,10 +120,10 @@ export const wp_search = {
       globalEventListener(listItemTitleWrapper, 'click', () => {
         const { link_open_action } = lists.dataset
         if (link_open_action === 'new_window') {
-          window.open(item.guid, '_blank', 'popup')
+          window.open(item.post_link, '_blank', 'popup')
         }
         else {
-          window.open(item.guid, link_open_action)
+          window.open(item.post_link, link_open_action)
         }
       })
     })

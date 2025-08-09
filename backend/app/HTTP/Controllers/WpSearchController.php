@@ -31,23 +31,24 @@ final class WpSearchController
         $paged = max(1, intval($page));
         $search = trim($search);
 
-        // Build optimized query arguments
         $queryArgs = [
-            'post_type'      => $postTypes,
-            'post_status'    => 'publish',
-            'posts_per_page' => 10,
-            'orderby'        => 'relevance',
-            'paged'          => $paged,
-            'no_found_rows'  => false,
+            'post_type'              => $postTypes,
+            'post_status'            => 'publish',
+            'posts_per_page'         => 10,
+            'orderby'                => 'relevance',
+            'paged'                  => $paged,
+            'no_found_rows'          => false, // keep pagination totals
+            'has_password'           => false, // exclude password-protected posts
+            'update_post_meta_cache' => false, // performance flag
+            'update_post_term_cache' => false, // performance flag
+            'ignore_sticky_posts'    => true,  // performance/consistency flag
         ];
 
-        // Add search parameters if search term exists
         if (!empty($search)) {
             $queryArgs['s'] = $search;
             $queryArgs['search_columns'] = ['post_title'];
         }
 
-        // Execute query
         $query = new WP_Query($queryArgs);
 
         if (is_wp_error($query)) {
@@ -64,7 +65,7 @@ final class WpSearchController
     {
         return array_map(function ($post) {
             return [
-                'guid'       => esc_url($post->guid),
+                'post_link'  => esc_url_raw(get_permalink($post->ID)),
                 'post_title' => esc_html($post->post_title),
                 'post_type'  => esc_html($post->post_type),
             ];
