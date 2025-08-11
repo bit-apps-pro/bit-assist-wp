@@ -29,8 +29,8 @@ jobs:
           node-version: 22
           cache: 'pnpm'
           cache-dependency-path: |
-            'frontend/pnpm-lock.yaml'
-            'widget-iframe/pnpm-lock.yaml'
+            frontend/pnpm-lock.yaml
+            widget-iframe/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         id: pnpm-cache
