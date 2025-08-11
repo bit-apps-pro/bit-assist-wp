@@ -1,0 +1,44 @@
+.ql-toolbar {
+  border-radius: var(--chakra-radii-md);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-color: var(--chakra-colors-chakra-border-color);
+}
+
+.ql-container {
+  border-radius: var(--chakra-radii-md);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-color: var(--chakra-colors-chakra-border-color);
+  height: 300px;
+}
+
+.ba-quill-dark .ql-stroke {
+  stroke: var(--chakra-colors-gray-200);
+}
+
+.ba-quill-dark .ql-fill,
+.ba-quill-dark .ql-stroke.ql-fill {
+  fill: var(--chakra-colors-gray-200);
+}
+
+.ba-quill-dark .ql-picker {
+  color: var(--chakra-colors-gray-200);
+}
+
+.ba-quill-dark .ql-picker-options {
+  background-color: var(--chakra-colors-gray-700);
+  border-color: var(--chakra-colors-chakra-border-color);
+}
+
+.ba-quill-dark .ql-tooltip {
+  background-color: var(--chakra-colors-gray-700);
+  border-color: var(--chakra-colors-chakra-border-color);
+  color: var(--chakra-colors-gray-200);
+}
+
+.ba-quill-dark .ql-tooltip input[type='text'] {
+  background-color: var(--chakra-colors-gray-700);
+  border-color: var(--chakra-colors-chakra-border-color);
+  color: var(--chakra-colors-gray-200);
+}

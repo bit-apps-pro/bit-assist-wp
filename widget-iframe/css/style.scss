@@ -69,3 +69,16 @@ body {
 		border-radius: 50%;
 	}
 }
+
+#knowledgeBaseDescription img {
+		max-width: 100%;
+}
+
+// Quill Editor Alignment Classes
+.ql-align-center {
+	text-align: center;
+}
+
+.ql-align-right {
+	text-align: right;
+}

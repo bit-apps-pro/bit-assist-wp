@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { modalAnatomy as parts } from '@chakra-ui/anatomy'
 import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system'
 
