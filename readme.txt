@@ -354,7 +354,7 @@ Yes, you can use Facebook Chat Plugin – Live Chat Plugin for WordPress, Tawk.T
 Yes, you can use standalone form using Bit Assist‘s custom iframe channel. You can show wordpress standalone form with this channel by providing the link from the dedicated standalone form. For example, there are several form builder plugins which have standalone form features like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
-= v1.5.8 (Aug 10, 2025) =
+= v1.5.8 (Aug 11, 2025) =
 * Improvement: Enhanced WP Search channel performance and introduced new loading functionality.
 
 = v1.5.7 (Mar 24, 2025) =
