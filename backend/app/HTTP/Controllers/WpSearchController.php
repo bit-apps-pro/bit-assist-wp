@@ -65,9 +65,9 @@ final class WpSearchController
     {
         return array_map(function ($post) {
             return [
-                'post_link'  => esc_url_raw(get_permalink($post->ID)),
-                'post_title' => esc_html($post->post_title),
-                'post_type'  => esc_html($post->post_type),
+                'post_link'  => get_permalink($post->ID),
+                'post_title' => $post->post_title,
+                'post_type'  => $post->post_type,
             ];
         }, array_filter($posts, function ($post) {
             return $post && is_object($post);
