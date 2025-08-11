@@ -61,6 +61,7 @@ export const wp_search = {
 
   async searchPostPage(value, page = 1, isPaginating = false) {
     this.showLoading(!isPaginating)
+    this.resetClientWidgetSize()
 
     try {
       const { data, pagination } = await this.fetchWPSearchData(value, page)
