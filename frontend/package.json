@@ -46,7 +46,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "pd": "tsc && vite build",
-    "fpd": "cd ../widget-iframe && pnpm i && pnpm build",
+    "fpd": "cd ../widget-iframe && pnpm build",
     "pda": "npm run pd && npm run fpd",
     "clear-lint-cache": "eslint . --cache --cache-file eslint-cache/eslintcache",
     "i18n:json": "npx po2json ./language/locale.pot ../languages/bitform-btcassist-admin-script.json -f jed1.x",

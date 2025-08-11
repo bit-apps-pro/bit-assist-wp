@@ -1,0 +1,27 @@
+#!/usr/bin/env /usr/bin/bash
+
+PLUGIN_DIR="$PWD"
+
+BUILD_DIR="$PLUGIN_DIR/build/bit-assist";
+
+rm -rf "$PLUGIN_DIR/build";
+mkdir -p "$BUILD_DIR";
+
+if [ ! -d "$PLUGIN_DIR/languages" ]; then
+    mkdir "$PLUGIN_DIR/languages";
+fi
+
+composer i -o --no-dev --ignore-platform-reqs 2>&1 >/dev/null
+
+cd "$PLUGIN_DIR/frontend" && pnpm pda
+
+cd "$PLUGIN_DIR"
+
+cp -r "$PLUGIN_DIR/assets"  "$BUILD_DIR/assets"
+cp -r "$PLUGIN_DIR/backend"  "$BUILD_DIR/backend"
+cp -r "$PLUGIN_DIR/iframe"  "$BUILD_DIR/iframe"
+cp -r "$PLUGIN_DIR/img"  "$BUILD_DIR/img"
+cp -r "$PLUGIN_DIR/vendor"  "$BUILD_DIR/vendor"
+cp -r "$PLUGIN_DIR/index.php"  "$BUILD_DIR/index.php"
+cp -r "$PLUGIN_DIR/readme.txt"  "$BUILD_DIR/readme.txt"
+cp -r "$PLUGIN_DIR/composer.json"  "$BUILD_DIR/composer.json"
