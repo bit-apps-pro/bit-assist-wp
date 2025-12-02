@@ -114,6 +114,7 @@ export default function WooCommerce() {
                         <Text>Required</Text>
                         <Switch
                           colorScheme="purple"
+                          disabled={field?.field_type === 'number'}
                           isChecked={field?.required || false}
                           onChange={e => handleChange(e.target.checked, 'required', id)}
                         />

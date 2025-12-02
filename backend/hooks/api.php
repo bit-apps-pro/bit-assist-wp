@@ -12,7 +12,7 @@ if (!\defined('ABSPATH')) {
     exit;
 }
 
-Route::noAuth()->group(function () {
+Route::group(function () {
     Route::post('bitAssistWidget', [ApiWidgetController::class, 'bitAssistWidget']);
     Route::post('responses', [ResponseController::class, 'store']);
     Route::post('wpSearch', [WpSearchController::class, 'wpSearch']);

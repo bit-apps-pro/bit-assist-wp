@@ -16,6 +16,7 @@ use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
 use BitApps\Assist\HTTP\Controllers\BitAssistAnalyticsController;
 use BitApps\Assist\HTTP\Middleware\AdminCheckerMiddleware;
+use BitApps\Assist\HTTP\Middleware\LoggedInCheckerMiddleware;
 use BitApps\Assist\HTTP\Middleware\NonceCheckerMiddleware;
 use BitApps\Assist\Providers\HookProvider;
 use BitApps\Assist\Providers\InstallerProvider;
@@ -94,8 +95,9 @@ final class Plugin
     public function middlewares()
     {
         return [
-            'nonce'   => NonceCheckerMiddleware::class,
-            'isAdmin' => AdminCheckerMiddleware::class,
+            'nonce'      => NonceCheckerMiddleware::class,
+            'isAdmin'    => AdminCheckerMiddleware::class,
+            'isLoggedIn' => LoggedInCheckerMiddleware::class,
         ];
     }
 

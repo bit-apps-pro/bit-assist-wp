@@ -1,11 +1,11 @@
 === Chat Widget: Floating Customer Support Button for 30+ Channels, Supporting SMS, Calls, and Chat - Bit Assist ===
 
-Contributors: bitpressadmin, shuvomohajan, shimulckbt
+Contributors: bitpressadmin, akaioum, shuvomohajan, shimulckbt
 Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
 Requires at least: 5.1
-Tested up to: 6.8.2
+Tested up to: 6.8.3
 Requires PHP: 7.4
-Stable tag: 1.5.10
+Stable tag: 1.5.11
 License: GPLv2 or later
 
 Floating sticky chat button for WhatsApp Chat, Facebook Messenger, Telegram, Instagram, SMS, Call, Discord chat, TikTok, Line & 30+ channels
@@ -68,7 +68,6 @@ https://www.youtube.com/watch?v=kJfpUJQyLbw
 - **LinkedIn**
 - **Messenger**
 - **Live Chat Messenger**
-- **Skype**
 - **Slack**
 - **Tidio**
 - **SMS**
@@ -92,7 +91,7 @@ https://www.youtube.com/watch?v=kJfpUJQyLbw
 
 **✅ Chat Widget with Multiple Messaging Channels**
 
-- Supports 30+ channels including WhatsApp, Facebook Messenger, Telegram, Line, Instagram, Discord, Slack, SMS, Skype, Twitter, LinkedIn, TikTok, Snapchat, Viber, Signal, and more live chat support channels.
+- Supports 30+ channels including WhatsApp, Facebook Messenger, Telegram, Line, Instagram, Discord, Slack, SMS, Twitter, LinkedIn, TikTok, Snapchat, Viber, Signal, and more live chat support channels.
 
 - Integration with popular live chat support tools: Tawk to live chat support, Tidio live chat support, Intercom live chat support, and Crisp live chat support.
 
@@ -354,6 +353,9 @@ Yes, you can use Facebook Chat Plugin – Live Chat Plugin for WordPress, Tawk.T
 Yes, you can use standalone form using Bit Assist‘s custom iframe channel. You can show wordpress standalone form with this channel by providing the link from the dedicated standalone form. For example, there are several form builder plugins which have standalone form features like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
 == Changelog ==
+= v1.5.11 (Dec 2, 2025) =
+* Improvement: Users must now be logged in to view order details via the WooCommerce channel.
+
 = v1.5.9 (Aug 11, 2025) =
 * Fix: Fixed wp search posts title special characters display issue.
 

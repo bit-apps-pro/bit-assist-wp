@@ -108,8 +108,18 @@ export const woocommerce = {
 
   async formSubmittedData(widgetThis, formData, widgetChannel, page = 1) {
     formData.set('page', page)
+    /**
+     * This will work in production mode only
+     *
+     * It will not work in following cases: (logged in cookie will not set that time)
+     * - when in development mode
+     * - when widget loaded from external website
+     */
     const orderDetails = await fetch(`${widgetThis.apiEndPoint}/orderDetails`, {
       method: 'POST',
+      headers: {
+        'X-WP-Nonce': widgetThis.nonce,
+      },
       body: formData,
     }).then(res => res.json())
 
