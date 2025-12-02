@@ -35,6 +35,7 @@ export default class Widget {
   widgetWrapper
   channels
   #isMobileDevice
+  nonce
   #clientPageUrl
   #scrollPercent
   callToAction
@@ -297,11 +298,12 @@ export default class Widget {
     }
   }
 
-  handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint }) => {
+  handleWindowLoaded = ({ url, winWidth, winHeight, scrollPercent, apiEndPoint, nonce }) => {
     globalSetProperty(this.root.style, '--client-win-width', `${winWidth}px`)
     globalSetProperty(this.root.style, '--client-win-height', `${winHeight}px`)
     this.#scrollPercent = scrollPercent
     this.apiEndPoint = apiEndPoint
+    this.nonce = nonce
     this.#isMobileDevice = winWidth < 768
     this.#clientPageUrl = url.slice(this.clientDomain.length + 1, url.length)
 

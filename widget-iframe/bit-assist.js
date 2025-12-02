@@ -3,6 +3,7 @@ const isProduction = window?.bit_assist_?.isDev !== '1'
 const iframeHost = isProduction ? `${apiEndPoint}/iframe` : 'http://localhost:5000'
 const iframeDomain = new URL(iframeHost).origin
 const separator = isProduction ? window?.bit_assist_?.api?.separator || '?' : '?'
+const nonce = window?.bit_assist_?.nonce
 
 const { protocol, host, hostname, href } = window.location
 const protocolIndicator = protocol === 'http:' ? 'i' : 's'
@@ -85,7 +86,7 @@ window.addEventListener('message', (e) => {
     const winHeight = window.innerHeight
 
     iframeElement.contentWindow.postMessage(
-      { action: 'windowLoaded', url, winWidth, winHeight, scrollPercent, apiEndPoint },
+      { action: 'windowLoaded', url, winWidth, winHeight, scrollPercent, apiEndPoint, nonce },
       iframeDomain,
     )
   }

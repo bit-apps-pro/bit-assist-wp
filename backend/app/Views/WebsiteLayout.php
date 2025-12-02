@@ -33,6 +33,7 @@ class WebsiteLayout
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [
             'api'   => Config::get('API_URL'),
             'isDev' => Config::isDev(),
+            'nonce' => wp_create_nonce('wp_rest'),
         ]);
     }
 
