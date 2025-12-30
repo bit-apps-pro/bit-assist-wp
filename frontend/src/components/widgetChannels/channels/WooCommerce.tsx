@@ -8,7 +8,6 @@ import {
   HStack,
   Input,
   Stack,
-  Switch,
   Text,
   useColorModeValue,
   VStack
@@ -112,12 +111,12 @@ export default function WooCommerce() {
 
                       <HStack alignItems="center">
                         <Text>Required</Text>
-                        <Switch
+                        {/* <Switch
                           colorScheme="purple"
-                          disabled={field?.field_type === 'number'}
+                          disabled
                           isChecked={field?.required || false}
                           onChange={e => handleChange(e.target.checked, 'required', id)}
-                        />
+                        /> */}
                       </HStack>
                     </HStack>
                     <VStack alignItems="flex-start">

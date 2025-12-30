@@ -27,14 +27,13 @@ final class WooChannelController
             return ['message' => 'Order ID is required', 'status_code' => 422];
         }
 
+        if (!$billing_email) {
+            return ['message' => 'Billing email is required', 'status_code' => 422];
+        }
+
         $widget_channel = WidgetChannel::where('id', $widget_channel_id)->first();
         if (!$widget_channel->exists()) {
             return ['message' => 'Widget channel not found', 'status_code' => 404];
-        }
-
-        $isEmailRequired = $widget_channel->config->card_config->form_fields[1]->required;
-        if ($isEmailRequired && !$billing_email) {
-            return ['message' => 'Billing email is required', 'status_code' => 422];
         }
 
         $order = wc_get_order($order_id);
@@ -43,7 +42,14 @@ final class WooChannelController
             return ['message' => 'Order not found', 'status_code' => 404];
         }
 
-        if ($billing_email && $billing_email !== $order->get_billing_email()) {
+        $current_user_id = get_current_user_id();
+        $order_user_id = $order->get_user_id();
+
+        if ($current_user_id !== $order_user_id) {
+            return ['message' => 'You are not authorized to view this order', 'status_code' => 403];
+        }
+
+        if ($billing_email !== $order->get_billing_email()) {
             return ['message' => 'Billing email does not match', 'status_code' => 422];
         }
 

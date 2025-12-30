@@ -202,11 +202,6 @@ You can send data through webhook from Bit Assist’s custom form to Flowmattic,
 - **Widget Analytics:** The analytics feature tracks visitor and click counts, aiding in optimizing channel selection for improved customer attraction on your website.
 
 
-**WordPress Floating Contact Button Plugin | Bit Assist Tutorial - by Ali Hossain**
-
-https://www.youtube.com/watch?v=jRFN7WhDAss
-
-
 = 🗬 BIT ASSIST VS OTHER SOCIAL SUPPORT LIVE CHAT SUPPORT PLUGINS =
 Though Bit Assist is not a live chat plugin but you can add multiple live chat platforms. It does not have a dedicated live chat social support but you can integrate Tidio live chat, Tawk Live Chat, Crisp Live Chat, Intercom Live Chat, Line Messenger and Multiple Live Chat channels.
 
