@@ -10,8 +10,9 @@ declare module '*.module.scss'
 declare module '*.module.sass'
 declare module '*.svg'
 
-declare let bitapp
-declare let wp
+declare let bitapp: Record<string, unknown> | undefined
+declare let bit_assist_: Record<string, unknown> | undefined // eslint-disable-line camelcase
+declare let wp: undefined | { i18n?: unknown }
 
 declare let __webpack_public_path__ // eslint-disable-line camelcase
 

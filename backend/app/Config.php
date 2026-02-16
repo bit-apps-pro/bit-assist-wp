@@ -249,7 +249,7 @@ class Config
             'All Widgets' => [
                 'parent'     => self::SLUG,
                 'type'       => 'submenu',
-                'name'       => 'All Widgets',
+                'name'       => __('All Widgets', 'bit-assist'),
                 'capability' => 'manage_options',
                 'slug'       => self::SLUG . '#/',
             ],

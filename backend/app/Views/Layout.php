@@ -23,6 +23,7 @@ class Layout
         Hooks::addAction('admin_enqueue_scripts', [$this, 'head'], 0);
         Hooks::addFilter('style_loader_tag', [$this, 'linkTagFilter'], 0, 3);
         Hooks::addFilter('script_loader_tag', [$this, 'scriptTagFilter'], 0, 3);
+        Hooks::addFilter('pre_load_script_translations', [$this, 'loadScriptTranslations'], 10, 4);
     }
 
     /**
@@ -75,16 +76,18 @@ class Layout
 
         // wp_dequeue_script('wp-element');
 
+        wp_enqueue_script('wp-i18n');
+
         if (Config::isDev()) {
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-helper-MODULE', Config::DEV_URL . '/config/devHotModule.js', [], null);
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-MODULE', Config::DEV_URL . '/@vite/client', [], null);
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
-            wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', [], null);
+            wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', ['wp-i18n'], null);
         } else {
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Main app script must load in header for proper initialization
-            wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', [], $version);
+            wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', ['wp-i18n'], $version);
             wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
 
@@ -130,6 +133,12 @@ class Layout
         //     'screen'
         // );
 
+        wp_set_script_translations(
+            $slug . '-index-MODULE',
+            'bit-assist',
+            Config::get('BASEDIR_ROOT') . 'languages'
+        );
+
         wp_localize_script(Config::SLUG . '-index-MODULE', Config::VAR_PREFIX, self::createConfigVariable());
     }
 
@@ -142,7 +151,7 @@ class Layout
         echo '<div style="display: flex;flex-direction: column;justify-content: center;';
         echo 'align-items: center;height: 90vh;font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;">';
         echo '<img alt="bit-assist-logo" class="bit-logo" width="70" src="' . esc_url($rootURL . '/img/logo.svg') . '">';
-        echo '<h1>Welcome to Bit Assist</h1>';
+        echo '<h1>' . esc_html__('Welcome to Bit Assist', 'bit-assist') . '</h1>';
         echo '<p></p>';
         echo '</div>';
         echo '</div>';
@@ -210,6 +219,33 @@ class Layout
         return $newTag;
     }
 
+    /**
+     * Serve JED JSON for wp_set_script_translations.
+     * Bypasses WordPress's hash-based file lookup which doesn't work with bundled scripts.
+     *
+     * @param string|false $translations JSON translations string or false.
+     * @param string|false $file         Path to the translation file to load.
+     * @param string       $handle       Script handle.
+     * @param string       $domain       Text domain.
+     *
+     * @return string|false
+     */
+    public function loadScriptTranslations($translations, $file, $handle, $domain)
+    {
+        if ($domain !== 'bit-assist') {
+            return $translations;
+        }
+
+        $locale  = is_admin() ? get_user_locale() : get_locale();
+        $jsonFile = Config::get('BASEDIR_ROOT') . 'languages/bit-assist-' . $locale . '.json';
+        if (file_exists($jsonFile)) {
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local translation file
+            return file_get_contents($jsonFile);
+        }
+
+        return $translations;
+    }
+
     public function createConfigVariable()
     {
         // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
@@ -230,11 +266,6 @@ class Layout
             ]
         );
         // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
-        if (get_locale() !== 'en_US' && file_exists(Config::get('BASEDIR') . '/languages/generatedString.php')) {
-            include_once Config::get('BASEDIR') . '/languages/generatedString.php';
-            $frontendVars['translations'] = Config::withPrefix('i18n_strings');
-        }
-
         return $frontendVars;
     }
 }

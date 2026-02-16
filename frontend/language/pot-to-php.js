@@ -1,61 +1,27 @@
 #!/usr/bin/env node
 
-/* eslint-disable import/no-extraneous-dependencies */
-// This file is from wp-i18n tools
-
-import gettextParser from 'gettext-parser'
-import _ from 'lodash'
-/**
- * External dependencies
- */
-import fs from 'node:fs'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const gettextParser = require('gettext-parser')
+const _ = require('lodash')
+const fs = require('node:fs')
 
 const TAB = '    '
 const NEWLINE = '\n'
-// eslint-disable-next-line no-undef
 const args = process.argv.slice(2)
 const fileHeader =
-  // eslint-disable-next-line no-useless-escape
-  ['<?php', '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */', `\$i18nStrings = array(`].join(
+  ['<?php', '/* THIS IS A GENERATED FILE. DO NOT EDIT DIRECTLY. */', `$i18nStrings = array(`].join(
     NEWLINE
   ) + NEWLINE
 
 const fileFooter =
   NEWLINE + [');', '/* THIS IS THE END OF THE GENERATED FILE */'].join(NEWLINE) + NEWLINE
 
-function convertPOTToPHP(potFile, phpFile, options) {
-  const poContents = fs.readFileSync(potFile)
-  const parsedPO = gettextParser.po.parse(poContents)
-
-  let output = []
-
-  for (const context of Object.keys(parsedPO.translations)) {
-    const translations = parsedPO.translations[context]
-
-    const newOutput = Object.values(translations)
-      .map(translation => convertTranslationToPHP(translation, options.textdomain, context))
-      .filter(php => php !== '')
-
-    output = [...output, ...newOutput]
-  }
-
-  const fileOutput = fileHeader + output.join(`,${NEWLINE}${NEWLINE}`) + fileFooter
-
-  fs.writeFileSync(phpFile, fileOutput)
+function escapeSingleQuotes(input) {
+  return input.replaceAll("'", String.raw`\'`)
 }
 
-/**
- * Converts a translation parsed from the POT file to lines of WP PHP.
- *
- * @param {Object} translation The translation to convert.
- * @param {string} textdomain The text domain to use in the WordPress translation function call.
- * @param {string} context The context for the translation.
- * @return {string} Lines of PHP that match the translation.
- */
-function convertTranslationToPHP(translation, textdomain, context = '') {
+function convertTranslationToPHP(translation, textdomain, context) {
   let php = ''
-
-  // The format of gettext-js matches the terminology in gettext itself.
   let original = translation.msgid
 
   if (original !== '') {
@@ -77,14 +43,25 @@ function convertTranslationToPHP(translation, textdomain, context = '') {
   return php
 }
 
-/**
- * Escapes single quotes.
- *
- * @param {string} input The string to be escaped.
- * @return {string} The escaped string.
- */
-function escapeSingleQuotes(input) {
-  return input.replaceAll("'", String.raw`\'`)
+function convertPOTToPHP(potFile, phpFile, options) {
+  const poContents = fs.readFileSync(potFile)
+  const parsedPO = gettextParser.po.parse(poContents)
+
+  let output = []
+
+  for (const context of Object.keys(parsedPO.translations)) {
+    const translations = parsedPO.translations[context]
+
+    const newOutput = Object.values(translations)
+      .map(translation => convertTranslationToPHP(translation, options.textdomain, context))
+      .filter(php => php !== '')
+
+    output = [...output, ...newOutput]
+  }
+
+  const fileOutput = fileHeader + output.join(`,${NEWLINE}${NEWLINE}`) + fileFooter
+
+  fs.writeFileSync(phpFile, fileOutput)
 }
 
 convertPOTToPHP(args[0], args[1], {

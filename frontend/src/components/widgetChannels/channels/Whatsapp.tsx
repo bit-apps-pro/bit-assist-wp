@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
@@ -24,15 +25,15 @@ function Whatsapp() {
   return (
     <>
       <FormControl>
-        <FormLabel>Phone number</FormLabel>
+        <FormLabel>{__('Phone number')}</FormLabel>
         <Input
           onChange={e => handleChanges(e.target.value, 'unique_id')}
-          placeholder="ex: 88012312312312"
+          placeholder={__('ex: 88012312312312')}
           value={flow.config?.unique_id ?? ''}
         />
       </FormControl>
       <FormControl>
-        <FormLabel>Message</FormLabel>
+        <FormLabel>{__('Message')}</FormLabel>
         <Textarea
           color="inherit"
           onChange={e => handleChanges(e.target.value, 'message')}

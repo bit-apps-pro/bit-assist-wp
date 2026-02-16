@@ -1,33 +1,20 @@
 /* eslint-disable no-restricted-imports */
-/* eslint-disable unicorn/no-typeof-undefined */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { __ as i18n_, sprintf as i18nsprintf } from '@wordpress/i18n'
+import { __ as i18n__, _x as i18n_x, sprintf as i18nsprintf } from '@wordpress/i18n'
 
-declare let bitapp: any
-declare let wp: any
-// declare var bitapp: any
+const DOMAIN = 'bit-assist'
 
-const __ = (text: string, domain = 'bitapp'): string => {
-  if (typeof bitapp !== 'undefined' && bitapp?.translations?.[text]) {
-    return bitapp?.translations[text]
-  }
-  if (typeof wp !== 'undefined' && !wp?.i18n) {
-    return text
-  }
-  return i18n_(text, domain)
-}
+/**
+ * Translate a string. Uses @wordpress/i18n with the bit-assist domain.
+ */
+export const __ = (text: string, domain = DOMAIN): string => i18n__(text, domain)
 
-const sprintf = (text: string, ...vars: any) => {
-  if (!wp?.i18n) {
-    const matches: any = text.match(/%[ E-GXb-gosux]/g)
-    let str = text
-    vars.map((val: any, idx: number) => {
-      str = str.replace(matches[idx], val)
-    })
-    return str
-  }
+/**
+ * Translate a string with context. Uses @wordpress/i18n with the bit-assist domain.
+ */
+export const _x = (text: string, context: string, domain = DOMAIN): string =>
+  i18n_x(text, context, domain)
 
-  return i18nsprintf(text, ...vars)
-}
-
-export { __, sprintf }
+/**
+ * Format a string with placeholders. Uses @wordpress/i18n sprintf.
+ */
+export const sprintf = (text: string, ...vars: unknown[]): string => i18nsprintf(text, ...vars)

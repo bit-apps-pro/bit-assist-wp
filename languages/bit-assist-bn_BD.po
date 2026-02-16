@@ -1,0 +1,173 @@
+# Bangla (Bangladesh) translation for Bit Assist.
+# Copyright (C) 2026 Bit Assist - Click to Chat Widget Live Chat Support Chat Button
+# This file is distributed under the gpl2+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bit Assist 1.6.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bit-assist\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bengali <LL@li.org>\n"
+"Language: bn_BD\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-02-16T12:53:10+00:00\n"
+"PO-Revision-Date: 2026-02-16 12:00+0600\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: bit-assist\n"
+
+#: src/components/customizations/CustomWidgetIcon.tsx:47
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:29
+#: src/components/widgetChannels/channels/WeChat.tsx:27
+msgid "Media"
+msgstr "মিডিয়া"
+
+#: src/components/widgetChannels/channels/FAQ.tsx:65
+msgid "FAQ Description"
+msgstr "প্রায়শই জিজ্ঞাসিত প্রশ্নের বিবরণ"
+
+#: src/components/widgetChannels/channels/FAQ.tsx:67
+msgid "FAQ Title"
+msgstr "প্রায়শই জিজ্ঞাসিত প্রশ্নের শিরোনাম"
+
+#: src/components/widgetChannels/channels/KnowledgeBase.tsx:70
+msgid "Knowledge Base Description"
+msgstr "জ্ঞান ভান্ডারের বিবরণ"
+
+#: src/components/widgetChannels/channels/KnowledgeBase.tsx:72
+msgid "Knowledge Base Title"
+msgstr "জ্ঞান ভান্ডারের শিরোনাম"
+
+#: src/components/widgetChannels/channels/Whatsapp.tsx:28
+msgid "Phone number"
+msgstr "ফোন নম্বর"
+
+#: src/components/widgetChannels/channels/Whatsapp.tsx:31
+msgid "ex: 88012312312312"
+msgstr "উদাহরণ: ৮৮০১২৩১২৩১২৩১২"
+
+#: src/components/widgetChannels/channels/Whatsapp.tsx:36
+msgid "Message"
+msgstr "বার্তা"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:115
+msgid "draggable button"
+msgstr "টেনে আনয়নযোগ্য বাটন"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:139
+msgid "Responses"
+msgstr "উত্তরসমূহ"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:150
+msgid "Edit"
+msgstr "সম্পাদনা"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:159
+msgid "Duplicate"
+msgstr "প্রতিলিপি"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:169
+#: src/components/widgetChannels/WidgetChannel.tsx:194
+msgid "Delete"
+msgstr "মুছুন"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:179
+msgid "Confirmation"
+msgstr "নিশ্চিতকরণ"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:181
+msgid "Are you sure want to delete this channel?"
+msgstr "আপনি কি নিশ্চিত যে এই চ্যানেলটি মুছে ফেলতে চান?"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:185
+msgid "Cancel"
+msgstr "বাতিল"
+
+#: src/components/widgetChannels/WidgetChannel.tsx:190
+msgid "Deleting"
+msgstr "মুছে ফেলা হচ্ছে"
+
+#: src/pages/Responses/Responses.tsx:101
+msgid "Back to channel list"
+msgstr "চ্যানেল তালিকায় ফিরে যান"
+
+#: src/pages/Responses/Responses.tsx:103
+msgid "Back to widget channel settings"
+msgstr "উইজেট চ্যানেল সেটিংসে ফিরে যান"
+
+#: src/pages/Responses/Responses.tsx:109
+msgid "Response List"
+msgstr "উত্তর তালিকা"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:52
+#: src/pages/WidgetDetails/WidgetDetails.tsx:54
+msgid "Back to widget list"
+msgstr "উইজেট তালিকায় ফিরে যান"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:59
+msgid "Channels"
+msgstr "চ্যানেলগুলো"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:62
+msgid "Customizations"
+msgstr "কাস্টমাইজেশন"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:65
+msgid "Settings"
+msgstr "সেটিংস"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:69
+msgid "Analytics"
+msgstr "বিশ্লেষণ"
+
+#: src/pages/WidgetDetails/WidgetDetails.tsx:73
+msgid "External publish"
+msgstr "বাহ্যিক প্রকাশনা"
+
+#. Plugin Name of the plugin
+#: index.php
+#: backend/app/Config.php:241
+#: backend/app/Config.php:242
+msgid "Bit Assist"
+msgstr "বিট অ্যাসিস্ট"
+
+#. Plugin URI of the plugin
+#: index.php
+msgid "https://bitapps.pro/bit-assist"
+msgstr "https://bitapps.pro/bit-assist"
+
+#. Description of the plugin
+#: index.php
+msgid "WhatsApp,Facebook Messenger chat, click to chat Live Chat Widget,Call button & 30+ social chat support button for customer support with sticky chat button"
+msgstr "গ্রাহক সেবার জন্য WhatsApp, Facebook Messenger চ্যাট, ক্লিক টু চ্যাট লাইভ চ্যাট উইজেট, কল বাটন এবং ৩০+ সোশ্যাল চ্যাট সাপোর্ট বাটন স্টিকি চ্যাট বাটন সহ"
+
+#. Author of the plugin
+#: index.php
+msgid "Bit Assist - Click to Chat Widget Live Chat Support Chat Button"
+msgstr "বিট অ্যাসিস্ট - ক্লিক টু চ্যাট উইজেট লাইভ চ্যাট সাপোর্ট চ্যাট বাটন"
+
+#. Author URI of the plugin
+#: index.php
+msgid "https://bitapps.pro"
+msgstr "https://bitapps.pro"
+
+#: backend/app/Config.php:252
+msgid "All Widgets"
+msgstr "সমস্ত উইজেট"
+
+#: backend/app/HTTP/Controllers/IframeController.php:37
+msgid "Bit Assist Widget"
+msgstr "বিট অ্যাসিস্ট উইজেট"
+
+#: backend/app/HTTP/Controllers/IframeController.php:48
+msgid "Widget Icon"
+msgstr "উইজেট আইকন"
+
+#: backend/app/HTTP/Controllers/IframeController.php:49
+msgid "by Bit Assist"
+msgstr "বিট অ্যাসিস্ট দ্বারা"
+
+#: backend/app/Views/Layout.php:154
+msgid "Welcome to Bit Assist"
+msgstr "বিট অ্যাসিস্টে স্বাগতম"
