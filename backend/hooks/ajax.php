@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Router\Route;
 use BitApps\Assist\HTTP\Controllers\AnalyticsController;
 use BitApps\Assist\HTTP\Controllers\DownloadController;
@@ -7,10 +11,6 @@ use BitApps\Assist\HTTP\Controllers\ResponseController;
 use BitApps\Assist\HTTP\Controllers\WidgetChannelController;
 use BitApps\Assist\HTTP\Controllers\WidgetController;
 use BitApps\Assist\HTTP\Controllers\WPPostController;
-
-if (!\defined('ABSPATH')) {
-    exit;
-}
 
 // if (!headers_sent()) {
 //     header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');

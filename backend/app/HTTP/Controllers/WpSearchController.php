@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use AllowDynamicProperties;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use WP_Query;
@@ -28,7 +32,7 @@ final class WpSearchController
 
     private function getPageAndPosts($search, $page, $postTypes)
     {
-        $paged = max(1, intval($page));
+        $paged = max(1, \intval($page));
         $search = trim($search);
 
         $queryArgs = [
@@ -70,7 +74,7 @@ final class WpSearchController
                 'post_type'  => $post->post_type,
             ];
         }, array_filter($posts, function ($post) {
-            return $post && is_object($post);
+            return $post && \is_object($post);
         }));
     }
 

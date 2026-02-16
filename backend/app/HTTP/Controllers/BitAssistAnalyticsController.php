@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Model\WidgetChannel;
 
 final class BitAssistAnalyticsController

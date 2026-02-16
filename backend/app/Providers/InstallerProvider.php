@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\Providers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Installer;

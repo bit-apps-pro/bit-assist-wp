@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 
@@ -12,7 +16,7 @@ final class IframeController
         $validated = $request->validate([
             'clientDomain' => ['required', 'string', 'sanitize:text'],
         ]);
-        
+
         $urlParts = explode('-protocol-bit-assist-', $validated['clientDomain']);
         $protocol = $urlParts[0] === 'i' ? 'http://' : 'https://';
         $domain = $urlParts[1];
@@ -25,29 +29,29 @@ final class IframeController
             $frameAncestor .= ' ' . $clientDomain;
         }
 
-        echo <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Bit Assist Widget</title>
-        <script crossorigin src="{$assetBase}/assets/index.js?ver={$version}"></script>
-        <link rel="stylesheet" href="{$assetBase}/assets/index.css?ver={$version}">
-    </head>
-    <body>
-        <div id="widgetWrapper" class="hide">
-            <div id="contentWrapper" class="hide"></div>
-            <div id="widgetBubbleRow">
-                <div id="widgetBubbleWrapper">
-                    <button id="widgetBubble"><img alt="Widget Icon" id="widget-img" /></button>
-                    <span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">by Bit Assist</a></span>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
-HTML;
+        echo '<!DOCTYPE html>';
+        echo '<html lang="en">';
+        echo '<head>';
+        echo '<meta charset="UTF-8" />';
+        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
+        echo '<title>Bit Assist Widget</title>';
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- It can be outside of WordPress environment, so we can't rely on wp_enqueue_script.
+        echo '<script crossorigin src="' . esc_url($assetBase . '/assets/index.js?ver=' . $version) . '"></script>';
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- It can be outside of WordPress environment, so we can't rely on wp_enqueue_style.
+        echo '<link rel="stylesheet" href="' . esc_url($assetBase . '/assets/index.css?ver=' . $version) . '">';
+        echo '</head>';
+        echo '<body>';
+        echo '<div id="widgetWrapper" class="hide">';
+        echo '<div id="contentWrapper" class="hide"></div>';
+        echo '<div id="widgetBubbleRow">';
+        echo '<div id="widgetBubbleWrapper">';
+        echo '<button id="widgetBubble"><img alt="Widget Icon" id="widget-img" /></button>';
+        echo '<span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">by Bit Assist</a></span>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</body>';
+        echo '</html>';
 
         status_header(200);
         header('Content-Type: text/html');

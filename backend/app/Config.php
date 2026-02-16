@@ -4,11 +4,11 @@
 
 namespace BitApps\Assist;
 
-use BitApps\AssistPro\Config as ProConfig;
-
-if (!\defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
+
+use BitApps\AssistPro\Config as ProConfig;
 
 /**
  * Provides App configurations.
@@ -59,14 +59,14 @@ class Config
                 return plugin_dir_path(self::get('MAIN_FILE'));
 
             case 'SITE_URL':
-                $parsedUrl = parse_url(get_admin_url());
+                $parsedUrl = wp_parse_url(get_admin_url());
                 $siteUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
                 $siteUrl .= empty($parsedUrl['port']) ? null : ':' . $parsedUrl['port'];
 
                 return $siteUrl;
 
             case 'SITE_DOMAIN':
-                $parsedUrl = parse_url(get_admin_url());
+                $parsedUrl = wp_parse_url(get_admin_url());
 
                 return $parsedUrl['host'];
 
@@ -186,7 +186,7 @@ class Config
 
     public static function isDev()
     {
-        return \defined('BITAPPS_DEV') && BITAPPS_DEV;
+        return defined('BITAPPS_DEV') && BITAPPS_DEV;
     }
 
     /**

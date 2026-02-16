@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
@@ -182,6 +186,7 @@ final class WidgetChannelController
     private function sanitizeChannelTitle($validated)
     {
         $validated['config']['title'] = sanitize_text_field($validated['config']['title']);
+
         return $validated;
     }
 

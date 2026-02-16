@@ -2,11 +2,15 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
-use BitApps\Assist\Config;
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use AllowDynamicProperties;
-use BitApps\Assist\Model\Analytics;
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+use BitApps\Assist\Model\Analytics;
 
 #[AllowDynamicProperties]
 final class AnalyticsController
@@ -15,7 +19,7 @@ final class AnalyticsController
     {
         $analyticsOption = Config::getOption('analytics_activate');
 
-        return $analyticsOption ? (int)$analyticsOption : 0;
+        return $analyticsOption ? (int) $analyticsOption : 0;
     }
 
     public function store(Request $request)
@@ -85,23 +89,25 @@ final class AnalyticsController
 
         $iterations = 0;
 
-        $cutoff = date('Y-m-d H:i:s', strtotime("-{$retentionDays} days"));
+        $cutoff = gmdate('Y-m-d H:i:s', strtotime("-{$retentionDays} days"));
 
         $table = $wpdb->prefix . Config::VAR_PREFIX . 'analytics';
 
-        $preparedQuery = $wpdb->prepare(
-            "DELETE FROM {$table} WHERE created_at < %s LIMIT %d",
-            $cutoff,
-            $batchSize
-        );
-
         /**
-        * If the number of records deleted in a batch is equal to the batch size,
-        * and the number of iterations is less than the maximum number of iterations,
-        * continue deleting records in batches.
-        */
+         * If the number of records deleted in a batch is equal to the batch size,
+         * and the number of iterations is less than the maximum number of iterations,
+         * continue deleting records in batches.
+         */
         do {
-            $deletedCount = $wpdb->query($preparedQuery);
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $deletedCount = $wpdb->query(
+                $wpdb->prepare(
+                    'DELETE FROM %s WHERE created_at < %s LIMIT %d',
+                    $table,
+                    $cutoff,
+                    $batchSize
+                )
+            );
 
             $iterations++;
         } while ($deletedCount === $batchSize && $iterations < $maxIterations);
@@ -114,8 +120,8 @@ final class AnalyticsController
         $datePattern = '/\d{4}-\d{2}-\d{2}/';
         $isDate = preg_match($datePattern, $filterValue) === 1;
 
-        $startDate = date('Y-m-d');
-        $endDate = date('Y-m-d');
+        $startDate = gmdate('Y-m-d');
+        $endDate = gmdate('Y-m-d');
         $dateRange = [];
 
         if ($isDate) {
@@ -124,6 +130,7 @@ final class AnalyticsController
 
         $placeHolder = [0, 1, 0, 1, 1, 0, 0, 1];
 
+        // Build the date condition SQL
         $dateCondition = '';
         if ($filterValue === '7days') {
             $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
@@ -131,13 +138,13 @@ final class AnalyticsController
             $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)';
         } elseif ($filterValue === 'today') {
             $dateCondition = 'DATE(analytics.created_at) = CURDATE()';
-        } elseif ($isDate && isset($dateRange[0]) && isset($dateRange[1])) {
+        } elseif ($isDate && isset($dateRange[0], $dateRange[1])) {
             $startDate = $dateRange[0];
             $endDate = $dateRange[1];
             $placeHolder[] = $startDate;
             $placeHolder[] = $endDate;
             $dateCondition = 'DATE(analytics.created_at) BETWEEN %s AND %s';
-        } elseif ($isDate && count($dateRange) !== 2) {
+        } elseif ($isDate && \count($dateRange) !== 2) {
             $startDate = $dateRange[0];
             $placeHolder[] = $startDate;
             $dateCondition = 'DATE(analytics.created_at) = %s';
@@ -145,6 +152,7 @@ final class AnalyticsController
             $dateCondition = 'DATE(analytics.created_at) IS NOT NULL';
         }
 
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Table names from WordPress constants, date condition is built securely above, placeholder count varies by filter
         $sql = $wpdb->prepare(
             "SELECT
                     analytics.widget_id, widgets.name,
@@ -157,12 +165,14 @@ final class AnalyticsController
                     WHERE 
                         (analytics.channel_id IS NULL AND (analytics.is_clicked = %d OR analytics.is_clicked = %d))
                     AND
-                        $dateCondition
+                        {$dateCondition}
                     GROUP BY 
                         analytics.widget_id, widgets.name",
             $placeHolder
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared above, direct query for analytics reporting
         $widgetAnalyticsData = $wpdb->get_results($sql);
 
         return ['data' => $widgetAnalyticsData];
@@ -175,13 +185,14 @@ final class AnalyticsController
         $widget_id = $request->widget_id;
         $filterValue = $request->filter;
         $datePattern = '/\d{4}-\d{2}-\d{2}/';
-        $isDate = is_array($filterValue) ? preg_match($datePattern, $filterValue[0]) === 1 : false;
+        $isDate = \is_array($filterValue) ? preg_match($datePattern, $filterValue[0]) === 1 : false;
 
-        $startDate = date('Y-m-d');
-        $endDate = date('Y-m-d');
+        $startDate = gmdate('Y-m-d');
+        $endDate = gmdate('Y-m-d');
 
         $placeHolder = [1, 0, 1, 0, $widget_id, 1];
 
+        // Build the date condition SQL
         $dateCondition = '';
         if ($filterValue === '7days') {
             $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
@@ -189,13 +200,13 @@ final class AnalyticsController
             $dateCondition = 'DATE(analytics.created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)';
         } elseif ($filterValue === 'today') {
             $dateCondition = 'DATE(analytics.created_at) = CURDATE()';
-        } elseif ($isDate && isset($filterValue[0]) && isset($filterValue[1])) {
+        } elseif ($isDate && isset($filterValue[0], $filterValue[1])) {
             $startDate = $filterValue[0];
             $endDate = $filterValue[1];
             $placeHolder[] = $startDate;
             $placeHolder[] = $endDate;
             $dateCondition = 'DATE(analytics.created_at) BETWEEN %s AND %s';
-        } elseif ($isDate && count($filterValue) !== 2) {
+        } elseif ($isDate && \count($filterValue) !== 2) {
             $startDate = $filterValue[0];
             $placeHolder[] = $startDate;
             $dateCondition = 'DATE(analytics.created_at) = %s';
@@ -203,6 +214,7 @@ final class AnalyticsController
             $dateCondition = 'DATE(analytics.created_at) IS NOT NULL';
         }
 
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Table names from WordPress constants, date condition is built securely above, placeholder count varies by filter
         $sql = $wpdb->prepare(
             "SELECT
                 c.id AS channel_id,
@@ -220,12 +232,14 @@ final class AnalyticsController
                 AND
                     analytics.is_clicked = %d
                 AND
-                    $dateCondition
+                    {$dateCondition}
                 GROUP BY
                     c.id",
             $placeHolder
         );
+        // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared above, direct query for analytics reporting
         $results = $wpdb->get_results($sql);
 
         return ['data' => $results];
@@ -234,6 +248,7 @@ final class AnalyticsController
     public function destroy()
     {
         Analytics::delete();
+
         return Response::success('Analytics removed!');
     }
 }

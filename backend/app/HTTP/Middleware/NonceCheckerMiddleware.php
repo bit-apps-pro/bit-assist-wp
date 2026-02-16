@@ -2,8 +2,12 @@
 
 namespace BitApps\Assist\HTTP\Middleware;
 
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
+use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 
 final class NonceCheckerMiddleware
 {

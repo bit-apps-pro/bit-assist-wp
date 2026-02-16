@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\Model;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Model;
 

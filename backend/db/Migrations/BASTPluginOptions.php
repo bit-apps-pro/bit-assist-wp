@@ -1,13 +1,14 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPDatabase\Connection as DB;
 use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
 
-if (!\defined('ABSPATH')) {
-    exit;
-}
-
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Migration class follows framework naming convention
 final class BASTPluginOptions extends Migration
 {
     public function up()

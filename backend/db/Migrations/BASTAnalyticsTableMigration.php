@@ -1,14 +1,15 @@
 <?php
 
-use BitApps\Assist\Config;
-use BitApps\Assist\Deps\BitApps\WPDatabase\Blueprint;
-use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
-use BitApps\Assist\Deps\BitApps\WPDatabase\Schema;
-
-if (!\defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
+use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPDatabase\Blueprint;
+use BitApps\Assist\Deps\BitApps\WPDatabase\Schema;
+use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
+
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Migration class follows framework naming convention
 final class BASTAnalyticsTableMigration extends Migration
 {
     public function up()
