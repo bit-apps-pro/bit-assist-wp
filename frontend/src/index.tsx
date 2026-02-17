@@ -13,14 +13,13 @@ import '@resource/styles/global.css'
 
 import customTheme from './theme/customTheme'
 
-// wp_set_script_translations sets locale data on the global wp.i18n.
-// The bundled @wordpress/i18n is a separate instance, so bridge the data.
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const globalLocaleData = (window as any).wp?.i18n?.getLocaleData?.('bit-assist')
-if (globalLocaleData && Object.keys(globalLocaleData).length > 1) {
-  setLocaleData(globalLocaleData, 'bit-assist')
+// Sync WordPress-loaded translations into our bundled @wordpress/i18n instance.
+// wp_set_script_translations() populates global wp.i18n; our bundle is a separate
+// instance, so we copy the locale data over.
+const wpLocaleData = typeof wp !== 'undefined' && wp?.i18n?.getLocaleData?.('bit-assist')
+if (wpLocaleData && Object.keys(wpLocaleData).length > 1) {
+  setLocaleData(wpLocaleData, 'bit-assist')
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const queryClient = new QueryClient()
 const rootElement = document.querySelector('#bit-apps-root')

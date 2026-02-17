@@ -1,5 +1,5 @@
 /**
- * Config for react-gettext-parser - extracts __(), _x(), sprintf() from frontend.
+ * Config for react-gettext-parser - extracts __(), _x(), _n(), _nx() from frontend.
  * @see https://github.com/laget-se/react-gettext-parser
  */
 module.exports = {
@@ -8,8 +8,7 @@ module.exports = {
     _n: ['msgid', 'msgid_plural'],
     _nx: ['msgid', 'msgid_plural', null, 'msgctxt'],
     _x: ['msgid', 'msgctxt'],
-    gettext: ['msgid'],
-    sprintf: ['msgid']
+    gettext: ['msgid']
   },
   trim: true
 }

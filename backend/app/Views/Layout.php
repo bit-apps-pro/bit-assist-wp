@@ -23,7 +23,6 @@ class Layout
         Hooks::addAction('admin_enqueue_scripts', [$this, 'head'], 0);
         Hooks::addFilter('style_loader_tag', [$this, 'linkTagFilter'], 0, 3);
         Hooks::addFilter('script_loader_tag', [$this, 'scriptTagFilter'], 0, 3);
-        Hooks::addFilter('pre_load_script_translations', [$this, 'loadScriptTranslations'], 10, 4);
     }
 
     /**
@@ -136,7 +135,7 @@ class Layout
         wp_set_script_translations(
             $slug . '-index-MODULE',
             'bit-assist',
-            Config::get('BASEDIR_ROOT') . 'languages'
+            Config::get('BASEDIR_ROOT') . 'languages/'
         );
 
         wp_localize_script(Config::SLUG . '-index-MODULE', Config::VAR_PREFIX, self::createConfigVariable());
@@ -219,37 +218,10 @@ class Layout
         return $newTag;
     }
 
-    /**
-     * Serve JED JSON for wp_set_script_translations.
-     * Bypasses WordPress's hash-based file lookup which doesn't work with bundled scripts.
-     *
-     * @param string|false $translations JSON translations string or false.
-     * @param string|false $file         Path to the translation file to load.
-     * @param string       $handle       Script handle.
-     * @param string       $domain       Text domain.
-     *
-     * @return string|false
-     */
-    public function loadScriptTranslations($translations, $file, $handle, $domain)
-    {
-        if ($domain !== 'bit-assist') {
-            return $translations;
-        }
-
-        $locale  = is_admin() ? get_user_locale() : get_locale();
-        $jsonFile = Config::get('BASEDIR_ROOT') . 'languages/bit-assist-' . $locale . '.json';
-        if (file_exists($jsonFile)) {
-            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Reading local translation file
-            return file_get_contents($jsonFile);
-        }
-
-        return $translations;
-    }
-
     public function createConfigVariable()
     {
-        // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
-        $frontendVars = apply_filters(
+        return apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
             Config::withPrefix('localized_script'),
             [
                 'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
@@ -265,7 +237,5 @@ class Layout
                 'timeZone'    => DateTimeHelper::wp_timezone_string(),
             ]
         );
-        // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
-        return $frontendVars;
     }
 }

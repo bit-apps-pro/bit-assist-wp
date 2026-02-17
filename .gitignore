@@ -1,9 +1,6 @@
 vendor/
 assets/
 languages/*.mo
-languages/*.pot
-languages/*.json
-languages/generatedString.php
 node_modules
 dist
 frontend/yarn-error.log

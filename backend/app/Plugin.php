@@ -64,12 +64,6 @@ final class Plugin
      */
     public function loaded()
     {
-        load_plugin_textdomain(
-            'bit-assist',
-            false,
-            dirname(Config::get('BASENAME')) . '/languages'
-        );
-
         Hooks::doAction(Config::withPrefix('loaded'));
         Hooks::addAction('init', [$this, 'registerProviders']);
         Hooks::addFilter('plugin_action_links_' . Config::get('BASENAME'), [$this, 'actionLinks']);
