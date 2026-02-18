@@ -13,6 +13,7 @@ import {
   globalQuerySelectorAll,
   globalSetAttribute,
 } from '../utils/Helpers.js'
+import { __, sprintf } from '../utils/i18n.js'
 
 export const woocommerce = {
   renderWooCommerce(widgetChannel) {
@@ -31,7 +32,7 @@ export const woocommerce = {
       value: widgetChannel.id,
     })
     const submitButton = createElm('button', { type: 'submit' })
-    globalInnerText(submitButton, cardConfig?.submit_button_text)
+    globalInnerText(submitButton, cardConfig?.submit_button_text || __('Submit'))
 
     globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
@@ -57,7 +58,7 @@ export const woocommerce = {
 
     globalSetAttribute(fieldInput, 'name', `${newFieldType}`)
 
-    globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
+    globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : __(' (optional)')))
     if (field.required) {
       globalSetAttribute(fieldInput, 'required', '')
     }
@@ -75,7 +76,7 @@ export const woocommerce = {
     const formData = new FormData(e.target)
 
     try {
-      globalInnerText(submitBtn, 'Sending...')
+      globalInnerText(submitBtn, __('Sending...'))
       globalClassListAdd(submitBtn, 'disabled')
 
       const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
@@ -92,7 +93,7 @@ export const woocommerce = {
 
       e.target.reset()
       globalQuerySelectorAll(e.target, '.cfit-title').forEach((title) => {
-        globalInnerText(title, 'No file chosen')
+        globalInnerText(title, __('No file chosen'))
       })
       globalClassListRemove(submitBtn, 'disabled')
       globalInnerText(submitBtn, oldText)
@@ -143,7 +144,7 @@ export const woocommerce = {
     const toastText = createElm('div', { class: 'toast-text' })
 
     const toastTextBody = createElm('div', { class: 'toast-text-body' })
-    toastTextBody.textContent = type === 'success' ? data?.message : 'Something went wrong'
+    toastTextBody.textContent = type === 'success' ? data?.message : __('Something went wrong')
 
     globalAppend(toastText, [toastTextBody])
     globalAppend(toastContent, toastText)
@@ -170,7 +171,7 @@ export const woocommerce = {
 
     const orderDetailsDescription = createElm('div', { id: 'orderDetailsDescription' })
     const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
+    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: __('Back') })
     globalInnerHTML(closeDescBtn, leftArrow)
     const pElm = createElm('p')
     globalAppend(descriptionTitle, [closeDescBtn, pElm])
@@ -202,7 +203,7 @@ export const woocommerce = {
     const singleItemContent = createElm('div', { id: 'singleItemContent' })
 
     const itemTitle = createElm('p', { class: 'descriptionTitle title' })
-    globalInnerHTML(itemTitle, item.order_id ? `Order Id: ${item.order_id} (${item.shipping_status})` : '')
+    globalInnerHTML(itemTitle, item.order_id ? `${__('Order Id')}: ${item.order_id} (${item.shipping_status})` : '')
     const itemContent = createElm('div', { class: 'content' })
     globalAppend(singleItemContent, [itemTitle, itemContent])
     globalAppend(orderDetailsBody, singleItemContent)
@@ -226,7 +227,7 @@ export const woocommerce = {
       const item = data.items.find(
         item => Number(item.order_id) === Number(e.target.closest('.listItemTitleWrapper').dataset.item_id),
       )
-      globalInnerHTML($('.descriptionTitle p'), `Order Id: ${item?.order_id}` || '')
+      globalInnerHTML($('.descriptionTitle p'), `${__('Order Id')}: ${item?.order_id}` || '')
       woocommerce.showContent(orderDetails, item)
     }
 
@@ -277,15 +278,15 @@ export const woocommerce = {
     const paginationWrap = createElm('div', { class: 'pagination' })
 
     const pageNumber = createElm('span', { class: 'pageNumber' })
-    globalInnerText(pageNumber, `${pagination?.current} / ${pagination?.total} page`)
+    globalInnerText(pageNumber, sprintf(__('%1$s / %2$s page'), pagination?.current ?? '', pagination?.total ?? ''))
 
     const nextPage = createElm('button', { class: 'nextPage' })
-    globalInnerText(nextPage, 'Next')
+    globalInnerText(nextPage, __('Next'))
     if (!pagination?.has_next) {
       globalSetAttribute(nextPage, 'disabled', '')
     }
     const prevPage = createElm('button', { class: 'prevPage' })
-    globalInnerText(prevPage, 'Prev')
+    globalInnerText(prevPage, __('Prev'))
     if (!pagination?.has_previous) {
       globalSetAttribute(prevPage, 'disabled', '')
     }

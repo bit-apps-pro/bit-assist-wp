@@ -8,6 +8,7 @@ import {
   globalInnerHTML,
   globalQuerySelectorAll,
 } from '../utils/Helpers.js'
+import { __ } from '../utils/i18n.js'
 
 export const faq = {
   renderFaq(widgetChannel) {
@@ -24,14 +25,14 @@ export const faq = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: 'Search',
+      placeholder: __('Search'),
     })
     globalAppend(listWrapper, [lists, listSearch])
 
     const faqDescription = createElm('div', { id: 'faqDescription' })
     const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-    const leftArrowIcon = createElm('img', { src: leftArrow, alt: 'back' })
+    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: __('Back') })
+    const leftArrowIcon = createElm('img', { src: leftArrow, alt: __('Back') })
     globalAppend(closeDescBtn, leftArrowIcon)
 
     const pElm = createElm('p')

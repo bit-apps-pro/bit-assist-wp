@@ -1,4 +1,5 @@
 import { $, createElm, globalAppend, globalEventListener, globalInnerHTML, globalInnerText, globalSetAttribute } from '../utils/Helpers.js'
+import { __, sprintf } from '../utils/i18n.js'
 
 export const wp_search = {
   wp_post_types: undefined,
@@ -16,7 +17,7 @@ export const wp_search = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: 'Search',
+      placeholder: __('Search'),
     })
     globalAppend(listWrapper, [lists, listSearch])
     globalAppend(wpSearchBody, listWrapper)
@@ -40,7 +41,7 @@ export const wp_search = {
 
       if (showText) {
         const loadingText = createElm('p', { class: 'loading-text' })
-        globalInnerText(loadingText, 'Searching...')
+        globalInnerText(loadingText, __('Searching...'))
         globalAppend(loadingDiv, [loadingIcon, loadingText])
       }
       else {
@@ -75,7 +76,7 @@ export const wp_search = {
       console.error('Search error:', error)
       const lists = $('#lists')
       if (lists) {
-        globalInnerHTML(lists, '<div class="error-message">Failed to load search results. Please try again.</div>')
+        globalInnerHTML(lists, '<div class="error-message">' + __('Failed to load search results. Please try again.') + '</div>')
       }
     }
     finally {
@@ -101,7 +102,7 @@ export const wp_search = {
 
     if (!items || items.length === 0) {
       const noResults = createElm('div', { class: 'no-results' })
-      globalInnerText(noResults, 'No results found')
+      globalInnerText(noResults, __('No results found'))
       globalAppend(lists, noResults)
       return
     }
@@ -114,7 +115,7 @@ export const wp_search = {
 
       globalAppend(listItem, listItemTitleWrapper)
       globalAppend(listItemTitleWrapper, [title, type])
-      globalInnerText(title, item?.post_title || '(no title)')
+      globalInnerText(title, item?.post_title || __('(no title)'))
       globalInnerText(type, item?.post_type || '')
       itemsObj.push(listItem)
 
@@ -136,15 +137,15 @@ export const wp_search = {
     const paginationWrap = createElm('div', { class: 'pagination' })
 
     const pageNumber = createElm('span', { class: 'pageNumber' })
-    globalInnerText(pageNumber, `${pagination?.current} / ${pagination?.total} page`)
+    globalInnerText(pageNumber, sprintf(__('%1$s / %2$s page'), pagination?.current ?? '', pagination?.total ?? ''))
 
     const nextPage = createElm('button', { class: 'nextPage' })
-    globalInnerText(nextPage, 'Next')
+    globalInnerText(nextPage, __('Next'))
     if (!pagination?.has_next) {
       globalSetAttribute(nextPage, 'disabled', '')
     }
     const prevPage = createElm('button', { class: 'prevPage' })
-    globalInnerText(prevPage, 'Prev')
+    globalInnerText(prevPage, __('Prev'))
     if (!pagination?.has_previous) {
       globalSetAttribute(prevPage, 'disabled', '')
     }

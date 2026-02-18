@@ -13,6 +13,7 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
 
@@ -67,7 +68,6 @@ export default function WooCommerce() {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
-      prev.config.card_config.submit_button_text = 'Submit'
     })
   }, [])
 
@@ -101,16 +101,16 @@ export default function WooCommerce() {
                       <Text fontWeight={500} mb="2">
                         {field?.field_type &&
                           `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
-                        Field
+                        {__('Field')}
                         {!field?.required && (
                           <Text color="gray.400" display="inline">
-                            &nbsp;&nbsp;(Optional)
+                            &nbsp;&nbsp;({__('Optional')})
                           </Text>
                         )}
                       </Text>
 
                       <HStack alignItems="center">
-                        <Text>Required</Text>
+                        <Text>{__('Required')}</Text>
                         {/* <Switch
                           colorScheme="purple"
                           disabled
@@ -122,7 +122,7 @@ export default function WooCommerce() {
                     <VStack alignItems="flex-start">
                       <Input
                         onChange={e => handleChange(e.target.value, 'label', id)}
-                        placeholder="label"
+                        placeholder={__('label')}
                         value={field?.label}
                       />
                     </VStack>
@@ -135,7 +135,7 @@ export default function WooCommerce() {
       </VStack>
 
       <FormControl>
-        <FormLabel display="inline-block">Show Order Details</FormLabel>
+        <FormLabel display="inline-block">{__('Show Order Details')}</FormLabel>
         <CheckboxGroup
           colorScheme="purple"
           onChange={value => handleCheckBoxes(value, 'order_details')}
@@ -143,29 +143,30 @@ export default function WooCommerce() {
         >
           <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
             <Checkbox aria-label="shipping status" size="lg" value="shipping_status">
-              Shipping Status
+              {__('Shipping Status')}
             </Checkbox>
             <Checkbox aria-label="total items" size="lg" value="total_items">
-              Total Items
+              {__('Total Items')}
             </Checkbox>
             <Checkbox aria-label="total amount" size="lg" value="total_amount">
-              Total Amount
+              {__('Total Amount')}
             </Checkbox>
             <Checkbox aria-label="total amount" size="lg" value="billing_name">
-              Billing Name
+              {__('Billing Name')}
             </Checkbox>
             <Checkbox aria-label="total amount" size="lg" value="shipping_name">
-              Shipping Name
+              {__('Shipping Name')}
             </Checkbox>
           </Stack>
         </CheckboxGroup>
       </FormControl>
 
       <FormControl>
-        <FormLabel>Button Text</FormLabel>
+        <FormLabel>{__('Button Text')}</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'submit_button_text')}
-          value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
+          placeholder={__('Submit')}
+          value={flow.config?.card_config?.submit_button_text}
         />
       </FormControl>
 

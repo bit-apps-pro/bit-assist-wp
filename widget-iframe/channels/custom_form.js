@@ -11,6 +11,7 @@ import {
   globalQuerySelectorAll,
   globalSetAttribute,
 } from '../utils/Helpers.js'
+import { __, sprintf } from '../utils/i18n.js'
 
 export const custom_form = {
   renderForm(widgetChannel) {
@@ -30,7 +31,7 @@ export const custom_form = {
       value: widgetChannel.id,
     })
     const submitButton = createElm('button', { type: 'submit' })
-    globalInnerText(submitButton, cardConfig?.submit_button_text)
+    globalInnerText(submitButton, cardConfig?.submit_button_text || __('Submit'))
 
     globalAppend(widgetThis.formBody, [dynamicFieldsDiv, hiddenInput, submitButton])
 
@@ -83,17 +84,20 @@ export const custom_form = {
       types = ['sad', 'confused', 'happy']
     }
 
+    const typeLabels = { 'bug': __('Bug'), 'suggest': __('Suggest'), 'love': __('Love'), 'sad': __('Sad'), 'confused': __('Confused'), 'happy': __('Happy'), '5 star': __('5 star'), '4 star': __('4 star'), '3 star': __('3 star'), '2 star': __('2 star'), '1 star': __('1 star') }
+
     types.forEach((type) => {
       const fieldId = `${name}_${type.replace(/ /g, '_')}_${randomId}`
+      const displayLabel = typeLabels[type] || type
 
       const inputElm = createElm('input', { type: 'radio', name, value: type, id: fieldId })
       if (field.required) {
         globalSetAttribute(inputElm, 'required', '')
       }
 
-      const labelElm = createElm('label', { title: type, for: fieldId, class: type })
+      const labelElm = createElm('label', { title: displayLabel, for: fieldId, class: type })
       if (filedType === 'feedback') {
-        globalInnerHTML(labelElm, `${type.charAt(0).toUpperCase() + type.slice(1)}`)
+        globalInnerHTML(labelElm, displayLabel)
         const feedbackIcon = createElm('div', { class: 'feedback-icon' })
         labelElm.prepend(feedbackIcon)
       }
@@ -111,7 +115,7 @@ export const custom_form = {
       'name',
       `${field.label.toLowerCase().replace(/ /g, '_')}${field?.allow_multiple ? '[]' : ''}`,
     )
-    globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : ' (optional)'))
+    globalSetAttribute(fieldInput, 'placeholder', field.label + (field.required ? '' : __(' (optional)')))
     if (field.required) {
       globalSetAttribute(fieldInput, 'required', '')
     }
@@ -140,9 +144,9 @@ export const custom_form = {
 
     const customFileInput = createElm('div', { class: 'cfit' })
     const customFileInputBtn = createElm('button', { class: 'cfit-btn', type: 'button' })
-    globalInnerText(customFileInputBtn, 'Attach File')
+    globalInnerText(customFileInputBtn, __('Attach File'))
     const customFileInputTitle = createElm('div', { class: 'cfit-title' })
-    globalInnerText(customFileInputTitle, 'No file chosen')
+    globalInnerText(customFileInputTitle, __('No file chosen'))
 
     globalAppend(customFileInput, [customFileInputBtn, customFileInputTitle])
     globalAppend(inputWrap, [customFileInput, fieldInput])
@@ -150,10 +154,10 @@ export const custom_form = {
 
     globalEventListener(customFileInputBtn, 'click', () => fieldInput.click())
     globalEventListener(fieldInput, 'change', (e) => {
-      let fileName = 'No file chosen'
+      let fileName = __('No file chosen')
       const fileLength = e.target.files.length
       if (fileLength > 0) {
-        fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} files`
+        fileName = fileLength === 1 ? e.target.files[0].name : sprintf(__('%s files'), fileLength)
       }
       globalInnerText(customFileInputTitle, fileName)
     })
@@ -181,7 +185,7 @@ export const custom_form = {
     const formData = new FormData(e.target)
 
     try {
-      globalInnerText(submitBtn, 'Sending...')
+      globalInnerText(submitBtn, __('Sending...'))
       globalClassListAdd(submitBtn, 'disabled')
       const responseData = await fetch(`${widgetThis.apiEndPoint}/responses`, {
         method: 'POST',
@@ -197,7 +201,7 @@ export const custom_form = {
 
       e.target.reset()
       globalQuerySelectorAll(e.target, '.cfit-title').forEach((title) => {
-        globalInnerText(title, 'No file chosen')
+        globalInnerText(title, __('No file chosen'))
       })
       globalClassListRemove(submitBtn, 'disabled')
       globalInnerText(submitBtn, oldText)
@@ -207,7 +211,7 @@ export const custom_form = {
       await custom_form.showToast(widgetThis, 'error')
       e.target.reset()
       globalQuerySelectorAll(e.target, '.cfit-title').forEach((title) => {
-        globalInnerText(title, 'No file chosen')
+        globalInnerText(title, __('No file chosen'))
       })
       globalClassListRemove(submitBtn, 'disabled')
       globalInnerText(submitBtn, oldText)
@@ -224,10 +228,10 @@ export const custom_form = {
     const toastText = createElm('div', { class: 'toast-text' })
 
     const toastTextTitle = createElm('div', { class: 'toast-text-title' })
-    toastTextTitle.textContent = type === 'success' ? 'Success' : 'Error'
+    toastTextTitle.textContent = type === 'success' ? __('Success') : __('Error')
 
     const toastTextBody = createElm('div', { class: 'toast-text-body' })
-    toastTextBody.textContent = type === 'success' ? message : 'Something went wrong'
+    toastTextBody.textContent = type === 'success' ? message : __('Something went wrong')
 
     globalAppend(toastText, [toastTextTitle, toastTextBody])
     globalAppend(toastContent, toastText)

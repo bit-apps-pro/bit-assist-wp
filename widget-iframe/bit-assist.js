@@ -1,3 +1,4 @@
+/* global wp */
 const apiEndPoint = window?.bit_assist_?.api?.base
 const isProduction = window?.bit_assist_?.isDev !== '1'
 const iframeHost = isProduction ? `${apiEndPoint}/iframe` : 'http://localhost:5000'
@@ -372,6 +373,10 @@ function hideWidget() {
 }
 
 function alertMessage(channel) {
-  // eslint-disable-next-line no-alert
-  return alert(`Sorry, ${channel} is not loaded yet!`)
+  const msg = typeof wp !== 'undefined' && wp?.i18n
+    ? wp.i18n.sprintf(wp.i18n.__('Sorry, %s is not loaded yet!', 'bit-assist'), channel)
+    : `Sorry, ${channel} is not loaded yet!`
+
+  // eslint-disable-next-line no-alert -- user-facing feedback when channel not loaded
+  return alert(msg)
 }

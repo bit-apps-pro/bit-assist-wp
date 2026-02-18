@@ -24,11 +24,19 @@ class WebsiteLayout
         $version = Config::VERSION;
         $rootURL = Config::get('ROOT_URI');
 
+        wp_enqueue_script('wp-i18n');
+
         if (Config::isDev()) {
-            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/widget-iframe/bit-assist.js', [], $version, true);
+            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/widget-iframe/bit-assist.js', ['wp-i18n'], $version, true);
         } else {
-            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', [], $version, true);
+            wp_enqueue_script($slug . '-widget-script-JAVASCRIPT-ASYNC', $rootURL . '/iframe/bit-assist.js', ['wp-i18n'], $version, true);
         }
+
+        wp_set_script_translations(
+            $slug . '-widget-script-JAVASCRIPT-ASYNC',
+            'bit-assist',
+            Config::get('BASEDIR_ROOT') . 'languages/'
+        );
 
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [
             'api'   => Config::get('API_URL'),

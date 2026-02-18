@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Tue Feb 17 2026 16:49:43 GMT+0600 (Bangladesh Standard "
+"POT-Creation-Date: Wed Feb 18 2026 13:42:13 GMT+0600 (Bangladesh Standard "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -10,6 +10,21 @@ msgstr ""
 #: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:29
 #: src/components/widgetChannels/channels/WeChat.tsx:27
 msgid "Media"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:34
+#: ../widget-iframe/channels/woocommerce.js:35
+#: src/components/widgetChannels/channels/CustomForm.tsx:186
+#: src/components/widgetChannels/channels/WooCommerce.tsx:168
+msgid "Submit"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:195
+msgid "Submitted successfully"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:206
+msgid "Your email"
 msgstr ""
 
 #: src/components/widgetChannels/channels/FAQ.tsx:65
@@ -38,6 +53,50 @@ msgstr ""
 
 #: src/components/widgetChannels/channels/Whatsapp.tsx:36
 msgid "Message"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:104
+msgid "Field"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:107
+msgid "Optional"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:113
+msgid "Required"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:125
+msgid "label"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:138
+msgid "Show Order Details"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:146
+msgid "Shipping Status"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:149
+msgid "Total Items"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:152
+msgid "Total Amount"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:155
+msgid "Billing Name"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:158
+msgid "Shipping Name"
+msgstr ""
+
+#: src/components/widgetChannels/channels/WooCommerce.tsx:165
+msgid "Button Text"
 msgstr ""
 
 #: src/components/widgetChannels/WidgetChannel.tsx:115
@@ -112,4 +171,93 @@ msgstr ""
 
 #: src/pages/WidgetDetails/WidgetDetails.tsx:73
 msgid "External publish"
+msgstr ""
+
+#: ../widget-iframe/bit-assist.js:376
+msgid "Sorry, %s is not loaded yet!"
+msgstr ""
+
+#: ../widget-iframe/channels/common.js:43
+#: ../widget-iframe/channels/common.js:44
+#: ../widget-iframe/channels/knowledge_base.js:52
+msgid "Close"
+msgstr ""
+
+#: ../widget-iframe/channels/common.js:87
+msgid "Details"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:115
+#: ../widget-iframe/channels/woocommerce.js:61
+msgid "(optional)"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:144
+msgid "Attach File"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:146
+#: ../widget-iframe/channels/custom_form.js:154
+#: ../widget-iframe/channels/custom_form.js:201
+#: ../widget-iframe/channels/custom_form.js:211
+#: ../widget-iframe/channels/woocommerce.js:96
+msgid "No file chosen"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:185
+#: ../widget-iframe/channels/woocommerce.js:79
+msgid "Sending..."
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:228
+msgid "Success"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:228
+msgid "Error"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:231
+#: ../widget-iframe/channels/woocommerce.js:147
+msgid "Something went wrong"
+msgstr ""
+
+#: ../widget-iframe/channels/faq.js:28
+#: ../widget-iframe/channels/knowledge_base.js:34
+#: ../widget-iframe/channels/wp_search.js:20
+msgid "Search"
+msgstr ""
+
+#: ../widget-iframe/channels/faq.js:34
+#: ../widget-iframe/channels/woocommerce.js:174
+msgid "Back"
+msgstr ""
+
+#: ../widget-iframe/channels/knowledge_base.js:44
+#: ../widget-iframe/channels/woocommerce.js:289
+#: ../widget-iframe/channels/wp_search.js:148
+msgid "Prev"
+msgstr ""
+
+#: ../widget-iframe/channels/knowledge_base.js:48
+#: ../widget-iframe/channels/woocommerce.js:284
+#: ../widget-iframe/channels/wp_search.js:143
+msgid "Next"
+msgstr ""
+
+#: ../widget-iframe/channels/woocommerce.js:281
+#: ../widget-iframe/channels/wp_search.js:140
+msgid "%1$s / %2$s page"
+msgstr ""
+
+#: ../widget-iframe/channels/wp_search.js:44
+msgid "Searching..."
+msgstr ""
+
+#: ../widget-iframe/channels/wp_search.js:79
+msgid "Failed to load search results. Please try again."
+msgstr ""
+
+#: ../widget-iframe/channels/wp_search.js:105
+msgid "No results found"
 msgstr ""

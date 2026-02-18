@@ -13,6 +13,7 @@ import {
   globalQuerySelectorAll,
   globalSetProperty,
 } from '../utils/Helpers.js'
+import { __ } from '../utils/i18n.js'
 
 export const knowledge_base = {
   renderKnowledgeBase(widgetChannel) {
@@ -30,7 +31,7 @@ export const knowledge_base = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: 'Search',
+      placeholder: __('Search'),
     })
     globalAppend(listWrapper, [lists, listSearch])
 
@@ -40,16 +41,16 @@ export const knowledge_base = {
     const p = createElm('p')
     const modalActions = createElm('div', { class: 'modalActions' })
 
-    const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: 'Prev' })
-    const prevKbImg = createElm('img', { src: leftArrow, alt: 'prev' })
+    const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: __('Prev') })
+    const prevKbImg = createElm('img', { src: leftArrow, alt: __('Prev') })
     globalAppend(prevKBBtn, prevKbImg)
 
-    const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: 'Next' })
-    const nextKbImg = createElm('img', { src: rightArrow, alt: 'next' })
+    const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: __('Next') })
+    const nextKbImg = createElm('img', { src: rightArrow, alt: __('Next') })
     globalAppend(nextKBBtn, nextKbImg)
 
-    const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: 'Close' })
-    const closeKbImg = createElm('img', { src: closeIcon, alt: 'close' })
+    const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: __('Close') })
+    const closeKbImg = createElm('img', { src: closeIcon, alt: __('Close') })
     globalAppend(closeKBBtn, closeKbImg)
 
     globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])

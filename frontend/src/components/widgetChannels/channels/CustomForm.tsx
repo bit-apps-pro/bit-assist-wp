@@ -35,6 +35,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -54,7 +55,6 @@ function CustomForm() {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
-      prev.config.card_config.submit_button_text = 'Submit'
     })
   }, [])
 
@@ -183,7 +183,8 @@ function CustomForm() {
         <FormLabel>Button Text</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'submit_button_text')}
-          value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
+          placeholder={__('Submit')}
+          value={flow.config?.card_config?.submit_button_text}
         />
       </FormControl>
 
@@ -191,7 +192,7 @@ function CustomForm() {
         <FormLabel>Success Message</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'success_message')}
-          placeholder="Submitted successfully"
+          placeholder={__('Submitted successfully')}
           value={flow.config?.card_config?.success_message}
         />
       </FormControl>
@@ -202,7 +203,7 @@ function CustomForm() {
         <FormLabel>Send Mail To</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'send_mail_to')}
-          placeholder="Your email"
+          placeholder={__('Your email')}
           value={flow.config?.card_config?.send_mail_to || ''}
         />
       </FormControl>

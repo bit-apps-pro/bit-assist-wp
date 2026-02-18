@@ -13,6 +13,7 @@ import {
   globalQuerySelectorAll,
   globalSetProperty,
 } from '../utils/Helpers.js'
+import { __ } from '../utils/i18n.js'
 
 export const common = {
   hideChannels() {
@@ -39,8 +40,8 @@ export const common = {
     this.card = createElm('div', { id: 'card', class: 'show' })
     const cardHeader = createElm('div', { id: 'cardHeader' })
     const h4Elm = createElm('h4')
-    const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
-    const closeBtnIcon = createElm('img', { src: closeIcon, alt: 'Close' })
+    const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: __('Close') })
+    const closeBtnIcon = createElm('img', { src: closeIcon, alt: __('Close') })
     globalAppend(iconBtn, closeBtnIcon)
 
     globalAppend(cardHeader, [h4Elm, iconBtn])
@@ -80,10 +81,10 @@ export const common = {
         title,
         item.title
           ? item.title
-          : (item.order_id ? `Order Id: ${item.order_id} (${item.shipping_status})` : '') || '',
+          : (item.order_id ? `${__('Order Id')}: ${item.order_id} (${item.shipping_status})` : '') || '',
       )
 
-      const detailsIcon = createElm('img', { src: rightArrowIcon, alt: 'Details' })
+      const detailsIcon = createElm('img', { src: rightArrowIcon, alt: __('Details') })
       globalAppend(listItemTitleWrapper, detailsIcon)
       globalAppend(listItemTitleWrapper, title)
 

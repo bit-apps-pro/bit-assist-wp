@@ -1,4 +1,5 @@
 import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
+import { __ } from '../utils/i18n.js'
 
 export const wechat = {
   renderWeChat(widgetChannel) {
@@ -15,7 +16,7 @@ export const wechat = {
 
     const weChatQRCode = createElm('img', {
       id: 'weChatQRCode',
-      alt: 'WeChat QR Code',
+      alt: __('WeChat QR Code'),
       src: url,
       style: 'width: 100%',
     })
