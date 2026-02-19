@@ -2,15 +2,19 @@
 
 namespace BitApps\Assist;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 /*
  * Main class for the plugin.
  *
  * @since 1.0.0-alpha
  */
 
-use BitApps\Assist\Deps\BitApps\WPKit\Migration\MigrationHelper;
 use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\RequestType;
+use BitApps\Assist\Deps\BitApps\WPKit\Migration\MigrationHelper;
 use BitApps\Assist\Deps\BitApps\WPKit\Utils\Capabilities;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\Telemetry;
 use BitApps\Assist\Deps\BitApps\WPTelemetry\Telemetry\TelemetryConfig;
@@ -66,6 +70,7 @@ final class Plugin
 
         /**
          * Add schedule to cleanup analytics if the plugin version is less than or equal to 1.5.3
+         *
          * @since 1.5.4
          */
         if (version_compare(Config::getOption('version'), '1.5.3', '<=')) {

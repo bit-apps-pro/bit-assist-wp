@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use AllowDynamicProperties;
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
@@ -58,7 +62,7 @@ final class ApiWidgetController
             } else {
                 $domainExceptWWW = $domain;
             }
-            $widget->where('domains', 'LIKE', '%' . parse_url($domainExceptWWW)['host'] . '%');
+            $widget->where('domains', 'LIKE', '%' . wp_parse_url($domainExceptWWW)['host'] . '%');
         } else {
             return;
         }
@@ -77,8 +81,8 @@ final class ApiWidgetController
     private function getChannelsByWidget($widgetId)
     {
         $widgetChannels = WidgetChannel::where('status', 1)->where('widget_id', $widgetId)->orderBy('sequence')->get(['id', 'channel_name', 'config']);
-        if (!is_array($widgetChannels) || \count($widgetChannels) < 1) {
-            return null;
+        if (!\is_array($widgetChannels) || \count($widgetChannels) < 1) {
+            return;
         }
 
         $rootURL = Config::get('ROOT_URI');

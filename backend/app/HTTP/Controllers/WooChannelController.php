@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use AllowDynamicProperties;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\WidgetChannel;
@@ -21,7 +25,7 @@ final class WooChannelController
 
         $order_id = sanitize_text_field($request->get('number'));
         $billing_email = sanitize_email($request->get('email'));
-        $widget_channel_id = intval($request->get('widget_channel_id'));
+        $widget_channel_id = \intval($request->get('widget_channel_id'));
 
         if (!$order_id) {
             return ['message' => 'Order ID is required', 'status_code' => 422];

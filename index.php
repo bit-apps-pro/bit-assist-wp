@@ -13,4 +13,8 @@
  * Domain Path: /languages
  * License: gpl2+
  */
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 require_once plugin_dir_path(__FILE__) . 'backend/bootstrap.php';

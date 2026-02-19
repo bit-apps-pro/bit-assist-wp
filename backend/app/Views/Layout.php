@@ -40,7 +40,7 @@ class Layout
                         $menu['name'],
                         $menu['capability'],
                         $menu['slug'],
-                        is_string($menu['callback']) ? (method_exists($this, $menu['callback']) ? [$this, $menu['callback']] : $menu['callback']) : $menu['callback'],
+                        \is_string($menu['callback']) ? (method_exists($this, $menu['callback']) ? [$this, $menu['callback']] : $menu['callback']) : $menu['callback'],
                         $menu['icon'],
                         $menu['position']
                     );
@@ -67,17 +67,23 @@ class Layout
         $slug = Config::SLUG;
 
         // loading google fonts
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- External font resource version managed by Google
         wp_enqueue_style('googleapis-PRECONNECT', 'https://fonts.googleapis.com');
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- External font resource version managed by Google
         wp_enqueue_style('gstatic-PRECONNECT-CROSSORIGIN', 'https://fonts.gstatic.com');
         wp_enqueue_style('font', self::FONT_URL, [], $version);
 
         // wp_dequeue_script('wp-element');
 
         if (Config::isDev()) {
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-helper-MODULE', Config::DEV_URL . '/config/devHotModule.js', [], null);
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-MODULE', Config::DEV_URL . '/@vite/client', [], null);
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', [], null);
         } else {
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Main app script must load in header for proper initialization
             wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', [], $version);
             wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
@@ -131,20 +137,15 @@ class Layout
     {
         $rootURL = Config::get('ROOT_URI');
 
-        // phpcs:disable Generic.PHP.ForbiddenFunctions.Found
-
-        echo <<<HTML
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="bit-apps-root">
-        <div
-            style="display: flex;flex-direction: column;justify-content: center;
-            align-items: center;height: 90vh;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            <img alt="bit-assist-logo" class="bit-logo" width="70" src="{$rootURL}/img/logo.svg">
-            <h1>Welcome to Bit Assist</h1>
-            <p></p>
-        </div>
-        </div>
-HTML;
+        echo '<noscript>You need to enable JavaScript to run this app.</noscript>';
+        echo '<div id="bit-apps-root">';
+        echo '<div style="display: flex;flex-direction: column;justify-content: center;';
+        echo 'align-items: center;height: 90vh;font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;">';
+        echo '<img alt="bit-assist-logo" class="bit-logo" width="70" src="' . esc_url($rootURL . '/img/logo.svg') . '">';
+        echo '<h1>Welcome to Bit Assist</h1>';
+        echo '<p></p>';
+        echo '</div>';
+        echo '</div>';
     }
 
     public function RemoveAdminNotices()
@@ -211,6 +212,7 @@ HTML;
 
     public function createConfigVariable()
     {
+        // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
         $frontendVars = apply_filters(
             Config::withPrefix('localized_script'),
             [
@@ -227,6 +229,7 @@ HTML;
                 'timeZone'    => DateTimeHelper::wp_timezone_string(),
             ]
         );
+        // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
         if (get_locale() !== 'en_US' && file_exists(Config::get('BASEDIR') . '/languages/generatedString.php')) {
             include_once Config::get('BASEDIR') . '/languages/generatedString.php';
             $frontendVars['translations'] = Config::withPrefix('i18n_strings');

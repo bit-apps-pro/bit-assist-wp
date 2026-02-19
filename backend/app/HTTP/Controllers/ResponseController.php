@@ -2,6 +2,10 @@
 
 namespace BitApps\Assist\HTTP\Controllers;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 use BitApps\Assist\Config;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;

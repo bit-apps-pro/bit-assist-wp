@@ -1,12 +1,13 @@
 <?php
 
-use BitApps\Assist\Config;
-use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
-
-if (!\defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
+use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPKit\Migration\Migration;
+
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Migration class follows framework naming convention
 final class BASTUpdateOptions extends Migration
 {
     public function up()
@@ -17,6 +18,5 @@ final class BASTUpdateOptions extends Migration
 
     public function down()
     {
-        return;
     }
 }
