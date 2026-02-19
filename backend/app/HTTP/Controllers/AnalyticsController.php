@@ -93,6 +93,13 @@ final class AnalyticsController
 
         $table = $wpdb->prefix . Config::VAR_PREFIX . 'analytics';
 
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared -- Table name from WordPress constants, cutoff is a valid date string, batch size is a valid integer
+        $preparedQuery = $wpdb->prepare(
+            "DELETE FROM {$table} WHERE created_at < %s LIMIT %d",
+            $cutoff,
+            $batchSize
+        );
+
         /**
          * If the number of records deleted in a batch is equal to the batch size,
          * and the number of iterations is less than the maximum number of iterations,
@@ -100,14 +107,7 @@ final class AnalyticsController
          */
         do {
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $deletedCount = $wpdb->query(
-                $wpdb->prepare(
-                    'DELETE FROM %s WHERE created_at < %s LIMIT %d',
-                    $table,
-                    $cutoff,
-                    $batchSize
-                )
-            );
+            $deletedCount = $wpdb->query($preparedQuery);
 
             $iterations++;
         } while ($deletedCount === $batchSize && $iterations < $maxIterations);
