@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
+import { __, sprintf } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -69,12 +70,15 @@ function CallToAction() {
 
   return (
     <Box>
-      <Title>Call To Action</Title>
+      <Title>{__('Call To Action')}</Title>
 
       <VStack alignItems="flex-start" maxW="full" spacing="4" w="lg">
         <Text>
-          Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0}{' '}
-          seconds.
+          {sprintf(
+            // translators: %s: Delay in seconds
+            __('Display a call to action message next to widget after %s seconds.'),
+            widget.call_to_action?.delay ?? 0
+          )}
         </Text>
         <Slider
           colorScheme="purple"
@@ -94,7 +98,7 @@ function CallToAction() {
             color={textColorToggle}
             hasArrow
             isOpen={showTooltip}
-            label={`${widget.call_to_action?.delay ?? 0} sec`}
+            label={`${widget.call_to_action?.delay ?? 0} ${__('seconds')}`}
             placement="top"
           >
             <SliderThumb bg={brandColorToggle} />
@@ -103,7 +107,7 @@ function CallToAction() {
         <Textarea
           color="inherit"
           onChange={handleChange}
-          placeholder="Message"
+          placeholder={__('Message')}
           value={widget.call_to_action?.text ?? ''}
         />
       </VStack>

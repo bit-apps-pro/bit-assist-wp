@@ -105,7 +105,7 @@ function CustomForm() {
         )}
 
         <Button onClick={handleAddField} rightIcon={<FiPlus />}>
-          Add FAQ
+          {__('Add FAQ')}
         </Button>
       </VStack>
 

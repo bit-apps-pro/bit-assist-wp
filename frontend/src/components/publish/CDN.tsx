@@ -3,6 +3,7 @@ import { CopyIcon } from '@chakra-ui/icons'
 import { Box, Code, HStack, IconButton, Text, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import config from '@config/config'
+import { __, sprintf } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
 
 const unsecuredCopyToClipboard = (text: string) => {
@@ -38,23 +39,27 @@ export default function CDN() {
     } else {
       unsecuredCopyToClipboard(cdnUrl)
     }
-    toaster('success', 'Copied')
+    toaster('success', __('Copied'))
   }
 
   return (
     <Box>
-      <Title badge="2">Copy the script </Title>
+      <Title badge="2">{__('Copy the script')}</Title>
       <Text mb="2">
-        Bit Assist can easily be installed using the below code snippet. Paste it just above the{' '}
-        <Code>{'<body />'}</Code> tag.
+        {sprintf(
+          /* translators: %s: Brand name */
+          __('%s can easily be installed using the below code snippet. Paste it just above the'),
+          'Bit Assist'
+        )}{' '}
+        <Code>{'<body />'}</Code> {__('tag.')}
       </Text>
       <HStack gap="2" spacing={0}>
         <Code maxW="full" p="4" rounded="lg">
           {cdnUrl}
         </Code>
-        <Tooltip label="Copy">
+        <Tooltip label={__('Copy')}>
           <IconButton
-            aria-label="Copy"
+            aria-label={__('Copy')}
             colorScheme="purple"
             icon={<CopyIcon />}
             onClick={copy}

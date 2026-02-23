@@ -1,10 +1,70 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Wed Feb 18 2026 13:42:13 GMT+0600 (Bangladesh Standard "
+"POT-Creation-Date: Mon Feb 23 2026 12:40:29 GMT+0600 (Bangladesh Standard "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/customizations/CustomCSS.tsx:47
+#: src/components/customizations/CustomCSS.tsx:64
+msgid "Custom CSS"
+msgstr ""
+
+#: src/components/customizations/CustomCSS.tsx:81
+#: src/components/global/WidgetAnalytics.tsx:183
+#: src/components/publish/Domains.tsx:121
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:88
+#: src/components/response/ResponseDeleteModal.tsx:36
+#: src/components/settings/PageFilters.tsx:151
+#: src/components/widget/AddWidget.tsx:77
+#: src/components/widgetChannels/WidgetChannel.tsx:185
+#: src/pages/Widgets/Widgets.tsx:208
+msgid "Cancel"
+msgstr ""
+
+#: src/components/customizations/CustomCSS.tsx:86
+#: src/components/widgetChannels/EditChannel.tsx:87
+msgid "Updating..."
+msgstr ""
+
+#: src/components/customizations/CustomCSS.tsx:90
+#: src/components/widgetChannels/EditChannel.tsx:91
+msgid "Update"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:35
+msgid "Please enter a valid number"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:86
+msgid "bottom"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:87
+msgid "left"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:88
+msgid "right"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:89
+msgid "top"
+msgstr ""
+
+#: src/components/customizations/CustomizePosition.tsx:101
+#: src/components/customizations/WidgetSize.tsx:66
+#: src/components/widgetChannels/channels/CustomIframe.tsx:134
+#: src/components/widgetChannels/channels/CustomIframe.tsx:151
+msgid "px"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:44
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:26
+#: src/components/widgetChannels/channels/WeChat.tsx:24
+msgid "Select picture"
+msgstr ""
 
 #: src/components/customizations/CustomWidgetIcon.tsx:47
 #: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:29
@@ -12,19 +72,971 @@ msgstr ""
 msgid "Media"
 msgstr ""
 
+#: src/components/customizations/CustomWidgetIcon.tsx:54
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:36
+#: src/components/widgetChannels/channels/WeChat.tsx:34
+msgid "⚠ Larger size image might slow down load time"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:67
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:76
+#: src/components/widgetChannels/channels/WeChat.tsx:75
+msgid "Browse"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:72
+msgid "image size 100 x 100px"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:90
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:46
+msgid "Custom image"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:99
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:61
+#: src/components/widgetChannels/channels/WeChat.tsx:60
+msgid "Remove custom icon"
+msgstr ""
+
+#: src/components/customizations/CustomWidgetIcon.tsx:122
+msgid "No Image"
+msgstr ""
+
+#: src/components/customizations/WidgetColor.tsx:38
+msgid "Widget Color"
+msgstr ""
+
+#: src/components/customizations/WidgetCredit.tsx:45
+msgid "Hide Credit"
+msgstr ""
+
+#: src/components/customizations/WidgetIcons.tsx:60
+msgid "Widget Icon"
+msgstr ""
+
+#: src/components/customizations/WidgetIcons.tsx:67
+msgid "Widget icon"
+msgstr ""
+
+#: src/components/customizations/WidgetName.tsx:39
+#: src/components/customizations/WidgetName.tsx:44
+#: src/components/global/WidgetAnalytics.tsx:150
+#: src/components/widget/AddWidget.tsx:69
+msgid "Widget Name"
+msgstr ""
+
+#: src/components/customizations/WidgetName.tsx:45
+#: src/globalStates/DefaultStates.ts:8
+#: src/pages/Widgets/Widgets.tsx:139
+msgid "Untitled Widget"
+msgstr ""
+
+#: src/components/customizations/WidgetPositions.tsx:39
+msgid "Widget Position"
+msgstr ""
+
+#: src/components/customizations/WidgetPositions.tsx:41
+msgid "Top Left"
+msgstr ""
+
+#: src/components/customizations/WidgetPositions.tsx:53
+msgid "Top Right"
+msgstr ""
+
+#: src/components/customizations/WidgetPositions.tsx:67
+msgid "Bottom Left"
+msgstr ""
+
+#: src/components/customizations/WidgetPositions.tsx:79
+msgid "Bottom Right"
+msgstr ""
+
+#: src/components/customizations/WidgetShape.tsx:58
+msgid "Widget Shape"
+msgstr ""
+
+#: src/components/customizations/WidgetShowOn.tsx:52
+msgid "Widget Show On"
+msgstr ""
+
+#: src/components/customizations/WidgetShowOn.tsx:59
+#: src/components/widgetChannels/ChannelSettings.tsx:224
+msgid "Show on desktop"
+msgstr ""
+
+#: src/components/customizations/WidgetShowOn.tsx:60
+#: src/components/widgetChannels/ChannelSettings.tsx:225
+msgid "Desktop"
+msgstr ""
+
+#: src/components/customizations/WidgetShowOn.tsx:62
+#: src/components/widgetChannels/ChannelSettings.tsx:227
+msgid "Show on mobile"
+msgstr ""
+
+#: src/components/customizations/WidgetShowOn.tsx:63
+#: src/components/widgetChannels/ChannelSettings.tsx:228
+msgid "Mobile"
+msgstr ""
+
+#: src/components/customizations/WidgetSize.tsx:28
+msgid "Widget size must be between 0 and 200"
+msgstr ""
+
+#: src/components/customizations/WidgetSize.tsx:57
+msgid "Widget Size"
+msgstr ""
+
+#: src/components/customizations/WidgetSize.tsx:62
+msgid "60"
+msgstr ""
+
+#: src/components/customizations/WidgetStyle.tsx:59
+msgid "Widget Style"
+msgstr ""
+
+#: src/components/customizations/WidgetStyle.tsx:67
+#: src/components/customizations/WidgetStyle.tsx:90
+msgid "Widget style"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:35
+msgid "Get $10 Cashback"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:43
+msgid "Get $10 cashback"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:48
+msgid "Thank you for using %s! To"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:51
+msgid "Get $10 cashback:"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:52
+msgid "give us a review on WordPress by clicking the"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:59
+#: src/components/global/Cashback.tsx:82
+msgid "Review us"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:61
+msgid "button and send an email with the review link to"
+msgstr ""
+
+#: src/components/global/Cashback.tsx:63
+msgid "support@bitapps.pro"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:54
+msgid "Showing Channel Analytics"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:55
+msgid "No Analytics Data Found"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:69
+#: src/components/global/WidgetAnalytics.tsx:122
+msgid "Today"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:70
+#: src/components/global/WidgetAnalytics.tsx:123
+msgid "Last 7 Days"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:71
+#: src/components/global/WidgetAnalytics.tsx:124
+msgid "Last 30 Days"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:72
+#: src/components/global/WidgetAnalytics.tsx:125
+msgid "All Time"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:73
+#: src/components/global/WidgetAnalytics.tsx:126
+msgid "Custom Date"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:84
+msgid "Channel Name"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:85
+#: src/components/global/WidgetAnalytics.tsx:151
+msgid "Visitors"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:86
+#: src/components/global/WidgetAnalytics.tsx:152
+msgid "Total Clicks"
+msgstr ""
+
+#: src/components/global/ChannelAnalytics.tsx:87
+#: src/components/global/WidgetAnalytics.tsx:153
+msgid "Click Rate"
+msgstr ""
+
+#: src/components/global/ColorPickerWrap.tsx:19
+msgid "Color picker"
+msgstr ""
+
+#: src/components/global/DarkModeSwitch.tsx:11
+msgid "Toggle Theme"
+msgstr ""
+
+#: src/components/global/DocTutorials.tsx:27
+msgid "Tutorial"
+msgstr ""
+
+#: src/components/global/DocTutorials.tsx:40
+msgid "Documentation"
+msgstr ""
+
+#: src/components/global/Navbar.tsx:51
+msgid "Review Us"
+msgstr ""
+
+#: src/components/global/NewOffer/NewOffer.tsx:26
+msgid "Black Friday Deal"
+msgstr ""
+
+#: src/components/global/NewOffer/NewOffer.tsx:52
+msgid "Grab It Now 🚀"
+msgstr ""
+
+#: src/components/global/Pagination.tsx:55
+msgid "Row per page"
+msgstr ""
+
+#: ../widget-iframe/channels/knowledge_base.js:44
+#: ../widget-iframe/channels/knowledge_base.js:45
+#: ../widget-iframe/channels/woocommerce.js:297
+#: ../widget-iframe/channels/wp_search.js:156
+#: src/components/global/Pagination.tsx:68
+msgid "Prev"
+msgstr ""
+
+#: ../widget-iframe/channels/knowledge_base.js:48
+#: ../widget-iframe/channels/knowledge_base.js:49
+#: ../widget-iframe/channels/woocommerce.js:292
+#: ../widget-iframe/channels/wp_search.js:151
+#: src/components/global/Pagination.tsx:78
+#: src/components/widgetChannels/NextButton.tsx:9
+msgid "Next"
+msgstr ""
+
+#: ../widget-iframe/channels/woocommerce.js:285
+#: ../widget-iframe/channels/wp_search.js:144
+#: src/components/global/Pagination.tsx:84
+msgid "%1$s / %2$s page"
+msgstr ""
+
+#: src/components/global/ProModal.tsx:40
+msgid "Want to use unlimited %s?"
+msgstr ""
+
+#: src/components/global/ProModal.tsx:50
+msgid "You can use"
+msgstr ""
+
+#: src/components/global/ProModal.tsx:50
+msgid "in free version."
+msgstr ""
+
+#: src/components/global/ProModal.tsx:55
+msgid "Get premium version to use unlimited %s."
+msgstr ""
+
+#: src/components/global/ProModal.tsx:67
+#: src/components/global/ProWrapper.tsx:25
+msgid "Get Pro Version"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:64
+msgid "Something went wrong!"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:64
+msgid "Updated successfully!"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:91
+msgid "Widget Analytics"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:93
+#: src/pages/Widgets/Widgets.tsx:129
+msgid "Switch widget status"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:99
+msgid "Analytics disable"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:99
+msgid "Analytics enable"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:136
+msgid "Delete all analytics data"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:143
+msgid "Delete All Analytics"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:177
+#: src/components/response/ResponseDeleteModal.tsx:30
+#: src/components/widgetChannels/WidgetChannel.tsx:179
+#: src/pages/Widgets/Widgets.tsx:202
+msgid "Confirmation"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:179
+msgid "Are you sure to delete all analytics data?"
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:188
+#: src/components/response/ResponseDeleteModal.tsx:41
+#: src/pages/Widgets/Widgets.tsx:213
+msgid "Deleting..."
+msgstr ""
+
+#: src/components/global/WidgetAnalytics.tsx:192
+#: src/components/response/ResponseDeleteModal.tsx:45
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:121
+#: src/components/widgetChannels/channels/Fields/FaqField.tsx:95
+#: src/components/widgetChannels/channels/Fields/KnowledgeBaseField.tsx:100
+#: src/components/widgetChannels/WidgetChannel.tsx:169
+#: src/components/widgetChannels/WidgetChannel.tsx:194
+#: src/pages/Responses/Responses.tsx:134
+#: src/pages/Widgets/Widgets.tsx:178
+#: src/pages/Widgets/Widgets.tsx:217
+msgid "Delete"
+msgstr ""
+
+#: src/components/publish/Active.tsx:27
+msgid "Active Widget"
+msgstr ""
+
+#: src/components/publish/Active.tsx:29
+msgid "Add this widget in your website"
+msgstr ""
+
+#: src/components/publish/CDN.tsx:42
+msgid "Copied"
+msgstr ""
+
+#: src/components/publish/CDN.tsx:47
+msgid "Copy the script"
+msgstr ""
+
+#: src/components/publish/CDN.tsx:51
+msgid ""
+"%s can easily be installed using the below code snippet. Paste it just "
+"above the"
+msgstr ""
+
+#: src/components/publish/CDN.tsx:54
+msgid "tag."
+msgstr ""
+
+#: src/components/publish/CDN.tsx:60
+#: src/components/publish/CDN.tsx:62
+msgid "Copy"
+msgstr ""
+
+#: src/components/publish/Domain.tsx:68
+#: src/components/publish/Domain.tsx:70
+msgid "Remove domain"
+msgstr ""
+
+#: src/components/publish/Domain.tsx:85
+msgid "Are you sure you want to remove this domain?"
+msgstr ""
+
+#: src/components/publish/Domain.tsx:93
+#: src/components/settings/Page.tsx:147
+msgid "Confirm"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:34
+#: src/components/publish/Domains.tsx:66
+msgid "Please enter a valid domain name"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:39
+msgid "You cannot add your own domain"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:47
+msgid "Domain already exists"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:93
+msgid "Add %s to your other website"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:116
+msgid "ex: https://your-domain.com"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:123
+msgid "Remove Domain"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:132
+#: src/components/publish/Domains.tsx:134
+#: src/components/settings/PageFilters.tsx:162
+#: src/components/settings/PageFilters.tsx:164
+#: src/components/widgetChannels/AddChannel.tsx:330
+#: src/components/widgetChannels/AddChannel.tsx:344
+msgid "Save"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:146
+#: src/components/settings/PageFilters.tsx:177
+msgid "Press"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:146
+#: src/components/settings/PageFilters.tsx:177
+msgid "to add,"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:146
+#: src/components/settings/PageFilters.tsx:177
+msgid "to cancel"
+msgstr ""
+
+#: src/components/publish/Domains.tsx:160
+msgid "Add Domain"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:39
+msgid "Publish Widget on Any Platform"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:42
+msgid "Shopify"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:45
+msgid "Squarespace"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:48
+msgid "Webflow"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:51
+msgid "Weebly"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:54
+msgid "Wix"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:57
+msgid "Magento"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:60
+msgid "Drupal"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:63
+msgid "Opencart"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:66
+msgid "HTML"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:69
+msgid "More"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:86
+msgid "Want to use this widget in other domain?"
+msgstr ""
+
+#: src/components/publish/Publish.tsx:86
+msgid "Follow these steps."
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:68
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:89
+msgid "Insert Image"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:70
+msgid "Image URL"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:74
+msgid "Alt Text"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:75
+msgid "Image description"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:79
+#: src/components/widgetChannels/channels/CustomIframe.tsx:123
+msgid "Width"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:80
+msgid "e.g., 300 or 100%"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:83
+#: src/components/widgetChannels/channels/CustomIframe.tsx:140
+msgid "Height"
+msgstr ""
+
+#: src/components/QuillEditor/Internals/makeImageInsertHandler.ts:84
+msgid "e.g., 200 or auto"
+msgstr ""
+
+#: src/components/response/ResponseDeleteModal.tsx:32
+msgid "Are you sure want to delete selected responses?"
+msgstr ""
+
+#: src/components/response/ResponseDrawer.tsx:36
+msgid "Response Details"
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:134
+msgid "Attention Animation"
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:141
+msgid "Wiggle"
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:142
+msgid "Jump"
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:143
+msgid "Shock Wave"
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:149
+msgid "Animation Delay: %s seconds."
+msgstr ""
+
+#: src/components/settings/AttentionAnimation.tsx:174
+#: src/components/settings/CallToAction.tsx:103
+msgid "%s sec"
+msgstr ""
+
+#: src/components/settings/BusinessHours.tsx:143
+msgid "Enable Business Hours"
+msgstr ""
+
+#: src/components/settings/BusinessHours.tsx:154
+msgid "TimeZone"
+msgstr ""
+
+#: src/components/settings/BusinessHours.tsx:168
+msgid "Choose your timezone"
+msgstr ""
+
+#: src/components/settings/CallToAction.tsx:73
+msgid "Call To Action"
+msgstr ""
+
+#: src/components/settings/CallToAction.tsx:79
+msgid "Display a call to action message next to widget after %s seconds."
+msgstr ""
+
+#: src/components/settings/CallToAction.tsx:114
+#: src/components/widgetChannels/channels/Whatsapp.tsx:36
+msgid "Message"
+msgstr ""
+
+#: src/components/settings/DeleteResponses.tsx:48
+msgid "Delete responses must be a number"
+msgstr ""
+
+#: src/components/settings/DeleteResponses.tsx:65
+msgid "Delete Responses"
+msgstr ""
+
+#: src/components/settings/DeleteResponses.tsx:73
+msgid "After"
+msgstr ""
+
+#: src/components/settings/DeleteResponses.tsx:81
+msgid "Days"
+msgstr ""
+
+#: src/components/settings/FontFamily.tsx:8
+msgid "FontFamily"
+msgstr ""
+
+#: src/components/settings/GoogleAnalytics.tsx:62
+msgid "Google Analytics"
+msgstr ""
+
+#: src/components/settings/InitialDelay.tsx:26
+msgid "Initial delay must be between 0 and 60"
+msgstr ""
+
+#: src/components/settings/InitialDelay.tsx:49
+msgid "Delay"
+msgstr ""
+
+#: src/components/settings/InitialDelay.tsx:54
+msgid "Initial Delay in Second"
+msgstr ""
+
+#: src/components/settings/InitialDelay.tsx:58
+msgid "Sec"
+msgstr ""
+
+#: src/components/settings/Page.tsx:34
+#: src/components/settings/PageFilters.tsx:125
+msgid "Hide On"
+msgstr ""
+
+#: src/components/settings/Page.tsx:37
+#: src/components/settings/PageFilters.tsx:124
+msgid "Show On"
+msgstr ""
+
+#: src/components/settings/Page.tsx:40
+#: src/components/settings/Page.tsx:60
+#: src/components/settings/Page.tsx:80
+msgid "None"
+msgstr ""
+
+#: src/components/settings/Page.tsx:48
+#: src/components/settings/PageFilters.tsx:134
+msgid "Pages that contain"
+msgstr ""
+
+#: src/components/settings/Page.tsx:51
+#: src/components/settings/PageFilters.tsx:137
+msgid "Pages ended with"
+msgstr ""
+
+#: src/components/settings/Page.tsx:54
+#: src/components/settings/PageFilters.tsx:135
+msgid "Specific page"
+msgstr ""
+
+#: src/components/settings/Page.tsx:57
+#: src/components/settings/PageFilters.tsx:136
+msgid "Pages starts with"
+msgstr ""
+
+#: src/components/settings/Page.tsx:123
+#: src/components/settings/Page.tsx:125
+msgid "Remove page"
+msgstr ""
+
+#: src/components/settings/Page.tsx:139
+msgid "Are you sure you want to remove this page?"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:47
+msgid "All fields are required"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:96
+msgid "Page Filters"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:145
+msgid "Page slug"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:153
+msgid "Remove Page"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:191
+msgid "Add Page"
+msgstr ""
+
+#: src/components/settings/PageFilters.tsx:197
+msgid "Remove Filter"
+msgstr ""
+
+#: src/components/settings/PageScroll.tsx:27
+msgid "Page scroll must be between 0 and 100"
+msgstr ""
+
+#: src/components/settings/PageScroll.tsx:50
+msgid "Page scroll"
+msgstr ""
+
+#: src/components/settings/PageScroll.tsx:55
+msgid "Page Scroll in %"
+msgstr ""
+
+#: src/components/settings/Responses.tsx:9
+#: src/components/widgetChannels/WidgetChannel.tsx:139
+msgid "Responses"
+msgstr ""
+
+#: src/components/settings/StoreResponses.tsx:45
+#: src/components/widgetChannels/StoreResponses.tsx:19
+msgid "Store Responses"
+msgstr ""
+
+#: src/components/settings/Trigger.tsx:10
+msgid "Trigger Widget"
+msgstr ""
+
+#: src/components/settings/WidgetActiveBadge.tsx:91
+msgid "Enable Widget Active Badge"
+msgstr ""
+
+#: src/components/settings/WidgetActiveBadge.tsx:98
+msgid "Choose Badge Color"
+msgstr ""
+
+#: src/components/settings/WidgetBehavior.tsx:31
+msgid "Widget Behavior"
+msgstr ""
+
+#: src/components/settings/WidgetBehavior.tsx:33
+msgid "Click to open"
+msgstr ""
+
+#: src/components/settings/WidgetBehavior.tsx:34
+msgid "Hover to open"
+msgstr ""
+
+#: src/components/settings/WidgetBehavior.tsx:35
+msgid "Opened by default"
+msgstr ""
+
+#: src/components/widget/AddWidget.tsx:32
+msgid "Widget name is required"
+msgstr ""
+
+#: src/components/widget/AddWidget.tsx:57
+#: src/pages/Widgets/Widgets.tsx:107
+msgid "Add Widget"
+msgstr ""
+
+#: src/components/widget/AddWidget.tsx:64
+msgid "Create New Widget"
+msgstr ""
+
+#: src/components/widget/AddWidget.tsx:81
+msgid "Creating..."
+msgstr ""
+
+#: src/components/widget/AddWidget.tsx:85
+msgid "Create"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:231
+#: src/components/widgetChannels/AddChannel.tsx:261
+#: src/components/widgetChannels/EditChannel.tsx:60
+msgid "Error"
+msgstr ""
+
+#: src/components/widgetChannels/AddChannel.tsx:292
+msgid "Add Channel"
+msgstr ""
+
+#: ../widget-iframe/channels/faq.js:34
+#: ../widget-iframe/channels/faq.js:35
+#: ../widget-iframe/channels/woocommerce.js:174
+#: src/components/widgetChannels/AddChannel.tsx:310
+msgid "Back"
+msgstr ""
+
+#: src/components/widgetChannels/AddChannel.tsx:314
+msgid "Create New Channel"
+msgstr ""
+
+#: src/components/widgetChannels/AddChannel.tsx:326
+#: src/components/widgetChannels/AddChannel.tsx:340
+msgid "Saving..."
+msgstr ""
+
+#: src/components/widgetChannels/channels/Calendly.tsx:20
+msgid "Calendly"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Calendly.tsx:22
+msgid "calendly.com/"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Calendly.tsx:25
+#: src/components/widgetChannels/channels/Tidycal.tsx:25
+msgid "booking link"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Call.tsx:18
+#: src/components/widgetChannels/channels/Signal.tsx:21
+#: src/components/widgetChannels/channels/SMS.tsx:19
+#: src/components/widgetChannels/channels/Viber.tsx:20
+#: src/components/widgetChannels/channels/Whatsapp.tsx:28
+msgid "Phone number"
+msgstr ""
+
+#: src/components/widgetChannels/channels/common/CardColors.tsx:33
+msgid "Form Theme Color"
+msgstr ""
+
+#: src/components/widgetChannels/channels/common/CardColors.tsx:44
+msgid "Form Text Color"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Crisp.tsx:23
+#: src/components/widgetChannels/channels/Intercom.tsx:23
+#: src/components/widgetChannels/channels/Tawk.tsx:23
+#: src/components/widgetChannels/channels/Tidio.tsx:23
+msgid "Make Sure to add the %s script to your website."
+msgstr ""
+
+#: src/components/widgetChannels/channels/Crisp.tsx:24
+msgid "Crisp"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Crisp.tsx:27
+#: src/components/widgetChannels/channels/Intercom.tsx:27
+#: src/components/widgetChannels/channels/Tawk.tsx:27
+#: src/components/widgetChannels/channels/Tidio.tsx:27
+msgid "Learn more"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomChannel.tsx:20
+msgid "Custom channel link"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomChannel.tsx:23
+#: src/components/widgetChannels/channels/CustomForm.tsx:217
+#: src/components/widgetChannels/channels/CustomIframe.tsx:84
+msgid "https://..."
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:162
+msgid "Add Field"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:168
+msgid "Text"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:169
+msgid "Email"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:170
+msgid "Number"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:171
+msgid "Date"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:172
+msgid "Textarea"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:173
+msgid "GDPR"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:174
+msgid "Rating"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:175
+msgid "Feedback"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:176
+msgid "File"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:184
+#: src/components/widgetChannels/channels/WooCommerce.tsx:166
+msgid "Button Text"
+msgstr ""
+
 #: ../widget-iframe/channels/custom_form.js:34
 #: ../widget-iframe/channels/woocommerce.js:35
-#: src/components/widgetChannels/channels/CustomForm.tsx:186
-#: src/components/widgetChannels/channels/WooCommerce.tsx:168
+#: src/components/widgetChannels/channels/CustomForm.tsx:187
+#: src/components/widgetChannels/channels/WooCommerce.tsx:169
 msgid "Submit"
 msgstr ""
 
-#: src/components/widgetChannels/channels/CustomForm.tsx:195
+#: src/components/widgetChannels/channels/CustomForm.tsx:193
+msgid "Success Message"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:196
 msgid "Submitted successfully"
 msgstr ""
 
-#: src/components/widgetChannels/channels/CustomForm.tsx:206
+#: src/components/widgetChannels/channels/CustomForm.tsx:204
+msgid "Send Mail To"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:207
 msgid "Your email"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomForm.tsx:214
+msgid "Webhook URL"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:81
+msgid "iFrame url"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:89
+msgid "Do not use iFrame tag directly, use URL from iFrame only."
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:94
+msgid "Aspect Ratio"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:103
+msgid "Custom"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:129
+msgid "540"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:146
+msgid "360"
+msgstr ""
+
+#: src/components/widgetChannels/channels/CustomIframe.tsx:158
+msgid "iFrame Scrollbar"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Discord.tsx:20
+msgid "Discord invite code"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Discord.tsx:22
+msgid "discord.gg/"
 msgstr ""
 
 #: src/components/widgetChannels/channels/FAQ.tsx:65
@@ -35,6 +1047,82 @@ msgstr ""
 msgid "FAQ Title"
 msgstr ""
 
+#: src/components/widgetChannels/channels/FAQ.tsx:108
+msgid "Add FAQ"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:51
+#: src/components/widgetChannels/channels/WeChat.tsx:50
+msgid "Custom channel icon"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomChannelIcon.tsx:80
+msgid "image size 40 x 40px"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:74
+#: src/components/widgetChannels/channels/Fields/FaqField.tsx:69
+#: src/components/widgetChannels/channels/Fields/KnowledgeBaseField.tsx:69
+#: src/components/widgetChannels/WidgetChannel.tsx:115
+msgid "draggable button"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:81
+#: src/components/widgetChannels/channels/WooCommerce.tsx:105
+msgid "Field"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:84
+#: src/components/widgetChannels/channels/WooCommerce.tsx:108
+msgid "Optional"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:89
+#: src/components/widgetChannels/channels/WooCommerce.tsx:114
+msgid "Required"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:100
+#: src/components/widgetChannels/channels/WooCommerce.tsx:126
+msgid "label"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/CustomFormField.tsx:106
+msgid "url"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/customFormHelper/FileSettings.tsx:16
+msgid "Allow Multiple"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/customFormHelper/RatingSettings.tsx:15
+msgid "Star"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/customFormHelper/RatingSettings.tsx:17
+msgid "Smiley"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Fields/FaqField.tsx:78
+#: src/components/widgetChannels/channels/Fields/KnowledgeBaseField.tsx:78
+msgid "Show description"
+msgstr ""
+
+#: src/components/widgetChannels/channels/GoogleMap.tsx:17
+msgid "Google maps embed code"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Instagram.tsx:20
+#: src/components/widgetChannels/channels/Snapchat.tsx:20
+#: src/components/widgetChannels/channels/Telegram.tsx:20
+#: src/components/widgetChannels/channels/TikTok.tsx:20
+msgid "Username"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Intercom.tsx:24
+msgid "Intercom"
+msgstr ""
+
 #: src/components/widgetChannels/channels/KnowledgeBase.tsx:70
 msgid "Knowledge Base Description"
 msgstr ""
@@ -43,97 +1131,220 @@ msgstr ""
 msgid "Knowledge Base Title"
 msgstr ""
 
-#: src/components/widgetChannels/channels/Whatsapp.tsx:28
-msgid "Phone number"
+#: src/components/widgetChannels/channels/KnowledgeBase.tsx:113
+msgid "Add KB"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Line.tsx:20
+msgid "Line ID"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Linkedin.tsx:20
+msgid "Profile"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Linkedin.tsx:22
+msgid "linkedin.com/"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Linkedin.tsx:25
+msgid "ex: in/username or company/username, etc"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Messenger.tsx:20
+msgid "Facebook username"
+msgstr ""
+
+#: src/components/widgetChannels/channels/OpenWindowAction.tsx:17
+msgid "On click open channel on"
+msgstr ""
+
+#: src/components/widgetChannels/channels/OpenWindowAction.tsx:20
+msgid "Select window action"
+msgstr ""
+
+#: src/components/widgetChannels/channels/OpenWindowAction.tsx:23
+msgid "New Tab"
+msgstr ""
+
+#: src/components/widgetChannels/channels/OpenWindowAction.tsx:24
+msgid "Current Tab"
+msgstr ""
+
+#: src/components/widgetChannels/channels/OpenWindowAction.tsx:25
+msgid "New Window"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Pinterest.tsx:20
+msgid "Pinterest username"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Slack.tsx:20
+msgid "Workspace unique_id"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Tawk.tsx:24
+msgid "Tawk.to"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Tidio.tsx:24
+msgid "Tidio"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Tidycal.tsx:20
+msgid "Tidycal"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Tidycal.tsx:22
+msgid "tidycal.com/"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Twitter.tsx:20
+msgid "Twitter user ID"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Waze.tsx:20
+msgid "Waze link"
+msgstr ""
+
+#: ../widget-iframe/channels/wechat.js:19
+#: src/components/widgetChannels/channels/WeChat.tsx:45
+msgid "WeChat QR Code"
 msgstr ""
 
 #: src/components/widgetChannels/channels/Whatsapp.tsx:31
 msgid "ex: 88012312312312"
 msgstr ""
 
-#: src/components/widgetChannels/channels/Whatsapp.tsx:36
-msgid "Message"
-msgstr ""
-
-#: src/components/widgetChannels/channels/WooCommerce.tsx:104
-msgid "Field"
-msgstr ""
-
-#: src/components/widgetChannels/channels/WooCommerce.tsx:107
-msgid "Optional"
-msgstr ""
-
-#: src/components/widgetChannels/channels/WooCommerce.tsx:113
-msgid "Required"
-msgstr ""
-
-#: src/components/widgetChannels/channels/WooCommerce.tsx:125
-msgid "label"
-msgstr ""
-
-#: src/components/widgetChannels/channels/WooCommerce.tsx:138
+#: src/components/widgetChannels/channels/WooCommerce.tsx:139
 msgid "Show Order Details"
 msgstr ""
 
 #: src/components/widgetChannels/channels/WooCommerce.tsx:146
+#: src/components/widgetChannels/channels/WooCommerce.tsx:147
 msgid "Shipping Status"
 msgstr ""
 
 #: src/components/widgetChannels/channels/WooCommerce.tsx:149
+#: src/components/widgetChannels/channels/WooCommerce.tsx:150
 msgid "Total Items"
 msgstr ""
 
 #: src/components/widgetChannels/channels/WooCommerce.tsx:152
+#: src/components/widgetChannels/channels/WooCommerce.tsx:153
 msgid "Total Amount"
 msgstr ""
 
 #: src/components/widgetChannels/channels/WooCommerce.tsx:155
+#: src/components/widgetChannels/channels/WooCommerce.tsx:156
 msgid "Billing Name"
 msgstr ""
 
 #: src/components/widgetChannels/channels/WooCommerce.tsx:158
+#: src/components/widgetChannels/channels/WooCommerce.tsx:159
 msgid "Shipping Name"
 msgstr ""
 
-#: src/components/widgetChannels/channels/WooCommerce.tsx:165
-msgid "Button Text"
+#: src/components/widgetChannels/channels/WPSearch.tsx:32
+msgid "Select Post Types"
 msgstr ""
 
-#: src/components/widgetChannels/WidgetChannel.tsx:115
-msgid "draggable button"
+#: src/components/widgetChannels/channels/WPSearch.tsx:34
+msgid "Select the post types you want to show in this channel."
 msgstr ""
 
-#: src/components/widgetChannels/WidgetChannel.tsx:139
-msgid "Responses"
+#: src/components/widgetChannels/channels/Youtube.tsx:18
+msgid "Youtube video id"
+msgstr ""
+
+#: src/components/widgetChannels/channels/Youtube.tsx:20
+msgid "youtube.com/watch?v="
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSelect.tsx:50
+msgid "Search channels"
+msgstr ""
+
+#: ../widget-iframe/channels/faq.js:28
+#: ../widget-iframe/channels/knowledge_base.js:34
+#: ../widget-iframe/channels/wp_search.js:20
+#: src/components/widgetChannels/ChannelSelect.tsx:52
+msgid "Search"
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSelect.tsx:69
+msgid "No item found."
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSettings.tsx:190
+msgid "Title"
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSettings.tsx:192
+msgid "Descriptive text for visitors."
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSettings.tsx:202
+#: src/components/widgetChannels/ChannelSettings.tsx:204
+msgid "Hide after office hours"
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSettings.tsx:212
+msgid "Hide this channel after office time."
+msgstr ""
+
+#: src/components/widgetChannels/ChannelSettings.tsx:217
+msgid "Channel show on"
+msgstr ""
+
+#: src/components/widgetChannels/EditChannel.tsx:82
+msgid "Edit Channel"
+msgstr ""
+
+#: src/components/widgetChannels/SingleChannel.tsx:80
+msgid "Pro"
+msgstr ""
+
+#: src/components/widgetChannels/StoreResponses.tsx:27
+msgid "Store form submit data in response list."
 msgstr ""
 
 #: src/components/widgetChannels/WidgetChannel.tsx:150
+#: src/pages/Widgets/Widgets.tsx:168
 msgid "Edit"
 msgstr ""
 
 #: src/components/widgetChannels/WidgetChannel.tsx:159
+#: src/pages/Widgets/Widgets.tsx:171
 msgid "Duplicate"
-msgstr ""
-
-#: src/components/widgetChannels/WidgetChannel.tsx:169
-#: src/components/widgetChannels/WidgetChannel.tsx:194
-msgid "Delete"
-msgstr ""
-
-#: src/components/widgetChannels/WidgetChannel.tsx:179
-msgid "Confirmation"
 msgstr ""
 
 #: src/components/widgetChannels/WidgetChannel.tsx:181
 msgid "Are you sure want to delete this channel?"
 msgstr ""
 
-#: src/components/widgetChannels/WidgetChannel.tsx:185
-msgid "Cancel"
-msgstr ""
-
 #: src/components/widgetChannels/WidgetChannel.tsx:190
 msgid "Deleting"
+msgstr ""
+
+#: src/components/widgetChannels/WidgetChannelsList.tsx:84
+msgid "Create new channel from here."
+msgstr ""
+
+#: src/pages/Error404/Error404.tsx:24
+msgid "Lost In Space"
+msgstr ""
+
+#: src/pages/Error404/Error404.tsx:26
+msgid "Redirecting Home in"
+msgstr ""
+
+#: src/pages/Error404/Error404.tsx:30
+msgid "Go Home"
+msgstr ""
+
+#: src/pages/Error404/Error404.tsx:33
+msgid "404 not found"
 msgstr ""
 
 #: src/pages/Responses/Responses.tsx:101
@@ -146,6 +1357,38 @@ msgstr ""
 
 #: src/pages/Responses/Responses.tsx:109
 msgid "Response List"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:113
+msgid "Loading"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:121
+msgid "Refresh"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:143
+msgid "items selected"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:155
+msgid "Select all"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:167
+msgid "Created At"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:177
+msgid "Select"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:183
+msgid "View details"
+msgstr ""
+
+#: src/pages/Responses/Responses.tsx:218
+msgid "No responses"
 msgstr ""
 
 #: src/pages/WidgetDetails/WidgetDetails.tsx:52
@@ -173,81 +1416,152 @@ msgstr ""
 msgid "External publish"
 msgstr ""
 
-#: ../widget-iframe/bit-assist.js:376
+#: src/pages/Widgets/Widgets.tsx:99
+msgid "Widgets List"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:117
+msgid "status"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:118
+msgid "widget name"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:119
+msgid "created at"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:120
+msgid "use widget in"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:134
+msgid "Widget disable"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:134
+msgid "Widget enable"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:155
+msgid "This site"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:156
+msgid "External site"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:161
+msgid "Options"
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:190
+msgid "No widgets found! Create a new widget."
+msgstr ""
+
+#: src/pages/Widgets/Widgets.tsx:204
+msgid "Are you sure want to delete this widget?"
+msgstr ""
+
+#: ../widget-iframe/bit-assist.js:378
 msgid "Sorry, %s is not loaded yet!"
 msgstr ""
 
 #: ../widget-iframe/channels/common.js:43
 #: ../widget-iframe/channels/common.js:44
 #: ../widget-iframe/channels/knowledge_base.js:52
+#: ../widget-iframe/channels/knowledge_base.js:53
 msgid "Close"
+msgstr ""
+
+#: ../widget-iframe/channels/common.js:84
+#: ../widget-iframe/channels/woocommerce.js:206
+#: ../widget-iframe/channels/woocommerce.js:230
+msgid "Order Id"
 msgstr ""
 
 #: ../widget-iframe/channels/common.js:87
 msgid "Details"
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:115
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Bug"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Suggest"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Love"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Sad"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Confused"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "Happy"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "5 star"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "4 star"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "3 star"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "2 star"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:87
+msgid "1 star"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:118
 #: ../widget-iframe/channels/woocommerce.js:61
 msgid "(optional)"
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:144
+#: ../widget-iframe/channels/custom_form.js:147
 msgid "Attach File"
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:146
-#: ../widget-iframe/channels/custom_form.js:154
-#: ../widget-iframe/channels/custom_form.js:201
-#: ../widget-iframe/channels/custom_form.js:211
+#: ../widget-iframe/channels/custom_form.js:149
+#: ../widget-iframe/channels/custom_form.js:157
+#: ../widget-iframe/channels/custom_form.js:204
+#: ../widget-iframe/channels/custom_form.js:214
 #: ../widget-iframe/channels/woocommerce.js:96
 msgid "No file chosen"
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:185
+#: ../widget-iframe/channels/custom_form.js:160
+msgid "files"
+msgstr ""
+
+#: ../widget-iframe/channels/custom_form.js:188
 #: ../widget-iframe/channels/woocommerce.js:79
 msgid "Sending..."
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:228
+#: ../widget-iframe/channels/custom_form.js:231
 msgid "Success"
 msgstr ""
 
-#: ../widget-iframe/channels/custom_form.js:228
-msgid "Error"
-msgstr ""
-
-#: ../widget-iframe/channels/custom_form.js:231
+#: ../widget-iframe/channels/custom_form.js:234
 #: ../widget-iframe/channels/woocommerce.js:147
 msgid "Something went wrong"
-msgstr ""
-
-#: ../widget-iframe/channels/faq.js:28
-#: ../widget-iframe/channels/knowledge_base.js:34
-#: ../widget-iframe/channels/wp_search.js:20
-msgid "Search"
-msgstr ""
-
-#: ../widget-iframe/channels/faq.js:34
-#: ../widget-iframe/channels/woocommerce.js:174
-msgid "Back"
-msgstr ""
-
-#: ../widget-iframe/channels/knowledge_base.js:44
-#: ../widget-iframe/channels/woocommerce.js:289
-#: ../widget-iframe/channels/wp_search.js:148
-msgid "Prev"
-msgstr ""
-
-#: ../widget-iframe/channels/knowledge_base.js:48
-#: ../widget-iframe/channels/woocommerce.js:284
-#: ../widget-iframe/channels/wp_search.js:143
-msgid "Next"
-msgstr ""
-
-#: ../widget-iframe/channels/woocommerce.js:281
-#: ../widget-iframe/channels/wp_search.js:140
-msgid "%1$s / %2$s page"
 msgstr ""
 
 #: ../widget-iframe/channels/wp_search.js:44
@@ -260,4 +1574,8 @@ msgstr ""
 
 #: ../widget-iframe/channels/wp_search.js:105
 msgid "No results found"
+msgstr ""
+
+#: ../widget-iframe/channels/wp_search.js:118
+msgid "(no title)"
 msgstr ""

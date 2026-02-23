@@ -21,7 +21,7 @@ export default function WeChat() {
   const setChannelImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        button: { text: 'Select picture' },
+        button: { text: __('Select picture') },
         library: { type: 'image' },
         multiple: false,
         title: __('Media')
@@ -31,7 +31,7 @@ export default function WeChat() {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChanges('url', attachment.url)
         if (attachment.filesizeInBytes > 512_000) {
-          setImgWarn('⚠ Larger size image might slow down load time')
+          setImgWarn(__('⚠ Larger size image might slow down load time'))
         }
       })
 
@@ -42,12 +42,12 @@ export default function WeChat() {
   return (
     <>
       <FormControl isRequired>
-        <FormLabel>WeChat QR Code</FormLabel>
+        <FormLabel>{__('QR Code')}</FormLabel>
 
         <div>
           <Box boxSize={100} mb={2} position="relative">
             <Image
-              alt={flow.config.title || 'Custom channel icon'}
+              alt={flow.config.title || __('Custom channel icon')}
               aria-required="true"
               boxSize="inherit"
               fallback={<Box bg="gray.200" boxSize="inherit" color="gray.400" />}
@@ -57,7 +57,7 @@ export default function WeChat() {
             />
             {flow.config?.url ? (
               <IconButton
-                aria-label="remove custom icon"
+                aria-label={__('Remove custom icon')}
                 borderRadius="full"
                 colorScheme="red"
                 h="5"
@@ -72,7 +72,7 @@ export default function WeChat() {
             ) : undefined}
           </Box>
           <Button leftIcon={<FiUpload />} onClick={setChannelImg}>
-            Browse
+            {__('Browse')}
           </Button>
         </div>
 

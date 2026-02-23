@@ -5,6 +5,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
 import { type Faqs } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiChevronDown, FiX } from 'react-icons/fi'
@@ -65,7 +66,7 @@ function FaqField({ bg = 'none', cursor = 'grab', field, id }: FaqFieldProps) {
           rounded="sm"
           w={6}
         >
-          <DragHandleIcon aria-label="draggable button" />
+          <DragHandleIcon aria-label={__('draggable button')} />
         </Flex>
         <Box w="full">
           <HStack mb="2" w="full">
@@ -74,7 +75,7 @@ function FaqField({ bg = 'none', cursor = 'grab', field, id }: FaqFieldProps) {
               value={field?.title || ''}
             />
             <IconButton
-              aria-label="Show Desc"
+              aria-label={__('Show description')}
               icon={<FiChevronDown />}
               onClick={() => setIsEditing(prev => !prev)}
               size="sm"
@@ -91,7 +92,7 @@ function FaqField({ bg = 'none', cursor = 'grab', field, id }: FaqFieldProps) {
       </HStack>
       <Box>
         <IconButton
-          aria-label="Delete Icon"
+          aria-label={__('Delete')}
           icon={<FiX />}
           isRound
           onClick={() => handleDelete(id)}

@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, HStack, Stack, Text, Tooltip } from '@chakra-ui/react'
 import DocTutorials from '@components/global/DocTutorials'
 import ProWrapper from '@components/global/ProWrapper'
+import { __ } from '@helpers/i18nwrap'
 import Drupal from '@icons/Drupal'
 import Html from '@icons/Html'
 import Magento from '@icons/Magento'
@@ -35,37 +36,37 @@ function Publish() {
     <Stack gap={[5, 6]}>
       <Box textAlign="center">
         <Heading as="h4" mb="4" size="md">
-          Publish Widget on Any Platform
+          {__('Publish Widget on Any Platform')}
         </Heading>
         <Flex flexWrap="wrap" gap="2" justifyContent="center">
-          <Platform label="Shopify">
+          <Platform label={__('Shopify')}>
             <Shopify />
           </Platform>
-          <Platform label="Squarespace">
+          <Platform label={__('Squarespace')}>
             <Squarespace />
           </Platform>
-          <Platform label="Webflow">
+          <Platform label={__('Webflow')}>
             <Webflow />
           </Platform>
-          <Platform label="Weebly">
+          <Platform label={__('Weebly')}>
             <Weebly />
           </Platform>
-          <Platform label="Wix">
+          <Platform label={__('Wix')}>
             <Wix />
           </Platform>
-          <Platform label="Magento">
+          <Platform label={__('Magento')}>
             <Magento />
           </Platform>
-          <Platform label="Drupal">
+          <Platform label={__('Drupal')}>
             <Drupal />
           </Platform>
-          <Platform label="Opencart">
+          <Platform label={__('Opencart')}>
             <Opencart />
           </Platform>
-          <Platform label="HTML">
+          <Platform label={__('HTML')}>
             <Html />
           </Platform>
-          <Platform label="More">
+          <Platform label={__('More')}>
             <More />
           </Platform>
         </Flex>
@@ -82,7 +83,7 @@ function Publish() {
             px="3"
             py="1"
           >
-            Want to use this widget in other domain? <br /> Follow these steps.
+            {__('Want to use this widget in other domain?')} <br /> {__('Follow these steps.')}
           </Text>
         </HStack>
         <ProWrapper>

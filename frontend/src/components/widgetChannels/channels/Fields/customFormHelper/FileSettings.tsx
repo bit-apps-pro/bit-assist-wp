@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Switch, VStack } from '@chakra-ui/react'
 import { type DynamicFormField } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 
 interface FileSettingsProps {
   field: DynamicFormField | undefined
@@ -12,7 +13,7 @@ export default function FileSettings({ field, handleChange, id }: FileSettingsPr
     <VStack alignItems={'flex-start'} w="full">
       <FormControl alignItems="center" display="flex">
         <FormLabel fontSize={'sm'} mb="0">
-          Allow Multiple
+          {__('Allow Multiple')}
         </FormLabel>
         <Switch
           colorScheme="purple"

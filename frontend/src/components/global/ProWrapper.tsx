@@ -1,5 +1,6 @@
 import { Box, Button, Link, useColorModeValue } from '@chakra-ui/react'
 import config from '@config/config'
+import { __ } from '@helpers/i18nwrap'
 import { type PropsWithChildren } from 'react'
 
 type ProWrapper = PropsWithChildren<{ hide?: boolean }>
@@ -21,7 +22,7 @@ export default function ProWrapper({ children, hide }: ProWrapper) {
           transform="translate(-50%, -50%)"
           zIndex="1"
         >
-          Get Pro Version
+          {__('Get Pro Version')}
         </Button>
       </Link>
       <Box

@@ -1,5 +1,6 @@
 import { Link, Text } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __, sprintf } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
@@ -17,9 +18,13 @@ function Tidio() {
 
   return (
     <Text>
-      Make Sure to add the Tidio script to your website.{' '}
+      {sprintf(
+      // translators: %s: Service name (e.g. Crisp, Intercom)
+      __('Make Sure to add the %s script to your website.'),
+      __('Tidio')
+    )}{' '}
       <Link href="https://www.tidio.com/" isExternal textDecoration="underline">
-        Learn more
+        {__('Learn more')}
       </Link>
     </Text>
   )

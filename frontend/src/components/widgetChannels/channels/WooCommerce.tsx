@@ -62,7 +62,8 @@ export default function WooCommerce() {
   }
 
   useEffect(() => {
-    if (flow.config?.card_config?.submit_button_text !== undefined) return
+    if (flow.config?.store_responses !== undefined) return
+
     setFlow(prev => {
       if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
@@ -142,19 +143,19 @@ export default function WooCommerce() {
           value={flow.config?.order_details ?? []}
         >
           <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
-            <Checkbox aria-label="shipping status" size="lg" value="shipping_status">
+            <Checkbox aria-label={__('Shipping Status')} size="lg" value="shipping_status">
               {__('Shipping Status')}
             </Checkbox>
-            <Checkbox aria-label="total items" size="lg" value="total_items">
+            <Checkbox aria-label={__('Total Items')} size="lg" value="total_items">
               {__('Total Items')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="total_amount">
+            <Checkbox aria-label={__('Total Amount')} size="lg" value="total_amount">
               {__('Total Amount')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="billing_name">
+            <Checkbox aria-label={__('Billing Name')} size="lg" value="billing_name">
               {__('Billing Name')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="shipping_name">
+            <Checkbox aria-label={__('Shipping Name')} size="lg" value="shipping_name">
               {__('Shipping Name')}
             </Checkbox>
           </Stack>

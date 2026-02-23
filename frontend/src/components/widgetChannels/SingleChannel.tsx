@@ -3,6 +3,7 @@ import { Box, GridItem, Image, Text } from '@chakra-ui/react'
 import config from '@config/config'
 import { flowAtom } from '@globalStates/atoms'
 import { type Channel } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useParams } from 'react-router-dom'
 
@@ -76,7 +77,7 @@ function SingleChannel({ channel }: { channel: Channel }) {
           textAlign="center"
           top="0"
         >
-          Pro
+          {__('Pro')}
         </Box>
       )}
 

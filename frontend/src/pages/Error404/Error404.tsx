@@ -1,3 +1,4 @@
+import { __ } from '@helpers/i18nwrap'
 import space from '@resource/img/space.svg'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -20,16 +21,16 @@ export default function Error404() {
     <div className="error-404">
       <div>
         <div className="four">404</div>
-        <div className="t">Lost In Space</div>
+        <div className="t">{__('Lost In Space')}</div>
         <br />
-        Redirecting Home in {sec}
+        {__('Redirecting Home in')} {sec}
         <br />
         <br />
         <Link className="btn dp-blue btcd-btn-lg" to="/">
-          Go Home
+          {__('Go Home')}
         </Link>
       </div>
-      <img alt="404 not found" src={space} />
+      <img alt={__('404 not found')} src={space} />
     </div>
   )
 }

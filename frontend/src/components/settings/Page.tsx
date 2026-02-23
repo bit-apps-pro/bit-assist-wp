@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
 import { type ExcludePages, type Widget } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
@@ -30,13 +31,13 @@ interface Props {
 const showPageVisibility = (condition: string) => {
   switch (condition) {
     case 'hideOn': {
-      return 'Hide On'
+      return __('Hide On')
     }
     case 'showOn': {
-      return 'Show On'
+      return __('Show On')
     }
     default: {
-      return 'None'
+      return __('None')
     }
   }
 }
@@ -44,19 +45,19 @@ const showPageVisibility = (condition: string) => {
 const showPageCondition = (condition: string) => {
   switch (condition) {
     case 'contains': {
-      return 'Pages that contain'
+      return __('Pages that contain')
     }
     case 'endWith': {
-      return 'Pages ended with'
+      return __('Pages ended with')
     }
     case 'equal': {
-      return 'Specific page'
+      return __('Specific page')
     }
     case 'startWith': {
-      return 'Pages starts with'
+      return __('Pages starts with')
     }
     default: {
-      return 'None'
+      return __('None')
     }
   }
 }
@@ -76,7 +77,7 @@ const makeUrl = (url: string, condition: string) => {
       return `/${url}*`
     }
     default: {
-      return 'None'
+      return __('None')
     }
   }
 }
@@ -119,9 +120,9 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
           <>
             <PopoverTrigger>
               <Box>
-                <Tooltip label="Remove page" placement="right">
+                <Tooltip label={__('Remove page')} placement="right">
                   <IconButton
-                    aria-label="Remove Domain"
+                    aria-label={__('Remove page')}
                     colorScheme="red"
                     disabled={isWidgetUpdating}
                     icon={<HiOutlineTrash />}
@@ -135,7 +136,7 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Text>Are you sure you want to remove this page?</Text>
+                <Text>{__('Are you sure you want to remove this page?')}</Text>
                 <Button
                   colorScheme="red"
                   disabled={isWidgetUpdating}
@@ -143,7 +144,7 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
                   onClick={() => handleRemoveDomain(index, onClose)}
                   ref={initRef.current}
                 >
-                  Confirm
+                  {__('Confirm')}
                 </Button>
               </PopoverBody>
             </PopoverContent>

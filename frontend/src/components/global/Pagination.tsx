@@ -1,4 +1,5 @@
 import { Button, HStack, Select, Stack, Text } from '@chakra-ui/react'
+import { __, sprintf } from '@helpers/i18nwrap'
 import React from 'react'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
@@ -51,7 +52,7 @@ function Pagination({
           <option value={40}>40</option>
           <option value={50}>50</option>
         </Select>
-        <Text whiteSpace="nowrap">Row per page</Text>
+        <Text whiteSpace="nowrap">{__('Row per page')}</Text>
       </HStack>
 
       <HStack>
@@ -64,7 +65,7 @@ function Pagination({
           rounded="full"
           size="sm"
         >
-          Prev
+          {__('Prev')}
         </Button>
 
         <Button
@@ -74,11 +75,16 @@ function Pagination({
           rounded="full"
           size="sm"
         >
-          Next
+          {__('Next')}
         </Button>
 
         <Text whiteSpace="nowrap">
-          {pageNumber} /{totalPages} page
+          {sprintf(
+            // translators: 1: Current page number, 2: Total pages
+            __('%1$s / %2$s page'),
+            pageNumber,
+            totalPages
+          )}
         </Text>
       </HStack>
     </Stack>

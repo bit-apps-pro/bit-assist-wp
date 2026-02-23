@@ -16,6 +16,7 @@ import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import Editor from '@monaco-editor/react'
@@ -43,7 +44,7 @@ function CustomCSS() {
 
   return (
     <Box maxW="lg">
-      <Title>Custom CSS</Title>
+      <Title>{__('Custom CSS')}</Title>
       <ProWrapper>
         <Textarea
           color="inherit"
@@ -60,7 +61,7 @@ function CustomCSS() {
       <Modal id="custom_css" isCentered isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader py="2">Custom CSS</ModalHeader>
+          <ModalHeader py="2">{__('Custom CSS')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody p="0">
             <Box boxShadow="md">
@@ -77,16 +78,16 @@ function CustomCSS() {
           </ModalBody>
           <ModalFooter py="2">
             <Button mr={3} onClick={onClose}>
-              Cancel
+              {__('Cancel')}
             </Button>
             <Button
               colorScheme="purple"
               isLoading={isWidgetUpdating}
-              loadingText="Updating..."
+              loadingText={__('Updating...')}
               onClick={handleSaveCustomCSS}
               shadow="md"
             >
-              Update
+              {__('Update')}
             </Button>
           </ModalFooter>
         </ModalContent>

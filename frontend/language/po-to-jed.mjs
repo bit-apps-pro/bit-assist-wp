@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+/* eslint-env node */
+/* global process */
 
 /**
  * Converts PO files to JED JSON format for WordPress JavaScript translations.
@@ -8,25 +10,26 @@
  */
 
 import gettextParser from 'gettext-parser'
-import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
-const [languagesDir, domain, handle] = process.argv.slice(2)
+const [languagesDirectory, domain, handle] = process.argv.slice(2)
 
-if (!languagesDir || !domain || !handle) {
+if (!languagesDirectory || !domain || !handle) {
   console.error('Usage: node po-to-jed.mjs <languages-dir> <domain> <script-handle>')
   process.exit(1)
 }
 
-if (!existsSync(languagesDir)) {
-  console.error(`Error: Directory not found: ${languagesDir}`)
+if (!existsSync(languagesDirectory)) {
+  console.error(`Error: Directory not found: ${languagesDirectory}`)
   process.exit(1)
 }
 
 const poPattern = new RegExp(`^${domain}-(.+)\\.po$`)
-const poFiles = readdirSync(languagesDir).filter(f => poPattern.test(f))
+const poFiles = readdirSync(languagesDirectory).filter(f => poPattern.test(f))
 
 if (poFiles.length === 0) {
+  // eslint-disable-next-line no-console -- CLI script; intentional stdout for "no files" status
   console.log('No PO files found.')
   process.exit(0)
 }
@@ -34,8 +37,8 @@ if (poFiles.length === 0) {
 for (const poFile of poFiles) {
   try {
     const locale = poFile.match(poPattern)[1]
-    const poPath = join(languagesDir, poFile)
-    const jsonPath = join(languagesDir, `${domain}-${locale}-${handle}.json`)
+    const poPath = join(languagesDirectory, poFile)
+    const jsonPath = join(languagesDirectory, `${domain}-${locale}-${handle}.json`)
 
     const parsed = gettextParser.po.parse(readFileSync(poPath))
 
@@ -67,6 +70,7 @@ for (const poFile of poFiles) {
     }
 
     writeFileSync(jsonPath, JSON.stringify(jedJson))
+    // eslint-disable-next-line no-console -- CLI script; intentional stdout for success output
     console.log(`✓ ${poFile} → ${domain}-${locale}-${handle}.json`)
   } catch (error) {
     console.error(`✗ Error processing ${poFile}:`, error.message)

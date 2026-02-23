@@ -145,12 +145,16 @@ class Layout
     {
         $rootURL = Config::get('ROOT_URI');
 
-        echo '<noscript>You need to enable JavaScript to run this app.</noscript>';
+        echo '<noscript>' . esc_html__('You need to enable JavaScript to run this app.', 'bit-assist') . '</noscript>';
         echo '<div id="bit-apps-root">';
         echo '<div style="display: flex;flex-direction: column;justify-content: center;';
         echo 'align-items: center;height: 90vh;font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;">';
         echo '<img alt="bit-assist-logo" class="bit-logo" width="70" src="' . esc_url($rootURL . '/img/logo.svg') . '">';
-        echo '<h1>' . esc_html__('Welcome to Bit Assist', 'bit-assist') . '</h1>';
+        echo '<h1>' . esc_html( sprintf(
+            /* translators: %s: Brand name */
+            __( 'Welcome to %s', 'bit-assist' ),
+            'Bit Assist'
+        ) ) . '</h1>';
         echo '<p></p>';
         echo '</div>';
         echo '</div>';

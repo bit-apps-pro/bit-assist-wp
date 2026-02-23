@@ -1,6 +1,7 @@
 import { Checkbox, CheckboxGroup, FormControl, HStack } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -48,18 +49,18 @@ export const WidgetShowOn = () => {
 
   return (
     <FormControl>
-      <Title>Widget Show On</Title>
+      <Title>{__('Widget Show On')}</Title>
       <CheckboxGroup
         colorScheme="purple"
         onChange={val => handleChanges(val, 'widget_show_on')}
         value={widget.styles?.widget_show_on ?? ['desktop', 'mobile']}
       >
         <HStack spacing={4}>
-          <Checkbox aria-label="show on desktop" size="lg" value="desktop">
-            Desktop
+          <Checkbox aria-label={__('Show on desktop')} size="lg" value="desktop">
+            {__('Desktop')}
           </Checkbox>
-          <Checkbox aria-label="show on mobile" size="lg" value="mobile">
-            Mobile
+          <Checkbox aria-label={__('Show on mobile')} size="lg" value="mobile">
+            {__('Mobile')}
           </Checkbox>
         </HStack>
       </CheckboxGroup>

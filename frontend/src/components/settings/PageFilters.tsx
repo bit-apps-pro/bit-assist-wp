@@ -16,6 +16,7 @@ import Title from '@components/global/Title'
 import Page from '@components/settings/Page'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -43,7 +44,7 @@ function PageFilters() {
 
   const addNewPage = async () => {
     if (pageVisibility === '' || pageCondition === '' || (pageUrl === '' && pageCondition !== 'equal')) {
-      toaster('warning', 'All fields are required')
+      toaster('warning', __('All fields are required'))
       return
     }
 
@@ -92,7 +93,7 @@ function PageFilters() {
 
   return (
     <Box>
-      <Title>Page Filters</Title>
+      <Title>{__('Page Filters')}</Title>
 
       <Box mt={4}>
         <Box borderWidth={`${widget.exclude_pages?.length && '1px'}`} mb="4" rounded="md">
@@ -120,8 +121,8 @@ function PageFilters() {
                 tabIndex={tabIndex}
                 w="15rem"
               >
-                <option value="showOn">Show On</option>
-                <option value="hideOn">Hide On</option>
+                <option value="showOn">{__('Show On')}</option>
+                <option value="hideOn">{__('Hide On')}</option>
               </Select>
               <Select
                 maxW="full"
@@ -130,10 +131,10 @@ function PageFilters() {
                 tabIndex={tabIndex}
                 w="25rem"
               >
-                <option value="contains">Pages that contain</option>
-                <option value="equal">Specific page</option>
-                <option value="startWith">Pages starts with</option>
-                <option value="endWith">Pages ended with</option>
+                <option value="contains">{__('Pages that contain')}</option>
+                <option value="equal">{__('Specific page')}</option>
+                <option value="startWith">{__('Pages starts with')}</option>
+                <option value="endWith">{__('Pages ended with')}</option>
               </Select>
               <InputGroup>
                 <InputLeftAddon children="your-domain/" />
@@ -141,15 +142,15 @@ function PageFilters() {
                   minW="10rem"
                   onChange={e => setPageName(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Page slug"
+                  placeholder={__('Page slug')}
                   tabIndex={tabIndex}
                   value={pageUrl ?? ''}
                 />
               </InputGroup>
 
-              <Tooltip label="Cancel">
+              <Tooltip label={__('Cancel')}>
                 <IconButton
-                  aria-label="Remove Page"
+                  aria-label={__('Remove Page')}
                   colorScheme="red"
                   icon={<HiOutlineTrash />}
                   isRound
@@ -158,9 +159,9 @@ function PageFilters() {
                   variant="ghost"
                 />
               </Tooltip>
-              <Tooltip label="Save">
+              <Tooltip label={__('Save')}>
                 <IconButton
-                  aria-label="Remove Page"
+                  aria-label={__('Save')}
                   colorScheme="green"
                   disabled={isWidgetUpdating}
                   icon={<HiCheck />}
@@ -173,7 +174,7 @@ function PageFilters() {
               </Tooltip>
             </HStack>
             <span>
-              Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
+              {__('Press')} <Kbd>Enter</Kbd> {__('to add,')} <Kbd>Esc</Kbd> {__('to cancel')}
             </span>
           </Box>
         </ProWrapper>
@@ -187,13 +188,13 @@ function PageFilters() {
           onClick={addPageButtonClickHandle}
           variant="outline"
         >
-          Add Page
+          {__('Add Page')}
         </Button>
       )}
 
       {!config.IS_PRO && isAdding ? (
         <Button colorScheme="red" mt="4" onClick={resetStates} variant="outline">
-          Remove Filter
+          {__('Remove Filter')}
         </Button>
       ) : undefined}
     </Box>

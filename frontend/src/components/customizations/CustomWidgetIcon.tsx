@@ -41,7 +41,7 @@ export default function CustomWidgetIcon() {
   const setWidgetImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        button: { text: 'Select picture' },
+        button: { text: __('Select picture') },
         library: { type: 'image' },
         multiple: false,
         title: __('Media')
@@ -51,7 +51,7 @@ export default function CustomWidgetIcon() {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChange(attachment.url)
         if (attachment.filesizeInBytes > 512_000) {
-          setImgWarn('⚠ Larger size image might slow down load time')
+          setImgWarn(__('⚠ Larger size image might slow down load time'))
         }
       })
 
@@ -64,12 +64,12 @@ export default function CustomWidgetIcon() {
       <Flex alignItems="center" gap="4">
         <CustomImagePreview customImage={widget.styles?.customImage} removeImage={handleChange} />
         <Button leftIcon={<FiUpload />} onClick={setWidgetImg}>
-          Browse
+          {__('Browse')}
         </Button>
       </Flex>
 
       <Text color="gray.500" fontSize="sm" mt="1">
-        image size 100 x 100px
+        {__('image size 100 x 100px')}
       </Text>
 
       {imgWarn !== '' && (
@@ -87,7 +87,7 @@ function CustomImagePreview({ customImage, removeImage }: CustomImagePreviewProp
       {customImage ? (
         <Box position="relative">
           <Image
-            alt="Custom image"
+            alt={__('Custom image')}
             border="1px"
             borderColor="gray.200"
             boxSize="14"
@@ -96,7 +96,7 @@ function CustomImagePreview({ customImage, removeImage }: CustomImagePreviewProp
             src={customImage}
           />
           <IconButton
-            aria-label="remove custom icon"
+            aria-label={__('Remove custom icon')}
             borderRadius="full"
             colorScheme="red"
             h="5"
@@ -119,7 +119,7 @@ function CustomImagePreview({ customImage, removeImage }: CustomImagePreviewProp
           rounded="sm"
         >
           <Text color="gray.600" fontSize="10px">
-            No Image
+            {__('No Image')}
           </Text>
         </Box>
       )}

@@ -110,7 +110,7 @@ function KnowledgeBase() {
         )}
 
         <Button onClick={handleAddField} rightIcon={<FiPlus />}>
-          Add KB
+          {__('Add KB')}
         </Button>
       </VStack>
 

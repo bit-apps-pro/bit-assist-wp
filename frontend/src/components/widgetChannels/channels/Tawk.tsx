@@ -1,5 +1,6 @@
 import { Link, Text } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __, sprintf } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
@@ -17,9 +18,13 @@ function Tawk() {
 
   return (
     <Text>
-      Make Sure to add the Tawk.to script to your website.{' '}
+      {sprintf(
+      // translators: %s: Service name (e.g. Crisp, Intercom)
+      __('Make Sure to add the %s script to your website.'),
+      __('Tawk.to')
+    )}{' '}
       <Link href="https://www.tawk.to/" isExternal textDecoration="underline">
-        Learn more
+        {__('Learn more')}
       </Link>
     </Text>
   )

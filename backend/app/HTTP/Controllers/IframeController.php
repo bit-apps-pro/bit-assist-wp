@@ -37,7 +37,7 @@ final class IframeController
         echo '<head>';
         echo '<meta charset="UTF-8" />';
         echo '<meta name="viewport" content="width=device-width, initial-scale=1.0" />';
-        echo '<title>' . esc_html__('Bit Assist Widget', 'bit-assist') . '</title>';
+        echo '<title>Bit Assist ' . esc_html__( 'Widget', 'bit-assist' ) . '</title>';
         // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- Iframe is standalone HTML, cannot use wp_enqueue_style.
         echo '<link rel="stylesheet" href="' . esc_url($assetBase . '/assets/index.css?ver=' . $version) . '">';
         // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Iframe is standalone HTML; wp-i18n requires wp-hooks to fire gettext actions.
@@ -54,7 +54,7 @@ final class IframeController
         echo '<div id="widgetBubbleRow">';
         echo '<div id="widgetBubbleWrapper">';
         echo '<button id="widgetBubble"><img alt="' . esc_attr__('Widget Icon', 'bit-assist') . '" id="widget-img" /></button>';
-        echo '<span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">' . esc_html__('by Bit Assist', 'bit-assist') . '</a></span>';
+        echo '<span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">' . esc_html__( 'by', 'bit-assist' ) . ' Bit Assist</a></span>';
         echo '</div>';
         echo '</div>';
         echo '</div>';

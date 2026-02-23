@@ -1,6 +1,7 @@
 import { Box, Input } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { useAtom } from 'jotai'
@@ -35,13 +36,13 @@ function WidgetName() {
 
   return (
     <Box>
-      <Title>Widget Name</Title>
+      <Title>{__('Widget Name')}</Title>
       <Input
         isRequired
         maxW="lg"
         onChange={handleChange}
-        placeholder="Widget Name"
-        value={widget.name || 'Untitled Widget'}
+        placeholder={__('Widget Name')}
+        value={widget.name || __('Untitled Widget')}
       />
     </Box>
   )

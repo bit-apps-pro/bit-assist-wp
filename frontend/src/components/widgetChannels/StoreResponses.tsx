@@ -1,5 +1,6 @@
 import { Box, Flex, FormControl, FormHelperText, FormLabel, Switch } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 
 function StoreResponses() {
@@ -15,7 +16,7 @@ function StoreResponses() {
     <Box>
       <FormControl>
         <Flex alignItems="center">
-          <FormLabel mb="0">Store Responses</FormLabel>
+          <FormLabel mb="0">{__('Store Responses')}</FormLabel>
           <Switch
             colorScheme="purple"
             isChecked={!!flow.config.store_responses}
@@ -23,7 +24,7 @@ function StoreResponses() {
             onChange={handleSwitchEnable}
           />
         </Flex>
-        <FormHelperText>Store form submit data in response list.</FormHelperText>
+        <FormHelperText>{__('Store form submit data in response list.')}</FormHelperText>
       </FormControl>
     </Box>
   )

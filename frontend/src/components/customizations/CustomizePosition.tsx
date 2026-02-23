@@ -1,5 +1,6 @@
 import { Box, HStack, Input, InputGroup, InputRightAddon, Text } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -31,7 +32,7 @@ export default function CustomizePosition() {
   ) => {
     const val = Number(e.target.value)
     if (val > 400) {
-      toaster('warning', 'Please enter a valid number')
+      toaster('warning', __('Please enter a valid number'))
       return
     }
 
@@ -81,21 +82,23 @@ export default function CustomizePosition() {
   )
 }
 
+const positionLabels: Record<'bottom' | 'left' | 'right' | 'top', string> = {
+  bottom: __('bottom'),
+  left: __('left'),
+  right: __('right'),
+  top: __('top')
+}
+
 function PositionInput({ onChange, position, value }: PositionInputProps) {
+  const label = positionLabels[position]
   return (
     <HStack mt="2">
       <Text textTransform="capitalize" w="16">
-        {position}
+        {label}
       </Text>
       <InputGroup>
-        <Input
-          min="0"
-          onChange={e => onChange(e, position)}
-          placeholder={position}
-          value={value}
-          w="28"
-        />
-        <InputRightAddon>px</InputRightAddon>
+        <Input min="0" onChange={e => onChange(e, position)} placeholder={label} value={value} w="28" />
+        <InputRightAddon>{__('px')}</InputRightAddon>
       </InputGroup>
     </HStack>
   )

@@ -1,5 +1,6 @@
 import { Button, ButtonGroup, Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import config from '@config/config'
+import { __ } from '@helpers/i18nwrap'
 import Logo from '@icons/Logo'
 import { FaStar } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -21,20 +22,15 @@ function Navbar() {
             <Logo />
           </Link>
           <Link to="/">
+            {/* eslint-disable-next-line i18next/no-literal-string */}
             <Heading size="md">Bit Assist</Heading>
           </Link>
         </Flex>
         <ButtonGroup alignItems="center">
-          {/* <NewOffer /> */}
-
           <DocTutorials
             docLink="https://bitapps.pro/docs/bit-assist/"
             tutorial="https://www.youtube.com/watch?v=atVwkzFNnmM&list=PL7c6CDwwm-AKc9ZA1pBg8nujZF6fHgtm5"
           />
-
-          {/* {config.IS_PRO && (
-            <Cashback />
-          )} */}
 
           {!config.IS_PRO && (
             <Button
@@ -46,7 +42,7 @@ function Navbar() {
               size="sm"
               target="_blank"
             >
-              Review Us
+              {__('Review Us')}
             </Button>
           )}
           <DarkModeSwitch />

@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Switch } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -41,9 +42,9 @@ function WidgetCredit() {
   return (
     <FormControl alignItems="center" display="flex">
       <FormLabel fontSize={'lg'} mb="0">
-        Hide Credit
+        {__('Hide Credit')}
       </FormLabel>
-      <Switch colorScheme="purple" isChecked={!!widget.hide_credit} onChange={handleChange} />
+      <Switch colorScheme="purple" isChecked={Boolean(widget.hide_credit)} onChange={handleChange} />
     </FormControl>
   )
 }

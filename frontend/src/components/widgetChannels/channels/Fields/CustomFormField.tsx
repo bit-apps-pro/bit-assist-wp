@@ -14,6 +14,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
 import { type DynamicFormField } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 import { FiX } from 'react-icons/fi'
 
@@ -70,22 +71,22 @@ function CustomFormField({ bg = 'none', cursor = 'grab', field, id }: CustomForm
           rounded="sm"
           w={6}
         >
-          <DragHandleIcon aria-label="draggable button" />
+          <DragHandleIcon aria-label={__('draggable button')} />
         </Flex>
         <Box w="full">
           <HStack alignItems="flex-start" justifyContent="space-between">
             <Text fontWeight={500} mb="2">
               {field?.field_type &&
                 `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
-              Field
+              {__('Field')}
               {!field?.required && (
                 <Text color="gray.400" display="inline">
-                  &nbsp;&nbsp;(Optional)
+                  &nbsp;&nbsp;({__('Optional')})
                 </Text>
               )}
             </Text>
             <HStack alignItems="center">
-              <Text>Required</Text>
+              <Text>{__('Required')}</Text>
               <Switch
                 colorScheme="purple"
                 isChecked={field?.required || false}
@@ -96,13 +97,13 @@ function CustomFormField({ bg = 'none', cursor = 'grab', field, id }: CustomForm
           <VStack alignItems="flex-start">
             <Input
               onChange={e => handleChange(e.target.value, 'label', id)}
-              placeholder="label"
+              placeholder={__('label')}
               value={field?.label}
             />
             {field?.field_type === 'GDPR' && (
               <Input
                 onChange={e => handleChange(e.target.value, 'url', id)}
-                placeholder="url"
+                placeholder={__('url')}
                 value={field?.url}
               />
             )}
@@ -117,7 +118,7 @@ function CustomFormField({ bg = 'none', cursor = 'grab', field, id }: CustomForm
       </HStack>
       <Box>
         <IconButton
-          aria-label="Delete Icon"
+          aria-label={__('Delete')}
           icon={<FiX />}
           isRound
           onClick={() => handleDelete(id)}

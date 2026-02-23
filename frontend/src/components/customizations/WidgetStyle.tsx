@@ -2,6 +2,7 @@ import { Box, HStack, Image } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -55,7 +56,7 @@ export const WidgetStyle = () => {
 
   return (
     <Box>
-      <Title>Widget Style</Title>
+      <Title>{__('Widget Style')}</Title>
       <HStack flexWrap="wrap" gap={4} maxH={400} spacing={0}>
         <Image
           _hover={{
@@ -63,7 +64,7 @@ export const WidgetStyle = () => {
             boxShadow: 'lg',
             transform: 'translateY(-5px)'
           }}
-          alt="widget style"
+          alt={__('Widget style')}
           border={
             widget?.styles?.widget_style
               ? (widget?.styles?.widget_style === 'widget_transparent'
@@ -86,7 +87,7 @@ export const WidgetStyle = () => {
             boxShadow: 'lg',
             transform: 'translateY(-5px)'
           }}
-          alt="widget style"
+          alt={__('Widget style')}
           border={
             widget?.styles?.widget_style === 'widget_box' ? '2px solid purple' : '2px solid transparent'
           }

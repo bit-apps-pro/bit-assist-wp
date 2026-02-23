@@ -15,6 +15,7 @@ import {
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import { type Widget } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
@@ -64,9 +65,9 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
           <>
             <PopoverTrigger>
               <Box>
-                <Tooltip label="Remove domain" placement="right">
+                <Tooltip label={__('Remove domain')} placement="right">
                   <IconButton
-                    aria-label="Remove Domain"
+                    aria-label={__('Remove domain')}
                     colorScheme="red"
                     disabled={isWidgetUpdating}
                     icon={<HiOutlineTrash />}
@@ -81,7 +82,7 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Text>Are you sure you want to remove this domain?</Text>
+                <Text>{__('Are you sure you want to remove this domain?')}</Text>
                 <Button
                   colorScheme="red"
                   disabled={isWidgetUpdating}
@@ -89,7 +90,7 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
                   onClick={() => handleRemoveDomain(index, onClose)}
                   ref={initRef.current}
                 >
-                  Confirm
+                  {__('Confirm')}
                 </Button>
               </PopoverBody>
             </PopoverContent>

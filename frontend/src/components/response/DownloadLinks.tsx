@@ -19,11 +19,13 @@ export default function DownloadLinks({ files, widgetChannelId }: DownloadLinksP
       {files.map((file: ResponseFileType) => {
         const { AJAX_URL, NONCE, ROUTE_PREFIX } = config
         const uri = new URL(AJAX_URL)
+        /* eslint-disable i18next/no-literal-string -- API parameter names must not be translated */
         uri.searchParams.append('action', `${ROUTE_PREFIX}downloadResponseFile`)
         uri.searchParams.append('_ajax_nonce', NONCE)
         uri.searchParams.append('widgetChannelID', widgetChannelId)
         uri.searchParams.append('fileID', file.uniqueName)
         uri.searchParams.append('fileName', file.originalName)
+        /* eslint-enable i18next/no-literal-string */
 
         return (
           <Tooltip key={Math.random()} label={file.originalName} placement="top">

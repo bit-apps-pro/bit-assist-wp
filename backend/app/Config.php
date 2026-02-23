@@ -238,8 +238,8 @@ class Config
         return [
             'Home' => [
                 'type'       => 'menu',
-                'title'      => __('Bit Assist', 'bit-assist'),
-                'name'       => __('Bit Assist', 'bit-assist'),
+                'title'      => 'Bit Assist',
+                'name'       => 'Bit Assist',
                 'capability' => 'manage_options',
                 'slug'       => self::SLUG,
                 'callback'   => 'body',

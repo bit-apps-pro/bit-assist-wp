@@ -374,7 +374,14 @@ function hideWidget() {
 
 function alertMessage(channel) {
   const msg = typeof wp !== 'undefined' && wp?.i18n
-    ? wp.i18n.sprintf(wp.i18n.__('Sorry, %s is not loaded yet!', 'bit-assist'), channel)
+    ? wp.i18n.sprintf(
+        wp.i18n.__(
+          /* translators: %s: Channel name */
+          'Sorry, %s is not loaded yet!',
+          'bit-assist',
+        ),
+        channel,
+      )
     : `Sorry, ${channel} is not loaded yet!`
 
   // eslint-disable-next-line no-alert -- user-facing feedback when channel not loaded

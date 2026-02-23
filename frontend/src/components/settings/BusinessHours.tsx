@@ -5,6 +5,7 @@ import Timezones from '@components/settings/Timezones'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import { type SelectedOptionValue } from '@globalStates/Interfaces'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -139,7 +140,7 @@ function BusinessHours() {
     <Box>
       <Box alignItems="center" display="flex" mb={-10}>
         <Title>
-          Enable Business Hours
+          {__('Enable Business Hours')}
           {/* <FormLabel mb="0">Enable Business Hours</FormLabel> */}
           <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
         </Title>
@@ -150,7 +151,7 @@ function BusinessHours() {
           <Box mt={4}>
             <VStack alignItems="flex-start">
               <VStack alignItems="flex-start" maxW="full" mb="2">
-                <Text>TimeZone</Text>
+                <Text>{__('TimeZone')}</Text>
                 <Box id="timezoneSelect" maxW="full" w="lg">
                   <SelectSearch
                     className="select-search"
@@ -164,7 +165,7 @@ function BusinessHours() {
                       //
                     }}
                     options={Timezones}
-                    placeholder="Choose your timezone"
+                    placeholder={__('Choose your timezone')}
                     search
                   />
                 </Box>

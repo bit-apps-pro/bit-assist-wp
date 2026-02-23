@@ -1,10 +1,11 @@
 import { Box } from '@chakra-ui/react'
 import Title from '@components/global/Title'
+import { __ } from '@helpers/i18nwrap'
 
 function FontFamily() {
   return (
     <Box>
-      <Title>FontFamily</Title>
+      <Title>{__('FontFamily')}</Title>
     </Box>
   )
 }

@@ -18,6 +18,7 @@ import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import config from '@config/config'
 import { flowAtom, resetFlowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
 import useToaster from '@hooks/useToaster'
 import { widgetChannelValidate } from '@utils/validation'
@@ -257,7 +258,7 @@ function AddChannel() {
     e.preventDefault()
     const validated = widgetChannelValidate(flow.config)
     if (validated.hasError) {
-      toaster('error', validated.error || 'Error')
+      toaster('error', validated.error || __('Error'))
       return
     }
 
@@ -288,7 +289,7 @@ function AddChannel() {
         onClick={onOpen}
         variant="outline"
       >
-        Add Channel
+        {__('Add Channel')}
       </Button>
 
       <Modal
@@ -306,11 +307,11 @@ function AddChannel() {
               <HStack>
                 {flow.step > 1 && (
                   <Button onClick={resetFlow} p="1" size="sm" variant="ghost">
-                    <MdArrowBackIosNew aria-label="back button" size="1rem" />
+                    <MdArrowBackIosNew aria-label={__('Back')} size="1rem" />
                   </Button>
                 )}
 
-                <Text>Create New Channel</Text>
+                <Text>{__('Create New Channel')}</Text>
 
                 <ButtonGroup alignItems="center">
                   {renderLink(flow.channel_name.toLowerCase())}
@@ -322,11 +323,11 @@ function AddChannel() {
                     colorScheme="purple"
                     form="createNewChannelForm"
                     isLoading={isWidgetChannelCreating}
-                    loadingText="Saving..."
+                    loadingText={__('Saving...')}
                     spinnerPlacement="start"
                     type="submit"
                   >
-                    Save
+                    {__('Save')}
                   </Button>
                 </Link>
               ) : (
@@ -336,11 +337,11 @@ function AddChannel() {
                     colorScheme="purple"
                     form="createNewChannelForm"
                     isLoading={isWidgetChannelCreating}
-                    loadingText="Saving..."
+                    loadingText={__('Saving...')}
                     spinnerPlacement="start"
                     type="submit"
                   >
-                    Save
+                    {__('Save')}
                   </Button>
                 )
               )}

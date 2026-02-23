@@ -157,7 +157,7 @@ export const custom_form = {
       let fileName = __('No file chosen')
       const fileLength = e.target.files.length
       if (fileLength > 0) {
-        fileName = fileLength === 1 ? e.target.files[0].name : sprintf(__('%s files'), fileLength)
+        fileName = fileLength === 1 ? e.target.files[0].name : `${fileLength} ${__('files')}`
       }
       globalInnerText(customFileInputTitle, fileName)
     })

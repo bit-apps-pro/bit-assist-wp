@@ -32,13 +32,13 @@ final class ApiWidgetController
         $widget = $this->getWidget($validated['domain']);
 
         if (!isset($widget->id)) {
-            return 'Widget not found';
+            return __('Widget not found', 'bit-assist');
         }
 
         $widgetChannels = $this->getChannelsByWidget($widget->id);
 
         if (\is_null($widgetChannels)) {
-            return 'Widget channels not found';
+            return __('Widget channels not found', 'bit-assist');
         }
 
         $widget->widget_channels = $widgetChannels;

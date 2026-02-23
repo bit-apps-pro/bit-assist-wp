@@ -76,7 +76,7 @@ export const wp_search = {
       console.error('Search error:', error)
       const lists = $('#lists')
       if (lists) {
-        globalInnerHTML(lists, '<div class="error-message">' + __('Failed to load search results. Please try again.') + '</div>')
+        globalInnerHTML(lists, `<div class="error-message">${__('Failed to load search results. Please try again.')}</div>`)
       }
     }
     finally {
@@ -137,7 +137,15 @@ export const wp_search = {
     const paginationWrap = createElm('div', { class: 'pagination' })
 
     const pageNumber = createElm('span', { class: 'pageNumber' })
-    globalInnerText(pageNumber, sprintf(__('%1$s / %2$s page'), pagination?.current ?? '', pagination?.total ?? ''))
+    globalInnerText(
+      pageNumber,
+      sprintf(
+        // translators: 1: Current page number, 2: Total pages
+        __('%1$s / %2$s page'),
+        pagination?.current ?? '',
+        pagination?.total ?? '',
+      ),
+    )
 
     const nextPage = createElm('button', { class: 'nextPage' })
     globalInnerText(nextPage, __('Next'))

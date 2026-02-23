@@ -34,7 +34,7 @@ final class WidgetController
     {
         $isPro = Config::isProActivated();
         if (!$isPro && Widget::count() >= 1) {
-            return Response::error('You can use 1 widget in free version.');
+            return Response::error(__('You can use 1 widget in free version.', 'bit-assist'));
         }
 
         $newWidget = [
@@ -71,7 +71,7 @@ final class WidgetController
             Config::updateOption('widget_active', $widget->id);
         }
 
-        return Response::success('Widget created successfully');
+        return Response::success(__('Widget created successfully', 'bit-assist'));
     }
 
     public function update(WidgetUpdateRequest $request, Widget $widget)
@@ -81,10 +81,10 @@ final class WidgetController
         $widget->update($request->validated());
 
         if ($widget->save()) {
-            return Response::success('Widget updated');
+            return Response::success(__('Widget updated', 'bit-assist'));
         }
 
-        return Response::error('Widget update failed');
+        return Response::error(__('Widget update failed', 'bit-assist'));
     }
 
     public function destroy(Widget $widget)
@@ -95,7 +95,7 @@ final class WidgetController
             Config::updateOption('widget_active', null);
         }
 
-        return Response::success('Widget deleted');
+        return Response::success(__('Widget deleted', 'bit-assist'));
     }
 
     public function changeStatus(Request $request, Widget $widget)
@@ -107,17 +107,17 @@ final class WidgetController
                 Config::updateOption('widget_active', ($request->status ? $widget->id : null));
             }
 
-            return Response::success('Widget status changed');
+            return Response::success(__('Widget status changed', 'bit-assist'));
         }
 
-        return Response::error('Widget status not changed');
+        return Response::error(__('Widget status not changed', 'bit-assist'));
     }
 
     public function copy(Widget $widget)
     {
         $isPro = Config::isProActivated();
         if (!$isPro && Widget::count() >= 1) {
-            return Response::error('You can use 1 widget in free version.');
+            return Response::error(__('You can use 1 widget in free version.', 'bit-assist'));
         }
 
         if ($widget->exists()) {
@@ -128,11 +128,11 @@ final class WidgetController
                 $widget->with('widgetChannels');
                 $this->copyAllChannels($widget->widgetChannels, $result->id);
 
-                return Response::success('Widget copied successfully');
+                return Response::success(__('Widget copied successfully', 'bit-assist'));
             }
         }
 
-        return Response::error('Something went wrong');
+        return Response::error(__('Something went wrong', 'bit-assist'));
     }
 
     private function copyAllChannels($widgetChannels, $widgetId)
@@ -148,7 +148,7 @@ final class WidgetController
     private function replicateWidget($widget)
     {
         $newWidget = (object) [];
-        $newWidget->name = $widget->name . ' (copy)';
+        $newWidget->name = $widget->name . ' ' . __('(copy)', 'bit-assist');
         $newWidget->styles = $widget->styles;
         $newWidget->business_hours = $widget->business_hours;
         $newWidget->timezone = $widget->timezone;

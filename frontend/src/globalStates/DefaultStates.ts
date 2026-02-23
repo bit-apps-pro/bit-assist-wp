@@ -5,7 +5,7 @@ export const FreeLimitsDefault = {
   widget: 1
 }
 
-export const defaultCreateWidgetInfo = { name: 'Untitled Widget' }
+export const defaultCreateWidgetInfo = () => ({ name: __('Untitled Widget') })
 
 export const FlowDefault = {
   channel_id: '',

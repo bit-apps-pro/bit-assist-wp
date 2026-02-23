@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 
 export default function Call() {
@@ -14,7 +15,7 @@ export default function Call() {
 
   return (
     <FormControl>
-      <FormLabel>Phone number</FormLabel>
+      <FormLabel>{__('Phone number')}</FormLabel>
       <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
     </FormControl>
   )

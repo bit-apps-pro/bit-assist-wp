@@ -51,7 +51,7 @@
     "pda": "npm run pd && npm run fpd",
     "clear-lint-cache": "eslint . --cache --cache-file eslint-cache/eslintcache",
     "i18n:pot:frontend": "pnpm exec react-gettext-parser --config ./language/react-gettext-parser.config.js --output ../languages/frontend.pot 'src/**/*.{ts,tsx}' '../widget-iframe/**/*.js'",
-    "i18n:pot:merge": "cd .. && wp i18n make-pot . languages/bit-assist.pot --domain=bit-assist --allow-root --merge=languages/frontend.pot",
+    "i18n:pot:merge": "cd .. && wp i18n make-pot ../bit-assist-pro /tmp/bit-assist-pro.pot --domain=bit-assist --allow-root && wp i18n make-pot . languages/bit-assist.pot --domain=bit-assist --allow-root --skip-audit --merge=languages/frontend.pot,/tmp/bit-assist-pro.pot",
     "i18n:mo": "cd .. && wp i18n make-mo languages/ languages/ --allow-root",
     "i18n:jed": "node ./language/po-to-jed.mjs ../languages bit-assist bit-assist-index-MODULE && node ./language/po-to-jed.mjs ../languages bit-assist bit-assist-widget-script-JAVASCRIPT-ASYNC",
     "i18n": "mkdir -p ../languages && npm run i18n:pot:frontend && npm run i18n:pot:merge && npm run i18n:mo && npm run i18n:jed",

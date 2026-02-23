@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Textarea } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 
 export default function GoogleMap() {
@@ -13,7 +14,7 @@ export default function GoogleMap() {
 
   return (
     <FormControl>
-      <FormLabel>Google maps embed code</FormLabel>
+      <FormLabel>{__('Embed code')}</FormLabel>
       <Textarea
         color="inherit"
         onChange={e => handleChanges(e.target.value)}

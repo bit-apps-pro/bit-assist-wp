@@ -26,6 +26,7 @@ import {
 } from '@chakra-ui/react'
 import ProWrapper from '@components/global/ProWrapper'
 import config from '@config/config'
+import { __ } from '@helpers/i18nwrap'
 import useDeleteAnalytics from '@hooks/mutations/analytics/useDeleteAnalytics'
 import useUpdateAnalytics from '@hooks/mutations/analytics/useUpdateAnalytics'
 import useFetchAnalytics from '@hooks/queries/analytics/useFetchAnalytics'
@@ -60,7 +61,7 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
   const handleSwitchEnable = async (isChecked: boolean) => {
     const widgetAnalytics = isChecked ? 1 : 0
     const { status } = await updateAnalytics(widgetAnalytics)
-    toaster(status, status === 'error' ? 'Something went wrong!' : 'Updated successfully!')
+    toaster(status, status === 'error' ? __('Something went wrong!') : __('Updated successfully!'))
   }
 
   const handleSelectChange = async (value: string) => {
@@ -87,15 +88,15 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
         <HStack justifyContent="space-between">
           <HStack>
             <Heading as="h2" mb="2" size="sm">
-              Widget Analytics
+              {__('Widget Analytics')}
               <Switch
-                aria-label="Switch widget status"
+                aria-label={__('Switch widget status')}
                 colorScheme="purple"
                 disabled={isAnalyticsUpdating}
                 isChecked={!!isWidgetAnalyticsActive}
                 ml={4}
                 onChange={e => handleSwitchEnable(e.target.checked)}
-                title={isWidgetAnalyticsActive ? 'Analytics disable' : 'Analytics enable'}
+                title={isWidgetAnalyticsActive ? __('Analytics disable') : __('Analytics enable')}
               />
             </Heading>
             {(isFetching || isAnalyticsFetching || isAnalyticsUpdating) && <Spinner ml={2} />}
@@ -118,11 +119,11 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                             variant="outline"
                             w="36"
                           >
-                            <option value="today">Today</option>
-                            <option value="7days">Last 7 Days</option>
-                            <option value="30days">Last 30 Days</option>
-                            <option value="all-time">All Time</option>
-                            <option value="custom">Custom Date</option>
+                            <option value="today">{__('Today')}</option>
+                            <option value="7days">{__('Last 7 Days')}</option>
+                            <option value="30days">{__('Last 30 Days')}</option>
+                            <option value="all-time">{__('All Time')}</option>
+                            <option value="custom">{__('Custom Date')}</option>
                           </Select>
 
                           {selectedFilter === 'custom' && (
@@ -132,24 +133,24 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                             />
                           )}
                         </HStack>
-                        <Tooltip label="Delete all analytics data" placement="left-end">
+                        <Tooltip label={__('Delete all analytics data')} placement="left-end">
                           <Button
                             colorScheme="red"
                             leftIcon={<FiTrash2 color="red" />}
                             onClick={openDeleteModal}
                             variant="outline"
                           >
-                            Delete All Analytics
+                            {__('Delete All Analytics')}
                           </Button>
                         </Tooltip>
                       </HStack>
                     </Th>
                   </Tr>
                   <Tr>
-                    <Th>Widget Name</Th>
-                    <Th textAlign="center">Visitors</Th>
-                    <Th textAlign="center">Total Clicks</Th>
-                    <Th textAlign="end">Click Rate</Th>
+                    <Th>{__('Widget Name')}</Th>
+                    <Th textAlign="center">{__('Visitors')}</Th>
+                    <Th textAlign="center">{__('Total Clicks')}</Th>
+                    <Th textAlign="end">{__('Click Rate')}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -173,22 +174,22 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
             <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
               <ModalOverlay />
               <ModalContent>
-                <ModalHeader>Confirmation</ModalHeader>
+                <ModalHeader>{__('Confirmation')}</ModalHeader>
                 <ModalCloseButton disabled={isAnalyticsDeleting} />
-                <ModalBody>Are you sure to delete all analytics data?</ModalBody>
+                <ModalBody>{__('Are you sure to delete all analytics data?')}</ModalBody>
 
                 <ModalFooter>
                   <Button disabled={isAnalyticsDeleting} mr={3} onClick={closeDelModal}>
-                    Cancel
+                    {__('Cancel')}
                   </Button>
                   <Button
                     colorScheme="red"
                     isLoading={isAnalyticsDeleting}
-                    loadingText="Deleting..."
+                    loadingText={__('Deleting...')}
                     onClick={handleDeleteAnalytics}
                     shadow="md"
                   >
-                    Delete
+                    {__('Delete')}
                   </Button>
                 </ModalFooter>
               </ModalContent>

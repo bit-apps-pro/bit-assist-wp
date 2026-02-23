@@ -23,7 +23,7 @@ export default function CustomIcon() {
   const setChannelImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        button: { text: 'Select picture' },
+        button: { text: __('Select picture') },
         library: { type: 'image' },
         multiple: false,
         title: __('Media')
@@ -33,7 +33,7 @@ export default function CustomIcon() {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChanges(attachment.url, 'channel_icon')
         if (attachment.filesizeInBytes > 512_000) {
-          setImgWarn('⚠ Larger size image might slow down load time')
+          setImgWarn(__('⚠ Larger size image might slow down load time'))
         }
       })
 
@@ -43,12 +43,12 @@ export default function CustomIcon() {
 
   return (
     <FormControl>
-      <FormLabel>Custom image</FormLabel>
+      <FormLabel>{__('Custom image')}</FormLabel>
 
       <Flex gap="4">
         <Box position="relative">
           <Image
-            alt={flow.config.title || 'Custom channel icon'}
+            alt={flow.config.title || __('Custom channel icon')}
             borderRadius="full"
             boxSize="40px"
             fallbackSrc={channelList.find(c => c.name === flow.channel_name)?.icon || ''}
@@ -58,7 +58,7 @@ export default function CustomIcon() {
           />
           {flow.config?.channel_icon ? (
             <IconButton
-              aria-label="remove custom icon"
+              aria-label={__('Remove custom icon')}
               borderRadius="full"
               colorScheme="red"
               h="5"
@@ -73,11 +73,11 @@ export default function CustomIcon() {
           ) : undefined}
         </Box>
         <Button leftIcon={<FiUpload />} onClick={setChannelImg}>
-          Browse
+          {__('Browse')}
         </Button>
       </Flex>
       <Text color="gray.500" fontSize="sm" mt="1">
-        image size 40 x 40px
+        {__('image size 40 x 40px')}
       </Text>
 
       {imgWarn !== '' && (

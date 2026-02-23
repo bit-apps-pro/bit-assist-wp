@@ -110,7 +110,7 @@ export default function Responses() {
           </Text>
           {isFetching ? (
             <IconButton
-              aria-label="spinner"
+              aria-label={__('Loading')}
               icon={<Spinner size="sm" />}
               rounded="full"
               size="sm"
@@ -118,7 +118,7 @@ export default function Responses() {
             />
           ) : (
             <IconButton
-              aria-label="refresh button"
+              aria-label={__('Refresh')}
               icon={<FiRefreshCw />}
               onClick={() => refresh()}
               rounded="full"
@@ -131,7 +131,7 @@ export default function Responses() {
         {checkedItems?.length ? (
           <HStack spacing={1}>
             <IconButton
-              aria-label="Delete Icon"
+              aria-label={__('Delete')}
               fontSize="1rem"
               icon={<FiTrash2 />}
               onClick={openDelModal}
@@ -139,7 +139,9 @@ export default function Responses() {
               size="sm"
               variant="ghost"
             />
-            <Badge textTransform="lowercase">{checkedItems.length} items selected</Badge>
+            <Badge textTransform="lowercase">
+              {checkedItems.length} {__('items selected')}
+            </Badge>
           </HStack>
         ) : undefined}
       </HStack>
@@ -150,7 +152,7 @@ export default function Responses() {
             <Tr>
               <Th w="4">
                 <Checkbox
-                  aria-label="select all"
+                  aria-label={__('Select all')}
                   colorScheme="purple"
                   isChecked={widgetResponses?.length && widgetResponses.length === checkedItems?.length}
                   isIndeterminate={
@@ -162,7 +164,7 @@ export default function Responses() {
               {othersData?.formFields?.map((field: { id: string; label: string }) => (
                 <Th key={`${field.id}th`}>{textTrim(field.label, 20)}</Th>
               ))}
-              <Th w="6">Created At</Th>
+              <Th w="6">{__('Created At')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -172,13 +174,13 @@ export default function Responses() {
                   <Td py="2">
                     <HStack spacing={3}>
                       <Checkbox
-                        aria-label="select single checkbox"
+                        aria-label={__('Select')}
                         colorScheme="purple"
                         isChecked={!!checkedItems.includes(widgetResponse.id)}
                         onChange={e => handleCheckboxChange(e, widgetResponse.id)}
                       />
                       <IconButton
-                        aria-label="detailed view"
+                        aria-label={__('View details')}
                         h="auto"
                         icon={<FiEye fontSize={'1rem'} />}
                         onClick={() => handleResponseClick(widgetResponse)}
@@ -213,7 +215,7 @@ export default function Responses() {
               ))}
             {widgetResponses?.length < 1 && (
               <Tr>
-                <Td rowSpan={3}>No responses</Td>
+                <Td rowSpan={3}>{__('No responses')}</Td>
               </Tr>
             )}
           </Tbody>

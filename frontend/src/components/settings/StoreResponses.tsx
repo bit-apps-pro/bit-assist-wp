@@ -1,5 +1,6 @@
 import { Box, FormControl, FormLabel, Switch } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
@@ -41,10 +42,10 @@ function StoreResponses() {
   return (
     <Box>
       <FormControl alignItems="center" display="flex">
-        <FormLabel mb="0">Store Responses</FormLabel>
+        <FormLabel mb="0">{__('Store Responses')}</FormLabel>
         <Switch
           colorScheme="purple"
-          isChecked={!!widget.store_responses}
+          isChecked={Boolean(widget.store_responses)}
           onChange={handleSwitchEnable}
         />
       </FormControl>

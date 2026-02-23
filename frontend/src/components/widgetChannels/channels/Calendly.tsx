@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@helpers/i18nwrap'
 import { useAtom } from 'jotai'
 
 export default function Calendly() {
@@ -16,12 +17,13 @@ export default function Calendly() {
   return (
     <>
       <FormControl>
-        <FormLabel>Calendly </FormLabel>
+        <FormLabel>{__('Link')}</FormLabel>
         <InputGroup>
+          {/* eslint-disable-next-line i18next/no-literal-string */}
           <InputLeftAddon>calendly.com/</InputLeftAddon>
           <Input
             onChange={e => handleChanges(e.target.value)}
-            placeholder="booking link"
+            placeholder={__('booking link')}
             value={flow.config?.unique_id || ''}
           />
         </InputGroup>
