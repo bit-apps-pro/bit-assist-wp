@@ -40,7 +40,6 @@
     "react-icons": "^4.6.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.4.2",
-    "react-select-search": "^4.1.8",
     "typescript-eslint": "^8.24.0"
   },
   "scripts": {

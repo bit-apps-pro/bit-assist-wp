@@ -1,19 +1,15 @@
 import { Box, Checkbox, HStack, Input, Switch, Text, VStack } from '@chakra-ui/react'
 import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
-import Timezones from '@components/settings/Timezones'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
-import { type SelectedOptionValue } from '@globalStates/Interfaces'
 import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
-import 'react-select-search/style.css'
 import { useEffect, useRef, useState } from 'react'
-import SelectSearch from 'react-select-search'
 
 function BusinessHours() {
   const toaster = useToaster()
@@ -99,19 +95,6 @@ function BusinessHours() {
     }
   }
 
-  const handleTimezoneChange = async (selectedOption: SelectedOptionValue | SelectedOptionValue[]) => {
-    setWidget(prev => {
-      prev.timezone = selectedOption.toString()
-    })
-
-    const { data, status } = await updateWidget(
-      produce(widget, draft => {
-        draft.timezone = selectedOption.toString()
-      })
-    )
-    toaster(status, data)
-  }
-
   const handleSwitchEnable = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsEnabled(e.target.checked)
     const val = e.target.checked ? defaultBusinessHours : []
@@ -150,27 +133,6 @@ function BusinessHours() {
         <ProWrapper>
           <Box mt={4}>
             <VStack alignItems="flex-start">
-              <VStack alignItems="flex-start" maxW="full" mb="2">
-                <Text>{__('TimeZone')}</Text>
-                <Box id="timezoneSelect" maxW="full" w="lg">
-                  <SelectSearch
-                    className="select-search"
-                    defaultValue={widget.timezone ?? ''}
-                    disabled={!config.IS_PRO}
-                    onBlur={() => {
-                      //
-                    }}
-                    onChange={handleTimezoneChange}
-                    onFocus={() => {
-                      //
-                    }}
-                    options={Timezones}
-                    placeholder={__('Choose your timezone')}
-                    search
-                  />
-                </Box>
-              </VStack>
-
               {widget.business_hours?.map((item, index) => (
                 <HStack key={item.day} maxW="full" minH="10">
                   <Checkbox

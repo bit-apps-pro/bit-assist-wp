@@ -17,7 +17,6 @@ class WidgetUpdateRequest extends Request
             'styles'               => ['nullable'],
             'domains.*'            => ['nullable', 'string', 'max:255', 'sanitize:text'],
             'business_hours'       => ['nullable', 'array'],
-            'timezone'             => ['nullable', 'string', 'max:255', 'sanitize:text'],
             'exclude_pages'        => ['nullable', 'array'],
             'initial_delay'        => ['required', 'integer'],
             'page_scroll'          => ['required', 'integer'],

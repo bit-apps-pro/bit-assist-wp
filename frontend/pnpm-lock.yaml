@@ -119,9 +119,6 @@ importers:
       react-router-dom:
         specifier: ^6.4.2
         version: 6.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-select-search:
-        specifier: ^4.1.8
-        version: 4.1.9(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       typescript-eslint:
         specifier: ^8.24.0
         version: 8.56.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
@@ -7684,13 +7681,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  react-select-search@4.1.9:
-    resolution: {integrity: sha512-ubP+J4v8ODCfdR2AMds5l9st6M2F5cJnDfYjtHQPNma22gAlSK/FDBYac4ZmH29cQwsSOpUrmnyBsGWI5hP30w==}
-    peerDependencies:
-      prop-types: ^15.8.1
-      react: ^19.0.0 || ^18.0.1 || ^17.0.1
-      react-dom: ^19.0.0 || ^18.0.1 || ^17.0.1
 
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
@@ -18287,12 +18277,6 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
       - yaml
-
-  react-select-search@4.1.9(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
 
   react-style-singleton@2.2.3(@types/react@18.3.28)(react@18.3.1):
     dependencies:

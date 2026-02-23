@@ -34,7 +34,6 @@ class Widget extends Model
         'styles',
         'domains',
         'business_hours',
-        'timezone',
         'exclude_pages',
         'initial_delay',
         'page_scroll',

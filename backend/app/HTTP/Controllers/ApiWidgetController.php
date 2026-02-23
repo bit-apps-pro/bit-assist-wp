@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 
 use AllowDynamicProperties;
 use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPKit\Helpers\DateTimeHelper;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
@@ -45,6 +46,8 @@ final class ApiWidgetController
 
         $widget->isAnalyticsActivate = (int) Config::getOption('analytics_activate');
 
+        $widget->timezone = DateTimeHelper::wp_timezone_string();
+
         return $widget;
     }
 
@@ -70,7 +73,7 @@ final class ApiWidgetController
         $columns = ['id', 'name', 'styles', 'initial_delay', 'page_scroll', 'widget_behavior', 'call_to_action', 'store_responses', 'status', 'hide_credit'];
 
         if ($this->isPro) {
-            $columns = array_merge($columns, ['custom_css', 'timezone', 'business_hours', 'exclude_pages']);
+            $columns = array_merge($columns, ['custom_css', 'business_hours', 'exclude_pages']);
         }
 
         $widget->take(1)->get($columns);

@@ -80,8 +80,6 @@ export interface ResponseFileType {
   uniqueName: string
 }
 
-export type SelectedOptionValue = number | string
-
 // react select search
 export interface SelectSearchOption {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -120,7 +118,6 @@ export interface Widget {
   status: boolean
   store_responses: boolean
   styles: Styles | undefined
-  timezone: string
   widget_behavior: number
 }
 // flow interfaces

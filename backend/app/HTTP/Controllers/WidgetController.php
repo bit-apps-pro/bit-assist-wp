@@ -151,7 +151,6 @@ final class WidgetController
         $newWidget->name = $widget->name . ' ' . __('(copy)', 'bit-assist');
         $newWidget->styles = $widget->styles;
         $newWidget->business_hours = $widget->business_hours;
-        $newWidget->timezone = $widget->timezone;
         $newWidget->exclude_pages = $widget->exclude_pages;
         $newWidget->initial_delay = $widget->initial_delay;
         $newWidget->page_scroll = $widget->page_scroll;

@@ -47,6 +47,5 @@ export const WidgetDefault = {
     position: undefined,
     shape: undefined
   },
-  timezone: '',
   widget_behavior: 1
 }

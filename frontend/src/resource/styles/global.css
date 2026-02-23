@@ -41,34 +41,6 @@ svg {
 .tox .tox-dialog-wrap__backdrop {
   background-color: transparent !important;
 }
-.select-search-container {
-  --select-search-background: var(--chakra-colors-chakra-body-bg) !important;
-  --select-search-border: var(--chakra-colors-gray-100) !important;
-  --select-search-text: var(--chakra-colors-chakra-body-text) !important;
-  --select-search-highlight: var(--chakra-colors-blue-400) !important;
-  width: 100% !important;
-}
-.select-search-input {
-  --select-search-background: var(--chakra-colors-chakra-body-bg);
-  --select-search-selected: #89b4fa;
-  --select-search-text: var(--chakra-colors-chakra-body-text);
-  --select-search-subtle-text: #a6adc8;
-  --select-search-highlight: #1e1e2e;
-  height: var(--chakra-sizes-10) !important;
-  border-radius: var(--chakra-radii-md) !important;
-}
-[data-theme='light'] .select-search-input {
-  --select-search-border: var(--chakra-colors-gray-100);
-}
-[data-theme='light'] .select-search-input:not(:focus):hover {
-  border-color: var(--chakra-colors-gray-100) !important;
-}
-[data-theme='dark'] .select-search-input {
-  --select-search-border: var(--chakra-colors-whiteAlpha-400);
-}
-[data-theme='dark'] .select-search-input:not(:focus):hover {
-  border-color: var(--chakra-colors-whiteAlpha-400) !important;
-}
 #chakra-toast-manager-top-right {
   top: 2rem !important;
 }
