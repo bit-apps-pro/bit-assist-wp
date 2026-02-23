@@ -11,6 +11,16 @@ import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 
+const defaultBusinessHours = [
+  { day: __('sunday'), end: '18:00', start: '09:00' },
+  { day: __('monday'), end: '18:00', start: '09:00' },
+  { day: __('tuesday'), end: '18:00', start: '09:00' },
+  { day: __('wednesday'), end: '18:00', start: '09:00' },
+  { day: __('thursday'), end: '18:00', start: '09:00' },
+  { day: __('friday') },
+  { day: __('saturday') }
+]
+
 function BusinessHours() {
   const toaster = useToaster()
   const [widget, setWidget] = useAtom(widgetAtom)
@@ -18,16 +28,6 @@ function BusinessHours() {
   const [isChanged, setIsChanged] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
   const tabIndex = config.IS_PRO ? 0 : -1
-
-  const [defaultBusinessHours] = useState([
-    { day: 'sunday', end: '18:00', start: '09:00' },
-    { day: 'monday', end: '18:00', start: '09:00' },
-    { day: 'tuesday', end: '18:00', start: '09:00' },
-    { day: 'wednesday', end: '18:00', start: '09:00' },
-    { day: 'thursday', end: '18:00', start: '09:00' },
-    { day: 'friday' },
-    { day: 'saturday' }
-  ])
 
   useEffect(() => {
     if (widget.business_hours?.length > 0) {
@@ -142,8 +142,8 @@ function BusinessHours() {
                     size="lg"
                     tabIndex={tabIndex}
                   >
-                    <Text fontSize="md" w="24">
-                      {item?.day && item.day.charAt(0).toUpperCase() + item.day.slice(1)}
+                    <Text fontSize="md" style={{ textTransform: 'capitalize' }} w="24">
+                      {item.day}
                     </Text>
                   </Checkbox>
                   {!!item?.start && (
