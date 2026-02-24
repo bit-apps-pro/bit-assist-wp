@@ -11,7 +11,7 @@ import {
   globalQuerySelectorAll,
   globalSetAttribute,
 } from '../utils/Helpers.js'
-import { __, sprintf } from '../utils/i18n.js'
+import { __ } from '../utils/i18n.js'
 
 export const custom_form = {
   renderForm(widgetChannel) {

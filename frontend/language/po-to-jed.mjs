@@ -11,7 +11,7 @@
 
 import gettextParser from 'gettext-parser'
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import path from 'node:path'
 
 const [languagesDirectory, domain, handle] = process.argv.slice(2)
 
@@ -37,8 +37,8 @@ if (poFiles.length === 0) {
 for (const poFile of poFiles) {
   try {
     const locale = poFile.match(poPattern)[1]
-    const poPath = join(languagesDirectory, poFile)
-    const jsonPath = join(languagesDirectory, `${domain}-${locale}-${handle}.json`)
+    const poPath = path.join(languagesDirectory, poFile)
+    const jsonPath = path.join(languagesDirectory, `${domain}-${locale}-${handle}.json`)
 
     const parsed = gettextParser.po.parse(readFileSync(poPath))
 
