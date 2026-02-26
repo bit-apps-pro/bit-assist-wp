@@ -35,7 +35,7 @@ class WebsiteLayout
         wp_set_script_translations(
             $slug . '-widget-script-JAVASCRIPT-ASYNC',
             'bit-assist',
-            Config::get('BASEDIR_ROOT') . 'languages/'
+            Config::get('BASEDIR_ROOT') . 'languages'
         );
 
         wp_localize_script($slug . '-widget-script-JAVASCRIPT-ASYNC', Config::VAR_PREFIX, [

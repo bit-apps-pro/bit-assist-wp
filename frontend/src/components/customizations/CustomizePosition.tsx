@@ -1,8 +1,8 @@
 import { Box, HStack, Input, InputGroup, InputRightAddon, Text } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -32,7 +32,7 @@ export default function CustomizePosition() {
   ) => {
     const val = Number(e.target.value)
     if (val > 400) {
-      toaster('warning', __('Please enter a valid number'))
+      toaster('warning', __('Please enter a valid number', 'bit-assist'))
       return
     }
 
@@ -83,10 +83,10 @@ export default function CustomizePosition() {
 }
 
 const positionLabels: Record<'bottom' | 'left' | 'right' | 'top', string> = {
-  bottom: __('bottom'),
-  left: __('left'),
-  right: __('right'),
-  top: __('top')
+  bottom: __('bottom', 'bit-assist'),
+  left: __('left', 'bit-assist'),
+  right: __('right', 'bit-assist'),
+  top: __('top', 'bit-assist')
 }
 
 function PositionInput({ onChange, position, value }: PositionInputProps) {
@@ -98,7 +98,7 @@ function PositionInput({ onChange, position, value }: PositionInputProps) {
       </Text>
       <InputGroup>
         <Input min="0" onChange={e => onChange(e, position)} placeholder={label} value={value} w="28" />
-        <InputRightAddon>{__('px')}</InputRightAddon>
+        <InputRightAddon>{__('px', 'bit-assist')}</InputRightAddon>
       </InputGroup>
     </HStack>
   )

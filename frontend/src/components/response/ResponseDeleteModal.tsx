@@ -8,7 +8,7 @@ import {
   ModalHeader,
   ModalOverlay
 } from '@chakra-ui/react'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 
 interface ResponseDeleteModalProps {
   closeDelModal: () => void
@@ -27,22 +27,22 @@ export default function ResponseDeleteModal({
     <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{__('Confirmation')}</ModalHeader>
+        <ModalHeader>{__('Confirmation', 'bit-assist')}</ModalHeader>
         <ModalCloseButton disabled={isResponsesDeleting} />
-        <ModalBody>{__('Are you sure want to delete selected responses?')}</ModalBody>
+        <ModalBody>{__('Are you sure want to delete selected responses?', 'bit-assist')}</ModalBody>
 
         <ModalFooter>
           <Button disabled={isResponsesDeleting} mr={3} onClick={closeDelModal}>
-            {__('Cancel')}
+            {__('Cancel', 'bit-assist')}
           </Button>
           <Button
             colorScheme="red"
             isLoading={isResponsesDeleting}
-            loadingText={__('Deleting...')}
+            loadingText={__('Deleting...', 'bit-assist')}
             onClick={handleDeleteWidget}
             shadow="md"
           >
-            {__('Delete')}
+            {__('Delete', 'bit-assist')}
           </Button>
         </ModalFooter>
       </ModalContent>

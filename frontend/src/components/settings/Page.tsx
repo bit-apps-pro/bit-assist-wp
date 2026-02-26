@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
 import { type ExcludePages, type Widget } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { HiOutlineTrash } from 'react-icons/hi'
@@ -31,13 +31,13 @@ interface Props {
 const showPageVisibility = (condition: string) => {
   switch (condition) {
     case 'hideOn': {
-      return __('Hide On')
+      return __('Hide On', 'bit-assist')
     }
     case 'showOn': {
-      return __('Show On')
+      return __('Show On', 'bit-assist')
     }
     default: {
-      return __('None')
+      return __('None', 'bit-assist')
     }
   }
 }
@@ -45,19 +45,19 @@ const showPageVisibility = (condition: string) => {
 const showPageCondition = (condition: string) => {
   switch (condition) {
     case 'contains': {
-      return __('Pages that contain')
+      return __('Pages that contain', 'bit-assist')
     }
     case 'endWith': {
-      return __('Pages ended with')
+      return __('Pages ended with', 'bit-assist')
     }
     case 'equal': {
-      return __('Specific page')
+      return __('Specific page', 'bit-assist')
     }
     case 'startWith': {
-      return __('Pages starts with')
+      return __('Pages starts with', 'bit-assist')
     }
     default: {
-      return __('None')
+      return __('None', 'bit-assist')
     }
   }
 }
@@ -77,7 +77,7 @@ const makeUrl = (url: string, condition: string) => {
       return `/${url}*`
     }
     default: {
-      return __('None')
+      return __('None', 'bit-assist')
     }
   }
 }
@@ -120,9 +120,9 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
           <>
             <PopoverTrigger>
               <Box>
-                <Tooltip label={__('Remove page')} placement="right">
+                <Tooltip label={__('Remove page', 'bit-assist')} placement="right">
                   <IconButton
-                    aria-label={__('Remove page')}
+                    aria-label={__('Remove page', 'bit-assist')}
                     colorScheme="red"
                     disabled={isWidgetUpdating}
                     icon={<HiOutlineTrash />}
@@ -136,7 +136,7 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Text>{__('Are you sure you want to remove this page?')}</Text>
+                <Text>{__('Are you sure you want to remove this page?', 'bit-assist')}</Text>
                 <Button
                   colorScheme="red"
                   disabled={isWidgetUpdating}
@@ -144,7 +144,7 @@ function Page({ index, isWidgetUpdating, page, updateWidget }: Props) {
                   onClick={() => handleRemoveDomain(index, onClose)}
                   ref={initRef.current}
                 >
-                  {__('Confirm')}
+                  {__('Confirm', 'bit-assist')}
                 </Button>
               </PopoverBody>
             </PopoverContent>

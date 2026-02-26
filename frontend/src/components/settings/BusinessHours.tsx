@@ -3,22 +3,22 @@ import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 
 const defaultBusinessHours = [
-  { day: __('sunday'), end: '18:00', start: '09:00' },
-  { day: __('monday'), end: '18:00', start: '09:00' },
-  { day: __('tuesday'), end: '18:00', start: '09:00' },
-  { day: __('wednesday'), end: '18:00', start: '09:00' },
-  { day: __('thursday'), end: '18:00', start: '09:00' },
-  { day: __('friday') },
-  { day: __('saturday') }
+  { day: __('sunday', 'bit-assist'), end: '18:00', start: '09:00' },
+  { day: __('monday', 'bit-assist'), end: '18:00', start: '09:00' },
+  { day: __('tuesday', 'bit-assist'), end: '18:00', start: '09:00' },
+  { day: __('wednesday', 'bit-assist'), end: '18:00', start: '09:00' },
+  { day: __('thursday', 'bit-assist'), end: '18:00', start: '09:00' },
+  { day: __('friday', 'bit-assist') },
+  { day: __('saturday', 'bit-assist') }
 ]
 
 function BusinessHours() {
@@ -123,7 +123,7 @@ function BusinessHours() {
     <Box>
       <Box alignItems="center" display="flex" mb={-10}>
         <Title>
-          {__('Enable Business Hours')}
+          {__('Enable Business Hours', 'bit-assist')}
           {/* <FormLabel mb="0">Enable Business Hours</FormLabel> */}
           <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
         </Title>

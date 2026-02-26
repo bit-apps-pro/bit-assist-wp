@@ -18,10 +18,10 @@ import ChannelSelect from '@components/widgetChannels/ChannelSelect'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import config from '@config/config'
 import { flowAtom, resetFlowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useCreateWidgetChannel from '@hooks/mutations/widgetChannel/useCreateWidgetChannel'
 import useToaster from '@hooks/useToaster'
 import { widgetChannelValidate } from '@utils/validation'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { HiPlus } from 'react-icons/hi'
 import { MdArrowBackIosNew } from 'react-icons/md'
@@ -258,7 +258,7 @@ function AddChannel() {
     e.preventDefault()
     const validated = widgetChannelValidate(flow.config)
     if (validated.hasError) {
-      toaster('error', validated.error || __('Error'))
+      toaster('error', validated.error || __('Error', 'bit-assist'))
       return
     }
 
@@ -289,7 +289,7 @@ function AddChannel() {
         onClick={onOpen}
         variant="outline"
       >
-        {__('Add Channel')}
+        {__('Add Channel', 'bit-assist')}
       </Button>
 
       <Modal
@@ -307,11 +307,11 @@ function AddChannel() {
               <HStack>
                 {flow.step > 1 && (
                   <Button onClick={resetFlow} p="1" size="sm" variant="ghost">
-                    <MdArrowBackIosNew aria-label={__('Back')} size="1rem" />
+                    <MdArrowBackIosNew aria-label={__('Back', 'bit-assist')} size="1rem" />
                   </Button>
                 )}
 
-                <Text>{__('Create New Channel')}</Text>
+                <Text>{__('Create New Channel', 'bit-assist')}</Text>
 
                 <ButtonGroup alignItems="center">
                   {renderLink(flow.channel_name.toLowerCase())}
@@ -323,11 +323,11 @@ function AddChannel() {
                     colorScheme="purple"
                     form="createNewChannelForm"
                     isLoading={isWidgetChannelCreating}
-                    loadingText={__('Saving...')}
+                    loadingText={__('Saving...', 'bit-assist')}
                     spinnerPlacement="start"
                     type="submit"
                   >
-                    {__('Save')}
+                    {__('Save', 'bit-assist')}
                   </Button>
                 </Link>
               ) : (
@@ -337,11 +337,11 @@ function AddChannel() {
                     colorScheme="purple"
                     form="createNewChannelForm"
                     isLoading={isWidgetChannelCreating}
-                    loadingText={__('Saving...')}
+                    loadingText={__('Saving...', 'bit-assist')}
                     spinnerPlacement="start"
                     type="submit"
                   >
-                    {__('Save')}
+                    {__('Save', 'bit-assist')}
                   </Button>
                 )
               )}

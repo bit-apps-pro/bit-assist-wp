@@ -13,7 +13,7 @@ import {
   globalQuerySelectorAll,
   globalSetProperty,
 } from '../utils/Helpers.js'
-import { __ } from '../utils/i18n.js'
+import { __ } from '@wordpress/i18n'
 
 export const knowledge_base = {
   renderKnowledgeBase(widgetChannel) {
@@ -31,7 +31,7 @@ export const knowledge_base = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: __('Search'),
+      placeholder: __('Search', 'bit-assist'),
     })
     globalAppend(listWrapper, [lists, listSearch])
 
@@ -41,16 +41,16 @@ export const knowledge_base = {
     const p = createElm('p')
     const modalActions = createElm('div', { class: 'modalActions' })
 
-    const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: __('Prev') })
-    const prevKbImg = createElm('img', { src: leftArrow, alt: __('Prev') })
+    const prevKBBtn = createElm('button', { class: 'iconBtn rounded prevKB', title: __('Prev', 'bit-assist') })
+    const prevKbImg = createElm('img', { src: leftArrow, alt: __('Prev', 'bit-assist') })
     globalAppend(prevKBBtn, prevKbImg)
 
-    const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: __('Next') })
-    const nextKbImg = createElm('img', { src: rightArrow, alt: __('Next') })
+    const nextKBBtn = createElm('button', { class: 'iconBtn rounded nextKB', title: __('Next', 'bit-assist') })
+    const nextKbImg = createElm('img', { src: rightArrow, alt: __('Next', 'bit-assist') })
     globalAppend(nextKBBtn, nextKbImg)
 
-    const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: __('Close') })
-    const closeKbImg = createElm('img', { src: closeIcon, alt: __('Close') })
+    const closeKBBtn = createElm('button', { class: 'iconBtn rounded closeKB', title: __('Close', 'bit-assist') })
+    const closeKbImg = createElm('img', { src: closeIcon, alt: __('Close', 'bit-assist') })
     globalAppend(closeKBBtn, closeKbImg)
 
     globalAppend(modalActions, [prevKBBtn, nextKBBtn, closeKBBtn])

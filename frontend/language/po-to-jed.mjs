@@ -5,28 +5,37 @@
 /**
  * Converts PO files to JED JSON format for WordPress JavaScript translations.
  *
- * Usage: node po-to-jed.mjs <languages-dir> <domain> <script-handle>
- * Example: node po-to-jed.mjs ../languages bit-assist bit-assist-index-MODULE
+ * Usage: node po-to-jed.mjs <languages-dir> <domain> <script-handle> [po-prefix]
+ *
+ * If po-prefix is provided, matches PO files named {po-prefix}-{locale}.po
+ * (e.g. bit-assist-frontend-bn_BD.po). Output JSON is always {domain}-{locale}-{handle}.json.
+ *
+ * Example: node po-to-jed.mjs ../languages bit-assist bit-assist-index-MODULE bit-assist-frontend
  */
 
 import gettextParser from 'gettext-parser'
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-const [languagesDirectory, domain, handle] = process.argv.slice(2)
+const [languagesDirectory, domain, handle, poPrefix] = process.argv.slice(2)
 
 if (!languagesDirectory || !domain || !handle) {
-  console.error('Usage: node po-to-jed.mjs <languages-dir> <domain> <script-handle>')
+  console.error('Usage: node po-to-jed.mjs <languages-dir> <domain> <script-handle> [po-prefix]')
   process.exit(1)
 }
 
-if (!existsSync(languagesDirectory)) {
-  console.error(`Error: Directory not found: ${languagesDirectory}`)
+// Resolve relative to cwd (where pnpm/npm runs the script from, i.e. frontend/)
+const languagesDir = path.resolve(process.cwd(), languagesDirectory)
+if (!existsSync(languagesDir)) {
+  console.error(`Error: Directory not found: ${languagesDir}`)
   process.exit(1)
 }
 
-const poPattern = new RegExp(`^${domain}-(.+)\\.po$`)
-const poFiles = readdirSync(languagesDirectory).filter(f => poPattern.test(f))
+const poFilePrefix = poPrefix || domain
+const poPattern = new RegExp(
+  `^${poFilePrefix.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)}-(.+)\\.po$`
+)
+const poFiles = readdirSync(languagesDir).filter(f => poPattern.test(f))
 
 if (poFiles.length === 0) {
   // eslint-disable-next-line no-console -- CLI script; intentional stdout for "no files" status
@@ -37,8 +46,8 @@ if (poFiles.length === 0) {
 for (const poFile of poFiles) {
   try {
     const locale = poFile.match(poPattern)[1]
-    const poPath = path.join(languagesDirectory, poFile)
-    const jsonPath = path.join(languagesDirectory, `${domain}-${locale}-${handle}.json`)
+    const poPath = path.join(languagesDir, poFile)
+    const jsonPath = path.join(languagesDir, `${domain}-${locale}-${handle}.json`)
 
     const parsed = gettextParser.po.parse(readFileSync(poPath))
 

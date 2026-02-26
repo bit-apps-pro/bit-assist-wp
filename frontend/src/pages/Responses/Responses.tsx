@@ -20,11 +20,11 @@ import DownloadLinks from '@components/response/DownloadLinks'
 import ResponseDeleteModal from '@components/response/ResponseDeleteModal'
 import ResponseDrawer from '@components/response/ResponseDrawer'
 import { type WidgetResponse } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useDeleteResponses from '@hooks/mutations/response/useDeleteResponses'
 import useFetchOthersData from '@hooks/queries/response/useFetchOthersData'
 import useFetchResponses from '@hooks/queries/response/useFetchResponses'
 import { textTrim, toSlug } from '@utils/utils'
+import { __ } from '@wordpress/i18n'
 import React, { useEffect, useRef, useState } from 'react'
 import { FiEye, FiRefreshCw, FiTrash2 } from 'react-icons/fi'
 import { MdArrowBackIosNew } from 'react-icons/md'
@@ -98,19 +98,20 @@ export default function Responses() {
     <>
       <HStack flexWrap="wrap" mb="4">
         <HStack alignItems="center">
-          <Tooltip label={__('Back to channel list')} placement="top">
+          <Tooltip label={__('Back to channel list', 'bit-assist')} placement="top">
             <IconButton
-              aria-label={__('Back to widget channel settings')}
+              aria-label={__('Back to widget channel settings', 'bit-assist')}
               icon={<MdArrowBackIosNew />}
               onClick={() => navigate(-1)}
             />
           </Tooltip>
           <Text as="h2" fontSize="lg" textTransform="none">
-            {__('Response List')} {othersData?.channelName && `- ${othersData.channelName}`}
+            {__('Response List', 'bit-assist')}{' '}
+            {othersData?.channelName && `- ${othersData.channelName}`}
           </Text>
           {isFetching ? (
             <IconButton
-              aria-label={__('Loading')}
+              aria-label={__('Loading', 'bit-assist')}
               icon={<Spinner size="sm" />}
               rounded="full"
               size="sm"
@@ -118,7 +119,7 @@ export default function Responses() {
             />
           ) : (
             <IconButton
-              aria-label={__('Refresh')}
+              aria-label={__('Refresh', 'bit-assist')}
               icon={<FiRefreshCw />}
               onClick={() => refresh()}
               rounded="full"
@@ -131,7 +132,7 @@ export default function Responses() {
         {checkedItems?.length ? (
           <HStack spacing={1}>
             <IconButton
-              aria-label={__('Delete')}
+              aria-label={__('Delete', 'bit-assist')}
               fontSize="1rem"
               icon={<FiTrash2 />}
               onClick={openDelModal}
@@ -140,7 +141,7 @@ export default function Responses() {
               variant="ghost"
             />
             <Badge textTransform="lowercase">
-              {checkedItems.length} {__('items selected')}
+              {checkedItems.length} {__('items selected', 'bit-assist')}
             </Badge>
           </HStack>
         ) : undefined}
@@ -152,7 +153,7 @@ export default function Responses() {
             <Tr>
               <Th w="4">
                 <Checkbox
-                  aria-label={__('Select all')}
+                  aria-label={__('Select all', 'bit-assist')}
                   colorScheme="purple"
                   isChecked={widgetResponses?.length && widgetResponses.length === checkedItems?.length}
                   isIndeterminate={
@@ -164,7 +165,7 @@ export default function Responses() {
               {othersData?.formFields?.map((field: { id: string; label: string }) => (
                 <Th key={`${field.id}th`}>{textTrim(field.label, 20)}</Th>
               ))}
-              <Th w="6">{__('Created At')}</Th>
+              <Th w="6">{__('Created At', 'bit-assist')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -174,13 +175,13 @@ export default function Responses() {
                   <Td py="2">
                     <HStack spacing={3}>
                       <Checkbox
-                        aria-label={__('Select')}
+                        aria-label={__('Select', 'bit-assist')}
                         colorScheme="purple"
                         isChecked={!!checkedItems.includes(widgetResponse.id)}
                         onChange={e => handleCheckboxChange(e, widgetResponse.id)}
                       />
                       <IconButton
-                        aria-label={__('View details')}
+                        aria-label={__('View details', 'bit-assist')}
                         h="auto"
                         icon={<FiEye fontSize={'1rem'} />}
                         onClick={() => handleResponseClick(widgetResponse)}
@@ -215,7 +216,7 @@ export default function Responses() {
               ))}
             {widgetResponses?.length < 1 && (
               <Tr>
-                <Td rowSpan={3}>{__('No responses')}</Td>
+                <Td rowSpan={3}>{__('No responses', 'bit-assist')}</Td>
               </Tr>
             )}
           </Tbody>

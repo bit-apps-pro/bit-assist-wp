@@ -1,5 +1,5 @@
 import { Button, HStack, Select, Stack, Text } from '@chakra-ui/react'
-import { __, sprintf } from '@helpers/i18nwrap'
+import { __, sprintf } from '@wordpress/i18n'
 import React from 'react'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
@@ -52,7 +52,7 @@ function Pagination({
           <option value={40}>40</option>
           <option value={50}>50</option>
         </Select>
-        <Text whiteSpace="nowrap">{__('Row per page')}</Text>
+        <Text whiteSpace="nowrap">{__('Row per page', 'bit-assist')}</Text>
       </HStack>
 
       <HStack>
@@ -65,7 +65,7 @@ function Pagination({
           rounded="full"
           size="sm"
         >
-          {__('Prev')}
+          {__('Prev', 'bit-assist')}
         </Button>
 
         <Button
@@ -75,13 +75,13 @@ function Pagination({
           rounded="full"
           size="sm"
         >
-          {__('Next')}
+          {__('Next', 'bit-assist')}
         </Button>
 
         <Text whiteSpace="nowrap">
           {sprintf(
             // translators: 1: Current page number, 2: Total pages
-            __('%1$s / %2$s page'),
+            __('%1$s / %2$s page', 'bit-assist'),
             pageNumber,
             totalPages
           )}

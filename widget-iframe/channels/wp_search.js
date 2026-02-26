@@ -1,5 +1,5 @@
 import { $, createElm, globalAppend, globalEventListener, globalInnerHTML, globalInnerText, globalSetAttribute } from '../utils/Helpers.js'
-import { __, sprintf } from '../utils/i18n.js'
+import { __, sprintf } from '@wordpress/i18n'
 
 export const wp_search = {
   wp_post_types: undefined,
@@ -17,7 +17,7 @@ export const wp_search = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: __('Search'),
+      placeholder: __('Search', 'bit-assist'),
     })
     globalAppend(listWrapper, [lists, listSearch])
     globalAppend(wpSearchBody, listWrapper)
@@ -41,7 +41,7 @@ export const wp_search = {
 
       if (showText) {
         const loadingText = createElm('p', { class: 'loading-text' })
-        globalInnerText(loadingText, __('Searching...'))
+        globalInnerText(loadingText, __('Searching...', 'bit-assist'))
         globalAppend(loadingDiv, [loadingIcon, loadingText])
       }
       else {
@@ -76,7 +76,7 @@ export const wp_search = {
       console.error('Search error:', error)
       const lists = $('#lists')
       if (lists) {
-        globalInnerHTML(lists, `<div class="error-message">${__('Failed to load search results. Please try again.')}</div>`)
+        globalInnerHTML(lists, `<div class="error-message">${__('Failed to load search results. Please try again.', 'bit-assist')}</div>`)
       }
     }
     finally {
@@ -102,7 +102,7 @@ export const wp_search = {
 
     if (!items || items.length === 0) {
       const noResults = createElm('div', { class: 'no-results' })
-      globalInnerText(noResults, __('No results found'))
+      globalInnerText(noResults, __('No results found', 'bit-assist'))
       globalAppend(lists, noResults)
       return
     }
@@ -115,7 +115,7 @@ export const wp_search = {
 
       globalAppend(listItem, listItemTitleWrapper)
       globalAppend(listItemTitleWrapper, [title, type])
-      globalInnerText(title, item?.post_title || __('(no title)'))
+      globalInnerText(title, item?.post_title || __('(no title)', 'bit-assist'))
       globalInnerText(type, item?.post_type || '')
       itemsObj.push(listItem)
 
@@ -141,19 +141,19 @@ export const wp_search = {
       pageNumber,
       sprintf(
         // translators: 1: Current page number, 2: Total pages
-        __('%1$s / %2$s page'),
+        __('%1$s / %2$s page', 'bit-assist'),
         pagination?.current ?? '',
         pagination?.total ?? '',
       ),
     )
 
     const nextPage = createElm('button', { class: 'nextPage' })
-    globalInnerText(nextPage, __('Next'))
+    globalInnerText(nextPage, __('Next', 'bit-assist'))
     if (!pagination?.has_next) {
       globalSetAttribute(nextPage, 'disabled', '')
     }
     const prevPage = createElm('button', { class: 'prevPage' })
-    globalInnerText(prevPage, __('Prev'))
+    globalInnerText(prevPage, __('Prev', 'bit-assist'))
     if (!pagination?.has_previous) {
       globalSetAttribute(prevPage, 'disabled', '')
     }

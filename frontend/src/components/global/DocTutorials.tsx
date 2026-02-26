@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { FaYoutube } from 'react-icons/fa'
 import { FiFileText } from 'react-icons/fi'
 
@@ -24,7 +24,7 @@ export default function DocTutorials({ docLink, tutorial }: DocTutorialsProps) {
           size="sm"
           target="_blank"
         >
-          {__('Tutorial')}
+          {__('Tutorial', 'bit-assist')}
         </Button>
       )}
       {docLink && (
@@ -37,7 +37,7 @@ export default function DocTutorials({ docLink, tutorial }: DocTutorialsProps) {
           size="sm"
           target="_blank"
         >
-          {__('Documentation')}
+          {__('Documentation', 'bit-assist')}
         </Button>
       )}
     </>

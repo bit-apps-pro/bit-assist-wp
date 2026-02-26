@@ -1,5 +1,5 @@
 import { Radio, RadioGroup, Stack } from '@chakra-ui/react'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 
 interface RatingSettingsProps {
   handleChange: (value: boolean | number | string, key: string, index: number) => void
@@ -12,9 +12,9 @@ export default function RatingSettings({ handleChange, id, type }: RatingSetting
     <RadioGroup colorScheme="purple" onChange={val => handleChange(val, 'rating_type', id)} value={type}>
       <Stack direction={'row'} spacing={4}>
         <Radio isRequired value="star">
-          {__('Star')}
+          {__('Star', 'bit-assist')}
         </Radio>
-        <Radio value="smiley">{__('Smiley')}</Radio>
+        <Radio value="smiley">{__('Smiley', 'bit-assist')}</Radio>
       </Stack>
     </RadioGroup>
   )

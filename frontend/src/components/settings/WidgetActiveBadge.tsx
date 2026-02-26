@@ -4,9 +4,9 @@ import { Box, Switch, Text } from '@chakra-ui/react'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -88,14 +88,14 @@ function WidgetActiveBadge() {
     <Box>
       <Box alignItems="center" display="flex" mb={-10}>
         <Title>
-          {__('Enable Widget Active Badge')}
+          {__('Enable Widget Active Badge', 'bit-assist')}
           <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
         </Title>
       </Box>
 
       {isEnabled && (
         <Box mt={2}>
-          <Text mb={1}>{__('Choose Badge Color')}</Text>
+          <Text mb={1}>{__('Choose Badge Color', 'bit-assist')}</Text>
           <ColorPickerWrap
             color={widget.styles?.badge_color || str2Color('#05f609')}
             handleChange={handleColorChange}

@@ -1,7 +1,7 @@
 import { Box, Button, Flex, FormControl, FormLabel, IconButton, Image, Text } from '@chakra-ui/react'
 import channelList from '@components/widgetChannels/ChannelList'
 import { flowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiUpload, FiX } from 'react-icons/fi'
@@ -23,17 +23,17 @@ export default function CustomIcon() {
   const setChannelImg = () => {
     if (typeof wp !== 'undefined' && wp.media) {
       const imgSelectionFrame = wp.media({
-        button: { text: __('Select picture') },
+        button: { text: __('Select picture', 'bit-assist') },
         library: { type: 'image' },
         multiple: false,
-        title: __('Media')
+        title: __('Media', 'bit-assist')
       })
 
       imgSelectionFrame.on('select', () => {
         const attachment = imgSelectionFrame.state().get('selection').first().toJSON()
         handleChanges(attachment.url, 'channel_icon')
         if (attachment.filesizeInBytes > 512_000) {
-          setImgWarn(__('⚠ Larger size image might slow down load time'))
+          setImgWarn(__('⚠ Larger size image might slow down load time', 'bit-assist'))
         }
       })
 
@@ -43,12 +43,12 @@ export default function CustomIcon() {
 
   return (
     <FormControl>
-      <FormLabel>{__('Custom image')}</FormLabel>
+      <FormLabel>{__('Custom image', 'bit-assist')}</FormLabel>
 
       <Flex gap="4">
         <Box position="relative">
           <Image
-            alt={flow.config.title || __('Custom channel icon')}
+            alt={flow.config.title || __('Custom channel icon', 'bit-assist')}
             borderRadius="full"
             boxSize="40px"
             fallbackSrc={channelList.find(c => c.name === flow.channel_name)?.icon || ''}
@@ -58,7 +58,7 @@ export default function CustomIcon() {
           />
           {flow.config?.channel_icon ? (
             <IconButton
-              aria-label={__('Remove custom icon')}
+              aria-label={__('Remove custom icon', 'bit-assist')}
               borderRadius="full"
               colorScheme="red"
               h="5"
@@ -73,11 +73,11 @@ export default function CustomIcon() {
           ) : undefined}
         </Box>
         <Button leftIcon={<FiUpload />} onClick={setChannelImg}>
-          {__('Browse')}
+          {__('Browse', 'bit-assist')}
         </Button>
       </Flex>
       <Text color="gray.500" fontSize="sm" mt="1">
-        {__('image size 40 x 40px')}
+        {__('image size 40 x 40px', 'bit-assist')}
       </Text>
 
       {imgWarn !== '' && (

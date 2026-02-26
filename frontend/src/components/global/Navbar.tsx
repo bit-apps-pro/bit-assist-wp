@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Container, Flex, Heading, Stack } from '@chakra-ui/react'
 import config from '@config/config'
-import { __ } from '@helpers/i18nwrap'
 import Logo from '@icons/Logo'
+import { __ } from '@wordpress/i18n'
 import { FaStar } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
@@ -42,7 +42,7 @@ function Navbar() {
               size="sm"
               target="_blank"
             >
-              {__('Review Us')}
+              {__('Review Us', 'bit-assist')}
             </Button>
           )}
           <DarkModeSwitch />

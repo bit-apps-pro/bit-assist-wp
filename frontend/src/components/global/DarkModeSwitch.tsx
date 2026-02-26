@@ -1,5 +1,5 @@
 import { IconButton, useColorMode } from '@chakra-ui/react'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi'
 
 export default function DarkModeSwitch() {
@@ -8,7 +8,7 @@ export default function DarkModeSwitch() {
 
   return (
     <IconButton
-      aria-label={__('Toggle Theme')}
+      aria-label={__('Toggle Theme', 'bit-assist')}
       colorScheme="purple"
       icon={isDark ? <HiOutlineSun size={26} /> : <HiOutlineMoon size={25} />}
       isRound

@@ -43,7 +43,7 @@ import Youtube from '@components/widgetChannels/channels/Youtube'
 import config from '@config/config'
 import { flowAtom } from '@globalStates/atoms'
 import { type WidgetChannelConfig } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 import Calendly from './channels/Calendly'
@@ -187,9 +187,9 @@ function ChannelSettings() {
       <VStack alignItems="flex-start" spacing="6">
         <>
           <FormControl isRequired>
-            <FormLabel>{__('Title')}</FormLabel>
+            <FormLabel>{__('Title', 'bit-assist')}</FormLabel>
             <Input onChange={e => handleChanges('title', e.target.value)} value={flow.config.title} />
-            <FormHelperText>{__('Descriptive text for visitors.')}</FormHelperText>
+            <FormHelperText>{__('Descriptive text for visitors.', 'bit-assist')}</FormHelperText>
           </FormControl>
 
           <CustomChannelIcon />
@@ -199,9 +199,9 @@ function ChannelSettings() {
           <ProWrapper hide={isProChannel}>
             <FormControl>
               <Flex alignItems="center">
-                <FormLabel mb="0">{__('Hide after office hours')}</FormLabel>
+                <FormLabel mb="0">{__('Hide after office hours', 'bit-assist')}</FormLabel>
                 <Switch
-                  aria-label={__('Hide after office hours')}
+                  aria-label={__('Hide after office hours', 'bit-assist')}
                   colorScheme="purple"
                   isChecked={flow.config?.hide_after_office_hours || false}
                   ml="2"
@@ -209,23 +209,23 @@ function ChannelSettings() {
                   tabIndex={config.IS_PRO ? 0 : -1}
                 />
               </Flex>
-              <FormHelperText>{__('Hide this channel after office time.')}</FormHelperText>
+              <FormHelperText>{__('Hide this channel after office time.', 'bit-assist')}</FormHelperText>
             </FormControl>
           </ProWrapper>
 
           <FormControl>
-            <FormLabel display="inline-block">{__('Channel show on')}</FormLabel>
+            <FormLabel display="inline-block">{__('Channel show on', 'bit-assist')}</FormLabel>
             <CheckboxGroup
               colorScheme="purple"
               onChange={val => handleChanges('channel_show_on', val)}
               value={flow.config?.channel_show_on ?? []}
             >
               <HStack spacing={4}>
-                <Checkbox aria-label={__('Show on desktop')} size="lg" value="desktop">
-                  {__('Desktop')}
+                <Checkbox aria-label={__('Show on desktop', 'bit-assist')} size="lg" value="desktop">
+                  {__('Desktop', 'bit-assist')}
                 </Checkbox>
-                <Checkbox aria-label={__('Show on mobile')} size="lg" value="mobile">
-                  {__('Mobile')}
+                <Checkbox aria-label={__('Show on mobile', 'bit-assist')} size="lg" value="mobile">
+                  {__('Mobile', 'bit-assist')}
                 </Checkbox>
               </HStack>
             </CheckboxGroup>

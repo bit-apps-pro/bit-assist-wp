@@ -1,7 +1,7 @@
 import { Grid, Input, Text, VStack } from '@chakra-ui/react'
 import SingleChannel from '@components/widgetChannels/SingleChannel'
 import { type Channel } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { type ChangeEvent } from 'react'
 import { useCallback, useMemo, useState } from 'react'
 
@@ -47,9 +47,9 @@ function ChannelSelect() {
   return (
     <VStack spacing="4">
       <Input
-        aria-label={__('Search channels')}
+        aria-label={__('Search channels', 'bit-assist')}
         onChange={handleFilterChange}
-        placeholder={__('Search')}
+        placeholder={__('Search', 'bit-assist')}
         value={filter}
       />
 
@@ -66,7 +66,7 @@ function ChannelSelect() {
 
       {filteredChannelList.length === 0 && (
         <Text color="gray.500" fontSize="md">
-          {__('No item found.')}
+          {__('No item found.', 'bit-assist')}
         </Text>
       )}
     </VStack>

@@ -3,9 +3,9 @@ import RadioCard from '@components/global/RadioCard'
 import Title from '@components/global/Title'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
@@ -55,7 +55,7 @@ function WidgetShape() {
 
   return (
     <Box>
-      <Title>{__('Widget Shape')}</Title>
+      <Title>{__('Widget Shape', 'bit-assist')}</Title>
       <HStack {...group} flexWrap="wrap" gap={2} spacing={0}>
         {shapeOptions.map(value => {
           const radio = getRadioProps({ value })

@@ -1,6 +1,6 @@
 import type Quill from 'quill'
 
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 
 interface ImageHandlerOptions {
   isDark?: boolean
@@ -65,28 +65,28 @@ export function makeImageInsertHandler(options?: ImageHandlerOptions) {
   `
 
     form.innerHTML = `
-    <h3 id="${titleId}" style="margin: 0 0 20px 0; font-family: sans-serif; color: ${colors.heading};">${__('Insert Image')}</h3>
+    <h3 id="${titleId}" style="margin: 0 0 20px 0; font-family: sans-serif; color: ${colors.heading};">${__('Insert Image', 'bit-assist')}</h3>
     <div style="margin-bottom: 15px;">
-      <label for="imageUrl" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Image URL')} *</label>
+      <label for="imageUrl" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Image URL', 'bit-assist')} *</label>
       <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};" required>
     </div>
     <div style="margin-bottom: 15px;">
-      <label for="imageAlt" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Alt Text')} *</label>
-      <input type="text" id="imageAlt" placeholder="${__('Image description')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};" required>
+      <label for="imageAlt" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Alt Text', 'bit-assist')} *</label>
+      <input type="text" id="imageAlt" placeholder="${__('Image description', 'bit-assist')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};" required>
     </div>
     <div style="display: flex; gap: 10px; margin-bottom: 15px;">
       <div style="flex: 1;">
-        <label for="imageWidth" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Width')}</label>
-        <input type="text" id="imageWidth" placeholder="${__('e.g., 300 or 100%')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};">
+        <label for="imageWidth" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Width', 'bit-assist')}</label>
+        <input type="text" id="imageWidth" placeholder="${__('e.g., 300 or 100%', 'bit-assist')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};">
       </div>
       <div style="flex: 1;">
-        <label for="imageHeight" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Height')}</label>
-        <input type="text" id="imageHeight" placeholder="${__('e.g., 200 or auto')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};">
+        <label for="imageHeight" style="display: block; margin-bottom: 5px; font-family: sans-serif; font-weight: bold;">${__('Height', 'bit-assist')}</label>
+        <input type="text" id="imageHeight" placeholder="${__('e.g., 200 or auto', 'bit-assist')}" style="width: 100%; padding: 8px; border: 1px solid var(--chakra-colors-chakra-border-color); border-radius: var(--chakra-radii-md); box-sizing: border-box; background: ${colors.surfaceAlt}; color: ${colors.text};">
       </div>
     </div>
     <div style="display: flex; gap: 10px; justify-content: flex-end;">
-      <button type="button" id="cancelBtn" style="padding: 8px 16px; border: 1px solid var(--chakra-colors-chakra-border-color); background: ${colors.surfaceAlt}; color: ${colors.text}; border-radius: var(--chakra-radii-md); cursor: pointer; font-family: sans-serif;">${__('Cancel')}</button>
-      <button type="button" id="insertBtn" style="padding: 8px 16px; border: none; background: ${colors.primary}; color: ${colors.primaryText}; border-radius: var(--chakra-radii-md); cursor: pointer; font-family: sans-serif;">${__('Insert Image')}</button>
+      <button type="button" id="cancelBtn" style="padding: 8px 16px; border: 1px solid var(--chakra-colors-chakra-border-color); background: ${colors.surfaceAlt}; color: ${colors.text}; border-radius: var(--chakra-radii-md); cursor: pointer; font-family: sans-serif;">${__('Cancel', 'bit-assist')}</button>
+      <button type="button" id="insertBtn" style="padding: 8px 16px; border: none; background: ${colors.primary}; color: ${colors.primaryText}; border-radius: var(--chakra-radii-md); cursor: pointer; font-family: sans-serif;">${__('Insert Image', 'bit-assist')}</button>
     </div>
   `
 

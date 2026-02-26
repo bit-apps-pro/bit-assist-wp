@@ -1,9 +1,9 @@
 import { Box, Switch, Text } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 function Active() {
@@ -24,9 +24,9 @@ function Active() {
 
   return (
     <Box>
-      <Title>{__('Active Widget')}</Title>
+      <Title>{__('Active Widget', 'bit-assist')}</Title>
       <Text mb="2">
-        {__('Add this widget in your website')} ( {window.location.origin} )
+        {__('Add this widget in your website', 'bit-assist')} ( {window.location.origin} )
       </Text>
       <Switch
         colorScheme="purple"

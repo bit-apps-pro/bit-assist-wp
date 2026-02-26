@@ -12,9 +12,9 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useFetchChannelAnalytics from '@hooks/queries/analytics/useFetchChannelAnalytics'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
+import { __ } from '@wordpress/i18n'
 import { RangeDatepicker } from 'chakra-dayzed-datepicker'
 import { useAtomValue } from 'jotai'
 import { useState } from 'react'
@@ -51,8 +51,8 @@ function ChannelAnalytics() {
         <Table variant="simple">
           <TableCaption>
             {analytics?.data?.length > 0
-              ? __('Showing Channel Analytics')
-              : __('No Analytics Data Found')}
+              ? __('Showing Channel Analytics', 'bit-assist')
+              : __('No Analytics Data Found', 'bit-assist')}
           </TableCaption>
           <Thead bgColor={ThColorToggle}>
             <Tr>
@@ -66,11 +66,11 @@ function ChannelAnalytics() {
                       variant="outline"
                       w="36"
                     >
-                      <option value="today">{__('Today')}</option>
-                      <option value="7days">{__('Last 7 Days')}</option>
-                      <option value="30days">{__('Last 30 Days')}</option>
-                      <option value="all-time">{__('All Time')}</option>
-                      <option value="custom">{__('Custom Date')}</option>
+                      <option value="today">{__('Today', 'bit-assist')}</option>
+                      <option value="7days">{__('Last 7 Days', 'bit-assist')}</option>
+                      <option value="30days">{__('Last 30 Days', 'bit-assist')}</option>
+                      <option value="all-time">{__('All Time', 'bit-assist')}</option>
+                      <option value="custom">{__('Custom Date', 'bit-assist')}</option>
                     </Select>
 
                     {selectedFilter === 'custom' && (
@@ -81,10 +81,10 @@ function ChannelAnalytics() {
               </Th>
             </Tr>
             <Tr>
-              <Th>{__('Channel Name')}</Th>
-              <Th textAlign="center">{__('Visitors')}</Th>
-              <Th textAlign="center">{__('Total Clicks')}</Th>
-              <Th textAlign="center">{__('Click Rate')}</Th>
+              <Th>{__('Channel Name', 'bit-assist')}</Th>
+              <Th textAlign="center">{__('Visitors', 'bit-assist')}</Th>
+              <Th textAlign="center">{__('Total Clicks', 'bit-assist')}</Th>
+              <Th textAlign="center">{__('Click Rate', 'bit-assist')}</Th>
             </Tr>
           </Thead>
 

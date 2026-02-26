@@ -26,12 +26,12 @@ import {
 } from '@chakra-ui/react'
 import ProWrapper from '@components/global/ProWrapper'
 import config from '@config/config'
-import { __ } from '@helpers/i18nwrap'
 import useDeleteAnalytics from '@hooks/mutations/analytics/useDeleteAnalytics'
 import useUpdateAnalytics from '@hooks/mutations/analytics/useUpdateAnalytics'
 import useFetchAnalytics from '@hooks/queries/analytics/useFetchAnalytics'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { RangeDatepicker } from 'chakra-dayzed-datepicker'
 import { useState } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
@@ -61,7 +61,12 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
   const handleSwitchEnable = async (isChecked: boolean) => {
     const widgetAnalytics = isChecked ? 1 : 0
     const { status } = await updateAnalytics(widgetAnalytics)
-    toaster(status, status === 'error' ? __('Something went wrong!') : __('Updated successfully!'))
+    toaster(
+      status,
+      status === 'error'
+        ? __('Something went wrong!', 'bit-assist')
+        : __('Updated successfully!', 'bit-assist')
+    )
   }
 
   const handleSelectChange = async (value: string) => {
@@ -88,15 +93,19 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
         <HStack justifyContent="space-between">
           <HStack>
             <Heading as="h2" mb="2" size="sm">
-              {__('Widget Analytics')}
+              {__('Widget Analytics', 'bit-assist')}
               <Switch
-                aria-label={__('Switch widget status')}
+                aria-label={__('Switch widget status', 'bit-assist')}
                 colorScheme="purple"
                 disabled={isAnalyticsUpdating}
                 isChecked={!!isWidgetAnalyticsActive}
                 ml={4}
                 onChange={e => handleSwitchEnable(e.target.checked)}
-                title={isWidgetAnalyticsActive ? __('Analytics disable') : __('Analytics enable')}
+                title={
+                  isWidgetAnalyticsActive
+                    ? __('Analytics disable', 'bit-assist')
+                    : __('Analytics enable', 'bit-assist')
+                }
               />
             </Heading>
             {(isFetching || isAnalyticsFetching || isAnalyticsUpdating) && <Spinner ml={2} />}
@@ -119,11 +128,11 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                             variant="outline"
                             w="36"
                           >
-                            <option value="today">{__('Today')}</option>
-                            <option value="7days">{__('Last 7 Days')}</option>
-                            <option value="30days">{__('Last 30 Days')}</option>
-                            <option value="all-time">{__('All Time')}</option>
-                            <option value="custom">{__('Custom Date')}</option>
+                            <option value="today">{__('Today', 'bit-assist')}</option>
+                            <option value="7days">{__('Last 7 Days', 'bit-assist')}</option>
+                            <option value="30days">{__('Last 30 Days', 'bit-assist')}</option>
+                            <option value="all-time">{__('All Time', 'bit-assist')}</option>
+                            <option value="custom">{__('Custom Date', 'bit-assist')}</option>
                           </Select>
 
                           {selectedFilter === 'custom' && (
@@ -133,24 +142,27 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
                             />
                           )}
                         </HStack>
-                        <Tooltip label={__('Delete all analytics data')} placement="left-end">
+                        <Tooltip
+                          label={__('Delete all analytics data', 'bit-assist')}
+                          placement="left-end"
+                        >
                           <Button
                             colorScheme="red"
                             leftIcon={<FiTrash2 color="red" />}
                             onClick={openDeleteModal}
                             variant="outline"
                           >
-                            {__('Delete All Analytics')}
+                            {__('Delete All Analytics', 'bit-assist')}
                           </Button>
                         </Tooltip>
                       </HStack>
                     </Th>
                   </Tr>
                   <Tr>
-                    <Th>{__('Widget Name')}</Th>
-                    <Th textAlign="center">{__('Visitors')}</Th>
-                    <Th textAlign="center">{__('Total Clicks')}</Th>
-                    <Th textAlign="end">{__('Click Rate')}</Th>
+                    <Th>{__('Widget Name', 'bit-assist')}</Th>
+                    <Th textAlign="center">{__('Visitors', 'bit-assist')}</Th>
+                    <Th textAlign="center">{__('Total Clicks', 'bit-assist')}</Th>
+                    <Th textAlign="end">{__('Click Rate', 'bit-assist')}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -174,22 +186,22 @@ function WidgetAnalytics({ widgetLength }: { widgetLength: number }) {
             <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
               <ModalOverlay />
               <ModalContent>
-                <ModalHeader>{__('Confirmation')}</ModalHeader>
+                <ModalHeader>{__('Confirmation', 'bit-assist')}</ModalHeader>
                 <ModalCloseButton disabled={isAnalyticsDeleting} />
-                <ModalBody>{__('Are you sure to delete all analytics data?')}</ModalBody>
+                <ModalBody>{__('Are you sure to delete all analytics data?', 'bit-assist')}</ModalBody>
 
                 <ModalFooter>
                   <Button disabled={isAnalyticsDeleting} mr={3} onClick={closeDelModal}>
-                    {__('Cancel')}
+                    {__('Cancel', 'bit-assist')}
                   </Button>
                   <Button
                     colorScheme="red"
                     isLoading={isAnalyticsDeleting}
-                    loadingText={__('Deleting...')}
+                    loadingText={__('Deleting...', 'bit-assist')}
                     onClick={handleDeleteAnalytics}
                     shadow="md"
                   >
-                    {__('Delete')}
+                    {__('Delete', 'bit-assist')}
                   </Button>
                 </ModalFooter>
               </ModalContent>

@@ -15,8 +15,8 @@ import {
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import { type Widget } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
@@ -65,9 +65,9 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
           <>
             <PopoverTrigger>
               <Box>
-                <Tooltip label={__('Remove domain')} placement="right">
+                <Tooltip label={__('Remove domain', 'bit-assist')} placement="right">
                   <IconButton
-                    aria-label={__('Remove domain')}
+                    aria-label={__('Remove domain', 'bit-assist')}
                     colorScheme="red"
                     disabled={isWidgetUpdating}
                     icon={<HiOutlineTrash />}
@@ -82,7 +82,7 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
               <PopoverArrow />
               <PopoverCloseButton />
               <PopoverBody>
-                <Text>{__('Are you sure you want to remove this domain?')}</Text>
+                <Text>{__('Are you sure you want to remove this domain?', 'bit-assist')}</Text>
                 <Button
                   colorScheme="red"
                   disabled={isWidgetUpdating}
@@ -90,7 +90,7 @@ function Domain({ domain, index, isWidgetUpdating, updateWidget }: Props) {
                   onClick={() => handleRemoveDomain(index, onClose)}
                   ref={initRef.current}
                 >
-                  {__('Confirm')}
+                  {__('Confirm', 'bit-assist')}
                 </Button>
               </PopoverBody>
             </PopoverContent>

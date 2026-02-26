@@ -13,7 +13,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
@@ -78,7 +78,7 @@ export default function CustomIframe() {
   return (
     <>
       <FormControl>
-        <FormLabel>{__('iFrame url')}</FormLabel>
+        <FormLabel>{__('iFrame url', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleChanges(e.target.value)}
           placeholder="https://..."
@@ -86,12 +86,12 @@ export default function CustomIframe() {
           value={flow.config?.unique_id || ''}
         />
         <FormHelperText>
-          {__('Do not use iFrame tag directly, use URL from iFrame only.')}
+          {__('Do not use iFrame tag directly, use URL from iFrame only.', 'bit-assist')}
         </FormHelperText>
       </FormControl>
 
       <FormControl>
-        <FormLabel>{__('Aspect Ratio')}</FormLabel>
+        <FormLabel>{__('Aspect Ratio', 'bit-assist')}</FormLabel>
         <RadioGroup
           colorScheme="purple"
           defaultValue="3/2"
@@ -100,7 +100,7 @@ export default function CustomIframe() {
         >
           <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
             <Radio onChange={e => handelCustom(e)} value="custom">
-              {__('Custom')}
+              {__('Custom', 'bit-assist')}
             </Radio>
             <Radio onChange={e => handelCustom(e)} value="1/1">
               1:1
@@ -120,7 +120,7 @@ export default function CustomIframe() {
         <Stack mt="2">
           <InputGroup>
             <Text fontSize={'14'} fontWeight={'normal'} w="20">
-              {__('Width')}
+              {__('Width', 'bit-assist')}
             </Text>
             <Input
               min="0"
@@ -131,13 +131,13 @@ export default function CustomIframe() {
               value={flow?.config?.iframe_options?.width || ''}
               w="28"
             />
-            <InputRightAddon>{__('px')}</InputRightAddon>
+            <InputRightAddon>{__('px', 'bit-assist')}</InputRightAddon>
           </InputGroup>
           {flow?.config?.iframe_options?.aspect_ratio === 'custom' && (
             <>
               <InputGroup>
                 <Text fontSize={'14'} fontWeight={'normal'} w="20">
-                  {__('Height')}
+                  {__('Height', 'bit-assist')}
                 </Text>
                 <Input
                   min="0"
@@ -148,14 +148,14 @@ export default function CustomIframe() {
                   value={flow?.config?.iframe_options?.height || ''}
                   w="28"
                 />
-                <InputRightAddon>{__('px')}</InputRightAddon>
+                <InputRightAddon>{__('px', 'bit-assist')}</InputRightAddon>
               </InputGroup>
             </>
           )}
 
           <HStack>
             <Text fontSize={'md'} fontWeight={'medium'} mr={3} whiteSpace="nowrap">
-              {__('iFrame Scrollbar')}
+              {__('iFrame Scrollbar', 'bit-assist')}
             </Text>
             <Switch
               colorScheme="purple"

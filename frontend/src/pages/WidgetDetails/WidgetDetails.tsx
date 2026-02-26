@@ -15,9 +15,9 @@ import Publish from '@components/publish/Publish'
 import Settings from '@components/settings/Settings'
 import WidgetChannels from '@components/widgetChannels/WidgetChannels'
 import config from '@config/config'
-import { __ } from '@helpers/i18nwrap'
 import useFetchIsAnalyticsActive from '@hooks/queries/analytics/useFetchIsAnalyticsActive'
 import useFetchWidget from '@hooks/queries/widget/useFetchWidget'
+import { __ } from '@wordpress/i18n'
 import { MdArrowBackIosNew } from 'react-icons/md'
 import { Link, useSearchParams } from 'react-router-dom'
 
@@ -49,28 +49,31 @@ function WidgetDetails() {
         top="32px"
         zIndex={2}
       >
-        <Tooltip label={__('Back to widget list')} placement="top">
+        <Tooltip label={__('Back to widget list', 'bit-assist')} placement="top">
           <Link to="/">
-            <IconButton aria-label={__('Back to widget list')} icon={<MdArrowBackIosNew />} />
+            <IconButton
+              aria-label={__('Back to widget list', 'bit-assist')}
+              icon={<MdArrowBackIosNew />}
+            />
           </Link>
         </Tooltip>
         <HStack marginInline="auto">
           <Tab rounded="md" textColor={tabTextColor}>
-            {__('Channels')}
+            {__('Channels', 'bit-assist')}
           </Tab>
           <Tab rounded="md" textColor={tabTextColor}>
-            {__('Customizations')}
+            {__('Customizations', 'bit-assist')}
           </Tab>
           <Tab rounded="md" textColor={tabTextColor}>
-            {__('Settings')}
+            {__('Settings', 'bit-assist')}
           </Tab>
           {isAnalyticsActive === 1 && config.IS_PRO && (
             <Tab rounded="md" textColor={tabTextColor}>
-              {__('Analytics')}
+              {__('Analytics', 'bit-assist')}
             </Tab>
           )}
           <Tab rounded="md" textColor={tabTextColor}>
-            {__('External publish')}
+            {__('External publish', 'bit-assist')}
           </Tab>
         </HStack>
       </TabList>

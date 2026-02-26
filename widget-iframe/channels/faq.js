@@ -8,7 +8,7 @@ import {
   globalInnerHTML,
   globalQuerySelectorAll,
 } from '../utils/Helpers.js'
-import { __ } from '../utils/i18n.js'
+import { __ } from '@wordpress/i18n'
 
 export const faq = {
   renderFaq(widgetChannel) {
@@ -25,14 +25,14 @@ export const faq = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: __('Search'),
+      placeholder: __('Search', 'bit-assist'),
     })
     globalAppend(listWrapper, [lists, listSearch])
 
     const faqDescription = createElm('div', { id: 'faqDescription' })
     const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: __('Back') })
-    const leftArrowIcon = createElm('img', { src: leftArrow, alt: __('Back') })
+    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: __('Back', 'bit-assist') })
+    const leftArrowIcon = createElm('img', { src: leftArrow, alt: __('Back', 'bit-assist') })
     globalAppend(closeDescBtn, leftArrowIcon)
 
     const pElm = createElm('p')

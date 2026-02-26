@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react'
 import { defaultCreateWidgetInfo } from '@globalStates/DefaultStates'
 import { type CreateWidgetInfo } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useCreateWidget from '@hooks/mutations/widget/useCreateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useState } from 'react'
 import { HiPlus } from 'react-icons/hi'
 
@@ -29,7 +29,7 @@ function AddWidget() {
 
   const addNewWidget = async () => {
     if (createWidgetInfo?.name === '') {
-      return toaster('error', __('Widget name is required'))
+      return toaster('error', __('Widget name is required', 'bit-assist'))
     }
     const { data, status } = await createWidget(createWidgetInfo)
     toaster(status, data)
@@ -54,19 +54,19 @@ function AddWidget() {
         onClick={onOpen}
         variant="outline"
       >
-        {__('Add Widget')}
+        {__('Add Widget', 'bit-assist')}
       </Button>
 
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} scrollBehavior="inside" size="2xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Text>{__('Create New Widget')}</Text>
+            <Text>{__('Create New Widget', 'bit-assist')}</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel>{__('Widget Name')}</FormLabel>
+              <FormLabel>{__('Widget Name', 'bit-assist')}</FormLabel>
               <Input
                 onChange={e => handleChanges(e.target.value, 'name')}
                 value={createWidgetInfo?.name ?? ''}
@@ -74,15 +74,15 @@ function AddWidget() {
             </FormControl>
           </ModalBody>
           <ModalFooter gap="2">
-            <Button onClick={onModalClose}>{__('Cancel')}</Button>
+            <Button onClick={onModalClose}>{__('Cancel', 'bit-assist')}</Button>
             <Button
               colorScheme="purple"
               isLoading={isWidgetCreating}
-              loadingText={__('Creating...')}
+              loadingText={__('Creating...', 'bit-assist')}
               onClick={addNewWidget}
               spinnerPlacement="start"
             >
-              {__('Create')}
+              {__('Create', 'bit-assist')}
             </Button>
           </ModalFooter>
         </ModalContent>

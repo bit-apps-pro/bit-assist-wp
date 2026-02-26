@@ -2,9 +2,9 @@ import { Box, Switch } from '@chakra-ui/react'
 import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -59,7 +59,7 @@ function GoogleAnalytics() {
     <ProWrapper>
       <Box maxW="full" mb={'-7'} w="lg">
         <Title>
-          {__('Google Analytics')}
+          {__('Google Analytics', 'bit-assist')}
           <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
         </Title>
       </Box>

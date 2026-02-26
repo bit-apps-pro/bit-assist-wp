@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
-import { __, sprintf } from '@helpers/i18nwrap'
+import { __, sprintf } from '@wordpress/i18n'
 
 interface ProModalProps {
   icon: React.ReactElement
@@ -37,7 +37,7 @@ export default function ProModal({ icon, number, text, type }: ProModalProps) {
             <Text>
               {sprintf(
                 // translators: %s: Product type (e.g. channels, widgets)
-                __('Want to use unlimited %s?'),
+                __('Want to use unlimited %s?', 'bit-assist'),
                 `${type}s`
               )}
             </Text>
@@ -47,14 +47,15 @@ export default function ProModal({ icon, number, text, type }: ProModalProps) {
             <Flex alignItems="center" justifyContent="space-between">
               <Box>
                 <Text fontSize="md">
-                  {__('You can use')} <strong>{`${number} ${type}`}</strong> {__('in free version.')}
+                  {__('You can use', 'bit-assist')} <strong>{`${number} ${type}`}</strong>{' '}
+                  {__('in free version.', 'bit-assist')}
                 </Text>
                 <Text fontSize="md">
-{sprintf(
-                  // translators: %s: Product type (e.g. channels, widgets)
-                  __('Get premium version to use unlimited %s.'),
-                  `${type}s`
-                )}
+                  {sprintf(
+                    // translators: %s: Product type (e.g. channels, widgets)
+                    __('Get premium version to use unlimited %s.', 'bit-assist'),
+                    `${type}s`
+                  )}
                 </Text>
               </Box>
               <Box textAlign="right">
@@ -64,7 +65,7 @@ export default function ProModal({ icon, number, text, type }: ProModalProps) {
                   tabIndex={-1}
                   target="_blank"
                 >
-                  <Button colorScheme="purple">{__('Get Pro Version')}</Button>
+                  <Button colorScheme="purple">{__('Get Pro Version', 'bit-assist')}</Button>
                 </Link>
               </Box>
             </Flex>

@@ -1,9 +1,9 @@
 import { Box, Input, InputGroup, InputRightAddon } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -24,7 +24,7 @@ function WidgetSize() {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value ? Number(e.target.value) : 0
     if (Number.isNaN(val) || val < 0 || val > 200) {
-      toaster('warning', __('Widget size must be between 0 and 200'))
+      toaster('warning', __('Widget size must be between 0 and 200', 'bit-assist'))
       return
     }
 
@@ -53,7 +53,7 @@ function WidgetSize() {
 
   return (
     <Box>
-      <Title>{__('Widget Size')}</Title>
+      <Title>{__('Widget Size', 'bit-assist')}</Title>
       <InputGroup>
         <Input
           min="0"
@@ -62,7 +62,7 @@ function WidgetSize() {
           value={widget.styles?.size ?? ''}
           w="28"
         />
-        <InputRightAddon>{__('px')}</InputRightAddon>
+        <InputRightAddon>{__('px', 'bit-assist')}</InputRightAddon>
       </InputGroup>
     </Box>
   )

@@ -16,10 +16,10 @@ import ProWrapper from '@components/global/ProWrapper'
 import Title from '@components/global/Title'
 import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
 import Editor from '@monaco-editor/react'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 
@@ -44,7 +44,7 @@ function CustomCSS() {
 
   return (
     <Box maxW="lg">
-      <Title>{__('Custom CSS')}</Title>
+      <Title>{__('Custom CSS', 'bit-assist')}</Title>
       <ProWrapper>
         <Textarea
           color="inherit"
@@ -61,7 +61,7 @@ function CustomCSS() {
       <Modal id="custom_css" isCentered isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader py="2">{__('Custom CSS')}</ModalHeader>
+          <ModalHeader py="2">{__('Custom CSS', 'bit-assist')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody p="0">
             <Box boxShadow="md">
@@ -78,16 +78,16 @@ function CustomCSS() {
           </ModalBody>
           <ModalFooter py="2">
             <Button mr={3} onClick={onClose}>
-              {__('Cancel')}
+              {__('Cancel', 'bit-assist')}
             </Button>
             <Button
               colorScheme="purple"
               isLoading={isWidgetUpdating}
-              loadingText={__('Updating...')}
+              loadingText={__('Updating...', 'bit-assist')}
               onClick={handleSaveCustomCSS}
               shadow="md"
             >
-              {__('Update')}
+              {__('Update', 'bit-assist')}
             </Button>
           </ModalFooter>
         </ModalContent>

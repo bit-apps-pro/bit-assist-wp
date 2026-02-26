@@ -3,8 +3,8 @@ import { CopyIcon } from '@chakra-ui/icons'
 import { Box, Code, HStack, IconButton, Text, Tooltip } from '@chakra-ui/react'
 import Title from '@components/global/Title'
 import config from '@config/config'
-import { __, sprintf } from '@helpers/i18nwrap'
 import useToaster from '@hooks/useToaster'
+import { __, sprintf } from '@wordpress/i18n'
 
 const unsecuredCopyToClipboard = (text: string) => {
   const textArea = document.createElement('textarea')
@@ -39,27 +39,30 @@ export default function CDN() {
     } else {
       unsecuredCopyToClipboard(cdnUrl)
     }
-    toaster('success', __('Copied'))
+    toaster('success', __('Copied', 'bit-assist'))
   }
 
   return (
     <Box>
-      <Title badge="2">{__('Copy the script')}</Title>
+      <Title badge="2">{__('Copy the script', 'bit-assist')}</Title>
       <Text mb="2">
         {sprintf(
           /* translators: %s: Brand name */
-          __('%s can easily be installed using the below code snippet. Paste it just above the'),
+          __(
+            '%s can easily be installed using the below code snippet. Paste it just above the',
+            'bit-assist'
+          ),
           'Bit Assist'
         )}{' '}
-        <Code>{'<body />'}</Code> {__('tag.')}
+        <Code>{'<body />'}</Code> {__('tag.', 'bit-assist')}
       </Text>
       <HStack gap="2" spacing={0}>
         <Code maxW="full" p="4" rounded="lg">
           {cdnUrl}
         </Code>
-        <Tooltip label={__('Copy')}>
+        <Tooltip label={__('Copy', 'bit-assist')}>
           <IconButton
-            aria-label={__('Copy')}
+            aria-label={__('Copy', 'bit-assist')}
             colorScheme="purple"
             icon={<CopyIcon />}
             onClick={copy}

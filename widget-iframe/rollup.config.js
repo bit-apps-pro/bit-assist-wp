@@ -9,7 +9,7 @@ export default function generateRollupConfig() {
     {
       input: path.resolve(__dirname, 'bit-assist.js'),
       external: ['window', 'document'],
-      plugins: [bundleSize(), babel({ exclude: 'node_modules/**', babelHelpers: 'bundled' }), terser()],
+      plugins: [bundleSize(), babel({ exclude: 'node_modules/**', babelHelpers: 'bundled' }), terser({ mangle: { reserved: ['__', 'sprintf'] } })],
       output: [
         {
           file: '../iframe/bit-assist.js',

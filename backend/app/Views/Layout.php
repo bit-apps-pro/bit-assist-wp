@@ -135,7 +135,7 @@ class Layout
         wp_set_script_translations(
             $slug . '-index-MODULE',
             'bit-assist',
-            Config::get('BASEDIR_ROOT') . 'languages/'
+            Config::get('BASEDIR_ROOT') . 'languages'
         );
 
         wp_localize_script(Config::SLUG . '-index-MODULE', Config::VAR_PREFIX, self::createConfigVariable());

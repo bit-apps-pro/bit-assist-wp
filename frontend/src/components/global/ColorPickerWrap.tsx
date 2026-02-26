@@ -1,7 +1,7 @@
 import ColorPicker from '@atomik-color/component'
 import { type TColor } from '@atomik-color/core/dist/types'
 import { Button, Popover, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 
 interface ColorPickerWrapProps {
   color: TColor | undefined
@@ -16,7 +16,7 @@ function ColorPickerWrap({ color, handleChange, handleClose }: ColorPickerWrapPr
         <Button
           _focus={{ backgroundColor: color?.str, boxShadow: 'outline' }}
           _hover={{ backgroundColor: color?.str }}
-          aria-label={__('Color picker')}
+          aria-label={__('Color picker', 'bit-assist')}
           bgColor={color?.str}
           boxShadow="md"
           h="14"

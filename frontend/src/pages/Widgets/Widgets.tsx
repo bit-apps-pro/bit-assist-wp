@@ -34,13 +34,13 @@ import AddWidget from '@components/widget/AddWidget'
 import config from '@config/config'
 import { freeLimitsAtom } from '@globalStates/atoms'
 import { type Widget } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
 import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
 import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus'
 import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
 import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { FiCopy, FiEdit2, FiTrash2 } from 'react-icons/fi'
@@ -96,7 +96,7 @@ function Widgets() {
                 <HStack justifyContent="space-between">
                   <HStack>
                     <Heading as="h2" my="2" size="sm" textTransform="none">
-                      {__('Widgets List')}
+                      {__('Widgets List', 'bit-assist')}
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
@@ -104,7 +104,7 @@ function Widgets() {
                     <ProModal
                       icon={<HiPlus />}
                       number={freeLimit.widget}
-                      text={__('Add Widget')}
+                      text={__('Add Widget', 'bit-assist')}
                       type="widget"
                     />
                   ) : (
@@ -114,10 +114,10 @@ function Widgets() {
               </Th>
             </Tr>
             <Tr>
-              <Th py="2">{__('status')}</Th>
-              <Th py="2">{__('widget name')}</Th>
-              <Th py="2">{__('created at')}</Th>
-              <Th py="2">{__('use widget in')}</Th>
+              <Th py="2">{__('status', 'bit-assist')}</Th>
+              <Th py="2">{__('widget name', 'bit-assist')}</Th>
+              <Th py="2">{__('created at', 'bit-assist')}</Th>
+              <Th py="2">{__('use widget in', 'bit-assist')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -126,17 +126,23 @@ function Widgets() {
                 <Tr key={widget.id}>
                   <Td w="10">
                     <Switch
-                      aria-label={__('Switch widget status')}
+                      aria-label={__('Switch widget status', 'bit-assist')}
                       colorScheme="purple"
                       disabled={isWidgetStatusUpdating}
                       isChecked={widget.status}
                       onChange={e => handleStatusChange(e.target.checked, widget.id)}
-                      title={widget.status ? __('Widget disable') : __('Widget enable')}
+                      title={
+                        widget.status
+                          ? __('Widget disable', 'bit-assist')
+                          : __('Widget enable', 'bit-assist')
+                      }
                     />
                   </Td>
                   <Td>
                     <Text _hover={{ color: brandColorToggle }} display="inline-block" fontSize="md">
-                      <Link to={`/widgets/${widget.id}`}>{widget.name || __('Untitled Widget')}</Link>
+                      <Link to={`/widgets/${widget.id}`}>
+                        {widget.name || __('Untitled Widget', 'bit-assist')}
+                      </Link>
                     </Text>
                   </Td>
                   <Td>{new Date(widget.created_at).toLocaleDateString()}</Td>
@@ -152,30 +158,30 @@ function Widgets() {
                       value={widget.active ? 1 : 0}
                       w="28"
                     >
-                      <option value="1">{__('This site')}</option>
-                      <option value="0">{__('External site')}</option>
+                      <option value="1">{__('This site', 'bit-assist')}</option>
+                      <option value="0">{__('External site', 'bit-assist')}</option>
                     </Select>
 
                     <Menu>
                       <MenuButton
-                        aria-label={__('Options')}
+                        aria-label={__('Options', 'bit-assist')}
                         as={IconButton}
                         icon={<HiDotsVertical />}
                         isRound
                       />
                       <MenuList shadow="lg">
                         <Link to={`/widgets/${widget.id}`}>
-                          <MenuItem icon={<FiEdit2 />}>{__('Edit')}</MenuItem>
+                          <MenuItem icon={<FiEdit2 />}>{__('Edit', 'bit-assist')}</MenuItem>
                         </Link>
                         <MenuItem icon={<FiCopy />} onClick={onCopyWidget(widget.id)}>
-                          {__('Duplicate')}
+                          {__('Duplicate', 'bit-assist')}
                         </MenuItem>
                         <MenuItem
                           color="red.600"
                           icon={<FiTrash2 />}
                           onClick={openDeleteModal(widget.id)}
                         >
-                          {__('Delete')}
+                          {__('Delete', 'bit-assist')}
                         </MenuItem>
                       </MenuList>
                     </Menu>
@@ -187,7 +193,7 @@ function Widgets() {
               <Tr>
                 <Td colSpan={4}>
                   <Text align="center" color="gray.500" fontSize="md">
-                    {__('No widgets found! Create a new widget.')}
+                    {__('No widgets found! Create a new widget.', 'bit-assist')}
                   </Text>
                 </Td>
               </Tr>
@@ -199,22 +205,22 @@ function Widgets() {
       <Modal isCentered isOpen={isOpen} onClose={closeDelModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{__('Confirmation')}</ModalHeader>
+          <ModalHeader>{__('Confirmation', 'bit-assist')}</ModalHeader>
           <ModalCloseButton disabled={isWidgetDeleting} />
-          <ModalBody>{__('Are you sure want to delete this widget?')}</ModalBody>
+          <ModalBody>{__('Are you sure want to delete this widget?', 'bit-assist')}</ModalBody>
 
           <ModalFooter>
             <Button disabled={isWidgetDeleting} mr={3} onClick={closeDelModal}>
-              {__('Cancel')}
+              {__('Cancel', 'bit-assist')}
             </Button>
             <Button
               colorScheme="red"
               isLoading={isWidgetDeleting}
-              loadingText={__('Deleting...')}
+              loadingText={__('Deleting...', 'bit-assist')}
               onClick={handleDeleteWidget}
               shadow="md"
             >
-              {__('Delete')}
+              {__('Delete', 'bit-assist')}
             </Button>
           </ModalFooter>
         </ModalContent>

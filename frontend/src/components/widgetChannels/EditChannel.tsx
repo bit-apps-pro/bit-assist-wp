@@ -13,11 +13,11 @@ import {
 } from '@chakra-ui/react'
 import ChannelSettings from '@components/widgetChannels/ChannelSettings'
 import { editWidgetChannelIdAtom, flowAtom, resetFlowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
 import useUpdateWidgetChannel from '@hooks/mutations/widgetChannel/useUpdateWidgetChannel'
 import useFetchWidgetChannel from '@hooks/queries/widgetChannel/useFetchWidgetChannel'
 import useToaster from '@hooks/useToaster'
 import { widgetChannelValidate } from '@utils/validation'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useResetAtom } from 'jotai/utils'
 import { useEffect } from 'react'
@@ -57,7 +57,7 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
     e.preventDefault()
     const validated = widgetChannelValidate(flow.config)
     if (validated.hasError) {
-      toaster('error', validated.error || __('Error'))
+      toaster('error', validated.error || __('Error', 'bit-assist'))
       return
     }
 
@@ -79,16 +79,16 @@ function EditChannel({ isOpen, onClose }: EditChannelProps) {
       <ModalContent pb="4">
         <ModalHeader mr="6" pb={0}>
           <HStack justifyContent="space-between">
-            <Text>{__('Edit Channel')}</Text>
+            <Text>{__('Edit Channel', 'bit-assist')}</Text>
             <Button
               colorScheme="purple"
               form="editChannelForm"
               isLoading={isWidgetChannelUpdating}
-              loadingText={__('Updating...')}
+              loadingText={__('Updating...', 'bit-assist')}
               spinnerPlacement="start"
               type="submit"
             >
-              {__('Update')}
+              {__('Update', 'bit-assist')}
             </Button>
           </HStack>
         </ModalHeader>
