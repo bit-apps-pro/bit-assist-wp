@@ -91,7 +91,7 @@ final class Plugin
 
         TelemetryConfig::setServerBaseUrl('https://wp-api.bitapps.pro/public/');
         TelemetryConfig::setTermsUrl('https://bitapps.pro/terms-of-service/');
-        TelemetryConfig::setPolicyUrl('https://bitapps.pro/refund-policy/');
+        TelemetryConfig::setPolicyUrl('https://bitapps.pro/privacy-policy/');
 
         Telemetry::report()->init();
         Telemetry::feedback()->init();

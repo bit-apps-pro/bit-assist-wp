@@ -6,23 +6,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use AllowDynamicProperties;
 use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
 use BitApps\Assist\Model\WidgetChannel;
 use stdClass;
 
-#[AllowDynamicProperties]
 final class ApiWidgetController
 {
-    private $isPro = false;
-
-    public function __construct()
-    {
-        $this->isPro = Config::isProActivated();
-    }
-
     public function bitAssistWidget(Request $request)
     {
         $validated = $request->validate([
@@ -55,23 +47,18 @@ final class ApiWidgetController
 
         if (Config::get('SITE_URL') === $domain) {
             $widget->where('active', 1);
-        } elseif ($this->isPro) {
-            $domainExceptWWW = $domain;
-            if (stristr($domainExceptWWW, 'www.')) {
-                $domainExceptWWW = str_replace('www.', '', $domainExceptWWW);
-            } else {
-                $domainExceptWWW = $domain;
-            }
-            $widget->where('domains', 'LIKE', '%' . wp_parse_url($domainExceptWWW)['host'] . '%');
         } else {
-            return;
+            $widget = Hooks::applyFilter(Config::withPrefix('resolve_external_widget'), null, $domain, $widget);
+
+            if (is_null($widget)) {
+                return;
+            }
         }
 
-        $columns = ['id', 'name', 'styles', 'initial_delay', 'page_scroll', 'widget_behavior', 'call_to_action', 'store_responses', 'status', 'hide_credit'];
-
-        if ($this->isPro) {
-            $columns = array_merge($columns, ['custom_css', 'timezone', 'business_hours', 'exclude_pages']);
-        }
+        $columns = Hooks::applyFilter(
+            Config::withPrefix('widget_api_columns'),
+            ['id', 'name', 'styles', 'initial_delay', 'page_scroll', 'widget_behavior', 'call_to_action', 'store_responses', 'status', 'hide_credit']
+        );
 
         $widget->take(1)->get($columns);
 

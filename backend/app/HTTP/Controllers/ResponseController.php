@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BitApps\Assist\Config;
-use BitApps\Assist\Deps\BitApps\WPKit\Http\Client\HttpClient;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
 use BitApps\Assist\Helpers\FileHandler;
@@ -54,10 +54,7 @@ final class ResponseController
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
-        if (!empty($config->card_config->webhook_url) && Config::isProActivated()) {
-            $webhook = new HttpClient();
-            $webhook->request($config->card_config->webhook_url, 'POST', wp_json_encode($formData));
-        }
+        Hooks::doAction(Config::withPrefix('after_form_response'), $formData, $config);
 
         if (!empty($config->store_responses)) {
             if (!empty($request->files())) {

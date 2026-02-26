@@ -28,11 +28,9 @@ import {
   useColorModeValue,
   useDisclosure
 } from '@chakra-ui/react'
-import ProModal from '@components/global/ProModal'
 import WidgetAnalytics from '@components/global/WidgetAnalytics'
 import AddWidget from '@components/widget/AddWidget'
 import config from '@config/config'
-import { freeLimitsAtom } from '@globalStates/atoms'
 import { type Widget } from '@globalStates/Interfaces'
 import useCopyWidget from '@hooks/mutations/widget/useCopyWidget'
 import useDeleteWidget from '@hooks/mutations/widget/useDeleteWidget'
@@ -40,10 +38,9 @@ import useUpdateWidgetStatus from '@hooks/mutations/widget/useUpdateWidgetStatus
 import useWidgetActive from '@hooks/mutations/widget/useWidgetActive'
 import useFetchWidgets from '@hooks/queries/widget/useFetchWidgets'
 import useToaster from '@hooks/useToaster'
-import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { FiCopy, FiEdit2, FiTrash2 } from 'react-icons/fi'
-import { HiDotsVertical, HiPlus } from 'react-icons/hi'
+import { HiDotsVertical } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
 
 function Widgets() {
@@ -57,7 +54,6 @@ function Widgets() {
   const { isOpen, onClose: closeDelModal, onOpen: openDelModal } = useDisclosure()
   const temporaryWidgetId = useRef('')
   const toaster = useToaster()
-  const [freeLimit] = useAtom(freeLimitsAtom)
 
   const openDeleteModal = (widgetId: string) => () => {
     temporaryWidgetId.current = widgetId
@@ -99,16 +95,7 @@ function Widgets() {
                     </Heading>
                     {(isWidgetFetching || isWidgetStatusUpdating) && <Spinner />}
                   </HStack>
-                  {!config.IS_PRO && widgets?.length >= freeLimit.widget ? (
-                    <ProModal
-                      icon={<HiPlus />}
-                      number={freeLimit.widget}
-                      text="Add Widget"
-                      type="widget"
-                    />
-                  ) : (
-                    <AddWidget />
-                  )}
+                  <AddWidget />
                 </HStack>
               </Th>
             </Tr>

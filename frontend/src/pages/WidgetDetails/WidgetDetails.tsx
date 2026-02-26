@@ -64,14 +64,14 @@ function WidgetDetails() {
           <Tab rounded="md" textColor={tabTextColor}>
             {__('Settings')}
           </Tab>
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('External publish')}
+          </Tab>
           {isAnalyticsActive === 1 && config.IS_PRO && (
             <Tab rounded="md" textColor={tabTextColor}>
               {__('Analytics')}
             </Tab>
           )}
-          <Tab rounded="md" textColor={tabTextColor}>
-            {__('External publish')}
-          </Tab>
         </HStack>
       </TabList>
 
@@ -85,14 +85,14 @@ function WidgetDetails() {
         <TabPanel>
           <Settings />
         </TabPanel>
+        <TabPanel>
+          <Publish />
+        </TabPanel>
         {isAnalyticsActive === 1 && config.IS_PRO && (
           <TabPanel>
             <ChannelAnalytics />
           </TabPanel>
         )}
-        <TabPanel>
-          <Publish />
-        </TabPanel>
       </TabPanels>
     </Tabs>
   )
