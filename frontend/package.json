@@ -145,7 +145,6 @@
     "postcss-safe-parser": "^6.0.0",
     "prettier": "^3.5.0",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "react-gettext-parser": "^1.16.0",
     "react-scripts": "^5.0.1",
     "rimraf": "^6.0.1",
     "rollup-plugin-scss": "^4.0.1",
