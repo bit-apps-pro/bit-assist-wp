@@ -32,11 +32,6 @@ final class WidgetController
 
     public function store(WidgetStoreRequest $request)
     {
-        $isPro = Config::isProActivated();
-        if (!$isPro && Widget::count() >= 1) {
-            return Response::error(__('You can use 1 widget in free version.', 'bit-assist'));
-        }
-
         $newWidget = [
             'name'   => sanitize_text_field(trim($request->name)),
             'styles' => [
@@ -115,11 +110,6 @@ final class WidgetController
 
     public function copy(Widget $widget)
     {
-        $isPro = Config::isProActivated();
-        if (!$isPro && Widget::count() >= 1) {
-            return Response::error(__('You can use 1 widget in free version.', 'bit-assist'));
-        }
-
         if ($widget->exists()) {
             $newWidget = $this->replicateWidget($widget);
             $result = Widget::insert((array) $newWidget);

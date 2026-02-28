@@ -3,9 +3,9 @@
 Contributors: bitpressadmin, akaioum, shuvomohajan, shimulckbt
 Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
 Requires at least: 5.1
-Tested up to: 6.9
+Tested up to: 6.9.1
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.6.3
 License: GPLv2 or later
 
 Floating sticky chat button for WhatsApp Chat, Facebook Messenger, Telegram, Instagram, SMS, Call, Discord chat, TikTok, Line & 30+ channels
@@ -288,6 +288,10 @@ With Bit Assist you have the flexibility to add WhatsApp chat, Facebook Messenge
 = Telemetry Data = 
 Bit Assist optionally uses WP-Telemetry (upon your approval) to collect basic usage data, helping us improve your experience. No data is collected without explicit consent.
 
+== Source Code ==
+
+Source code is available on GitHub: https://github.com/Bit-Apps-Pro/bit-assist-wp
+
 == Installation ==
 
 1. Download the Bit Assist Floating Chat Widget plugin.
@@ -347,7 +351,24 @@ Yes, you can use Facebook Chat Plugin – Live Chat Plugin for WordPress, Tawk.T
 = Can I use a standalone form in Bit Assist? =
 Yes, you can use standalone form using Bit Assist‘s custom iframe channel. You can show wordpress standalone form with this channel by providing the link from the dedicated standalone form. For example, there are several form builder plugins which have standalone form features like: Bit Form, Fluent Form, Wpforms, Wsforms, Piotnet Forms, Gravity Forms, Formidable Forms etc.
 
+== External services ==
+
+Bit Assist connects to third-party services only when a site visitor clicks a channel button or when the site owner has explicitly configured that channel. No data is sent from your server without a deliberate user action.
+
+For a full list of every external service used, what data is sent, when it is sent, and links to each service's Terms of Use and Privacy Policy, please see:
+
+[external-services.md](https://github.com/Bit-Apps-Pro/bit-assist-wp/blob/main/external-services.md)
+
 == Changelog ==
+= v1.6.3 (Feb 23, 2026) =
+* Improvement: Addressed WordPress.org plugin review feedback
+
+= v1.6.2 (Feb 23, 2026) =
+* Fix: Hide credit not saving in DB.
+
+= v1.6.1 (Feb 19, 2026) =
+* Fix: WordPress Plugin Checker issues fixed.
+
 = v1.6.0 (Dec 30, 2025) =
 * Fix: WooCommerce order details can now only be viewed by the user who placed the order.
 

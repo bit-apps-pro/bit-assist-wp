@@ -67,14 +67,14 @@ function WidgetDetails() {
           <Tab rounded="md" textColor={tabTextColor}>
             {__('Settings', 'bit-assist')}
           </Tab>
+          <Tab rounded="md" textColor={tabTextColor}>
+            {__('External publish')}
+          </Tab>
           {isAnalyticsActive === 1 && config.IS_PRO && (
             <Tab rounded="md" textColor={tabTextColor}>
               {__('Analytics', 'bit-assist')}
             </Tab>
           )}
-          <Tab rounded="md" textColor={tabTextColor}>
-            {__('External publish', 'bit-assist')}
-          </Tab>
         </HStack>
       </TabList>
 
@@ -88,14 +88,14 @@ function WidgetDetails() {
         <TabPanel>
           <Settings />
         </TabPanel>
+        <TabPanel>
+          <Publish />
+        </TabPanel>
         {isAnalyticsActive === 1 && config.IS_PRO && (
           <TabPanel>
             <ChannelAnalytics />
           </TabPanel>
         )}
-        <TabPanel>
-          <Publish />
-        </TabPanel>
       </TabPanels>
     </Tabs>
   )

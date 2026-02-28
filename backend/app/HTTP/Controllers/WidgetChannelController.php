@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Response;
 use BitApps\Assist\HTTP\Requests\WidgetChannelStoreRequest;
@@ -38,16 +39,10 @@ final class WidgetChannelController
 
     public function store(WidgetChannelStoreRequest $request)
     {
-        $validated = $this->sanitizeRequest($request->all());
-
-        $isPro = Config::isProActivated();
-
-        if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
-            unset($validated['config']['hide_after_office_hours']);
-        }
-        if (!$isPro && $validated['channel_name'] === 'Custom-Form' && !empty($validated['config']['card_config']['webhook_url'])) {
-            unset($validated['config']['card_config']['webhook_url']);
-        }
+        $validated = Hooks::applyFilter(
+            Config::withPrefix('widget_channel_config_before_save'),
+            $this->sanitizeRequest($request->all())
+        );
 
         $result = WidgetChannel::insert($validated);
 
@@ -60,16 +55,10 @@ final class WidgetChannelController
 
     public function update(WidgetChannelUpdateRequest $request, WidgetChannel $widgetChannel)
     {
-        $validated = $this->sanitizeRequest($request->all());
-
-        $isPro = Config::isProActivated();
-
-        if (!$isPro && !empty($validated['config']['hide_after_office_hours'])) {
-            unset($validated['config']['hide_after_office_hours']);
-        }
-        if (!$isPro && $validated['channel_name'] === 'Custom-Form' && !empty($validated['config']['card_config']['webhook_url'])) {
-            unset($validated['config']['card_config']['webhook_url']);
-        }
+        $validated = Hooks::applyFilter(
+            Config::withPrefix('widget_channel_config_before_save'),
+            $this->sanitizeRequest($request->all())
+        );
 
         $widgetChannel->update($validated);
 
@@ -106,11 +95,6 @@ final class WidgetChannelController
 
     public function copy(WidgetChannel $widgetChannel)
     {
-        $isPro = Config::isProActivated();
-        if (!$isPro && WidgetChannel::where('widget_id', $widgetChannel->widget_id)->count() >= 2) {
-            return Response::error(__('You can use 2 channel in free version.', 'bit-assist'));
-        }
-
         if ($widgetChannel->exists()) {
             $newWidgetChannel = $this->replicate($widgetChannel);
             $result = WidgetChannel::insert((array) $newWidgetChannel);
