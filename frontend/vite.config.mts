@@ -43,6 +43,7 @@ export default defineConfig(({ mode }) => ({
       '@wordpress/i18n': path.resolve(__dirname, 'src/wp-i18n-shim.ts')
     }
   },
+  root: mode === 'development' ? 'src' : undefined,
   server: {
     commonjsOptions: { transformMixedEsModules: true },
     cors: true,

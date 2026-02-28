@@ -59,7 +59,7 @@
     "preview": "vite preview",
     "mock": "json-server --watch ./Mock_API/api.json --port 9000",
     "test": "jest",
-    "dev": "vite --config vite.config.wp.mts",
+    "dev": "vite",
     "dev:both": "npx concurrently -c \"#fb7185,#fdba74\" \"pnpm dev\" \"cd ../widget-iframe && pnpm dev\" --names=frontend,iframe"
   },
   "husky": {
