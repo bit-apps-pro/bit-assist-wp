@@ -1,5 +1,5 @@
-import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
 import { __ } from '@wordpress/i18n'
+import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
 
 export const wechat = {
   renderWeChat(widgetChannel) {

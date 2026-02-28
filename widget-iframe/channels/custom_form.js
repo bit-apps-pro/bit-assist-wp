@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import {
   $,
   createElm,
@@ -11,7 +12,6 @@ import {
   globalQuerySelectorAll,
   globalSetAttribute,
 } from '../utils/Helpers.js'
-import { __ } from '@wordpress/i18n'
 
 export const custom_form = {
   renderForm(widgetChannel) {

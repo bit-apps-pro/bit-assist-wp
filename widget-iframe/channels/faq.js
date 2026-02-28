@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import leftArrow from '../images/left-circle-arrow.svg'
 import {
   $,
@@ -8,7 +9,6 @@ import {
   globalInnerHTML,
   globalQuerySelectorAll,
 } from '../utils/Helpers.js'
-import { __ } from '@wordpress/i18n'
 
 export const faq = {
   renderFaq(widgetChannel) {

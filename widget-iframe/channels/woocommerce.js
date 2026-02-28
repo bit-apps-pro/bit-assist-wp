@@ -1,3 +1,4 @@
+import { __, sprintf } from '@wordpress/i18n'
 import leftArrow from '../images/left-circle-arrow.svg'
 import {
   $,
@@ -13,7 +14,6 @@ import {
   globalQuerySelectorAll,
   globalSetAttribute,
 } from '../utils/Helpers.js'
-import { __, sprintf } from '@wordpress/i18n'
 
 export const woocommerce = {
   renderWooCommerce(widgetChannel) {

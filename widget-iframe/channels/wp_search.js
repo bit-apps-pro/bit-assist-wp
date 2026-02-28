@@ -1,5 +1,5 @@
-import { $, createElm, globalAppend, globalEventListener, globalInnerHTML, globalInnerText, globalSetAttribute } from '../utils/Helpers.js'
 import { __, sprintf } from '@wordpress/i18n'
+import { $, createElm, globalAppend, globalEventListener, globalInnerHTML, globalInnerText, globalSetAttribute } from '../utils/Helpers.js'
 
 export const wp_search = {
   wp_post_types: undefined,

@@ -150,11 +150,11 @@ class Layout
         echo '<div style="display: flex;flex-direction: column;justify-content: center;';
         echo 'align-items: center;height: 90vh;font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;">';
         echo '<img alt="bit-assist-logo" class="bit-logo" width="70" src="' . esc_url($rootURL . '/img/logo.svg') . '">';
-        echo '<h1>' . esc_html( sprintf(
-            /* translators: %s: Brand name */
-            __( 'Welcome to %s', 'bit-assist' ),
+        echo '<h1>' . esc_html(\sprintf(
+            // translators: %s: Brand name
+            __('Welcome to %s', 'bit-assist'),
             'Bit Assist'
-        ) ) . '</h1>';
+        )) . '</h1>';
         echo '<p></p>';
         echo '</div>';
         echo '</div>';

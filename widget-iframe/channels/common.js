@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import closeIcon from '../images/close-icon.svg'
 import rightArrowIcon from '../images/right-circle-arrow.svg'
 import {
@@ -13,7 +14,6 @@ import {
   globalQuerySelectorAll,
   globalSetProperty,
 } from '../utils/Helpers.js'
-import { __ } from '@wordpress/i18n'
 
 export const common = {
   hideChannels() {

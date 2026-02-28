@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import closeIcon from '../images/close-icon.svg'
 import leftArrow from '../images/left-circle-arrow.svg'
 import rightArrow from '../images/right-circle-arrow.svg'
@@ -13,7 +14,6 @@ import {
   globalQuerySelectorAll,
   globalSetProperty,
 } from '../utils/Helpers.js'
-import { __ } from '@wordpress/i18n'
 
 export const knowledge_base = {
   renderKnowledgeBase(widgetChannel) {
