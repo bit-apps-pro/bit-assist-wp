@@ -68,7 +68,7 @@ function WidgetDetails() {
             {__('Settings', 'bit-assist')}
           </Tab>
           <Tab rounded="md" textColor={tabTextColor}>
-            {__('External publish')}
+            {__('External publish', 'bit-assist')}
           </Tab>
           {isAnalyticsActive === 1 && config.IS_PRO && (
             <Tab rounded="md" textColor={tabTextColor}>
