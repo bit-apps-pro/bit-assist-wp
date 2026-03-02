@@ -62,7 +62,11 @@ final class IframeController
         echo '<div id="widgetBubbleRow">';
         echo '<div id="widgetBubbleWrapper">';
         echo '<button id="widgetBubble"><img alt="' . esc_attr__('Widget Icon', 'bit-assist') . '" id="widget-img" /></button>';
-        echo '<span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">' . esc_html__('by', 'bit-assist') . ' Bit Assist</a></span>';
+        echo '<span id="credit"><a href="https://www.bitapps.pro/bit-assist" rel="nofollow noreferrer noopener" target="_blank">' . esc_html(\sprintf(
+            // translators: %s: Brand name (Bit Assist)
+            __('by %s', 'bit-assist'),
+            'Bit Assist'
+        )) . '</a></span>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
