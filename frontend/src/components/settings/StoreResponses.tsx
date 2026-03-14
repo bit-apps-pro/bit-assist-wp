@@ -2,6 +2,7 @@ import { Box, FormControl, FormLabel, Switch } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -41,10 +42,10 @@ function StoreResponses() {
   return (
     <Box>
       <FormControl alignItems="center" display="flex">
-        <FormLabel mb="0">Store Responses</FormLabel>
+        <FormLabel mb="0">{__('Store Responses', 'bit-assist')}</FormLabel>
         <Switch
           colorScheme="purple"
-          isChecked={!!widget.store_responses}
+          isChecked={Boolean(widget.store_responses)}
           onChange={handleSwitchEnable}
         />
       </FormControl>

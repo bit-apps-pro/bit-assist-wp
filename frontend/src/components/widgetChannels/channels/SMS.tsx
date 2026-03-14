@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/filename-case */
 import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function SMS() {
@@ -15,7 +16,7 @@ export default function SMS() {
 
   return (
     <FormControl>
-      <FormLabel>Phone number</FormLabel>
+      <FormLabel>{__('Phone number', 'bit-assist')}</FormLabel>
       <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
     </FormControl>
   )

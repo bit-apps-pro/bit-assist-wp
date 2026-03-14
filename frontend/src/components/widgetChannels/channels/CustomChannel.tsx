@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input } from '@chakra-ui/react'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function CustomChannel() {
@@ -16,7 +17,7 @@ export default function CustomChannel() {
   return (
     <>
       <FormControl>
-        <FormLabel>Custom channel link</FormLabel>
+        <FormLabel>{__('Custom channel link', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleChanges(e.target.value)}
           placeholder="https://..."

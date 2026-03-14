@@ -13,6 +13,7 @@ import {
   VStack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useEffect, useRef } from 'react'
 
@@ -61,13 +62,13 @@ export default function WooCommerce() {
   }
 
   useEffect(() => {
-    if (flow.config?.card_config?.submit_button_text !== undefined) return
+    if (flow.config?.store_responses !== undefined) return
+
     setFlow(prev => {
       if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
-      prev.config.card_config.submit_button_text = 'Submit'
     })
   }, [])
 
@@ -101,16 +102,16 @@ export default function WooCommerce() {
                       <Text fontWeight={500} mb="2">
                         {field?.field_type &&
                           `${field?.field_type.charAt(0).toUpperCase()}${field?.field_type.slice(1)}`}{' '}
-                        Field
+                        {__('Field', 'bit-assist')}
                         {!field?.required && (
                           <Text color="gray.400" display="inline">
-                            &nbsp;&nbsp;(Optional)
+                            &nbsp;&nbsp;({__('Optional', 'bit-assist')})
                           </Text>
                         )}
                       </Text>
 
                       <HStack alignItems="center">
-                        <Text>Required</Text>
+                        <Text>{__('Required', 'bit-assist')}</Text>
                         {/* <Switch
                           colorScheme="purple"
                           disabled
@@ -122,7 +123,7 @@ export default function WooCommerce() {
                     <VStack alignItems="flex-start">
                       <Input
                         onChange={e => handleChange(e.target.value, 'label', id)}
-                        placeholder="label"
+                        placeholder={__('label', 'bit-assist')}
                         value={field?.label}
                       />
                     </VStack>
@@ -135,37 +136,38 @@ export default function WooCommerce() {
       </VStack>
 
       <FormControl>
-        <FormLabel display="inline-block">Show Order Details</FormLabel>
+        <FormLabel display="inline-block">{__('Show Order Details', 'bit-assist')}</FormLabel>
         <CheckboxGroup
           colorScheme="purple"
           onChange={value => handleCheckBoxes(value, 'order_details')}
           value={flow.config?.order_details ?? []}
         >
           <Stack direction={['column', 'row']} spacing={[1, 5]} wrap="wrap">
-            <Checkbox aria-label="shipping status" size="lg" value="shipping_status">
-              Shipping Status
+            <Checkbox aria-label={__('Shipping Status', 'bit-assist')} size="lg" value="shipping_status">
+              {__('Shipping Status', 'bit-assist')}
             </Checkbox>
-            <Checkbox aria-label="total items" size="lg" value="total_items">
-              Total Items
+            <Checkbox aria-label={__('Total Items', 'bit-assist')} size="lg" value="total_items">
+              {__('Total Items', 'bit-assist')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="total_amount">
-              Total Amount
+            <Checkbox aria-label={__('Total Amount', 'bit-assist')} size="lg" value="total_amount">
+              {__('Total Amount', 'bit-assist')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="billing_name">
-              Billing Name
+            <Checkbox aria-label={__('Billing Name', 'bit-assist')} size="lg" value="billing_name">
+              {__('Billing Name', 'bit-assist')}
             </Checkbox>
-            <Checkbox aria-label="total amount" size="lg" value="shipping_name">
-              Shipping Name
+            <Checkbox aria-label={__('Shipping Name', 'bit-assist')} size="lg" value="shipping_name">
+              {__('Shipping Name', 'bit-assist')}
             </Checkbox>
           </Stack>
         </CheckboxGroup>
       </FormControl>
 
       <FormControl>
-        <FormLabel>Button Text</FormLabel>
+        <FormLabel>{__('Button Text', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'submit_button_text')}
-          value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
+          placeholder={__('Submit', 'bit-assist')}
+          value={flow.config?.card_config?.submit_button_text}
         />
       </FormControl>
 

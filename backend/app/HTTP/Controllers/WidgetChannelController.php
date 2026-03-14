@@ -47,10 +47,10 @@ final class WidgetChannelController
         $result = WidgetChannel::insert($validated);
 
         if ($result) {
-            return Response::success('Channel created successfully');
+            return Response::success(__('Channel created successfully', 'bit-assist'));
         }
 
-        return Response::error('Something went wrong');
+        return Response::error(__('Something went wrong', 'bit-assist'));
     }
 
     public function update(WidgetChannelUpdateRequest $request, WidgetChannel $widgetChannel)
@@ -63,17 +63,17 @@ final class WidgetChannelController
         $widgetChannel->update($validated);
 
         if ($widgetChannel->save()) {
-            return Response::success('Channel updated successfully');
+            return Response::success(__('Channel updated successfully', 'bit-assist'));
         }
 
-        return Response::error('Something went wrong');
+        return Response::error(__('Something went wrong', 'bit-assist'));
     }
 
     public function destroy(WidgetChannel $widgetChannel)
     {
         $widgetChannel->delete();
 
-        return Response::success('Channel deleted');
+        return Response::success(__('Channel deleted', 'bit-assist'));
     }
 
     public function updateSequence(Request $request)
@@ -90,7 +90,7 @@ final class WidgetChannelController
                 ->save();
         }
 
-        return Response::success('Sequence ordered');
+        return Response::success(__('Sequence ordered', 'bit-assist'));
     }
 
     public function copy(WidgetChannel $widgetChannel)
@@ -99,11 +99,11 @@ final class WidgetChannelController
             $newWidgetChannel = $this->replicate($widgetChannel);
             $result = WidgetChannel::insert((array) $newWidgetChannel);
             if ($result) {
-                return Response::success('Channel copied successfully');
+                return Response::success(__('Channel copied successfully', 'bit-assist'));
             }
         }
 
-        return Response::error('Something went wrong');
+        return Response::error(__('Something went wrong', 'bit-assist'));
     }
 
     private function replicate($widgetChannel)
@@ -112,7 +112,7 @@ final class WidgetChannelController
         $newWidgetChannel->widget_id = $widgetChannel->widget_id;
         $newWidgetChannel->channel_name = $widgetChannel->channel_name;
         $newWidgetChannel->config = $widgetChannel->config;
-        $newWidgetChannel->config->title = $widgetChannel->config->title . ' (Copy)';
+        $newWidgetChannel->config->title = $widgetChannel->config->title . ' ' . __('(copy)', 'bit-assist');
         $newWidgetChannel->sequence = WidgetChannel::where('widget_id', $widgetChannel->widget_id)->max('sequence') + 1;
         $newWidgetChannel->status = $widgetChannel->status;
 

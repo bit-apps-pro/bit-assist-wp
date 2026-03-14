@@ -2,6 +2,7 @@ import { FormControl, FormLabel, HStack, Input, Stack, Switch, Text } from '@cha
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -44,7 +45,7 @@ function DeleteResponses() {
   const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value ? Number(e.target.value) : 0
     if (Number.isNaN(val)) {
-      toaster('warning', 'Delete responses must be a number')
+      toaster('warning', __('Delete responses must be a number', 'bit-assist'))
       return
     }
 
@@ -61,7 +62,7 @@ function DeleteResponses() {
   return (
     <Stack alignItems="center" flexDirection={['column', 'row']} gap="2" spacing="0">
       <FormControl alignItems="center" display="flex">
-        <FormLabel mb="0">Delete Responses</FormLabel>
+        <FormLabel mb="0">{__('Delete Responses', 'bit-assist')}</FormLabel>
         <Switch
           colorScheme="purple"
           isChecked={!!widget.delete_responses?.is_enabled}
@@ -69,7 +70,7 @@ function DeleteResponses() {
         />
       </FormControl>
       <HStack>
-        <Text>After</Text>
+        <Text>{__('After', 'bit-assist')}</Text>
         <Input
           disabled={!widget.delete_responses?.is_enabled}
           min="0"
@@ -77,7 +78,7 @@ function DeleteResponses() {
           value={widget.delete_responses?.delete_after ?? 0}
           w="28"
         />
-        <Text>Days</Text>
+        <Text>{__('Days', 'bit-assist')}</Text>
       </HStack>
     </Stack>
   )

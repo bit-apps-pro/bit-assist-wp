@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function Youtube() {
@@ -14,8 +15,9 @@ export default function Youtube() {
 
   return (
     <FormControl>
-      <FormLabel>Youtube video id</FormLabel>
+      <FormLabel>{__('Video ID', 'bit-assist')}</FormLabel>
       <InputGroup>
+        {/* eslint-disable-next-line i18next/no-literal-string */}
         <InputLeftAddon>youtube.com/watch?v=</InputLeftAddon>
         <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />
       </InputGroup>

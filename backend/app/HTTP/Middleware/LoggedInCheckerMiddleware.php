@@ -13,7 +13,7 @@ final class LoggedInCheckerMiddleware
     public function handle()
     {
         if (!is_user_logged_in()) {
-            return Response::error('Access Denied: You must be logged in to make this request')->httpStatus(401);
+            return Response::error(__('Access Denied: You must be logged in to make this request', 'bit-assist'))->httpStatus(401);
         }
 
         return true;

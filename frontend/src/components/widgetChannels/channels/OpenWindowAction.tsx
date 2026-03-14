@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function OpenWindowAction() {
@@ -13,15 +14,15 @@ export default function OpenWindowAction() {
 
   return (
     <FormControl>
-      <FormLabel>On click open channel on</FormLabel>
+      <FormLabel>{__('On click open channel on', 'bit-assist')}</FormLabel>
       <Select
         onChange={e => handleChanges(e.target.value)}
-        placeholder="Select window action"
+        placeholder={__('Select window action', 'bit-assist')}
         value={flow.config?.open_window_action || ''}
       >
-        <option value="_blank">New Tab</option>
-        <option value="_parent">Current Tab</option>
-        <option value="new_window">New Window</option>
+        <option value="_blank">{__('New Tab', 'bit-assist')}</option>
+        <option value="_parent">{__('Current Tab', 'bit-assist')}</option>
+        <option value="new_window">{__('New Window', 'bit-assist')}</option>
       </Select>
     </FormControl>
   )

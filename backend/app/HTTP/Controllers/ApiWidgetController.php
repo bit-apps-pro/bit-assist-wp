@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
 }
 
 use BitApps\Assist\Config;
+use BitApps\Assist\Deps\BitApps\WPKit\Helpers\DateTimeHelper;
 use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 use BitApps\Assist\Deps\BitApps\WPKit\Http\Request\Request;
 use BitApps\Assist\Model\Widget;
@@ -24,18 +25,20 @@ final class ApiWidgetController
         $widget = $this->getWidget($validated['domain']);
 
         if (!isset($widget->id)) {
-            return 'Widget not found';
+            return __('Widget not found', 'bit-assist');
         }
 
         $widgetChannels = $this->getChannelsByWidget($widget->id);
 
         if (\is_null($widgetChannels)) {
-            return 'Widget channels not found';
+            return __('Widget channels not found', 'bit-assist');
         }
 
         $widget->widget_channels = $widgetChannels;
 
         $widget->isAnalyticsActivate = (int) Config::getOption('analytics_activate');
+
+        $widget->timezone = DateTimeHelper::wp_timezone_string();
 
         return $widget;
     }
@@ -50,7 +53,7 @@ final class ApiWidgetController
         } else {
             $widget = Hooks::applyFilter(Config::withPrefix('resolve_external_widget'), null, $domain, $widget);
 
-            if (is_null($widget)) {
+            if (\is_null($widget)) {
                 return;
             }
         }

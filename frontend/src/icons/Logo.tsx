@@ -7,6 +7,7 @@ export default function Logo() {
           <path d="M0 0h40v40H0z" />
         </clipPath>
       </defs>
+      {/* eslint-disable-next-line i18next/no-literal-string -- CSS class name, must not be translated */}
       <style>{'.s1{fill:#141844}'}</style>
       <g clipPath="url(#cp1)" id="Clip-Path">
         <g id="Layer">

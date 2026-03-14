@@ -21,10 +21,10 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { editWidgetChannelIdAtom } from '@globalStates/atoms'
 import { type WidgetChannelType } from '@globalStates/Interfaces'
-import { __ } from '@helpers/i18nwrap'
 import useCopyWidgetChannel from '@hooks/mutations/widgetChannel/useCopyWidgetChannel'
 import useDeleteWidgetChannel from '@hooks/mutations/widgetChannel/useDeleteWidgetChannel'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 import { FiCopy, FiEdit2, FiList, FiTrash2 } from 'react-icons/fi'
@@ -112,7 +112,7 @@ function WidgetChannel({
             rounded="sm"
             w={6}
           >
-            <DragHandleIcon aria-label={__('draggable button')} />
+            <DragHandleIcon aria-label={__('draggable button', 'bit-assist')} />
           </Flex>
           <Image
             alt={widgetChannel.config.title}
@@ -136,7 +136,7 @@ function WidgetChannel({
           {widgetChannel.config?.card_config?.form_fields && (
             <Link to={`/responses/${widgetChannel.id}`}>
               <Button leftIcon={<FiList />} size="sm" variant="ghost">
-                {__('Responses')}
+                {__('Responses', 'bit-assist')}
               </Button>
             </Link>
           )}
@@ -147,7 +147,7 @@ function WidgetChannel({
             size="sm"
             variant="ghost"
           >
-            {__('Edit')}
+            {__('Edit', 'bit-assist')}
           </Button>
 
           <Button
@@ -156,7 +156,7 @@ function WidgetChannel({
             size="sm"
             variant="ghost"
           >
-            {__('Duplicate')}
+            {__('Duplicate', 'bit-assist')}
           </Button>
 
           <Button
@@ -166,7 +166,7 @@ function WidgetChannel({
             size="sm"
             variant="ghost"
           >
-            {__('Delete')}
+            {__('Delete', 'bit-assist')}
           </Button>
         </Box>
       </HStack>
@@ -176,22 +176,22 @@ function WidgetChannel({
       <Modal closeOnOverlayClick={false} isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{__('Confirmation')}</ModalHeader>
+          <ModalHeader>{__('Confirmation', 'bit-assist')}</ModalHeader>
           <ModalCloseButton disabled={isWidgetChannelDeleting} />
-          <ModalBody>{__('Are you sure want to delete this channel?')}</ModalBody>
+          <ModalBody>{__('Are you sure want to delete this channel?', 'bit-assist')}</ModalBody>
 
           <ModalFooter>
             <Button disabled={isWidgetChannelDeleting} mr={3} onClick={onClose}>
-              {__('Cancel')}
+              {__('Cancel', 'bit-assist')}
             </Button>
             <Button
               colorScheme="red"
               isLoading={isWidgetChannelDeleting}
-              loadingText={__('Deleting') + '...'}
+              loadingText={__('Deleting', 'bit-assist') + '...'}
               onClick={handleDeleteWidgetChannel}
               shadow="md"
             >
-              {__('Delete')}
+              {__('Delete', 'bit-assist')}
             </Button>
           </ModalFooter>
         </ModalContent>

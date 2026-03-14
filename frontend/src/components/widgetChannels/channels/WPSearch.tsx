@@ -9,6 +9,7 @@ import {
   Stack
 } from '@chakra-ui/react'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 import CardColors from './common/CardColors'
@@ -28,8 +29,10 @@ export default function WPSearch() {
   return (
     <>
       <FormControl>
-        <FormLabel>Select Post Types</FormLabel>
-        <FormHelperText mb={4}>Select the post types you want to show in this channel.</FormHelperText>
+        <FormLabel>{__('Select Post Types', 'bit-assist')}</FormLabel>
+        <FormHelperText mb={4}>
+          {__('Select the post types you want to show in this channel.', 'bit-assist')}
+        </FormHelperText>
 
         {isLoading && <Spinner />}
 

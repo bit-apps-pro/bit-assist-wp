@@ -14,6 +14,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __, sprintf } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -69,12 +70,15 @@ function CallToAction() {
 
   return (
     <Box>
-      <Title>Call To Action</Title>
+      <Title>{__('Call To Action', 'bit-assist')}</Title>
 
       <VStack alignItems="flex-start" maxW="full" spacing="4" w="lg">
         <Text>
-          Display a call to action message next to widget after {widget.call_to_action?.delay ?? 0}{' '}
-          seconds.
+          {sprintf(
+            // translators: %s: Delay in seconds
+            __('Display a call to action message next to widget after %s seconds.', 'bit-assist'),
+            widget.call_to_action?.delay ?? 0
+          )}
         </Text>
         <Slider
           colorScheme="purple"
@@ -94,7 +98,7 @@ function CallToAction() {
             color={textColorToggle}
             hasArrow
             isOpen={showTooltip}
-            label={`${widget.call_to_action?.delay ?? 0} sec`}
+            label={`${widget.call_to_action?.delay ?? 0} ${__('seconds', 'bit-assist')}`}
             placement="top"
           >
             <SliderThumb bg={brandColorToggle} />
@@ -103,7 +107,7 @@ function CallToAction() {
         <Textarea
           color="inherit"
           onChange={handleChange}
-          placeholder="Message"
+          placeholder={__('Message', 'bit-assist')}
           value={widget.call_to_action?.text ?? ''}
         />
       </VStack>

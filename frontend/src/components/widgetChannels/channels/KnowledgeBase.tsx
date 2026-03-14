@@ -18,7 +18,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { flowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -67,9 +67,9 @@ function KnowledgeBase() {
       }
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
       prev.config.card_config?.knowledge_bases?.push({
-        description: __('Knowledge Base Description'),
+        description: __('Knowledge Base Description', 'bit-assist'),
         id: prev.config.card_config.maxId || 0,
-        title: __('Knowledge Base Title')
+        title: __('Knowledge Base Title', 'bit-assist')
       })
     })
   }
@@ -110,7 +110,7 @@ function KnowledgeBase() {
         )}
 
         <Button onClick={handleAddField} rightIcon={<FiPlus />}>
-          Add KB
+          {__('Add KB', 'bit-assist')}
         </Button>
       </VStack>
 

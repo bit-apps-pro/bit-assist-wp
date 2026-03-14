@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import closeIcon from '../images/close-icon.svg'
 import rightArrowIcon from '../images/right-circle-arrow.svg'
 import {
@@ -39,8 +40,8 @@ export const common = {
     this.card = createElm('div', { id: 'card', class: 'show' })
     const cardHeader = createElm('div', { id: 'cardHeader' })
     const h4Elm = createElm('h4')
-    const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: 'Close' })
-    const closeBtnIcon = createElm('img', { src: closeIcon, alt: 'Close' })
+    const iconBtn = createElm('button', { class: 'iconBtn closeCardBtn', title: __('Close', 'bit-assist') })
+    const closeBtnIcon = createElm('img', { src: closeIcon, alt: __('Close', 'bit-assist') })
     globalAppend(iconBtn, closeBtnIcon)
 
     globalAppend(cardHeader, [h4Elm, iconBtn])
@@ -80,10 +81,10 @@ export const common = {
         title,
         item.title
           ? item.title
-          : (item.order_id ? `Order Id: ${item.order_id} (${item.shipping_status})` : '') || '',
+          : (item.order_id ? `${__('Order Id', 'bit-assist')}: ${item.order_id} (${item.shipping_status})` : '') || '',
       )
 
-      const detailsIcon = createElm('img', { src: rightArrowIcon, alt: 'Details' })
+      const detailsIcon = createElm('img', { src: rightArrowIcon, alt: __('Details', 'bit-assist') })
       globalAppend(listItemTitleWrapper, detailsIcon)
       globalAppend(listItemTitleWrapper, title)
 

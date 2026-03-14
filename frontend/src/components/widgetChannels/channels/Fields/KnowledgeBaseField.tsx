@@ -5,6 +5,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { flowAtom } from '@globalStates/atoms'
 import { type KnowledgeBase } from '@globalStates/Interfaces'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiChevronDown, FiX } from 'react-icons/fi'
@@ -65,7 +66,7 @@ function KnowledgeBaseField({ bg = 'none', cursor = 'grab', field, id }: Knowled
           rounded="sm"
           w={6}
         >
-          <DragHandleIcon aria-label="draggable button" />
+          <DragHandleIcon aria-label={__('draggable button', 'bit-assist')} />
         </Flex>
         <Box w="full">
           <HStack mb="2" w="full">
@@ -74,7 +75,7 @@ function KnowledgeBaseField({ bg = 'none', cursor = 'grab', field, id }: Knowled
               value={field?.title || ''}
             />
             <IconButton
-              aria-label="Show Desc"
+              aria-label={__('Show description', 'bit-assist')}
               icon={<FiChevronDown />}
               onClick={() => setIsEditing(prev => !prev)}
               size="sm"
@@ -96,7 +97,7 @@ function KnowledgeBaseField({ bg = 'none', cursor = 'grab', field, id }: Knowled
       </HStack>
       <Box>
         <IconButton
-          aria-label="Delete Icon"
+          aria-label={__('Delete', 'bit-assist')}
           icon={<FiX />}
           isRound
           onClick={() => handleDelete(id)}

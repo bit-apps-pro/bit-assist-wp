@@ -14,7 +14,7 @@ final class AdminCheckerMiddleware
     public function handle()
     {
         if (!Capabilities::check('manage_options')) {
-            return Response::error('Access Denied: Only administrators are allowed to make this request')->httpStatus(411);
+            return Response::error(__('Access Denied: Only administrators are allowed to make this request', 'bit-assist'))->httpStatus(411);
         }
 
         return true;

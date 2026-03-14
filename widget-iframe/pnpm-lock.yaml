@@ -41,9 +41,12 @@ importers:
       sass:
         specifier: ^1.81.0
         version: 1.90.0
+      terser:
+        specifier: ^5.46.0
+        version: 5.46.0
       vite:
         specifier: ^3.0.4
-        version: 3.2.11(sass@1.90.0)(terser@5.43.1)
+        version: 3.2.11(sass@1.90.0)(terser@5.46.0)
 
 packages:
 
@@ -2018,8 +2021,8 @@ packages:
     resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
     engines: {node: '>=6'}
 
-  terser@5.43.1:
-    resolution: {integrity: sha512-+6erLbBm0+LROX2sPXlUYx/ux5PyE9K/a92Wrt6oA+WDAoFTdpHE5tCYCI5PNzq2y8df4rA+QgHLJuR4jNymsg==}
+  terser@5.46.0:
+    resolution: {integrity: sha512-jTwoImyr/QbOWFFso3YoU3ik0jBBDJ6JTOQiy/J2YxVJdZCc+5u7skhNwiOR3FQIygFqVUPHl7qbbxtjW2K3Qg==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2601,7 +2604,7 @@ snapshots:
     dependencies:
       serialize-javascript: 6.0.2
       smob: 1.5.0
-      terser: 5.43.1
+      terser: 5.46.0
     optionalDependencies:
       rollup: 2.79.2
 
@@ -4374,7 +4377,7 @@ snapshots:
 
   tapable@2.2.2: {}
 
-  terser@5.43.1:
+  terser@5.46.0:
     dependencies:
       '@jridgewell/source-map': 0.3.10
       acorn: 8.15.0
@@ -4454,7 +4457,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite@3.2.11(sass@1.90.0)(terser@5.43.1):
+  vite@3.2.11(sass@1.90.0)(terser@5.46.0):
     dependencies:
       esbuild: 0.15.18
       postcss: 8.5.6
@@ -4463,7 +4466,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
       sass: 1.90.0
-      terser: 5.43.1
+      terser: 5.46.0
 
   vue-eslint-parser@10.2.0(eslint@9.33.0):
     dependencies:

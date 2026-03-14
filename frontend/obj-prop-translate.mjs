@@ -26,7 +26,7 @@ export default {
             context.report({
               fix(fixer) {
                 // Replace the value with a translation function call
-                const fixedValue = `__('${node.value.value.replaceAll("'", String.raw`\'`)}')`
+                const fixedValue = `__('${node.value.value.replaceAll("'", String.raw`\'`)}', 'bit-assist')`
                 return fixer.replaceText(node.value, fixedValue)
               },
               message: 'property should be wrapped in a translation function.',

@@ -3,6 +3,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -48,18 +49,18 @@ export const WidgetShowOn = () => {
 
   return (
     <FormControl>
-      <Title>Widget Show On</Title>
+      <Title>{__('Widget Show On', 'bit-assist')}</Title>
       <CheckboxGroup
         colorScheme="purple"
         onChange={val => handleChanges(val, 'widget_show_on')}
         value={widget.styles?.widget_show_on ?? ['desktop', 'mobile']}
       >
         <HStack spacing={4}>
-          <Checkbox aria-label="show on desktop" size="lg" value="desktop">
-            Desktop
+          <Checkbox aria-label={__('Show on desktop', 'bit-assist')} size="lg" value="desktop">
+            {__('Desktop', 'bit-assist')}
           </Checkbox>
-          <Checkbox aria-label="show on mobile" size="lg" value="mobile">
-            Mobile
+          <Checkbox aria-label={__('Show on mobile', 'bit-assist')} size="lg" value="mobile">
+            {__('Mobile', 'bit-assist')}
           </Checkbox>
         </HStack>
       </CheckboxGroup>

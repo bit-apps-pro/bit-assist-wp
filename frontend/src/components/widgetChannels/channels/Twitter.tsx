@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function Twitter() {
@@ -16,7 +17,7 @@ export default function Twitter() {
   return (
     <>
       <FormControl>
-        <FormLabel>Twitter user ID</FormLabel>
+        <FormLabel>{__('User ID', 'bit-assist')}</FormLabel>
         <InputGroup>
           <InputLeftAddon>@</InputLeftAddon>
           <Input onChange={e => handleChanges(e.target.value)} value={flow.config?.unique_id || ''} />

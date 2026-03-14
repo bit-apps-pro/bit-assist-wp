@@ -75,16 +75,18 @@ class Layout
 
         // wp_dequeue_script('wp-element');
 
+        wp_enqueue_script('wp-i18n');
+
         if (Config::isDev()) {
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-helper-MODULE', Config::DEV_URL . '/config/devHotModule.js', [], null);
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
             wp_enqueue_script($slug . '-vite-client-MODULE', Config::DEV_URL . '/@vite/client', [], null);
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter, WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Dev mode hot reload script must load in header
-            wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', [], null);
+            wp_enqueue_script($slug . '-index-MODULE', Config::DEV_URL . '/index.tsx', ['wp-i18n'], null);
         } else {
             // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter -- Main app script must load in header for proper initialization
-            wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', [], $version);
+            wp_enqueue_script($slug . '-index-MODULE', $assetUri . '/index.js', ['wp-i18n'], $version);
             wp_enqueue_style($slug . '-styles', $assetUri . '/index.css', null, $version);
         }
 
@@ -130,6 +132,12 @@ class Layout
         //     'screen'
         // );
 
+        wp_set_script_translations(
+            $slug . '-index-MODULE',
+            'bit-assist',
+            Config::get('BASEDIR_ROOT') . 'languages'
+        );
+
         wp_localize_script(Config::SLUG . '-index-MODULE', Config::VAR_PREFIX, self::createConfigVariable());
     }
 
@@ -137,12 +145,16 @@ class Layout
     {
         $rootURL = Config::get('ROOT_URI');
 
-        echo '<noscript>You need to enable JavaScript to run this app.</noscript>';
+        echo '<noscript>' . esc_html__('You need to enable JavaScript to run this app.', 'bit-assist') . '</noscript>';
         echo '<div id="bit-apps-root">';
         echo '<div style="display: flex;flex-direction: column;justify-content: center;';
         echo 'align-items: center;height: 90vh;font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;">';
         echo '<img alt="bit-assist-logo" class="bit-logo" width="70" src="' . esc_url($rootURL . '/img/logo.svg') . '">';
-        echo '<h1>Welcome to Bit Assist</h1>';
+        echo '<h1>' . esc_html(\sprintf(
+            // translators: %s: Brand name
+            __('Welcome to %s', 'bit-assist'),
+            'Bit Assist'
+        )) . '</h1>';
         echo '<p></p>';
         echo '</div>';
         echo '</div>';
@@ -212,8 +224,8 @@ class Layout
 
     public function createConfigVariable()
     {
-        // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
-        $frontendVars = apply_filters(
+        return apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is prefixed via Config::withPrefix()
             Config::withPrefix('localized_script'),
             [
                 'nonce'       => wp_create_nonce(Config::withPrefix('nonce')),
@@ -229,12 +241,5 @@ class Layout
                 'timeZone'    => DateTimeHelper::wp_timezone_string(),
             ]
         );
-        // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound
-        if (get_locale() !== 'en_US' && file_exists(Config::get('BASEDIR') . '/languages/generatedString.php')) {
-            include_once Config::get('BASEDIR') . '/languages/generatedString.php';
-            $frontendVars['translations'] = Config::withPrefix('i18n_strings');
-        }
-
-        return $frontendVars;
     }
 }

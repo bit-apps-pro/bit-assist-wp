@@ -11,6 +11,7 @@ import Squarespace from '@icons/Squarespace'
 import Webflow from '@icons/Webflow'
 import Weebly from '@icons/Weebly'
 import Wix from '@icons/Wix'
+import { __ } from '@wordpress/i18n'
 
 import CDN from './CDN'
 import Domains from './Domains'
@@ -35,37 +36,37 @@ function Publish() {
     <Stack gap={[5, 6]}>
       <Box textAlign="center">
         <Heading as="h4" mb="4" size="md">
-          Publish Widget on Any Platform
+          {__('Publish Widget on Any Platform', 'bit-assist')}
         </Heading>
         <Flex flexWrap="wrap" gap="2" justifyContent="center">
-          <Platform label="Shopify">
+          <Platform label={__('Shopify', 'bit-assist')}>
             <Shopify />
           </Platform>
-          <Platform label="Squarespace">
+          <Platform label={__('Squarespace', 'bit-assist')}>
             <Squarespace />
           </Platform>
-          <Platform label="Webflow">
+          <Platform label={__('Webflow', 'bit-assist')}>
             <Webflow />
           </Platform>
-          <Platform label="Weebly">
+          <Platform label={__('Weebly', 'bit-assist')}>
             <Weebly />
           </Platform>
-          <Platform label="Wix">
+          <Platform label={__('Wix', 'bit-assist')}>
             <Wix />
           </Platform>
-          <Platform label="Magento">
+          <Platform label={__('Magento', 'bit-assist')}>
             <Magento />
           </Platform>
-          <Platform label="Drupal">
+          <Platform label={__('Drupal', 'bit-assist')}>
             <Drupal />
           </Platform>
-          <Platform label="Opencart">
+          <Platform label={__('Opencart', 'bit-assist')}>
             <Opencart />
           </Platform>
-          <Platform label="HTML">
+          <Platform label={__('HTML', 'bit-assist')}>
             <Html />
           </Platform>
-          <Platform label="More">
+          <Platform label={__('More', 'bit-assist')}>
             <More />
           </Platform>
         </Flex>
@@ -82,7 +83,8 @@ function Publish() {
             px="3"
             py="1"
           >
-            Want to use this widget in other domain? <br /> Follow these steps.
+            {__('Want to use this widget in other domain?', 'bit-assist')} <br />{' '}
+            {__('Follow these steps.', 'bit-assist')}
           </Text>
         </HStack>
         <ProWrapper>

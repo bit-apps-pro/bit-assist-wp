@@ -5,6 +5,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useRef } from 'react'
 
@@ -34,7 +35,7 @@ function WidgetColor() {
 
   return (
     <Box>
-      <Title>Widget Color</Title>
+      <Title>{__('Widget Color', 'bit-assist')}</Title>
       <ColorPickerWrap
         color={widget.styles?.color}
         handleChange={handleColorChange}

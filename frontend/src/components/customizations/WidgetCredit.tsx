@@ -2,6 +2,7 @@ import { FormControl, FormLabel, Switch } from '@chakra-ui/react'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -41,9 +42,9 @@ function WidgetCredit() {
   return (
     <FormControl alignItems="center" display="flex">
       <FormLabel fontSize={'lg'} mb="0">
-        Hide Credit
+        {__('Hide Credit', 'bit-assist')}
       </FormLabel>
-      <Switch colorScheme="purple" isChecked={!!widget.hide_credit} onChange={handleChange} />
+      <Switch colorScheme="purple" isChecked={Boolean(widget.hide_credit)} onChange={handleChange} />
     </FormControl>
   )
 }

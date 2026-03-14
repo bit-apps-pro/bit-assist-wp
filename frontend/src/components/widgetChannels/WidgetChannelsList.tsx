@@ -21,6 +21,7 @@ import { flowAtom, widgetChannelOrderAtom } from '@globalStates/atoms'
 import { type WidgetChannelType } from '@globalStates/Interfaces'
 import useUpdateWidgetChannelsSequence from '@hooks/mutations/widgetChannel/useUpdateWidgetChannelsSequence'
 import useFetchWidgetChannels from '@hooks/queries/widgetChannel/useFetchWidgetChannels'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -80,7 +81,7 @@ function ChannelsList() {
   return (
     <>
       {isWidgetChannelsFetching && <Spinner />}
-      {widgetChannels?.length < 1 && <Text>Create new channel from here.</Text>}
+      {widgetChannels?.length < 1 && <Text>{__('Create new channel from here.', 'bit-assist')}</Text>}
       {!!widgetChannels?.length && (
         <DndContext
           collisionDetection={closestCenter}

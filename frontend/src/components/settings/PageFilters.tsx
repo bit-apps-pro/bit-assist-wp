@@ -18,6 +18,7 @@ import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
@@ -43,7 +44,7 @@ function PageFilters() {
 
   const addNewPage = async () => {
     if (pageVisibility === '' || pageCondition === '' || (pageUrl === '' && pageCondition !== 'equal')) {
-      toaster('warning', 'All fields are required')
+      toaster('warning', __('All fields are required', 'bit-assist'))
       return
     }
 
@@ -92,7 +93,7 @@ function PageFilters() {
 
   return (
     <Box>
-      <Title>Page Filters</Title>
+      <Title>{__('Page Filters', 'bit-assist')}</Title>
 
       <Box mt={4}>
         <Box borderWidth={`${widget.exclude_pages?.length && '1px'}`} mb="4" rounded="md">
@@ -120,8 +121,8 @@ function PageFilters() {
                 tabIndex={tabIndex}
                 w="15rem"
               >
-                <option value="showOn">Show On</option>
-                <option value="hideOn">Hide On</option>
+                <option value="showOn">{__('Show On', 'bit-assist')}</option>
+                <option value="hideOn">{__('Hide On', 'bit-assist')}</option>
               </Select>
               <Select
                 maxW="full"
@@ -130,10 +131,10 @@ function PageFilters() {
                 tabIndex={tabIndex}
                 w="25rem"
               >
-                <option value="contains">Pages that contain</option>
-                <option value="equal">Specific page</option>
-                <option value="startWith">Pages starts with</option>
-                <option value="endWith">Pages ended with</option>
+                <option value="contains">{__('Pages that contain', 'bit-assist')}</option>
+                <option value="equal">{__('Specific page', 'bit-assist')}</option>
+                <option value="startWith">{__('Pages starts with', 'bit-assist')}</option>
+                <option value="endWith">{__('Pages ended with', 'bit-assist')}</option>
               </Select>
               <InputGroup>
                 <InputLeftAddon children="your-domain/" />
@@ -141,15 +142,15 @@ function PageFilters() {
                   minW="10rem"
                   onChange={e => setPageName(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Page slug"
+                  placeholder={__('Page slug', 'bit-assist')}
                   tabIndex={tabIndex}
                   value={pageUrl ?? ''}
                 />
               </InputGroup>
 
-              <Tooltip label="Cancel">
+              <Tooltip label={__('Cancel', 'bit-assist')}>
                 <IconButton
-                  aria-label="Remove Page"
+                  aria-label={__('Remove Page', 'bit-assist')}
                   colorScheme="red"
                   icon={<HiOutlineTrash />}
                   isRound
@@ -158,9 +159,9 @@ function PageFilters() {
                   variant="ghost"
                 />
               </Tooltip>
-              <Tooltip label="Save">
+              <Tooltip label={__('Save', 'bit-assist')}>
                 <IconButton
-                  aria-label="Remove Page"
+                  aria-label={__('Save', 'bit-assist')}
                   colorScheme="green"
                   disabled={isWidgetUpdating}
                   icon={<HiCheck />}
@@ -173,7 +174,8 @@ function PageFilters() {
               </Tooltip>
             </HStack>
             <span>
-              Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
+              {__('Press', 'bit-assist')} <Kbd>Enter</Kbd> {__('to add,', 'bit-assist')} <Kbd>Esc</Kbd>{' '}
+              {__('to cancel', 'bit-assist')}
             </span>
           </Box>
         </ProWrapper>
@@ -187,13 +189,13 @@ function PageFilters() {
           onClick={addPageButtonClickHandle}
           variant="outline"
         >
-          Add Page
+          {__('Add Page', 'bit-assist')}
         </Button>
       )}
 
       {!config.IS_PRO && isAdding ? (
         <Button colorScheme="red" mt="4" onClick={resetStates} variant="outline">
-          Remove Filter
+          {__('Remove Filter', 'bit-assist')}
         </Button>
       ) : undefined}
     </Box>

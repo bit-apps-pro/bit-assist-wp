@@ -249,6 +249,6 @@ final class AnalyticsController
     {
         Analytics::delete();
 
-        return Response::success('Analytics removed!');
+        return Response::success(__('Analytics removed!', 'bit-assist'));
     }
 }

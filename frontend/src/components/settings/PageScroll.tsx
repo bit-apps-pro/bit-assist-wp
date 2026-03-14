@@ -3,6 +3,7 @@ import { HStack, Input, InputGroup, InputRightAddon, Text } from '@chakra-ui/rea
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -23,7 +24,7 @@ function PageScroll() {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value ? Number(e.target.value) : 0
     if (Number.isNaN(val) || val < 0 || val > 100) {
-      toaster('warning', 'Page scroll must be between 0 and 100')
+      toaster('warning', __('Page scroll must be between 0 and 100', 'bit-assist'))
       return
     }
 
@@ -46,12 +47,12 @@ function PageScroll() {
 
   return (
     <HStack mt="2">
-      <Text w="28">Page scroll</Text>
+      <Text w="28">{__('Page scroll', 'bit-assist')}</Text>
       <InputGroup>
         <Input
           min="0"
           onChange={handleChange}
-          placeholder="Page Scroll in %"
+          placeholder={__('Page Scroll in %', 'bit-assist')}
           value={widget.page_scroll ?? ''}
           w="28"
         />

@@ -17,18 +17,19 @@ import { defaultCreateWidgetInfo } from '@globalStates/DefaultStates'
 import { type CreateWidgetInfo } from '@globalStates/Interfaces'
 import useCreateWidget from '@hooks/mutations/widget/useCreateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { useState } from 'react'
 import { HiPlus } from 'react-icons/hi'
 
 function AddWidget() {
   const toaster = useToaster()
   const { isOpen, onClose, onOpen } = useDisclosure()
-  const [createWidgetInfo, setCreateWidgetInfo] = useState<CreateWidgetInfo>(defaultCreateWidgetInfo)
+  const [createWidgetInfo, setCreateWidgetInfo] = useState<CreateWidgetInfo>(defaultCreateWidgetInfo())
   const { createWidget, isWidgetCreating } = useCreateWidget(onClose, setCreateWidgetInfo)
 
   const addNewWidget = async () => {
     if (createWidgetInfo?.name === '') {
-      return toaster('error', 'Widget name is required')
+      return toaster('error', __('Widget name is required', 'bit-assist'))
     }
     const { data, status } = await createWidget(createWidgetInfo)
     toaster(status, data)
@@ -36,7 +37,7 @@ function AddWidget() {
 
   const onModalClose = () => {
     onClose()
-    setCreateWidgetInfo(defaultCreateWidgetInfo)
+    setCreateWidgetInfo(defaultCreateWidgetInfo())
   }
 
   const handleChanges = (value: string, key: string) => {
@@ -53,19 +54,19 @@ function AddWidget() {
         onClick={onOpen}
         variant="outline"
       >
-        Add Widget
+        {__('Add Widget', 'bit-assist')}
       </Button>
 
       <Modal isCentered isOpen={isOpen} onClose={onModalClose} scrollBehavior="inside" size="2xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            <Text>Create New Widget</Text>
+            <Text>{__('Create New Widget', 'bit-assist')}</Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isRequired>
-              <FormLabel>Widget Name</FormLabel>
+              <FormLabel>{__('Widget Name', 'bit-assist')}</FormLabel>
               <Input
                 onChange={e => handleChanges(e.target.value, 'name')}
                 value={createWidgetInfo?.name ?? ''}
@@ -73,15 +74,15 @@ function AddWidget() {
             </FormControl>
           </ModalBody>
           <ModalFooter gap="2">
-            <Button onClick={onModalClose}>Cancel</Button>
+            <Button onClick={onModalClose}>{__('Cancel', 'bit-assist')}</Button>
             <Button
               colorScheme="purple"
               isLoading={isWidgetCreating}
-              loadingText="Creating..."
+              loadingText={__('Creating...', 'bit-assist')}
               onClick={addNewWidget}
               spinnerPlacement="start"
             >
-              Create
+              {__('Create', 'bit-assist')}
             </Button>
           </ModalFooter>
         </ModalContent>

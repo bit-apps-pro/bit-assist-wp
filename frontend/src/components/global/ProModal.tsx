@@ -12,6 +12,7 @@ import {
   Text,
   useDisclosure
 } from '@chakra-ui/react'
+import { __, sprintf } from '@wordpress/i18n'
 
 interface ProModalProps {
   icon: React.ReactElement
@@ -33,16 +34,29 @@ export default function ProModal({ icon, number, text, type }: ProModalProps) {
         <ModalOverlay />
         <ModalContent pb="4">
           <ModalHeader>
-            <Text>{`Want to use unlimited ${type}s?`}</Text>
+            <Text>
+              {sprintf(
+                // translators: %s: Product type (e.g. channels, widgets)
+                __('Want to use unlimited %s?', 'bit-assist'),
+                `${type}s`
+              )}
+            </Text>
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex alignItems="center" justifyContent="space-between">
               <Box>
                 <Text fontSize="md">
-                  You can use <strong>{`${number} ${type}`}</strong> in free version.
+                  {__('You can use', 'bit-assist')} <strong>{`${number} ${type}`}</strong>{' '}
+                  {__('in free version.', 'bit-assist')}
                 </Text>
-                <Text fontSize="md">{`Get premium version to use unlimited ${type}s.`}</Text>
+                <Text fontSize="md">
+                  {sprintf(
+                    // translators: %s: Product type (e.g. channels, widgets)
+                    __('Get premium version to use unlimited %s.', 'bit-assist'),
+                    `${type}s`
+                  )}
+                </Text>
               </Box>
               <Box textAlign="right">
                 <Link
@@ -51,7 +65,7 @@ export default function ProModal({ icon, number, text, type }: ProModalProps) {
                   tabIndex={-1}
                   target="_blank"
                 >
-                  <Button colorScheme="purple">Get Pro Version</Button>
+                  <Button colorScheme="purple">{__('Get Pro Version', 'bit-assist')}</Button>
                 </Link>
               </Box>
             </Flex>

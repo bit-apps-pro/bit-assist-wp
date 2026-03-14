@@ -35,6 +35,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -48,13 +49,13 @@ function CustomForm() {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   useEffect(() => {
-    if (flow.config?.card_config?.submit_button_text !== undefined) return
+    if (flow.config?.store_responses !== undefined) return
+
     setFlow(prev => {
       if (prev.config?.card_config === undefined) {
         prev.config.card_config = {}
       }
       prev.config.store_responses = true
-      prev.config.card_config.submit_button_text = 'Submit'
     })
   }, [])
 
@@ -158,21 +159,25 @@ function CustomForm() {
 
         <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
           <PopoverTrigger>
-            <Button rightIcon={<FiPlus />}>Add Field</Button>
+            <Button rightIcon={<FiPlus />}>{__('Add Field', 'bit-assist')}</Button>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
             <PopoverBody>
               <SimpleGrid columns={3} gap={1}>
-                <Button onClick={() => handleAddField('text')}>Text</Button>
-                <Button onClick={() => handleAddField('email')}>Email</Button>
-                <Button onClick={() => handleAddField('number')}>Number</Button>
-                <Button onClick={() => handleAddField('date')}>Date</Button>
-                <Button onClick={() => handleAddField('textarea')}>Textarea</Button>
-                <Button onClick={() => handleAddField('GDPR')}>GDPR</Button>
-                <Button onClick={() => handleAddField('rating')}>Rating</Button>
-                <Button onClick={() => handleAddField('feedback')}>Feedback</Button>
-                <Button onClick={() => handleAddField('file')}>File</Button>
+                <Button onClick={() => handleAddField('text')}>{__('Text', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('email')}>{__('Email', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('number')}>{__('Number', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('date')}>{__('Date', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('textarea')}>
+                  {__('Textarea', 'bit-assist')}
+                </Button>
+                <Button onClick={() => handleAddField('GDPR')}>{__('GDPR', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('rating')}>{__('Rating', 'bit-assist')}</Button>
+                <Button onClick={() => handleAddField('feedback')}>
+                  {__('Feedback', 'bit-assist')}
+                </Button>
+                <Button onClick={() => handleAddField('file')}>{__('File', 'bit-assist')}</Button>
               </SimpleGrid>
             </PopoverBody>
           </PopoverContent>
@@ -180,18 +185,19 @@ function CustomForm() {
       </VStack>
 
       <FormControl>
-        <FormLabel>Button Text</FormLabel>
+        <FormLabel>{__('Button Text', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'submit_button_text')}
-          value={flow.config?.card_config?.submit_button_text ?? 'Submit'}
+          placeholder={__('Submit', 'bit-assist')}
+          value={flow.config?.card_config?.submit_button_text}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>Success Message</FormLabel>
+        <FormLabel>{__('Success Message', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'success_message')}
-          placeholder="Submitted successfully"
+          placeholder={__('Submitted successfully', 'bit-assist')}
           value={flow.config?.card_config?.success_message}
         />
       </FormControl>
@@ -199,17 +205,17 @@ function CustomForm() {
       <StoreResponses />
 
       <FormControl>
-        <FormLabel>Send Mail To</FormLabel>
+        <FormLabel>{__('Send Mail To', 'bit-assist')}</FormLabel>
         <Input
           onChange={e => handleFormChange(e.target.value, 'send_mail_to')}
-          placeholder="Your email"
+          placeholder={__('Your email', 'bit-assist')}
           value={flow.config?.card_config?.send_mail_to || ''}
         />
       </FormControl>
 
       <ProWrapper>
         <FormControl>
-          <FormLabel>Webhook URL</FormLabel>
+          <FormLabel>{__('Webhook URL', 'bit-assist')}</FormLabel>
           <Input
             onChange={e => handleFormChange(e.target.value, 'webhook_url')}
             placeholder="https://..."

@@ -15,6 +15,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { debounce } from 'lodash'
@@ -130,19 +131,22 @@ function AttentionAnimation() {
   return (
     <Box maxW="full" w="lg">
       <Title>
-        Attention Animation
+        {__('Attention Animation', 'bit-assist')}
         <Switch colorScheme="purple" isChecked={!!isEnabled} ml={4} onChange={handleSwitchEnable} />
       </Title>
 
       {isEnabled && (
         <VStack alignItems="flex-start" maxW="full" spacing="4" w="lg">
           <Select onChange={handleChange} value={widget.styles?.animation_type ?? ''}>
-            <option value={1}>Wiggle</option>
-            <option value={2}>Jump</option>
-            <option value={3}>Shock Wave</option>
+            <option value={1}>{__('Wiggle', 'bit-assist')}</option>
+            <option value={2}>{__('Jump', 'bit-assist')}</option>
+            <option value={3}>{__('Shock Wave', 'bit-assist')}</option>
           </Select>
 
-          <Text>Animation Delay: {widget.styles?.animation_delay?.delay ?? 0} seconds.</Text>
+          <Text>
+            {__('Animation Delay:', 'bit-assist')} {widget.styles?.animation_delay?.delay ?? 0}{' '}
+            {__('seconds', 'bit-assist')}
+          </Text>
           <Slider
             colorScheme="purple"
             defaultValue={0}
@@ -162,7 +166,7 @@ function AttentionAnimation() {
               color={textColorToggle}
               hasArrow
               isOpen={showTooltip}
-              label={`${widget.styles?.animation_delay?.delay ?? 0} sec`}
+              label={`${widget.styles?.animation_delay?.delay ?? 0} ${__('seconds', 'bit-assist')}`}
               placement="top"
             >
               <SliderThumb bg={brandColorToggle} />

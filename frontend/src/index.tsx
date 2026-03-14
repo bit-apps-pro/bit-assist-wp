@@ -12,9 +12,9 @@ import '@resource/styles/global.css'
 import customTheme from './theme/customTheme'
 
 const queryClient = new QueryClient()
-const elm = document.querySelector('#bit-apps-root')
-if (elm) {
-  const root = createRoot(elm)
+const rootElement = document.querySelector('#bit-apps-root')
+if (rootElement) {
+  const root = createRoot(rootElement)
 
   root.render(
     <StrictMode>

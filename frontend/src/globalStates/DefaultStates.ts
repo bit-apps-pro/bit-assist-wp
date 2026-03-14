@@ -1,16 +1,16 @@
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 
 export const FreeLimitsDefault = {
   channel: 2,
   widget: 1
 }
 
-export const defaultCreateWidgetInfo = { name: 'Untitled Widget' }
+export const defaultCreateWidgetInfo = () => ({ name: __('Untitled Widget', 'bit-assist') })
 
 export const FlowDefault = {
   channel_id: '',
   channel_name: '',
-  config: { title: __('') },
+  config: { title: __('', 'bit-assist') },
   sequence: 0,
   step: 1,
   widget_id: ''
@@ -47,6 +47,5 @@ export const WidgetDefault = {
     position: undefined,
     shape: undefined
   },
-  timezone: '',
   widget_behavior: 1
 }

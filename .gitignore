@@ -1,6 +1,7 @@
 vendor/
 assets/
-languages/
+languages/*
+!languages/*.po
 node_modules
 dist
 frontend/yarn-error.log

@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import leftArrow from '../images/left-circle-arrow.svg'
 import {
   $,
@@ -24,14 +25,14 @@ export const faq = {
       type: 'text',
       id: 'listSearch',
       class: 'formControl',
-      placeholder: 'Search',
+      placeholder: __('Search', 'bit-assist'),
     })
     globalAppend(listWrapper, [lists, listSearch])
 
     const faqDescription = createElm('div', { id: 'faqDescription' })
     const descriptionTitle = createElm('div', { class: 'descriptionTitle' })
-    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: 'Back' })
-    const leftArrowIcon = createElm('img', { src: leftArrow, alt: 'back' })
+    const closeDescBtn = createElm('button', { class: 'iconBtn closeDescBtn', title: __('Back', 'bit-assist') })
+    const leftArrowIcon = createElm('img', { src: leftArrow, alt: __('Back', 'bit-assist') })
     globalAppend(closeDescBtn, leftArrowIcon)
 
     const pElm = createElm('p')

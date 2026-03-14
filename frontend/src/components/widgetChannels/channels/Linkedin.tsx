@@ -1,6 +1,7 @@
 import { FormControl, FormLabel, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
 import OpenWindowAction from '@components/widgetChannels/channels/OpenWindowAction'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 
 export default function Linkedin() {
@@ -16,12 +17,13 @@ export default function Linkedin() {
   return (
     <>
       <FormControl>
-        <FormLabel>Profile</FormLabel>
+        <FormLabel>{__('Profile', 'bit-assist')}</FormLabel>
         <InputGroup>
+          {/* eslint-disable-next-line i18next/no-literal-string */}
           <InputLeftAddon>linkedin.com/</InputLeftAddon>
           <Input
             onChange={e => handleChanges(e.target.value)}
-            placeholder="ex: in/username or company/username, etc"
+            placeholder={__('ex: in/username or company/username, etc', 'bit-assist')}
             value={flow.config?.unique_id || ''}
           />
         </InputGroup>

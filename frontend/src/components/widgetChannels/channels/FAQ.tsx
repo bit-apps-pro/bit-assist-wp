@@ -19,7 +19,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 import { flowAtom } from '@globalStates/atoms'
-import { __ } from '@helpers/i18nwrap'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -62,9 +62,9 @@ function CustomForm() {
       }
       prev.config.card_config.maxId = (prev.config.card_config.maxId || 0) + 1
       prev.config.card_config?.faqs?.push({
-        description: __('FAQ Description'),
+        description: __('FAQ Description', 'bit-assist'),
         id: prev.config.card_config.maxId,
-        title: __('FAQ Title')
+        title: __('FAQ Title', 'bit-assist')
       })
     })
   }
@@ -105,7 +105,7 @@ function CustomForm() {
         )}
 
         <Button onClick={handleAddField} rightIcon={<FiPlus />}>
-          Add FAQ
+          {__('Add FAQ', 'bit-assist')}
         </Button>
       </VStack>
 

@@ -28,14 +28,14 @@ final class ResponseController
     public function othersData($widgetChannelId)
     {
         if (\is_null($widgetChannelId)) {
-            return Res::error('WidgetChannel id is required');
+            return Res::error(__('WidgetChannel id is required', 'bit-assist'));
         }
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
         $totalResponses = Response::where('widget_channel_id', $widgetChannelId)->count();
 
         return [
-            'channelName'    => isset($config->title) ? $config->title : 'Untitled',
+            'channelName'    => isset($config->title) ? $config->title : __('Untitled', 'bit-assist'),
             'formFields'     => isset($config->card_config->form_fields) ? $config->card_config->form_fields : [],
             'totalResponses' => $totalResponses,
         ];
@@ -72,12 +72,12 @@ final class ResponseController
             $this->sendMail($config->card_config->send_mail_to, $config->title, $formData);
         }
 
-        return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : 'Submitted successfully');
+        return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : __('Submitted successfully', 'bit-assist'));
     }
 
     public function sendMail($email, $formTitle, $data)
     {
-        $subject = $formTitle . ' Submitted';
+        $subject = $formTitle . ' ' . __('Submitted', 'bit-assist');
         add_filter('wp_mail_content_type', [$this, 'content_type']);
         $emailTemplate = '<h2>' . $subject . '</h2>';
         foreach ($data as $key => $value) {
@@ -96,7 +96,7 @@ final class ResponseController
     {
         Response::whereIn('id', $request->responseIds)->delete();
 
-        return Res::success('Selected response deleted');
+        return Res::success(__('Selected response deleted', 'bit-assist'));
     }
 
     private function storeFiles($files, $widgetChannelId)

@@ -20,7 +20,6 @@ final class BASTWidgetsTableMigration extends Migration
             $table->longtext('styles')->nullable();
             $table->longtext('domains')->nullable();
             $table->longtext('business_hours')->nullable();
-            $table->string('timezone')->nullable();
             $table->longtext('exclude_pages')->nullable();
             $table->integer('initial_delay')->defaultValue(0);
             $table->integer('page_scroll')->defaultValue(0);

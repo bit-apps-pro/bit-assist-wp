@@ -3,6 +3,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 
@@ -27,11 +28,11 @@ function WidgetBehavior() {
 
   return (
     <Box maxW="full" w="lg">
-      <Title>Widget Behavior</Title>
+      <Title>{__('Widget Behavior', 'bit-assist')}</Title>
       <Select onChange={handleChange} value={widget.widget_behavior ?? ''}>
-        <option value={1}>Click to open</option>
-        <option value={2}>Hover to open</option>
-        <option value={3}>Opened by default</option>
+        <option value={1}>{__('Click to open', 'bit-assist')}</option>
+        <option value={2}>{__('Hover to open', 'bit-assist')}</option>
+        <option value={3}>{__('Opened by default', 'bit-assist')}</option>
       </Select>
     </Box>
   )

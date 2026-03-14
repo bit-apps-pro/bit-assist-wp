@@ -15,7 +15,6 @@ class WidgetUpdateRequest extends Request
         return [
             'name'                 => ['required', 'string', 'max:255', 'sanitize:text'],
             'styles'               => ['nullable'],
-            'timezone'             => ['nullable', 'string', 'max:255', 'sanitize:text'],
             'initial_delay'        => ['required', 'integer'],
             'page_scroll'          => ['required', 'integer'],
             'widget_behavior'      => ['required', 'integer'],

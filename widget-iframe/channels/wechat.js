@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n'
 import { createElm, globalAppend, globalInnerHTML } from '../utils/Helpers.js'
 
 export const wechat = {
@@ -15,7 +16,7 @@ export const wechat = {
 
     const weChatQRCode = createElm('img', {
       id: 'weChatQRCode',
-      alt: 'WeChat QR Code',
+      alt: __('WeChat QR Code', 'bit-assist'),
       src: url,
       style: 'width: 100%',
     })

@@ -3,6 +3,7 @@ import { type TColor } from '@atomik-color/core/dist/types'
 import { FormControl, FormLabel, Stack } from '@chakra-ui/react'
 import ColorPickerWrap from '@components/global/ColorPickerWrap'
 import { flowAtom } from '@globalStates/atoms'
+import { __ } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
@@ -29,7 +30,7 @@ export default function CardColors({ bg, color }: { bg: string; color: string })
   return (
     <Stack flexDirection={['column', 'row']} gap="2" spacing="0" w="full">
       <FormControl>
-        <FormLabel>Form Theme Color</FormLabel>
+        <FormLabel>{__('Form Theme Color', 'bit-assist')}</FormLabel>
         <ColorPickerWrap
           color={flow.config?.card_config?.card_bg_color}
           handleChange={(val: TColor) => handleColorChange(val, 'card_bg_color')}
@@ -40,7 +41,7 @@ export default function CardColors({ bg, color }: { bg: string; color: string })
       </FormControl>
 
       <FormControl>
-        <FormLabel>Form Text Color</FormLabel>
+        <FormLabel>{__('Form Text Color', 'bit-assist')}</FormLabel>
         <ColorPickerWrap
           color={flow.config?.card_config?.card_text_color}
           handleChange={(val: TColor) => handleColorChange(val, 'card_text_color')}

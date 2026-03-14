@@ -4,6 +4,7 @@ import Title from '@components/global/Title'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 
@@ -35,9 +36,9 @@ function WidgetPositions() {
 
   return (
     <Box>
-      <Title>Widget Position</Title>
+      <Title>{__('Widget Position', 'bit-assist')}</Title>
       <SimpleGrid columns={3} spacing={2} width="20">
-        <Tooltip label="Top Left" placement="left">
+        <Tooltip label={__('Top Left', 'bit-assist')} placement="left">
           <Box
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
             bg={`${widget.styles?.position === 'top-left' && brandColorToggle}`}
@@ -49,7 +50,7 @@ function WidgetPositions() {
           />
         </Tooltip>
         <Box bg={grayColorToggle} height="6" />
-        <Tooltip label="Top Right" placement="right">
+        <Tooltip label={__('Top Right', 'bit-assist')} placement="right">
           <Box
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
             bg={`${widget.styles?.position === 'top-right' && brandColorToggle}`}
@@ -63,7 +64,7 @@ function WidgetPositions() {
         <Box bg={grayColorToggle} height="6" />
         <Box bg={grayColorToggle} height="6" />
         <Box bg={grayColorToggle} height="6" />
-        <Tooltip label="Bottom Left" placement="left">
+        <Tooltip label={__('Bottom Left', 'bit-assist')} placement="left">
           <Box
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
             bg={`${widget.styles?.position === 'bottom-left' && brandColorToggle}`}
@@ -75,7 +76,7 @@ function WidgetPositions() {
           />
         </Tooltip>
         <Box bg={grayColorToggle} height="6" />
-        <Tooltip label="Bottom Right" placement="right">
+        <Tooltip label={__('Bottom Right', 'bit-assist')} placement="right">
           <Box
             _hover={{ bg: brandColorToggle, borderColor: brandColorToggle }}
             bg={`${widget.styles?.position === 'bottom-right' && brandColorToggle}`}

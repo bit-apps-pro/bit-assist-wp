@@ -10,6 +10,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { type ResponseFileType, type WidgetResponse } from '@globalStates/Interfaces'
+import { __ } from '@wordpress/i18n'
 import { type MutableRefObject } from 'react'
 
 import DownloadLinks from './DownloadLinks'
@@ -32,7 +33,7 @@ export default function ResponseDrawer({
       <DrawerOverlay bg="blackAlpha.400" />
       <DrawerContent marginTop="32px">
         <DrawerCloseButton />
-        <DrawerHeader>Response Details</DrawerHeader>
+        <DrawerHeader>{__('Response Details', 'bit-assist')}</DrawerHeader>
 
         <DrawerBody>
           {drawerResponse &&

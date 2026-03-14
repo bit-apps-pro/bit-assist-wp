@@ -17,7 +17,7 @@ export default function useCreateWidget(
       onSuccess: () => {
         queryClient.invalidateQueries('widgets')
         closeCreateWidgetModal()
-        setCreateWidgetInfo(defaultCreateWidgetInfo)
+        setCreateWidgetInfo(defaultCreateWidgetInfo())
       }
     }
   )

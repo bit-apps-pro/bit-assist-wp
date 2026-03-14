@@ -5,6 +5,7 @@ import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidgetPro from '@hooks/mutations/widget/useUpdateWidgetPro'
 import useToaster from '@hooks/useToaster'
+import { __, sprintf } from '@wordpress/i18n'
 import { useAtom } from 'jotai'
 import React, { useEffect, useRef, useState } from 'react'
 import { HiCheck, HiOutlineTrash, HiPlus } from 'react-icons/hi'
@@ -30,12 +31,12 @@ function Domains() {
       // const pattern = /\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/gm
       // pattern.test(origin) === false
       if (origin === '' || origin === 'null' || origin === null) {
-        toaster('error', 'Please enter a valid domain name')
+        toaster('error', __('Please enter a valid domain name', 'bit-assist'))
         return
       }
 
       if (window.location.host.replace('www.', '') === new URL(domainName).host.replace('www.', '')) {
-        toaster('warning', 'You cannot add your own domain')
+        toaster('warning', __('You cannot add your own domain', 'bit-assist'))
         return
       }
 
@@ -43,7 +44,7 @@ function Domains() {
 
       const domainExists = domains.find((domain: string) => domain === origin)
       if (domainExists) {
-        toaster('warning', 'Domain already exists')
+        toaster('warning', __('Domain already exists', 'bit-assist'))
         return
       }
 
@@ -62,7 +63,7 @@ function Domains() {
 
       toaster(status, data)
     } catch {
-      toaster('error', 'Please enter a valid domain name')
+      toaster('error', __('Please enter a valid domain name', 'bit-assist'))
     }
   }
 
@@ -86,7 +87,13 @@ function Domains() {
 
   return (
     <Box>
-      <Title badge="1">Add Bit Assist to your other website</Title>
+      <Title badge="1">
+        {sprintf(
+          /* translators: %s: Brand name */
+          __('Add %s to your other website', 'bit-assist'),
+          'Bit Assist'
+        )}
+      </Title>
       <Box maxW="full" w="sm">
         <Box borderWidth={`${widget.domains?.length && '1px'}`} mb="4" rounded="md">
           {widget.domains?.map((domain, index) => (
@@ -106,14 +113,14 @@ function Domains() {
               <Input
                 onChange={e => setDomainName(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="ex: https://your-domain.com"
+                placeholder={__('ex: https://your-domain.com', 'bit-assist')}
                 ref={inputRef}
                 tabIndex={tabIndex}
                 value={domainName ?? ''}
               />
-              <Tooltip label="Cancel">
+              <Tooltip label={__('Cancel', 'bit-assist')}>
                 <IconButton
-                  aria-label="Remove Domain"
+                  aria-label={__('Remove Domain', 'bit-assist')}
                   colorScheme="red"
                   icon={<HiOutlineTrash />}
                   isRound
@@ -122,9 +129,9 @@ function Domains() {
                   variant="ghost"
                 />
               </Tooltip>
-              <Tooltip label="Save">
+              <Tooltip label={__('Save', 'bit-assist')}>
                 <IconButton
-                  aria-label="Remove Domain"
+                  aria-label={__('Save', 'bit-assist')}
                   colorScheme="green"
                   disabled={isWidgetUpdating}
                   icon={<HiCheck />}
@@ -136,7 +143,8 @@ function Domains() {
               </Tooltip>
             </HStack>
             <span>
-              Press <Kbd>enter</Kbd> to add, &nbsp; <Kbd>esc</Kbd> to cancel
+              {__('Press', 'bit-assist')} <Kbd>Enter</Kbd> {__('to add,', 'bit-assist')} <Kbd>Esc</Kbd>{' '}
+              {__('to cancel', 'bit-assist')}
             </span>
           </Box>
         )}
@@ -150,7 +158,7 @@ function Domains() {
             tabIndex={tabIndex}
             variant="outline"
           >
-            Add Domain
+            {__('Add Domain', 'bit-assist')}
           </Button>
         )}
       </Box>

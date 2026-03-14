@@ -6,6 +6,7 @@ import config from '@config/config'
 import { widgetAtom } from '@globalStates/atoms'
 import useUpdateWidget from '@hooks/mutations/widget/useUpdateWidget'
 import useToaster from '@hooks/useToaster'
+import { __ } from '@wordpress/i18n'
 import { produce } from 'immer'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
@@ -56,14 +57,14 @@ function WidgetIcons() {
 
   return (
     <Box>
-      <Title>Widget Icon</Title>
+      <Title>{__('Widget Icon', 'bit-assist')}</Title>
       <HStack {...group} flexWrap="wrap" gap={2} spacing={0}>
         {Object.entries(iconOptions).map(([value, url]) => {
           const radio = getRadioProps({ value })
           return (
             <RadioCard key={value} {...radio}>
               <Image
-                alt="widget icon"
+                alt={__('Widget icon', 'bit-assist')}
                 className="widget-icon"
                 h="7"
                 objectFit="contain"
