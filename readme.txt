@@ -3,9 +3,9 @@
 Contributors: bitpressadmin, akaioum, shuvomohajan, shimulckbt
 Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
 Requires at least: 5.1
-Tested up to: 6.9.1
+Tested up to: 6.9.4
 Requires PHP: 7.4
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPLv2 or later
 
 Floating sticky chat button for WhatsApp Chat, Facebook Messenger, Telegram, Instagram, SMS, Call, Discord chat, TikTok, Line & 30+ channels
@@ -360,6 +360,10 @@ For a full list of every external service used, what data is sent, when it is se
 [external-services.md](https://github.com/Bit-Apps-Pro/bit-assist-wp/blob/main/external-services.md)
 
 == Changelog ==
+
+= v1.7.0 (Mar 14, 2026) =
+* Feature: Translation ready -- Bit Assist is now translation-ready, allowing users to easily translate the plugin into their preferred language using standard WordPress translation tools.
+
 = v1.6.3 (Feb 23, 2026) =
 * Improvement: Addressed WordPress.org plugin review feedback
 
