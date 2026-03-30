@@ -41,9 +41,17 @@ final class FileHandler
 
     public function isUploadDir($filePath)
     {
-        $uploadsDir = trailingslashit(wp_normalize_path(Config::get('UPLOAD_DIR')));
+        $resolvedUploadsDir = realpath(Config::get('UPLOAD_DIR'));
+        if ($resolvedUploadsDir === false) {
+            return false;
+        }
+        $uploadsDir = trailingslashit(wp_normalize_path($resolvedUploadsDir));
 
-        $realPath = trailingslashit(wp_normalize_path(realpath($filePath)));
+        $resolvedPath = realpath($filePath);
+        if ($resolvedPath === false) {
+            return false;
+        }
+        $realPath = trailingslashit(wp_normalize_path($resolvedPath));
 
         return strpos($realPath, $uploadsDir) === 0;
     }
@@ -73,7 +81,6 @@ final class FileHandler
 
         $destination = $_upload_dir . DIRECTORY_SEPARATOR . $uniqueFileName;
         $move_status = $wp_filesystem->move($tmpName, $destination, true);
-
         if (!$move_status) {
             return false;
         }

@@ -17,7 +17,7 @@ final class DownloadController
         $validated = $request->validate([
             'widgetChannelID' => ['required', 'integer'],
             'fileID'          => ['required', 'string', 'sanitize:text'],
-            'fileName'        => ['required', 'string', 'sanitize:text'],
+            'fileName'        => ['required', 'string', 'sanitize:file_name'],
             'download'        => ['nullable'],
         ]);
 
