@@ -24,6 +24,7 @@ use BitApps\Assist\HTTP\Middleware\LoggedInCheckerMiddleware;
 use BitApps\Assist\HTTP\Middleware\NonceCheckerMiddleware;
 use BitApps\Assist\Providers\HookProvider;
 use BitApps\Assist\Providers\InstallerProvider;
+use BitApps\Assist\Update\LegacyProUpdateCache;
 use BitApps\Assist\Views\Layout;
 use BitApps\Assist\Views\WebsiteLayout;
 
@@ -67,6 +68,7 @@ final class Plugin
         Hooks::doAction(Config::withPrefix('loaded'));
         Hooks::addAction('init', [$this, 'registerProviders']);
         Hooks::addFilter('plugin_action_links_' . Config::get('BASENAME'), [$this, 'actionLinks']);
+        (new LegacyProUpdateCache())->register();
 
         /**
          * Add schedule to cleanup analytics if the plugin version is less than or equal to 1.5.3
