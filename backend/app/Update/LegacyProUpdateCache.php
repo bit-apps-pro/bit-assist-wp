@@ -8,102 +8,126 @@ if (!defined('ABSPATH')) {
 
 use BitApps\Assist\Deps\BitApps\WPKit\Hooks\Hooks;
 
+/**
+ * Fixes legacy update cache issues from old bit-assist-pro versions (< 1.0.8).
+ *
+ * The old pro plugin stored update data under the key "../../index.php" instead
+ * of "bit-assist-pro/index.php", causing updates to not display correctly.
+ */
 final class LegacyProUpdateCache
 {
-    private const LEGACY_PRO_UPDATE_KEY = '../../index.php';
+    private const PRO_BASENAME = 'bit-assist-pro/index.php';
 
-    private const PRO_PLUGIN_BASENAME = 'bit-assist-pro/index.php';
+    private const LEGACY_KEY = '../../index.php';
 
-    private const LAST_AFFECTED_PRO_VERSION = '1.0.7';
+    private static $migrated = false;
 
-    private $_shouldRepairLegacyPath;
+    private static $installedVersion;
 
     public function register()
     {
-        Hooks::addAction('admin_init', [$this, 'sync']);
-        Hooks::addFilter('pre_set_site_transient_update_plugins', [$this, 'repair'], 999);
+        Hooks::addFilter('pre_set_site_transient_update_plugins', [$this, 'fixTransient'], 999);
+        Hooks::addFilter('site_transient_update_plugins', [$this, 'fixTransient'], 0);
+        Hooks::addAction('admin_init', [$this, 'migrateTransientKeys'], 0);
     }
 
-    public function sync()
+    public function fixTransient($cacheData)
     {
-        $updateCache = get_site_transient('update_plugins');
-
-        if ($this->normalize($updateCache)) {
-            set_site_transient('update_plugins', $updateCache);
+        if (!\is_object($cacheData)) {
+            return $cacheData;
         }
-    }
 
-    public function repair($cacheData)
-    {
-        $this->normalize($cacheData);
+        $this->normalizeLegacyKeys($cacheData);
+        $this->removeStaleUpdateEntry($cacheData);
 
         return $cacheData;
     }
 
-    private function normalize(&$cacheData)
+    public function migrateTransientKeys()
     {
-        if (!$this->shouldRepairLegacyPath() || !\is_object($cacheData)) {
-            return false;
+        if (self::$migrated) {
+            return;
         }
 
-        $isUpdated = false;
+        self::$migrated = true;
 
-        foreach (['checked', 'response', 'no_update'] as $property) {
-            if ($this->moveLegacyEntry($cacheData, $property)) {
-                $isUpdated = true;
+        $cache = get_site_transient('update_plugins');
+
+        if (!\is_object($cache) || !$this->hasLegacyKey($cache)) {
+            return;
+        }
+
+        $this->normalizeLegacyKeys($cache);
+        $this->removeStaleUpdateEntry($cache);
+
+        delete_site_transient('update_plugins');
+        set_site_transient('update_plugins', $cache);
+    }
+
+    private function hasLegacyKey($cacheData)
+    {
+        foreach (['checked', 'response', 'no_update'] as $prop) {
+            if (!empty($cacheData->{$prop}) && \is_array($cacheData->{$prop}) && \array_key_exists(self::LEGACY_KEY, $cacheData->{$prop})) {
+                return true;
             }
         }
 
-        if ($isUpdated) {
-            $cacheData->last_checked = time();
-        }
-
-        return $isUpdated;
+        return false;
     }
 
-    private function moveLegacyEntry(&$cacheData, $property)
+    private function normalizeLegacyKeys($cacheData)
     {
-        if (empty($cacheData->{$property}) || !\is_array($cacheData->{$property})) {
-            return false;
-        }
-
-        $isUpdated = false;
-
-        if (!\array_key_exists(self::LEGACY_PRO_UPDATE_KEY, $cacheData->{$property})) {
-            return false;
-        }
-
-        if (!\array_key_exists(self::PRO_PLUGIN_BASENAME, $cacheData->{$property})) {
-            $cacheData->{$property}[self::PRO_PLUGIN_BASENAME] = $cacheData->{$property}[self::LEGACY_PRO_UPDATE_KEY];
-
-            if (\is_object($cacheData->{$property}[self::PRO_PLUGIN_BASENAME])) {
-                $cacheData->{$property}[self::PRO_PLUGIN_BASENAME]->id = self::PRO_PLUGIN_BASENAME;
-                $cacheData->{$property}[self::PRO_PLUGIN_BASENAME]->plugin = self::PRO_PLUGIN_BASENAME;
+        foreach (['checked', 'response', 'no_update'] as $prop) {
+            if (empty($cacheData->{$prop}) || !\is_array($cacheData->{$prop}) || !\array_key_exists(self::LEGACY_KEY, $cacheData->{$prop})) {
+                continue;
             }
+
+            if (!\array_key_exists(self::PRO_BASENAME, $cacheData->{$prop})) {
+                $cacheData->{$prop}[self::PRO_BASENAME] = $cacheData->{$prop}[self::LEGACY_KEY];
+            }
+
+            if (\is_object($cacheData->{$prop}[self::PRO_BASENAME])) {
+                $cacheData->{$prop}[self::PRO_BASENAME]->id     = self::PRO_BASENAME;
+                $cacheData->{$prop}[self::PRO_BASENAME]->plugin = self::PRO_BASENAME;
+            }
+
+            unset($cacheData->{$prop}[self::LEGACY_KEY]);
         }
-
-        unset($cacheData->{$property}[self::LEGACY_PRO_UPDATE_KEY]);
-        $isUpdated = true;
-
-        return $isUpdated;
     }
 
-    private function shouldRepairLegacyPath()
+    private function removeStaleUpdateEntry($cacheData)
     {
-        if (!\is_null($this->_shouldRepairLegacyPath)) {
-            return $this->_shouldRepairLegacyPath;
+        if (empty($cacheData->response) || !\is_array($cacheData->response) || !\array_key_exists(self::PRO_BASENAME, $cacheData->response)) {
+            return;
+        }
+
+        $updateInfo = $cacheData->response[self::PRO_BASENAME];
+        $newVersion = \is_object($updateInfo) ? ($updateInfo->new_version ?? null) : null;
+
+        if (empty($newVersion)) {
+            return;
+        }
+
+        $installedVersion = $this->getInstalledVersion();
+
+        if (!empty($installedVersion) && version_compare($installedVersion, $newVersion, '>=')) {
+            unset($cacheData->response[self::PRO_BASENAME]);
+        }
+    }
+
+    private function getInstalledVersion()
+    {
+        if (self::$installedVersion !== null) {
+            return self::$installedVersion;
         }
 
         if (!\function_exists('get_plugins')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
-        $installedPlugins = get_plugins();
-        $installedVersion = $installedPlugins[self::PRO_PLUGIN_BASENAME]['Version'] ?? null;
+        $plugins = get_plugins();
+        self::$installedVersion = $plugins[self::PRO_BASENAME]['Version'] ?? false;
 
-        $this->_shouldRepairLegacyPath = !empty($installedVersion)
-            && version_compare($installedVersion, self::LAST_AFFECTED_PRO_VERSION, '<');
-
-        return $this->_shouldRepairLegacyPath;
+        return self::$installedVersion;
     }
 }
