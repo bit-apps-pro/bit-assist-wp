@@ -13,6 +13,7 @@ use BitApps\Assist\Deps\BitApps\WPKit\Http\Response as Res;
 use BitApps\Assist\Helpers\FileHandler;
 use BitApps\Assist\Model\Response;
 use BitApps\Assist\Model\WidgetChannel;
+use BitApps\Assist\Services\FormMailer;
 
 final class ResponseController
 {
@@ -32,12 +33,11 @@ final class ResponseController
         }
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
-        $totalResponses = Response::where('widget_channel_id', $widgetChannelId)->count();
 
         return [
-            'channelName'    => isset($config->title) ? $config->title : __('Untitled', 'bit-assist'),
-            'formFields'     => isset($config->card_config->form_fields) ? $config->card_config->form_fields : [],
-            'totalResponses' => $totalResponses,
+            'channelName'    => $config->title ?? __('Untitled', 'bit-assist'),
+            'formFields'     => $config->card_config->form_fields ?? [],
+            'totalResponses' => Response::where('widget_channel_id', $widgetChannelId)->count(),
         ];
     }
 
@@ -49,47 +49,35 @@ final class ResponseController
         ]);
 
         $widgetChannelId = $formData['widget_channel_id'];
-
         unset($formData['widget_channel_id']);
 
         $config = WidgetChannel::where('id', $widgetChannelId)->select(['config'])->first()->config;
 
         Hooks::doAction(Config::withPrefix('after_form_response'), $formData, $config);
 
-        if (!empty($config->store_responses)) {
-            if (!empty($request->files())) {
-                $fileNames = $this->storeFiles($request->files(), $widgetChannelId);
-                $formData = array_merge($formData, $fileNames);
-            }
+        $needsFiles  = !empty($config->store_responses) || !empty($config->card_config->send_mail_to);
+        $storedFiles = $needsFiles ? $this->storeFiles($request->files() ?: [], $widgetChannelId) : [];
 
+        if (!empty($config->store_responses)) {
             Response::insert([
                 'widget_channel_id' => $widgetChannelId,
-                'response'          => $formData
+                'response'          => array_merge($formData, $storedFiles),
             ]);
         }
 
         if (!empty($config->card_config->send_mail_to)) {
-            $this->sendMail($config->card_config->send_mail_to, $config->title, $formData);
+            (new FormMailer())->send(
+                $config->card_config->send_mail_to,
+                $config->title,
+                $formData,
+                $storedFiles,
+                $widgetChannelId
+            );
         }
 
-        return Res::success(!empty($config->card_config->success_message) ? $config->card_config->success_message : __('Submitted successfully', 'bit-assist'));
-    }
-
-    public function sendMail($email, $formTitle, $data)
-    {
-        $subject = $formTitle . ' ' . __('Submitted', 'bit-assist');
-        add_filter('wp_mail_content_type', [$this, 'content_type']);
-        $emailTemplate = '<h2>' . $subject . '</h2>';
-        foreach ($data as $key => $value) {
-            $emailTemplate .= '<p><strong>' . $key . '</strong>: ' . $value . '</p>';
-        }
-        wp_mail($email, $subject, $emailTemplate);
-        remove_filter('wp_mail_content_type', [$this, 'content_type']);
-    }
-
-    public function content_type()
-    {
-        return 'text/html';
+        return Res::success(
+            $config->card_config->success_message ?? __('Submitted successfully', 'bit-assist')
+        );
     }
 
     public function destroy(Request $request)
@@ -99,17 +87,18 @@ final class ResponseController
         return Res::success(__('Selected response deleted', 'bit-assist'));
     }
 
-    private function storeFiles($files, $widgetChannelId)
+    private function storeFiles(array $files, int $widgetChannelId): array
     {
-        $fileNames = [];
         $fileHandler = new FileHandler();
-        foreach ($files as $fileName => $fileDetails) {
-            $filePath = $fileHandler->moveUploadedFiles($fileDetails, $widgetChannelId);
-            if (!empty($filePath)) {
-                $fileNames[$fileName] = $filePath;
+        $stored = [];
+
+        foreach ($files as $name => $details) {
+            $path = $fileHandler->moveUploadedFiles($details, $widgetChannelId);
+            if ($path) {
+                $stored[$name] = $path;
             }
         }
 
-        return $fileNames;
+        return $stored;
     }
 }
