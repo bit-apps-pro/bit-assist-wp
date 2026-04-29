@@ -13,3 +13,4 @@ frontend/locale.pot
 tests.config.php
 .phpunit.result.cache
 iframe/
+build/
