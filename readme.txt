@@ -3,9 +3,9 @@
 Contributors: bitpressadmin, akaioum, shuvomohajan, shimulckbt
 Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
 Requires at least: 5.1
-Tested up to: 6.9.4
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv2 or later
 
 Floating sticky chat button for WhatsApp Chat, Facebook Messenger, Telegram, Instagram, SMS, Call, Discord chat, TikTok, Line & 30+ channels
@@ -360,6 +360,9 @@ For a full list of every external service used, what data is sent, when it is se
 [external-services.md](https://github.com/Bit-Apps-Pro/bit-assist-wp/blob/main/external-services.md)
 
 == Changelog ==
+= v1.8.1 (Jun 21, 2026) =
+* Improvement: Verified compatibility with WordPress 7.0.
+
 = v1.8.0 (Apr 29, 2026) =
 * Feature: Email notifications now send file attachments with their original filenames instead of UUID-based names.
 * Security: Added email address validation, upload directory verification, and HTML escaping for all form email output.
