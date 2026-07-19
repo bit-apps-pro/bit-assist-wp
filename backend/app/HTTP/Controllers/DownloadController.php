@@ -59,6 +59,13 @@ final class DownloadController
             header('Content-Type: application/octet-stream');
             header('Content-Type: application/download');
             header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        } elseif ($this->isSvgRequest($filePath, $fileName)) {
+            // Stored SVGs are sanitized at upload; the CSP is defense in depth
+            // so no script could run even if markup slipped through.
+            header('Content-Disposition:filename="' . $fileName . '"');
+            header('Content-Type: image/svg+xml');
+            header('X-Content-Type-Options: nosniff');
+            header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'");
         } else {
             $fileInfo = wp_check_filetype_and_ext($filePath, $fileName);
             $content_types = 'text/plain';
@@ -83,6 +90,34 @@ final class DownloadController
         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Raw file content output for download/view, escaping would corrupt binary files.
         echo $wp_filesystem->get_contents($filePath);
         exit();
+    }
+
+    /**
+     * True only when the requested name is .svg AND the stored bytes really
+     * are SVG — a spoofed fileName on a non-SVG upload never gets the SVG
+     * content type.
+     *
+     * @param mixed $filePath
+     * @param mixed $fileName
+     */
+    private function isSvgRequest($filePath, $fileName): bool
+    {
+        if (strtolower((string) pathinfo($fileName, PATHINFO_EXTENSION)) !== 'svg') {
+            return false;
+        }
+
+        if (!\function_exists('finfo_open')) {
+            return false;
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if ($finfo === false) {
+            return false;
+        }
+        $mime = finfo_file($finfo, $filePath);
+        finfo_close($finfo);
+
+        return $mime === 'image/svg+xml';
     }
 
     private function show404()

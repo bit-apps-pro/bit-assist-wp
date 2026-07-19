@@ -231,7 +231,8 @@ export const custom_form = {
     toastTextTitle.textContent = type === 'success' ? __('Success', 'bit-assist') : __('Error', 'bit-assist')
 
     const toastTextBody = createElm('div', { class: 'toast-text-body' })
-    toastTextBody.textContent = type === 'success' ? message : __('Something went wrong', 'bit-assist')
+    const fallbackMessage = type === 'success' ? message : __('Something went wrong', 'bit-assist')
+    toastTextBody.textContent = typeof message === 'string' && message ? message : fallbackMessage
 
     globalAppend(toastText, [toastTextTitle, toastTextBody])
     globalAppend(toastContent, toastText)

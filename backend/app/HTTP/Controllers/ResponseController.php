@@ -55,8 +55,20 @@ final class ResponseController
 
         Hooks::doAction(Config::withPrefix('after_form_response'), $formData, $config);
 
-        $needsFiles  = !empty($config->store_responses) || !empty($config->card_config->send_mail_to);
-        $storedFiles = $needsFiles ? $this->storeFiles($request->files() ?: [], $widgetChannelId) : [];
+        $needsFiles = !empty($config->store_responses) || !empty($config->card_config->send_mail_to);
+        $fileHandler = new FileHandler();
+        $storedFiles = $needsFiles ? $this->storeFiles($request->files() ?: [], $widgetChannelId, $fileHandler) : [];
+
+        $rejectedFiles = $fileHandler->getRejectedFiles();
+        if (!empty($rejectedFiles)) {
+            $this->discardStoredFiles($storedFiles, $widgetChannelId, $fileHandler);
+
+            return Res::error(\sprintf(
+                // translators: %s: comma-separated list of rejected file names
+                __('File type not allowed: %s', 'bit-assist'),
+                implode(', ', array_map('sanitize_text_field', $rejectedFiles))
+            ));
+        }
 
         if (!empty($config->store_responses)) {
             Response::insert([
@@ -87,9 +99,8 @@ final class ResponseController
         return Res::success(__('Selected response deleted', 'bit-assist'));
     }
 
-    private function storeFiles(array $files, int $widgetChannelId): array
+    private function storeFiles(array $files, int $widgetChannelId, FileHandler $fileHandler): array
     {
-        $fileHandler = new FileHandler();
         $stored = [];
 
         foreach ($files as $name => $details) {
@@ -100,5 +111,19 @@ final class ResponseController
         }
 
         return $stored;
+    }
+
+    /**
+     * Removes files that were already saved before a rejection was detected,
+     * so a failed submission leaves nothing behind on disk.
+     */
+    private function discardStoredFiles(array $storedFiles, int $widgetChannelId, FileHandler $fileHandler): void
+    {
+        foreach ($storedFiles as $fieldFiles) {
+            $uniqueNames = array_filter(array_column($fieldFiles, 'uniqueName'));
+            if ($uniqueNames) {
+                $fileHandler->deleteFiles($widgetChannelId, $uniqueNames);
+            }
+        }
     }
 }

@@ -22,9 +22,17 @@ final class FileHandler
         'exe', 'com', 'bat', 'cmd', 'msi', 'scr', 'dll',
         'sh', 'bash', 'zsh', 'ksh', 'cgi', 'pl', 'py', 'rb',
         'asp', 'aspx', 'jsp', 'jspx',
-        'js', 'mjs', 'cjs', 'html', 'htm', 'xhtml', 'shtml', 'svg', 'svgz',
+        'js', 'mjs', 'cjs', 'html', 'htm', 'xhtml', 'shtml', 'svgz',
         'htaccess', 'htpasswd', 'ini',
     ];
+
+    /**
+     * Original names of files that failed validation or could not be saved.
+     * Empty file slots (no file chosen) are not counted as rejections.
+     *
+     * @var string[]
+     */
+    private $rejectedFiles = [];
 
     public function moveUploadedFiles($fileDetails, $widgetChannelID)
     {
@@ -33,6 +41,8 @@ final class FileHandler
         wp_mkdir_p($_upload_dir);
 
         if (!$this->isUploadDir($_upload_dir)) {
+            $this->rejectFiles($fileDetails);
+
             return [];
         }
 
@@ -43,19 +53,34 @@ final class FileHandler
 
         if (\is_array($fileDetails['name'])) {
             foreach ($fileDetails['name'] as $key => $fileName) {
+                if (empty($fileName)) {
+                    continue;
+                }
                 $fileData = $this->saveFile($_upload_dir, $fileDetails['tmp_name'][$key], $fileName);
                 if ($fileData) {
                     $file_uploaded[$key] = $fileData;
+                } else {
+                    $this->rejectedFiles[] = $fileName;
                 }
             }
-        } else {
+        } elseif (!empty($fileDetails['name'])) {
             $fileData = $this->saveFile($_upload_dir, $fileDetails['tmp_name'], $fileDetails['name']);
             if ($fileData) {
                 $file_uploaded[0] = $fileData;
+            } else {
+                $this->rejectedFiles[] = $fileDetails['name'];
             }
         }
 
         return $file_uploaded;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRejectedFiles(): array
+    {
+        return $this->rejectedFiles;
     }
 
     public function isUploadDir($filePath)
@@ -83,6 +108,22 @@ final class FileHandler
         }
     }
 
+    /**
+     * Marks every non-empty file slot as rejected (used when the upload
+     * directory itself is unusable and nothing can be saved).
+     *
+     * @param mixed $fileDetails
+     */
+    private function rejectFiles($fileDetails): void
+    {
+        $names = \is_array($fileDetails['name']) ? $fileDetails['name'] : [$fileDetails['name']];
+        foreach ($names as $fileName) {
+            if (!empty($fileName)) {
+                $this->rejectedFiles[] = $fileName;
+            }
+        }
+    }
+
     private function saveFile($_upload_dir, $tmpName, $fileName)
     {
         if (empty($fileName)) {
@@ -91,6 +132,14 @@ final class FileHandler
 
         if (!$this->isAllowedUpload($tmpName, $fileName)) {
             return false;
+        }
+
+        $sanitizedSvg = null;
+        if ($this->getExtension($fileName) === 'svg') {
+            $sanitizedSvg = SvgSanitizer::sanitize((string) file_get_contents($tmpName));
+            if ($sanitizedSvg === null) {
+                return false;
+            }
         }
 
         $uniqueFileName = wp_generate_uuid4();
@@ -103,9 +152,17 @@ final class FileHandler
         }
 
         $destination = $_upload_dir . DIRECTORY_SEPARATOR . $uniqueFileName;
-        $move_status = $wp_filesystem->move($tmpName, $destination, true);
-        if (!$move_status) {
-            return false;
+        if ($sanitizedSvg !== null) {
+            // Store the sanitized markup, never the raw upload.
+            if (!$wp_filesystem->put_contents($destination, $sanitizedSvg)) {
+                return false;
+            }
+            wp_delete_file($tmpName);
+        } else {
+            $move_status = $wp_filesystem->move($tmpName, $destination, true);
+            if (!$move_status) {
+                return false;
+            }
         }
 
         return $file_uploaded;
@@ -132,9 +189,15 @@ final class FileHandler
             return false;
         }
 
-        $extension = strtolower((string) pathinfo($fileName, PATHINFO_EXTENSION));
+        $extension = $this->getExtension($fileName);
         if ($extension === '' || \in_array($extension, self::BLOCKED_EXTENSIONS, true)) {
             return false;
+        }
+
+        // SVG is not in the WordPress allowed-MIME list; it is validated and
+        // rewritten by SvgSanitizer in saveFile() instead.
+        if ($extension === 'svg') {
+            return true;
         }
 
         // Validate the real file contents against the WordPress allowlist.
@@ -147,7 +210,7 @@ final class FileHandler
         // If WordPress detected a safer/different real name (content mismatch),
         // ensure that corrected extension is also not blocked.
         if (!empty($checked['proper_filename'])) {
-            $properExt = strtolower((string) pathinfo($checked['proper_filename'], PATHINFO_EXTENSION));
+            $properExt = $this->getExtension($checked['proper_filename']);
             if ($properExt !== '' && \in_array($properExt, self::BLOCKED_EXTENSIONS, true)) {
                 return false;
             }
@@ -156,10 +219,17 @@ final class FileHandler
         return true;
     }
 
+    private function getExtension($fileName): string
+    {
+        return strtolower((string) pathinfo($fileName, PATHINFO_EXTENSION));
+    }
+
     /**
      * Drops access-protection files into the upload directory so stored files
      * cannot be requested directly (downloads are served via DownloadController)
      * and no script can be executed from within the uploads path.
+     *
+     * @param mixed $dir
      */
     private function protectUploadDir($dir): void
     {
