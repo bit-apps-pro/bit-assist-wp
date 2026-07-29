@@ -83,8 +83,9 @@ function CallToAction() {
         <Slider
           colorScheme="purple"
           defaultValue={0}
-          max={60}
+          max={300}
           min={0}
+          step={5}
           onChange={val => handleSliderChange(val)}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
