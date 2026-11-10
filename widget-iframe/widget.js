@@ -16,7 +16,6 @@ import {
   globalClassListRemove,
   globalClassListToggle,
   globalEventListener,
-  globalInnerHTML,
   globalInnerText,
   globalPostMessage,
   globalQuerySelectorAll,
@@ -286,7 +285,12 @@ export default class Widget {
   // poseMessage from parent
   // =====================
   onMessageReceived = (e) => {
-    const { action } = e.data
+    // Only trust messages from the page that embeds us, on the expected origin.
+    if (e.source !== window.parent || e.origin !== this.clientDomain) {
+      return
+    }
+
+    const { action } = e.data || {}
     if (action === 'windowLoaded') {
       this.handleWindowLoaded(e.data)
     }
@@ -302,8 +306,14 @@ export default class Widget {
     globalSetProperty(this.root.style, '--client-win-width', `${winWidth}px`)
     globalSetProperty(this.root.style, '--client-win-height', `${winHeight}px`)
     this.#scrollPercent = scrollPercent
-    this.apiEndPoint = apiEndPoint
+    // The API endpoint is emitted server-side into the iframe so it always points at
+    // this site. The postMessage value is only used by the Vite dev server.
+    this.apiEndPoint = window.bitAssistIframeConfig?.apiEndPoint || (import.meta.env.DEV ? apiEndPoint : undefined)
     this.nonce = nonce
+
+    if (!this.apiEndPoint) {
+      return
+    }
     this.#isMobileDevice = winWidth < 768
     this.#clientPageUrl = url.slice(this.clientDomain.length + 1, url.length)
 
@@ -642,7 +652,8 @@ export default class Widget {
     }
 
     this.callToAction = createElm('div', { id: 'callToActionMsg' })
-    globalInnerHTML(this.callToAction, this.widgetData.call_to_action.text)
+    // CTA text is saved as plain text (sanitize_textarea_field), so render it as text.
+    globalInnerText(this.callToAction, this.widgetData.call_to_action.text)
 
     const ctaImage = createElm('img', { src: closeIcon })
     this.closeCallToAction = createElm('button', { class: 'iconBtn', id: 'closeCallToAction' })
