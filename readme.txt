@@ -5,7 +5,7 @@ Tags: chat, chat widget, facebook messenger, whatsapp button, whatsapp chat
 Requires at least: 5.1
 Tested up to: 7.1.4
 Requires PHP: 7.4
-Stable tag: 1.8.4
+Stable tag: 1.8.5
 License: GPLv2 or later
 
 Floating sticky chat button for WhatsApp Chat, Facebook Messenger, Telegram, Instagram, SMS, Call, Discord chat, TikTok, Line & 30+ channels
@@ -360,6 +360,9 @@ For a full list of every external service used, what data is sent, when it is se
 [external-services.md](https://github.com/Bit-Apps-Pro/bit-assist-wp/blob/main/external-services.md)
 
 == Changelog ==
+= v1.8.5 (Nov 10, 2026) =
+* Security: Hardened the widget iframe against cross-origin script injection. Thanks to Peter Tang via Patchstack.
+
 = v1.8.4 (Nov 7, 2026) =
 * Improvement: Tested up to WordPress 7.1.4.
 
