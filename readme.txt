@@ -360,8 +360,8 @@ For a full list of every external service used, what data is sent, when it is se
 [external-services.md](https://github.com/Bit-Apps-Pro/bit-assist-wp/blob/main/external-services.md)
 
 == Changelog ==
-= v1.8.5 (Nov 10, 2026) =
-* Security: Hardened the widget iframe against cross-origin script injection. Thanks to Peter Tang via Patchstack.
+= v1.8.5 (Nov 12, 2026) =
+* Security: Improved the security of the chat widget so other websites can no longer misuse it.
 
 = v1.8.4 (Nov 7, 2026) =
 * Improvement: Tested up to WordPress 7.1.4.
